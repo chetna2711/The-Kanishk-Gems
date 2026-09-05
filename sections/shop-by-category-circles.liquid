@@ -13,24 +13,6 @@
     margin: 0 auto 3.2rem;
     text-align: center;
   }
-
-  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.6rem;
-    color: var(--category-accent);
-    margin-bottom: 1.4rem;
-  }
-
-  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow::before,
-  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow::after {
-    content: '';
-    width: clamp(4rem, 12vw, 17rem);
-    height: 1px;
-    background: currentColor;
-  }
-
   #ShopByCategory-{{ section.id }} .shop-by-category__sparkle {
     font-size: 2.6rem;
     line-height: 1;
@@ -40,9 +22,8 @@
     color: var(--category-title-color);
     margin: 0;
     font-family: var(--font-heading-family);
-    font-size: clamp(2.6rem, 4vw, 5.4rem);
+    font-size: 25px;
     font-weight: var(--font-heading-weight);
-    letter-spacing: .16em;
     line-height: 1.15;
     text-transform: uppercase;
   }
@@ -57,10 +38,13 @@
     margin-top: 2rem;
   }
 
+  #ShopByCategory-{{ section.id }} .shop-by-category__slider {
+    overflow: hidden;
+    padding: .5rem .2rem 1.5rem;
+    position: relative;
+  }
+
   #ShopByCategory-{{ section.id }} .shop-by-category__list {
-    display: grid;
-    grid-template-columns: repeat({{ section.blocks.size }}, minmax(0, 1fr));
-    gap: clamp(1.2rem, 3vw, 4.6rem);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -122,17 +106,46 @@
   #ShopByCategory-{{ section.id }} .shop-by-category__name {
     color: var(--category-title-color);
     font-family: var(--font-heading-family);
-    font-size: clamp(1.5rem, 1.45vw, 2.3rem);
+    font-size: 16px;
     font-weight: var(--font-heading-weight);
-    letter-spacing: .08em;
     line-height: 1.2;
     margin: 2.2rem 0 0;
-    text-transform: uppercase;
   }
 
   #ShopByCategory-{{ section.id }} .shop-by-category__link:hover .shop-by-category__image-wrap {
     box-shadow: 0 .6rem 1.8rem rgba(0, 0, 0, .12);
     transform: translateY(-.5rem);
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__arrow {
+    align-items: center;
+    background: var(--brand-background);
+    border: 1px solid var(--brand-border);
+    border-radius: 50%;
+    color: var(--brand-primary);
+    cursor: pointer;
+    display: flex;
+    height: 4.2rem;
+    justify-content: center;
+    transition: background .2s ease, color .2s ease;
+    width: 4.2rem;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__arrow:hover:not(.swiper-button-disabled) {
+    background: var(--brand-primary);
+    color: var(--brand-background);
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__arrow.swiper-button-disabled {
+    cursor: default;
+    opacity: .35;
   }
 
   @media screen and (min-width: 750px) {
@@ -141,26 +154,18 @@
 
   @media screen and (max-width: 749px) {
     #ShopByCategory-{{ section.id }} .shop-by-category__header { margin-bottom: 2.5rem; }
-    #ShopByCategory-{{ section.id }} .shop-by-category__title { letter-spacing: .1em; }
-    #ShopByCategory-{{ section.id }} .shop-by-category__list {
-      display: flex;
-      gap: 1.8rem;
-      margin-right: calc(-1 * max(1.5rem, (100vw - {{ settings.page_width }}px) / 2));
-      overflow-x: auto;
-      padding: .3rem max(1.5rem, (100vw - {{ settings.page_width }}px) / 2) 1.5rem 0;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-    #ShopByCategory-{{ section.id }} .shop-by-category__list::-webkit-scrollbar { display: none; }
-    #ShopByCategory-{{ section.id }} .shop-by-category__item { flex: 0 0 18.5rem; scroll-snap-align: start; }
-    #ShopByCategory-{{ section.id }} .shop-by-category__name { font-size: 1.7rem; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__title { font-size:18px; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__name { font-size: 14px; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__navigation { margin-top: 0; }
   }
 {%- endstyle -%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
 
 <section id="ShopByCategory-{{ section.id }}" class="shop-by-category">
   <div class="page-width">
     <div class="shop-by-category__header">
-      <div class="shop-by-category__eyebrow" aria-hidden="true"><span class="shop-by-category__sparkle">✦</span></div>
       {%- if section.settings.title != blank -%}
         <h2 class="shop-by-category__title">{{ section.settings.title | escape }}</h2>
       {%- endif -%}
@@ -173,25 +178,63 @@
     </div>
 
     {%- if section.blocks.size > 0 -%}
-      <ul class="shop-by-category__list" role="list">
-        {%- for block in section.blocks -%}
-          <li class="shop-by-category__item" {{ block.shopify_attributes }}>
-            <a class="shop-by-category__link" href="{{ block.settings.link | default: '#' }}">
-              <div class="shop-by-category__image-wrap">
-                {%- if block.settings.image != blank -%}
-                  {{ block.settings.image | image_url: width: 700 | image_tag: class: 'shop-by-category__image', loading: 'lazy', widths: '180, 260, 360, 520, 700', alt: block.settings.image.alt | default: block.settings.title }}
-                {%- else -%}
-                  <div class="shop-by-category__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
-                {%- endif -%}
-              </div>
-              {%- if block.settings.title != blank -%}<h3 class="shop-by-category__name">{{ block.settings.title | escape }}</h3>{%- endif -%}
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
+      <div class="shop-by-category__slider swiper" data-category-swiper>
+        <ul class="shop-by-category__list swiper-wrapper" role="list">
+          {%- for block in section.blocks -%}
+            <li class="shop-by-category__item swiper-slide" {{ block.shopify_attributes }}>
+              <a class="shop-by-category__link" href="{{ block.settings.link | default: '#' }}">
+                <div class="shop-by-category__image-wrap">
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: width: 700 | image_tag: class: 'shop-by-category__image', loading: 'lazy', widths: '180, 260, 360, 520, 700', alt: block.settings.image.alt | default: block.settings.title }}
+                  {%- else -%}
+                    <div class="shop-by-category__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.title != blank -%}<h3 class="shop-by-category__name">{{ block.settings.title | escape }}</h3>{%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="shop-by-category__navigation" aria-label="Category carousel controls">
+        <button class="shop-by-category__arrow shop-by-category__arrow--previous" type="button" aria-label="Previous categories">←</button>
+        <button class="shop-by-category__arrow shop-by-category__arrow--next" type="button" aria-label="Next categories">→</button>
+      </div>
     {%- endif -%}
   </div>
 </section>
+
+<script>
+  (() => {
+    const sectionId = 'ShopByCategory-{{ section.id }}';
+    const initialiseSwiper = () => {
+      const section = document.getElementById(sectionId);
+      const slider = section && section.querySelector('[data-category-swiper]');
+      if (!slider || !window.Swiper || slider.swiper) return;
+
+      new Swiper(slider, {
+        slidesPerView: 3,
+        spaceBetween: 12,
+        watchOverflow: true,
+        navigation: {
+          nextEl: section.querySelector('.shop-by-category__arrow--next'),
+          prevEl: section.querySelector('.shop-by-category__arrow--previous')
+        },
+        breakpoints: {
+          768: { slidesPerView: 4, spaceBetween: 18 },
+          1024: { slidesPerView: 6, spaceBetween: 26 },
+          1440: { slidesPerView: 8, spaceBetween: 32 }
+        }
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', initialiseSwiper);
+    window.addEventListener('load', initialiseSwiper);
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target.id === sectionId || (event.target.querySelector && event.target.querySelector('#' + sectionId))) initialiseSwiper();
+    });
+  })();
+</script>
 
 {% schema %}
 {
