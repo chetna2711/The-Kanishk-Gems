@@ -604,8 +604,8 @@
 }
 
 .product-card-wrapper .card--standard:hover {
-  box-shadow: 0 1rem 2.6rem rgba(31, 14, 8, 0.12);
-  transform: translateY(-0.4rem);
+  box-shadow: none;
+  transform: none;
 }
 
 @media screen and (max-width: 749px) {
