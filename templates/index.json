@@ -94,7 +94,15 @@
         "category_hRG9jz": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
             "title": "Rings",
+            "link": ""
+          }
+        },
+        "category_7iyX4U": {
+          "type": "category",
+          "settings": {
+            "title": "Mangalsutra with Earrings",
             "link": ""
           }
         }
@@ -105,7 +113,8 @@
         "category_JMT9iH",
         "category_pnhwT4",
         "category_UNw9F4",
-        "category_hRG9jz"
+        "category_hRG9jz",
+        "category_7iyX4U"
       ],
       "name": "Shop by category circles",
       "settings": {
