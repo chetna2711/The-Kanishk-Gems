@@ -428,6 +428,195 @@
   padding-right: 0;
 }
 
+/* Kanishk Gems product card: applied globally only while Theme settings > Product cards > Standard is selected. */
+.product-card-wrapper .card--standard {
+  --product-card-action-size: 4.8rem;
+  background: var(--brand-background, #fefefe);
+  border: 1px solid var(--brand-border, #e1cec2);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow var(--duration-short) ease, transform var(--duration-short) ease;
+}
+
+.product-card-wrapper .card--standard .card__inner {
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.product-card-wrapper .card--standard .card__inner:after {
+  display: none;
+}
+
+.product-card-wrapper .card--standard .card__media {
+  background: var(--brand-cream, #f5ece3);
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.product-card-wrapper .card--standard .card__media .media img {
+  object-fit: cover;
+}
+
+.product-card-wrapper .card--standard > .card__content {
+  min-height: 13.5rem;
+  padding: 2.2rem 7rem 2.2rem 2.2rem;
+}
+
+.product-card-wrapper .card--standard > .card__content .card__information {
+  padding: 0;
+}
+
+.product-card-wrapper .card--standard .card__heading {
+  color: var(--brand-text, #1f0e08);
+  font-family: var(--font-heading-family);
+  font-size: 2.2rem;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.product-card-wrapper .card--standard .card-information > .price {
+  color: var(--brand-text, #1f0e08);
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 1.8rem;
+}
+
+.product-card-wrapper .card--standard .price--on-sale .price-item--regular {
+  color: rgba(31, 14, 8, 0.48);
+  font-size: 1.55rem;
+  font-weight: 400;
+}
+
+.product-card-wrapper .card--standard .price--on-sale .price-item--sale {
+  color: var(--brand-text, #1f0e08);
+}
+
+.product-card-wrapper .card--standard .product-card__discount {
+  color: var(--brand-primary, #bb7137);
+  display: inline-block;
+  font-size: 1.55rem;
+  font-weight: 500;
+  margin-top: 0.8rem;
+}
+
+.product-card-wrapper .product-card-wishlist {
+  align-items: center;
+  background: var(--brand-background, #fefefe);
+  border-radius: 50%;
+  color: var(--brand-primary, #bb7137);
+  display: flex;
+  font-family: Arial, sans-serif;
+  font-size: 3.4rem;
+  height: 6.2rem;
+  justify-content: center;
+  line-height: 1;
+  position: absolute;
+  right: 1.6rem;
+  top: 1.6rem;
+  width: 6.2rem;
+  z-index: 2;
+}
+
+.product-card-wrapper .card--standard .quick-add {
+  bottom: 2.2rem;
+  position: absolute;
+  right: 2.2rem;
+  width: var(--product-card-action-size);
+  z-index: 3;
+}
+
+.product-card-wrapper .card--standard .quick-add__submit {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--brand-primary, #bb7137);
+  border-radius: 50%;
+  color: var(--brand-primary, #bb7137);
+  display: flex;
+  height: var(--product-card-action-size);
+  justify-content: center;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  width: var(--product-card-action-size);
+}
+
+.product-card-wrapper .card--standard .quick-add__submit:before,
+.product-card-wrapper .card--standard .quick-add__submit:after {
+  display: none;
+}
+
+.product-card-wrapper .card--standard .quick-add__submit > span:first-child,
+.product-card-wrapper .card--standard .quick-add__label {
+  position: absolute;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 1px;
+}
+
+.product-card-wrapper .card--standard .quick-add__icon {
+  display: flex;
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+.product-card-wrapper .card--standard .quick-add__icon svg {
+  height: 100%;
+  width: 100%;
+}
+
+.product-card-wrapper .card--standard:hover {
+  box-shadow: 0 1rem 2.6rem rgba(31, 14, 8, 0.12);
+  transform: translateY(-0.4rem);
+}
+
+@media screen and (max-width: 749px) {
+  .product-card-wrapper .card--standard {
+    --product-card-action-size: 4rem;
+  }
+
+  .product-card-wrapper .card--standard > .card__content {
+    min-height: 10.5rem;
+    padding: 1.5rem 5.8rem 1.6rem 1.5rem;
+  }
+
+  .product-card-wrapper .card--standard .card__heading {
+    font-size: 1.65rem;
+  }
+
+  .product-card-wrapper .card--standard .card-information > .price {
+    font-size: 1.65rem;
+    margin-top: 1rem;
+  }
+
+  .product-card-wrapper .card--standard .price--on-sale .price-item--regular {
+    font-size: 1.25rem;
+  }
+
+  .product-card-wrapper .card--standard .product-card__discount {
+    font-size: 1.15rem;
+    margin-top: 0.5rem;
+  }
+
+  .product-card-wrapper .product-card-wishlist {
+    font-size: 2.6rem;
+    height: 4.6rem;
+    right: 1rem;
+    top: 1rem;
+    width: 4.6rem;
+  }
+
+  .product-card-wrapper .card--standard .quick-add {
+    bottom: 1.4rem;
+    right: 1.4rem;
+  }
+}
+
 .card--card.card--media .card__inner .card__information,
 .card--card.card--text .card__inner,
 .card--card.card--media > .card__content .card__badge {
