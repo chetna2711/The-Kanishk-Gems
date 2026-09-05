@@ -90,6 +90,13 @@
             "title": "Payal",
             "link": ""
           }
+        },
+        "category_hRG9jz": {
+          "type": "category",
+          "settings": {
+            "title": "Rings",
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -97,7 +104,8 @@
         "category_XNxViA",
         "category_JMT9iH",
         "category_pnhwT4",
-        "category_UNw9F4"
+        "category_UNw9F4",
+        "category_hRG9jz"
       ],
       "name": "Shop by category circles",
       "settings": {
