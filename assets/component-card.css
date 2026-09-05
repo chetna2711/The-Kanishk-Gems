@@ -431,10 +431,11 @@
 /* Kanishk Gems product card: applied globally only while Theme settings > Product cards > Standard is selected. */
 .product-card-wrapper .card--standard {
   --product-card-action-size: 4.2rem;
+  --product-card-content-height: 10.4rem;
   background: var(--brand-background, #fefefe);
   border: 0;
-  border-radius: 0.8rem;
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
   position: relative;
   transition: box-shadow var(--duration-short) ease, transform var(--duration-short) ease;
 }
@@ -443,6 +444,7 @@
   border: 0;
   border-radius: 0;
   overflow: hidden;
+  --ratio-percent: 100% !important;
 }
 
 .product-card-wrapper .card--standard .card__inner:after {
@@ -451,17 +453,20 @@
 
 .product-card-wrapper .card--standard .card__media {
   background: var(--brand-cream, #f5ece3);
-  border-radius: 0;
+  border-radius: 0 !important;
   margin: 0;
   width: 100%;
 }
 
 .product-card-wrapper .card--standard .card__media .media img {
+  border-radius: 0 !important;
   object-fit: cover;
 }
 
 .product-card-wrapper .card--standard > .card__content {
-  min-height: 10.4rem;
+  box-sizing: border-box;
+  height: var(--product-card-content-height);
+  min-height: 0;
   padding: 1.6rem 6.2rem 1.6rem 1.6rem;
 }
 
@@ -525,27 +530,33 @@
 }
 
 .product-card-wrapper .card--standard .quick-add {
+  bottom: calc(var(--product-card-content-height) + 1.2rem);
+  left: 1.2rem;
+  margin: 0;
+  opacity: 1;
   pointer-events: auto;
   position: absolute;
-  right: 1.6rem;
-  top: 1.45rem;
-  width: var(--product-card-action-size);
+  right: 1.2rem;
+  top: auto;
+  transform: translateY(0);
+  transition: opacity var(--duration-short) ease, transform var(--duration-short) ease;
+  width: auto;
   z-index: 5;
 }
 
 .product-card-wrapper .card--standard .quick-add__submit {
   align-items: center;
-  background: transparent;
+  background: var(--brand-primary, #bb7137);
   border: 1px solid var(--brand-primary, #bb7137);
-  border-radius: 50%;
-  color: var(--brand-primary, #bb7137);
+  border-radius: 0;
+  color: var(--brand-background, #fefefe);
   display: flex;
-  height: var(--product-card-action-size);
+  height: 4.2rem;
   justify-content: center;
   min-height: 0;
   min-width: 0;
   padding: 0;
-  width: var(--product-card-action-size);
+  width: 100%;
 }
 
 .product-card-wrapper .card--standard .quick-add__submit,
@@ -560,23 +571,36 @@
 
 .product-card-wrapper .card--standard .quick-add__submit > span:first-child,
 .product-card-wrapper .card--standard .quick-add__label {
-  position: absolute;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  width: 1px;
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
 }
 
 .product-card-wrapper .card--standard .quick-add__icon {
-  display: flex;
-  height: 2.2rem;
-  width: 2.2rem;
+  display: none;
 }
 
 .product-card-wrapper .card--standard .quick-add__icon svg {
   height: 100%;
   width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card-wrapper .card--standard .quick-add {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.8rem);
+  }
+
+  .product-card-wrapper:hover .card--standard .quick-add,
+  .product-card-wrapper .card--standard:focus-within .quick-add {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 }
 
 .product-card-wrapper .card--standard:hover {
@@ -587,10 +611,12 @@
 @media screen and (max-width: 749px) {
   .product-card-wrapper .card--standard {
     --product-card-action-size: 3.6rem;
+    --product-card-content-height: 9.2rem;
   }
 
   .product-card-wrapper .card--standard > .card__content {
-    min-height: 9.2rem;
+    height: var(--product-card-content-height);
+    min-height: 0;
     padding: 1.3rem 5.2rem 1.3rem 1.3rem;
   }
 
@@ -621,8 +647,14 @@
   }
 
   .product-card-wrapper .card--standard .quick-add {
-    right: 1.2rem;
-    top: 1.15rem;
+    bottom: calc(var(--product-card-content-height) + 0.8rem);
+    left: 0.8rem;
+    right: 0.8rem;
+    top: auto;
+  }
+
+  .product-card-wrapper .card--standard .quick-add__submit {
+    height: 3.6rem;
   }
 }
 
