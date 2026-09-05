@@ -82,13 +82,22 @@
             "title": "Gold chains",
             "link": ""
           }
+        },
+        "category_UNw9F4": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/867b5657-f1af-4d02-bf11-642885d00cd4.png",
+            "title": "Payal",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "category_i7Fk63",
         "category_XNxViA",
         "category_JMT9iH",
-        "category_pnhwT4"
+        "category_pnhwT4",
+        "category_UNw9F4"
       ],
       "name": "Shop by category circles",
       "settings": {
