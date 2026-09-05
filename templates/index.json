@@ -132,8 +132,8 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "new-arrival",
-        "products_to_show": 5,
-        "title": "Featured collection",
+        "products_to_show": 6,
+        "title": "New Arrivals",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
