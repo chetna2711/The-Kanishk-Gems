@@ -137,9 +137,15 @@
   #TrendingCollection-{{ section.id }} .trending-collection__products .card__content { padding: 1.2rem 1.2rem 1.4rem; }
 
   #TrendingCollection-{{ section.id }} .trending-collection__products .card__heading {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
     font-size: 1.45rem;
     line-height: 1.35;
     min-height: 3.9rem;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
   }
 
   #TrendingCollection-{{ section.id }} .trending-collection__products .price { margin-top: .7rem; }
