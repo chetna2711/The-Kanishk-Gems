@@ -171,7 +171,7 @@
         "banner_title": "Golden Grace Collection",
         "banner_description": "<p>Crafted to complement your grace.</p>",
         "banner_button_label": "Shop now",
-        "banner_button_link": "",
+        "banner_button_link": "shopify://collections/new-arrival",
         "padding_top": 40,
         "padding_bottom": 40
       }
