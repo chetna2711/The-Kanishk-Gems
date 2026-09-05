@@ -48,79 +48,58 @@
         "show_text_below": false
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
-    },
-    "collection_list_9DtQ6t": {
-      "type": "collection-list",
+    "shop_by_category_circles_eKF9D7": {
+      "type": "shop-by-category-circles",
       "blocks": {
-        "featured_collection_TFNDTB": {
-          "type": "featured_collection",
+        "category_i7Fk63": {
+          "type": "category",
           "settings": {
-            "collection": ""
+            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
+            "title": "Bangles",
+            "link": "shopify://collections"
           }
         },
-        "featured_collection_BydkQf": {
-          "type": "featured_collection",
+        "category_XNxViA": {
+          "type": "category",
           "settings": {
-            "collection": ""
+            "title": "Mangalsutra",
+            "link": ""
           }
         },
-        "featured_collection_xiiYWa": {
-          "type": "featured_collection",
+        "category_JMT9iH": {
+          "type": "category",
           "settings": {
-            "collection": ""
+            "title": "Earrings",
+            "link": ""
+          }
+        },
+        "category_pnhwT4": {
+          "type": "category",
+          "settings": {
+            "title": "Gold chains",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "featured_collection_TFNDTB",
-        "featured_collection_BydkQf",
-        "featured_collection_xiiYWa"
+        "category_i7Fk63",
+        "category_XNxViA",
+        "category_JMT9iH",
+        "category_pnhwT4"
       ],
-      "name": "t:sections.collection-list.presets.name",
+      "name": "Shop by category circles",
       "settings": {
-        "title": "Collections",
-        "heading_size": "h1",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "color_scheme": "",
-        "show_view_all": false,
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "title": "Shop by category",
+        "description": "",
+        "button_text": "",
+        "button_link": "",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection",
-    "collection_list_9DtQ6t"
+    "shop_by_category_circles_eKF9D7"
   ]
 }
