@@ -432,7 +432,7 @@
 .product-card-wrapper .card--standard {
   --product-card-action-size: 4.2rem;
   background: var(--brand-background, #fefefe);
-  border: 1px solid var(--brand-border, #e1cec2);
+  border: 0;
   border-radius: 0.8rem;
   overflow: hidden;
   position: relative;
@@ -472,10 +472,13 @@
 .product-card-wrapper .card--standard .card__heading {
   color: var(--brand-text, #1f0e08);
   font-family: var(--font-heading-family);
-  font-size: 1.8rem;
+  font-size: 14px;
   font-weight: var(--font-heading-weight);
   letter-spacing: 0;
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .product-card-wrapper .card--standard .card-information > .price {
@@ -510,23 +513,24 @@
   color: var(--brand-primary, #bb7137);
   display: flex;
   font-family: Arial, sans-serif;
-  font-size: 2.5rem;
-  height: 4.8rem;
+  font-size: 2.1rem;
+  height: 3.8rem;
   justify-content: center;
   line-height: 1;
   position: absolute;
-  right: 1.2rem;
-  top: 1.2rem;
-  width: 4.8rem;
+  right: 1rem;
+  top: 1rem;
+  width: 3.8rem;
   z-index: 2;
 }
 
 .product-card-wrapper .card--standard .quick-add {
-  bottom: 1.6rem;
+  pointer-events: auto;
   position: absolute;
   right: 1.6rem;
+  top: 1.45rem;
   width: var(--product-card-action-size);
-  z-index: 3;
+  z-index: 5;
 }
 
 .product-card-wrapper .card--standard .quick-add__submit {
@@ -542,6 +546,11 @@
   min-width: 0;
   padding: 0;
   width: var(--product-card-action-size);
+}
+
+.product-card-wrapper .card--standard .quick-add__submit,
+.product-card-wrapper .card--standard .quick-add__submit * {
+  pointer-events: auto;
 }
 
 .product-card-wrapper .card--standard .quick-add__submit:before,
@@ -612,8 +621,8 @@
   }
 
   .product-card-wrapper .card--standard .quick-add {
-    bottom: 1.2rem;
     right: 1.2rem;
+    top: 1.15rem;
   }
 }
 
