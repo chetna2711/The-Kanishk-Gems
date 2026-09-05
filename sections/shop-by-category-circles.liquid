@@ -1,0 +1,233 @@
+{%- style -%}
+  #ShopByCategory-{{ section.id }} {
+    --category-accent: var(--brand-primary);
+    --category-title-color: var(--brand-text);
+    --category-text-color: var(--brand-text);
+    background: var(--brand-background);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__header {
+    max-width: 76rem;
+    margin: 0 auto 3.2rem;
+    text-align: center;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    color: var(--category-accent);
+    margin-bottom: 1.4rem;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow::before,
+  #ShopByCategory-{{ section.id }} .shop-by-category__eyebrow::after {
+    content: '';
+    width: clamp(4rem, 12vw, 17rem);
+    height: 1px;
+    background: currentColor;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__sparkle {
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__title {
+    color: var(--category-title-color);
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.6rem, 4vw, 5.4rem);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: .16em;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__description {
+    color: var(--category-text-color);
+    margin: 1.5rem auto 0;
+    max-width: 62rem;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__button {
+    margin-top: 2rem;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__list {
+    display: grid;
+    grid-template-columns: repeat({{ section.blocks.size }}, minmax(0, 1fr));
+    gap: clamp(1.2rem, 3vw, 4.6rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__item {
+    min-width: 0;
+    text-align: center;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__link {
+    color: var(--category-title-color);
+    display: block;
+    text-decoration: none;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__image-wrap {
+    aspect-ratio: 1;
+    border: 1px solid var(--category-accent);
+    border-radius: 50%;
+    padding: .7rem;
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__image-wrap::after {
+    background: var(--brand-background);
+    bottom: -.9rem;
+    color: var(--category-accent);
+    content: '✦';
+    font-size: 2.1rem;
+    left: 50%;
+    line-height: 1;
+    padding: 0 .45rem;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__image {
+    background: var(--brand-cream);
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__placeholder {
+    align-items: center;
+    background: rgba(var(--color-foreground), .06);
+    border-radius: 50%;
+    color: rgba(var(--color-foreground), .45);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__name {
+    color: var(--category-title-color);
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.5rem, 1.45vw, 2.3rem);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: .08em;
+    line-height: 1.2;
+    margin: 2.2rem 0 0;
+    text-transform: uppercase;
+  }
+
+  #ShopByCategory-{{ section.id }} .shop-by-category__link:hover .shop-by-category__image-wrap {
+    box-shadow: 0 .6rem 1.8rem rgba(0, 0, 0, .12);
+    transform: translateY(-.5rem);
+  }
+
+  @media screen and (min-width: 750px) {
+    #ShopByCategory-{{ section.id }} { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    #ShopByCategory-{{ section.id }} .shop-by-category__header { margin-bottom: 2.5rem; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__title { letter-spacing: .1em; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__list {
+      display: flex;
+      gap: 1.8rem;
+      margin-right: calc(-1 * max(1.5rem, (100vw - {{ settings.page_width }}px) / 2));
+      overflow-x: auto;
+      padding: .3rem max(1.5rem, (100vw - {{ settings.page_width }}px) / 2) 1.5rem 0;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    #ShopByCategory-{{ section.id }} .shop-by-category__list::-webkit-scrollbar { display: none; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__item { flex: 0 0 18.5rem; scroll-snap-align: start; }
+    #ShopByCategory-{{ section.id }} .shop-by-category__name { font-size: 1.7rem; }
+  }
+{%- endstyle -%}
+
+<section id="ShopByCategory-{{ section.id }}" class="shop-by-category">
+  <div class="page-width">
+    <div class="shop-by-category__header">
+      <div class="shop-by-category__eyebrow" aria-hidden="true"><span class="shop-by-category__sparkle">✦</span></div>
+      {%- if section.settings.title != blank -%}
+        <h2 class="shop-by-category__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="shop-by-category__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+      {%- if section.settings.button_text != blank -%}
+        <a class="button shop-by-category__button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_text | escape }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="shop-by-category__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="shop-by-category__item" {{ block.shopify_attributes }}>
+            <a class="shop-by-category__link" href="{{ block.settings.link | default: '#' }}">
+              <div class="shop-by-category__image-wrap">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 700 | image_tag: class: 'shop-by-category__image', loading: 'lazy', widths: '180, 260, 360, 520, 700', alt: block.settings.image.alt | default: block.settings.title }}
+                {%- else -%}
+                  <div class="shop-by-category__placeholder">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                {%- endif -%}
+              </div>
+              {%- if block.settings.title != blank -%}<h3 class="shop-by-category__name">{{ block.settings.title | escape }}</h3>{%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by category circles",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Shop by category" },
+    { "type": "richtext", "id": "description", "label": "Description" },
+    { "type": "text", "id": "button_text", "label": "Button text" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Category image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Category name" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by category circles",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Bangles" } },
+        { "type": "category", "settings": { "title": "Mangalsutra" } },
+        { "type": "category", "settings": { "title": "Earrings" } },
+        { "type": "category", "settings": { "title": "Gold chains" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
