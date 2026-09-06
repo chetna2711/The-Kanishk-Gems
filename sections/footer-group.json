@@ -14,14 +14,6 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "image_zJrYM6": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/d7a775f4-0925-4453-af21-63794cb6202a.png",
-            "image_width": 100,
-            "alignment": ""
-          }
-        },
         "brand_information_Nmfix9": {
           "type": "brand_information",
           "settings": {
@@ -44,7 +36,6 @@
         }
       },
       "block_order": [
-        "image_zJrYM6",
         "brand_information_Nmfix9",
         "link_list_BKVac7",
         "link_list_ggCTRL"
