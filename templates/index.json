@@ -331,7 +331,7 @@
         "columns_desktop": 4,
         "image_ratio": "1 / 1",
         "corner_radius": 8,
-        "autoplay": false,
+        "autoplay": true,
         "autoplay_seconds": 5,
         "color_scheme": "",
         "padding_top": 36,
