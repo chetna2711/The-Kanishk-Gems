@@ -35,7 +35,7 @@ menu-drawer > details[open] > summary::before {
   position: absolute;
   transform: translateX(-100%);
   visibility: hidden;
-  z-index: 3;
+  z-index: 1000;
   left: 0;
   top: 100%;
   width: 100%;
@@ -47,6 +47,7 @@ menu-drawer > details[open] > summary::before {
       var(--drawer-shadow-blur-radius)
       rgba(var(--color-shadow), var(--drawer-shadow-opacity))
   );
+  isolation: isolate;
 }
 
 .js .menu-drawer {

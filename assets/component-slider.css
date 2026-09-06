@@ -335,13 +335,20 @@ slider-component.slider-component-full-width {
     display: none;
   }
 
-  .featured-collection__slider-buttons .slider-button {
-    border: 1px solid rgba(var(--color-foreground), 0.15);
-    border-radius: 50%;
-    color: rgba(var(--color-foreground), 0.55);
-    height: 4.2rem;
-    width: 4.2rem;
-  }
+.featured-collection__slider-buttons .slider-button {
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 50%;
+  color: rgba(var(--color-foreground), 0.55);
+  height: 4.2rem;
+  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease, color var(--duration-short) ease;
+  width: 4.2rem;
+}
+
+.featured-collection__slider-buttons .slider-button:not([disabled]):hover {
+  background-color: var(--brand-primary, #bb7137);
+  border-color: var(--brand-primary, #bb7137);
+  color: #fff;
+}
 }
 
 /* Keep product swiping available on phones without showing carousel controls. */

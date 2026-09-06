@@ -575,6 +575,9 @@
         <!-- CTAs -->
 
         <div class="cart__ctas" {{ block.shopify_attributes }}>
+          <a href="{{ routes.cart_url }}" class="cart__view-button button button--secondary">
+            {{ 'general.cart.view_empty_cart' | t }}
+          </a>
           <button
             type="submit"
             id="CartDrawer-Checkout"

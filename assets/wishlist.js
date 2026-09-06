@@ -30,7 +30,12 @@
       button.setAttribute('aria-pressed', active);
       const action = active ? 'Remove from wishlist' : 'Add to wishlist';
       button.setAttribute('aria-label', action);
-      button.dataset.wishlistTooltip = action;
+      // The header icon intentionally has no hover tooltip. Product controls retain it.
+      if (button.classList.contains('header__icon--wishlist')) {
+        button.removeAttribute('data-wishlist-tooltip');
+      } else {
+        button.dataset.wishlistTooltip = action;
+      }
       button.removeAttribute('title');
       const label = button.querySelector('[data-wishlist-button-label]');
       if (label) label.textContent = active ? 'Remove from wishlist' : 'Add to wishlist';
