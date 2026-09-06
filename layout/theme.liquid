@@ -58,6 +58,8 @@
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'standard-actions-override.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+    {{ 'wishlist.css' | asset_url | stylesheet_tag }}
     {%- if settings.card_style == 'standard' -%}
       {{ 'quick-add.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>

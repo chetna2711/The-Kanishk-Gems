@@ -514,19 +514,32 @@
 .product-card-wrapper .product-card-wishlist {
   align-items: center;
   background: var(--brand-background, #fefefe);
+  border: 0;
   border-radius: 50%;
   color: var(--brand-primary, #bb7137);
+  cursor: pointer;
   display: flex;
-  font-family: Arial, sans-serif;
-  font-size: 18px;
-  height:25px;
+  height: 3.4rem;
   justify-content: center;
-  line-height: 1;
+  padding: 0;
   position: absolute;
-  right: 5px;
-  top: 5px;
-  width: 25px;
-  z-index: 2;
+  right: 0.8rem;
+  top: 0.8rem;
+  width: 3.4rem;
+  z-index: 6;
+}
+
+.product-card-wrapper .product-card-wishlist .svg-wrapper {
+  display: flex;
+}
+
+.product-card-wrapper .product-card-wishlist svg {
+  height: 2rem;
+  width: 2rem;
+}
+
+.product-card-wrapper .product-card-wishlist.is-wishlisted svg {
+  fill: currentColor;
 }
 
 .product-card-wrapper .card--standard .quick-add {

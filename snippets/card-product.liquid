@@ -108,9 +108,17 @@
               </div>
             </div>
           {%- endif -%}
-          {%- if settings.card_style == 'standard' -%}
-            <span class="product-card-wishlist" aria-hidden="true">♡</span>
-          {%- endif -%}
+          <button
+            type="button"
+            class="product-card-wishlist"
+            data-wishlist-toggle
+            data-product-handle="{{ card_product.handle | escape }}"
+            data-product-url="{{ card_product.url }}"
+            aria-label="Add {{ card_product.title | escape }} to wishlist"
+            aria-pressed="false"
+          >
+            <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          </button>
           <div class="card__content">
             <div class="card__information">
               <h3

@@ -1,0 +1,12 @@
+<section class="wishlist-page page-width">
+  <h1 class="main-page-title page-title h0">{{ page.title | default: 'My wishlist' | escape }}</h1>
+  <div class="wishlist-page__empty" data-wishlist-empty hidden>
+    <p>Your wishlist is empty.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="button">Continue shopping</a>
+  </div>
+  <div class="wishlist-page__grid" data-wishlist-products data-root-url="{{ routes.root_url }}" data-currency="{{ cart.currency.iso_code }}" aria-live="polite"></div>
+</section>
+
+{% schema %}
+{ "name": "Wishlist page", "settings": [] }
+{% endschema %}

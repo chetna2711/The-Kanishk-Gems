@@ -322,6 +322,18 @@
         </shopify-account>
       {%- endif -%}
 
+      {%- if section.settings.enable_wishlist -%}
+        <a
+          href="{{ routes.root_url }}pages/wishlist"
+          class="header__icon header__icon--wishlist link focus-inset"
+          aria-label="Wishlist"
+        >
+          <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          <span class="visually-hidden">Wishlist</span>
+          <span class="wishlist-count-bubble" data-wishlist-count hidden>0</span>
+        </a>
+      {%- endif -%}
+
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when '@app' -%}
@@ -670,6 +682,12 @@
     {
       "type": "header",
       "content": "t:sections.header.settings.header__utilities.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_wishlist",
+      "default": true,
+      "label": "Show wishlist icon"
     },
     {
       "type": "checkbox",

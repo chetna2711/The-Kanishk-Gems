@@ -96,6 +96,18 @@
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}
           {%- endif -%}
+          <button
+            type="button"
+            class="wishlist-product-button button button--secondary button--full-width"
+            data-wishlist-toggle
+            data-product-handle="{{ product.handle | escape }}"
+            data-product-url="{{ product.url }}"
+            aria-label="Add {{ product.title | escape }} to wishlist"
+            aria-pressed="false"
+          >
+            <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+            <span data-wishlist-button-label>Add to wishlist</span>
+          </button>
         </div>
       {%- endform -%}
     </product-form>
