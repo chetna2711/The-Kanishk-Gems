@@ -65,23 +65,6 @@
   #MediaShowcase-{{ section.id }} .media-showcase__media iframe { pointer-events: none; }
   #MediaShowcase-{{ section.id }} .media-showcase__card-title { color: rgb(var(--color-foreground)); margin: 1rem 0 0; }
   #MediaShowcase-{{ section.id }} .media-showcase__footer { margin-top: 2.4rem; text-align: center; }
-  #MediaShowcase-{{ section.id }} .media-showcase__controls { display: flex; gap: .8rem; justify-content: center; margin-top: 2rem; }
-  #MediaShowcase-{{ section.id }} .media-showcase__controls[hidden] { display: none; }
-  #MediaShowcase-{{ section.id }} .media-showcase__control {
-    align-items: center;
-    background: transparent;
-    border: 1px solid rgba(var(--color-foreground), .2);
-    border-radius: 50%;
-    color: rgb(var(--color-foreground));
-    cursor: pointer;
-    display: flex;
-    height: 4.2rem;
-    justify-content: center;
-    width: 4.2rem;
-  }
-
-  #MediaShowcase-{{ section.id }} .media-showcase__control:disabled { cursor: default; opacity: .35; }
-
   @media screen and (min-width: 750px) {
     #MediaShowcase-{{ section.id }} { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
   }
@@ -147,11 +130,6 @@
       {%- endfor -%}
     </ul>
 
-    <div class="media-showcase__controls" data-media-showcase-controls>
-      <button class="media-showcase__control" type="button" name="previous" aria-label="Previous slide" data-media-showcase-previous>←</button>
-      <button class="media-showcase__control" type="button" name="next" aria-label="Next slide" data-media-showcase-next>→</button>
-    </div>
-
     {%- unless section_button_in_header -%}
       {%- if section.settings.button_label != blank -%}<div class="media-showcase__footer"><a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a></div>{%- endif -%}
     {%- endunless -%}
@@ -164,39 +142,33 @@
     if (!section || section.dataset.initialized) return;
     section.dataset.initialized = 'true';
     const track = section.querySelector('[data-media-showcase-track]');
-    const controls = section.querySelector('[data-media-showcase-controls]');
-    const previous = section.querySelector('[data-media-showcase-previous]');
-    const next = section.querySelector('[data-media-showcase-next]');
+    const cards = Array.from(track.querySelectorAll('.media-showcase__item'));
     const autoplay = {{ section.settings.autoplay | json }};
     const delay = {{ autoplay_delay | json }};
     let interval;
 
-    const updateControls = () => {
-      const hasOverflow = track.scrollWidth > track.clientWidth + 1;
-      controls.hidden = !hasOverflow;
-      previous.disabled = track.scrollLeft <= 1;
-      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    const canSlide = () => track.scrollWidth > track.clientWidth + 1;
+    const cardStep = () => {
+      if (cards.length < 2) return track.clientWidth;
+      return cards[1].offsetLeft - cards[0].offsetLeft;
     };
-    const move = (direction) => track.scrollBy({ left: direction * track.clientWidth * .85, behavior: 'smooth' });
-    previous.addEventListener('click', () => move(-1));
-    next.addEventListener('click', () => move(1));
-    track.addEventListener('scroll', updateControls, { passive: true });
-    window.addEventListener('resize', updateControls);
-    updateControls();
+    const advance = () => {
+      if (!canSlide()) return;
+      const reachedEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      if (reachedEnd) track.scrollTo({ left: 0, behavior: 'smooth' });
+      else track.scrollBy({ left: cardStep(), behavior: 'smooth' });
+    };
 
     if (autoplay && delay > 0) {
       const start = () => {
         clearInterval(interval);
-        interval = setInterval(() => {
-          if (next.disabled) track.scrollTo({ left: 0, behavior: 'smooth' });
-          else move(1);
-        }, delay);
+        interval = setInterval(advance, delay);
       };
       const stop = () => clearInterval(interval);
-      section.addEventListener('mouseenter', stop);
-      section.addEventListener('mouseleave', start);
-      section.addEventListener('focusin', stop);
-      section.addEventListener('focusout', start);
+      cards.forEach((card) => {
+        card.addEventListener('mouseenter', stop);
+        card.addEventListener('mouseleave', start);
+      });
       start();
     }
   })();
