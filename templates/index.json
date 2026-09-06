@@ -204,56 +204,80 @@
         "padding_bottom": 0
       }
     },
-    "multicolumn_h6PTYD": {
-      "type": "multicolumn",
+    "media_showcase_slider_7xmWL7": {
+      "type": "media-showcase-slider",
       "blocks": {
-        "column_J8jQez": {
-          "type": "column",
+        "media_4gQTNk": {
+          "type": "media",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
+            "video_url": "",
+            "title": "",
             "link": ""
           }
         },
-        "column_6gFFNb": {
-          "type": "column",
+        "media_zHULi8": {
+          "type": "media",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
+            "video_url": "",
+            "title": "",
             "link": ""
           }
         },
-        "column_T6QcDY": {
-          "type": "column",
+        "media_dJj8CC": {
+          "type": "media",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "link_label": "",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_px8wxx": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_QgdmTm": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_kMVaE9": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
             "link": ""
           }
         }
       },
       "block_order": [
-        "column_J8jQez",
-        "column_6gFFNb",
-        "column_T6QcDY"
+        "media_4gQTNk",
+        "media_zHULi8",
+        "media_dJj8CC",
+        "media_px8wxx",
+        "media_QgdmTm",
+        "media_kMVaE9"
       ],
-      "name": "t:sections.multicolumn.presets.name",
+      "name": "Media showcase slider",
       "settings": {
-        "title": "Multicolumn",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "button_label": "Button label",
+        "title": "Follow us on Instagram",
+        "description": "",
+        "heading_size": "h2",
+        "button_label": "@thekanishkgems",
         "button_link": "",
-        "columns_desktop": 3,
-        "column_alignment": "left",
-        "background_style": "primary",
+        "button_in_header": true,
+        "columns_desktop": 6,
+        "image_ratio": "1 / 1",
+        "corner_radius": 8,
+        "autoplay": false,
+        "autoplay_seconds": 5,
         "color_scheme": "",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -265,6 +289,6 @@
     "featured_collection_kPKGpe",
     "featured_collection_AUtUXR",
     "trending_collection_banner_QTFFMV",
-    "multicolumn_h6PTYD"
+    "media_showcase_slider_7xmWL7"
   ]
 }
