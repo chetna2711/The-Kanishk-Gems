@@ -121,6 +121,36 @@
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+
+    /* Keep the logo from defining an oversized header row. */
+    .header__heading-logo {
+      width: auto;
+      max-height: 7rem;
+      object-fit: contain;
+    }
+
+    /* Reserve equal outer columns so the navigation sits at the page centre,
+       independently of the logo and header icon widths. */
+    .header--middle-left {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+
+    .header--middle-left .header__inline-menu {
+      justify-self: center;
+      margin-left: 0;
+    }
+
+    .header__inline-menu > .list-menu--inline {
+      justify-content: center;
+    }
+
+    /* Header links use colour only; the header separator is configured off. */
+    .header__inline-menu .header__menu-item,
+    .header__inline-menu .header__menu-item span,
+    .header__inline-menu .header__active-menu-item,
+    .header__inline-menu details[open] > .header__menu-item {
+      text-decoration: none;
+    }
   }
 {%- endstyle -%}
 
@@ -454,6 +484,26 @@
     },
     true
   );
+
+  // Desktop dropdowns also open on hover. The existing `open` styles provide
+  // the same fade-and-slide animation used for keyboard and click interaction.
+  document.querySelectorAll('.header__inline-menu > .list-menu > li > header-menu').forEach((menu) => {
+    const details = menu.querySelector(':scope > details');
+    const summary = details?.querySelector(':scope > summary');
+    if (!details || !summary) return;
+
+    menu.addEventListener('mouseenter', () => {
+      if (!window.matchMedia('(min-width: 990px)').matches) return;
+      details.open = true;
+      summary.setAttribute('aria-expanded', 'true');
+    });
+
+    menu.addEventListener('mouseleave', () => {
+      if (!window.matchMedia('(min-width: 990px)').matches) return;
+      details.open = false;
+      summary.setAttribute('aria-expanded', 'false');
+    });
+  });
 
   customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
