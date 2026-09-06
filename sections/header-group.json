@@ -46,6 +46,8 @@
         "show_line_separator": false,
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
+        "enable_wishlist": true,
+        "wishlist_page": "shopify://pages/wihslist",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "margin_bottom": 0,
