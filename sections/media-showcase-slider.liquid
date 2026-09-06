@@ -27,23 +27,32 @@
     max-width: 65rem;
   }
 
+  @keyframes media-showcase-scroll-{{ section.id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   #MediaShowcase-{{ section.id }} .media-showcase__slider {
     overflow: hidden;
   }
 
   #MediaShowcase-{{ section.id }} .media-showcase__track {
+    display: flex;
+    gap: 1.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
+    width: max-content;
   }
 
-  #MediaShowcase-{{ section.id }} .media-showcase__slider .swiper-wrapper {
-    transition-timing-function: linear;
+  #MediaShowcase-{{ section.id }}.media-showcase--autoplay .media-showcase__track {
+    animation: media-showcase-scroll-{{ section.id }} {{ autoplay_delay }}ms linear infinite;
   }
 
   #MediaShowcase-{{ section.id }} .media-showcase__item {
+    flex: 0 0 auto;
     min-width: 0;
-    width: calc((100% - {{ desktop_gap_width }}rem) / {{ section.settings.columns_desktop }});
+    width: calc((min(calc(100vw - 10rem), var(--page-width)) - {{ desktop_gap_width }}rem) / {{ section.settings.columns_desktop }});
   }
   #MediaShowcase-{{ section.id }} .media-showcase__link { display: block; text-decoration: none; }
   #MediaShowcase-{{ section.id }} .media-showcase__media {
@@ -75,12 +84,14 @@
     #MediaShowcase-{{ section.id }} .media-showcase__header { align-items: flex-start; flex-direction: column; }
     #MediaShowcase-{{ section.id }} .media-showcase__item { width: 78%; }
   }
+
+  #MediaShowcase-{{ section.id }}.media-showcase--autoplay .media-showcase__slider:has(.media-showcase__item:hover) .media-showcase__track,
+  #MediaShowcase-{{ section.id }}.media-showcase--autoplay .media-showcase__slider:focus-within .media-showcase__track {
+    animation-play-state: paused;
+  }
 {%- endstyle -%}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
-
-<section id="MediaShowcase-{{ section.id }}" class="media-showcase color-{{ section.settings.color_scheme }} gradient" data-media-showcase>
+<section id="MediaShowcase-{{ section.id }}" class="media-showcase{% if section.settings.autoplay %} media-showcase--autoplay{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
     {%- if section.settings.title != blank or section.settings.description != blank or section_button_in_header and section.settings.button_label != blank -%}
       <div class="media-showcase__header">
@@ -94,8 +105,9 @@
       </div>
     {%- endif -%}
 
-    <div class="media-showcase__slider swiper" data-media-showcase-slider>
-    <ul class="media-showcase__track swiper-wrapper" role="list">
+    <div class="media-showcase__slider">
+    <ul class="media-showcase__track" role="list">
+      {%- for copy in (1..2) -%}
       {%- for block in section.blocks -%}
         {% liquid
           assign video_url = block.settings.video_url
@@ -113,7 +125,7 @@
             endunless
           endif
         %}
-        <li class="media-showcase__item" {{ block.shopify_attributes }}>
+        <li class="media-showcase__item"{% if copy == 1 %} {{ block.shopify_attributes }}{% else %} aria-hidden="true"{% endif %}>
           {%- if block.settings.link != blank -%}<a class="media-showcase__link" href="{{ block.settings.link }}">{%- endif -%}
             <div class="media-showcase__media">
               {%- if block.settings.video != null -%}
@@ -134,6 +146,7 @@
           {%- if block.settings.link != blank -%}</a>{%- endif -%}
         </li>
       {%- endfor -%}
+      {%- endfor -%}
     </ul>
     </div>
 
@@ -142,97 +155,6 @@
     {%- endunless -%}
   </div>
 </section>
-
-<script>
-(() => {
-  const section = document.getElementById('MediaShowcase-{{ section.id }}');
-
-  if (!section) return;
-
-  const slider = section.querySelector('[data-media-showcase-slider]');
-  if (!slider) return;
-
-  const initSlider = () => {
-    if (!window.Swiper) {
-      setTimeout(initSlider, 100);
-      return;
-    }
-
-    if (slider.swiper) return;
-
-    const cards = slider.querySelectorAll('.media-showcase__item');
-
-    if (cards.length < 2) return;
-
-    const enableAutoplay = {{ section.settings.autoplay | json }};
-    const slideSpeed = {{ autoplay_delay | json }};
-
-    const swiper = new Swiper(slider, {
-      slidesPerView: 'auto',
-      spaceBetween: 24,
-
-      loop: true,
-      loopAdditionalSlides: cards.length,
-
-      speed: slideSpeed,
-
-      allowTouchMove: true,
-      grabCursor: true,
-
-      watchSlidesProgress: true,
-
-      autoplay: enableAutoplay
-        ? {
-            delay: 1,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: false,
-            stopOnLastSlide: false,
-            waitForTransition: false
-          }
-        : false,
-
-      observer: true,
-      observeParents: true,
-
-      on: {
-        init: function () {
-          if (enableAutoplay) {
-            this.autoplay.start();
-          }
-        }
-      }
-    });
-
-    if (enableAutoplay) {
-      slider.addEventListener('mouseenter', () => {
-        swiper.autoplay.stop();
-      });
-
-      slider.addEventListener('mouseleave', () => {
-        swiper.autoplay.start();
-      });
-    }
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSlider);
-  } else {
-    initSlider();
-  }
-
-  window.addEventListener('load', initSlider);
-
-  document.addEventListener('shopify:section:load', (event) => {
-    if (
-      event.target.id === section.id ||
-      (event.target.querySelector &&
-       event.target.querySelector('#{{ section.id }}'))
-    ) {
-      setTimeout(initSlider, 100);
-    }
-  });
-})();
-</script>
 
 {% schema %}
 {
