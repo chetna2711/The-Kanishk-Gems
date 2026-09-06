@@ -71,13 +71,36 @@
       const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
       const title = escapeHtml(product.title);
       const price = (product.price / 100).toLocaleString(undefined, { style: 'currency', currency: container.dataset.currency || 'INR' });
-      return `<article class="card-wrapper product-card-wrapper"><div class="card card--standard card--media"><div class="card__inner ratio" style="--ratio-percent: 100%;"><div class="card__media"><a href="${product.url}" class="media media--transparent">${image ? `<img src="${image}" alt="${title}" loading="lazy" width="600" height="600">` : ''}</a></div></div><button type="button" class="product-card-wishlist" data-wishlist-toggle data-product-handle="${product.handle}" data-product-url="${product.url}" data-wishlist-tooltip="Remove from wishlist" aria-label="Remove from wishlist" aria-pressed="true">${heartIcon}</button><div class="card__content"><div class="card__information"><h2 class="card__heading h5"><a href="${product.url}" class="full-unstyled-link">${title}</a></h2><div class="card-information"><div class="price"><span class="price-item price-item--regular">${price}</span></div></div></div></div></div></article>`;
+      const variant = product.variants?.find((item) => item.available) || product.variants?.[0];
+      const quickAdd = variant?.available ? `<div class="quick-add no-js-hidden"><button type="button" class="quick-add__submit button button--full-width button--secondary" data-wishlist-add data-variant-id="${variant.id}"><span>Add to cart</span></button></div>` : '';
+      return `<article class="card-wrapper product-card-wrapper"><div class="card card--standard card--media"><div class="card__inner ratio" style="--ratio-percent: 100%;"><div class="card__media"><a href="${product.url}" class="media media--transparent">${image ? `<img src="${image}" alt="${title}" loading="lazy" width="600" height="600">` : ''}</a></div></div><button type="button" class="product-card-wishlist" data-wishlist-toggle data-product-handle="${product.handle}" data-product-url="${product.url}" data-wishlist-tooltip="Remove from wishlist" aria-label="Remove from wishlist" aria-pressed="true">${heartIcon}</button>${quickAdd}<div class="card__content"><div class="card__information"><h2 class="card__heading h5"><a href="${product.url}" class="full-unstyled-link">${title}</a></h2><div class="card-information"><div class="price"><span class="price-item price-item--regular">${price}</span></div></div></div></div></div></article>`;
     }).join('');
     container.removeAttribute('aria-busy');
     updateControls();
   };
 
   document.addEventListener('click', (event) => {
+    const addButton = event.target.closest('[data-wishlist-add]');
+    if (addButton) {
+      event.preventDefault();
+      const variantId = addButton.dataset.variantId;
+      if (!variantId) return;
+      addButton.disabled = true;
+      const cart = document.querySelector('cart-notification, cart-drawer');
+      const formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', '1');
+      if (cart) {
+        formData.append('sections', cart.getSectionsToRender().map((section) => section.id));
+        formData.append('sections_url', window.location.pathname);
+        cart.setActiveElement?.(addButton);
+      }
+      fetch((window.routes && window.routes.cart_add_url) || '/cart/add.js', { method: 'POST', headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }, body: formData })
+        .then((response) => response.json())
+        .then((data) => { if (!data.status && cart) cart.renderContents(data); })
+        .finally(() => { addButton.disabled = false; });
+      return;
+    }
     const button = event.target.closest('[data-wishlist-toggle]');
     if (!button) return;
     event.preventDefault();
