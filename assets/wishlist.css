@@ -15,10 +15,4 @@
 .wishlist-page { padding-bottom: 6rem; padding-top: 4rem; }
 .wishlist-page__empty { margin: 3rem 0; text-align: center; }
 .wishlist-page__grid { display: grid; gap: 2rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.wishlist-card { border: 1px solid rgba(var(--color-foreground), .12); display: flex; flex-direction: column; }
-.wishlist-card__image { aspect-ratio: 1; background: rgb(var(--color-background)); display: block; }
-.wishlist-card__image img { height: 100%; object-fit: cover; width: 100%; }
-.wishlist-card__content { padding: 1.5rem; }
-.wishlist-card__content h2 { margin: 0; }
-.wishlist-card__content p { margin: .8rem 0 1.4rem; }
-@media screen and (max-width: 749px) { .wishlist-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } .wishlist-card__content { padding: 1rem; } }
+@media screen and (max-width: 749px) { .wishlist-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } }

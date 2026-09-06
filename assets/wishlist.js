@@ -31,7 +31,7 @@
       const action = active ? 'Remove from wishlist' : 'Add to wishlist';
       button.setAttribute('aria-label', action);
       button.dataset.wishlistTooltip = action;
-      button.title = action;
+      button.removeAttribute('title');
       const label = button.querySelector('[data-wishlist-button-label]');
       if (label) label.textContent = active ? 'Remove from wishlist' : 'Add to wishlist';
     });
@@ -65,12 +65,13 @@
       updateControls();
       return;
     }
+    const heartIcon = '<svg class="icon-wishlist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg>';
     container.innerHTML = valid.map((product) => {
       const image = product.featured_image || product.images?.[0] || '';
       const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
       const title = escapeHtml(product.title);
       const price = (product.price / 100).toLocaleString(undefined, { style: 'currency', currency: container.dataset.currency || 'INR' });
-      return `<article class="wishlist-card"><a href="${product.url}" class="wishlist-card__image">${image ? `<img src="${image}" alt="${title}" loading="lazy">` : ''}</a><div class="wishlist-card__content"><h2 class="h4"><a href="${product.url}">${title}</a></h2><p>${price}</p><button type="button" class="button button--secondary" data-wishlist-toggle data-product-handle="${product.handle}" data-product-url="${product.url}" aria-pressed="true">Remove</button></div></article>`;
+      return `<article class="card-wrapper product-card-wrapper"><div class="card card--standard card--media"><div class="card__inner ratio" style="--ratio-percent: 100%;"><div class="card__media"><a href="${product.url}" class="media media--transparent">${image ? `<img src="${image}" alt="${title}" loading="lazy" width="600" height="600">` : ''}</a></div></div><button type="button" class="product-card-wishlist" data-wishlist-toggle data-product-handle="${product.handle}" data-product-url="${product.url}" data-wishlist-tooltip="Remove from wishlist" aria-label="Remove from wishlist" aria-pressed="true">${heartIcon}</button><div class="card__content"><div class="card__information"><h2 class="card__heading h5"><a href="${product.url}" class="full-unstyled-link">${title}</a></h2><div class="card-information"><div class="price"><span class="price-item price-item--regular">${price}</span></div></div></div></div></div></article>`;
     }).join('');
     container.removeAttribute('aria-busy');
     updateControls();
