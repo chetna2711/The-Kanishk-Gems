@@ -529,16 +529,12 @@
   z-index: 6;
 }
 
-.product-card-wrapper .product-card-wishlist .svg-wrapper {
-  display: flex;
-}
-
-.product-card-wrapper .product-card-wishlist svg {
+.product-card-wrapper .product-card-wishlist .icon-wishlist {
   height: 2rem;
   width: 2rem;
 }
 
-.product-card-wrapper .product-card-wishlist.is-wishlisted svg {
+.product-card-wrapper .product-card-wishlist.is-wishlisted .icon-wishlist {
   fill: currentColor;
 }
 

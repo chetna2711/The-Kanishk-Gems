@@ -28,7 +28,10 @@
       const active = items.includes(button.dataset.productHandle);
       button.classList.toggle('is-wishlisted', active);
       button.setAttribute('aria-pressed', active);
-      button.setAttribute('aria-label', `${active ? 'Remove' : 'Add'} ${button.dataset.productHandle || 'product'} ${active ? 'from' : 'to'} wishlist`);
+      const action = active ? 'Remove from wishlist' : 'Add to wishlist';
+      button.setAttribute('aria-label', action);
+      button.dataset.wishlistTooltip = action;
+      button.title = action;
       const label = button.querySelector('[data-wishlist-button-label]');
       if (label) label.textContent = active ? 'Remove from wishlist' : 'Add to wishlist';
     });

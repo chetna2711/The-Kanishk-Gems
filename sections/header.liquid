@@ -323,12 +323,19 @@
       {%- endif -%}
 
       {%- if section.settings.enable_wishlist -%}
+        {%- liquid
+          assign wishlist_url = routes.root_url | append: 'pages/wishlist'
+          if section.settings.wishlist_page != blank
+            assign wishlist_url = section.settings.wishlist_page
+          endif
+        -%}
         <a
-          href="{{ routes.root_url }}pages/wishlist"
+          href="{{ wishlist_url }}"
           class="header__icon header__icon--wishlist link focus-inset"
           aria-label="Wishlist"
+          data-wishlist-tooltip="View wishlist"
         >
-          <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          <span class="svg-wrapper">{% render 'icon-wishlist', icon_class: 'icon' %}</span>
           <span class="visually-hidden">Wishlist</span>
           <span class="wishlist-count-bubble" data-wishlist-count hidden>0</span>
         </a>
@@ -688,6 +695,12 @@
       "id": "enable_wishlist",
       "default": true,
       "label": "Show wishlist icon"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_page",
+      "label": "Wishlist page link",
+      "info": "Select the page that uses the wishlist template."
     },
     {
       "type": "checkbox",

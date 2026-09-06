@@ -153,8 +153,9 @@
           data-product-url="{{ card_product.url }}"
           aria-label="Add {{ card_product.title | escape }} to wishlist"
           aria-pressed="false"
+          data-wishlist-tooltip="Add to wishlist"
         >
-          <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          {% render 'icon-wishlist' %}
         </button>
         <div class="card__content">
           <div class="card__information">
