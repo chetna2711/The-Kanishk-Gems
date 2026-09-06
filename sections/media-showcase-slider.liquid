@@ -1,6 +1,7 @@
 {% liquid
   assign section_button_in_header = section.settings.button_in_header
   assign autoplay_delay = section.settings.autoplay_seconds | times: 1000
+  assign desktop_gap_width = section.settings.columns_desktop | minus: 1 | times: 1.5
 %}
 
 {%- style -%}
@@ -42,7 +43,7 @@
 
   #MediaShowcase-{{ section.id }} .media-showcase__item {
     min-width: 0;
-    width: calc(100% / {{ section.settings.columns_desktop }} - 1.5rem);
+    width: calc((100% - {{ desktop_gap_width }}rem) / {{ section.settings.columns_desktop }});
   }
   #MediaShowcase-{{ section.id }} .media-showcase__link { display: block; text-decoration: none; }
   #MediaShowcase-{{ section.id }} .media-showcase__media {
@@ -155,12 +156,14 @@
         slidesPerView: 'auto',
         spaceBetween: 24,
         loop: cards.length > 1,
+        loopAdditionalSlides: cards.length,
         allowTouchMove: true,
         speed: {{ autoplay_delay | json }},
         autoplay: {{ section.settings.autoplay | json }} ? {
           delay: 0,
           disableOnInteraction: false,
-          pauseOnMouseEnter: false
+          pauseOnMouseEnter: false,
+          waitForTransition: true
         } : false
       });
 
@@ -172,6 +175,12 @@
       }
     };
 
+    const waitForSwiper = (attempt = 0) => {
+      initialiseSwiper();
+      if (!slider.swiper && attempt < 50) window.setTimeout(() => waitForSwiper(attempt + 1), 100);
+    };
+
+    waitForSwiper();
     document.addEventListener('DOMContentLoaded', initialiseSwiper);
     window.addEventListener('load', initialiseSwiper);
     document.addEventListener('shopify:section:load', (event) => {
