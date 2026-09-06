@@ -152,8 +152,8 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "trending_collection_banner_QTFFMV": {
@@ -165,15 +165,14 @@
         "header_button_label": "View all",
         "header_button_link": "",
         "collection": "new-arrival",
-        "products_to_show": 3,
         "banner_position": "left",
         "desktop_image": "shopify://shop_images/7c704bcd-713b-43a0-965d-cca0ef5c46b7.png",
         "banner_title": "Golden Grace Collection",
         "banner_description": "<p>Crafted to complement your grace.</p>",
         "banner_button_label": "Shop now",
         "banner_button_link": "shopify://collections/new-arrival",
-        "padding_top": 40,
-        "padding_bottom": 40
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },
