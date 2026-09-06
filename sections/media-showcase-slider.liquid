@@ -144,49 +144,94 @@
 </section>
 
 <script>
-  (() => {
-    const section = document.getElementById('MediaShowcase-{{ section.id }}');
-    if (!section || section.dataset.initialized) return;
-    section.dataset.initialized = 'true';
-    const slider = section.querySelector('[data-media-showcase-slider]');
-    const initialiseSwiper = () => {
-      if (!slider || !window.Swiper || slider.swiper) return;
-      const cards = slider.querySelectorAll('.media-showcase__item');
-      const swiper = new Swiper(slider, {
-        slidesPerView: 'auto',
-        spaceBetween: 24,
-        loop: cards.length > 1,
-        loopAdditionalSlides: cards.length,
-        allowTouchMove: true,
-        speed: {{ autoplay_delay | json }},
-        autoplay: {{ section.settings.autoplay | json }} ? {
-          delay: 0,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: false,
-          waitForTransition: true
-        } : false
+(() => {
+  const section = document.getElementById('MediaShowcase-{{ section.id }}');
+
+  if (!section) return;
+
+  const slider = section.querySelector('[data-media-showcase-slider]');
+  if (!slider) return;
+
+  const initSlider = () => {
+    if (!window.Swiper) {
+      setTimeout(initSlider, 100);
+      return;
+    }
+
+    if (slider.swiper) return;
+
+    const cards = slider.querySelectorAll('.media-showcase__item');
+
+    if (cards.length < 2) return;
+
+    const enableAutoplay = {{ section.settings.autoplay | json }};
+    const slideSpeed = {{ autoplay_delay | json }};
+
+    const swiper = new Swiper(slider, {
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+
+      loop: true,
+      loopAdditionalSlides: cards.length,
+
+      speed: slideSpeed,
+
+      allowTouchMove: true,
+      grabCursor: true,
+
+      watchSlidesProgress: true,
+
+      autoplay: enableAutoplay
+        ? {
+            delay: 1,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
+            stopOnLastSlide: false,
+            waitForTransition: false
+          }
+        : false,
+
+      observer: true,
+      observeParents: true,
+
+      on: {
+        init: function () {
+          if (enableAutoplay) {
+            this.autoplay.start();
+          }
+        }
+      }
+    });
+
+    if (enableAutoplay) {
+      slider.addEventListener('mouseenter', () => {
+        swiper.autoplay.stop();
       });
 
-      if ({{ section.settings.autoplay | json }}) {
-        cards.forEach((card) => {
-          card.addEventListener('mouseenter', () => swiper.autoplay.pause());
-          card.addEventListener('mouseleave', () => swiper.autoplay.resume());
-        });
-      }
-    };
+      slider.addEventListener('mouseleave', () => {
+        swiper.autoplay.start();
+      });
+    }
+  };
 
-    const waitForSwiper = (attempt = 0) => {
-      initialiseSwiper();
-      if (!slider.swiper && attempt < 50) window.setTimeout(() => waitForSwiper(attempt + 1), 100);
-    };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSlider);
+  } else {
+    initSlider();
+  }
 
-    waitForSwiper();
-    document.addEventListener('DOMContentLoaded', initialiseSwiper);
-    window.addEventListener('load', initialiseSwiper);
-    document.addEventListener('shopify:section:load', (event) => {
-      if (event.target.id === section.id || (event.target.querySelector && event.target.querySelector('#' + section.id))) initialiseSwiper();
-    });
-  })();
+  window.addEventListener('load', initSlider);
+
+  document.addEventListener('shopify:section:load', (event) => {
+    if (
+      event.target.id === section.id ||
+      (event.target.querySelector &&
+       event.target.querySelector('#{{ section.id }}'))
+    ) {
+      setTimeout(initSlider, 100);
+    }
+  });
+})();
 </script>
 
 {% schema %}
