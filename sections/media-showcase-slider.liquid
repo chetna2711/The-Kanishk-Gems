@@ -82,7 +82,9 @@
 
   @media screen and (max-width: 749px) {
     #MediaShowcase-{{ section.id }} .media-showcase__header { align-items: flex-start; flex-direction: column; }
-    #MediaShowcase-{{ section.id }} .media-showcase__item { width: 78%; }
+    /* The page has 1.5rem padding on both sides; leave the 1.5rem track gap
+       between two cards so both are visible on a phone. */
+    #MediaShowcase-{{ section.id }} .media-showcase__item { width: calc((100vw - 4.5rem) / 2); }
   }
 
   #MediaShowcase-{{ section.id }}.media-showcase--autoplay .media-showcase__slider:has(.media-showcase__item:hover) .media-showcase__track,
