@@ -156,25 +156,6 @@
         "padding_bottom": 0
       }
     },
-    "trending_collection_banner_QTFFMV": {
-      "type": "trending-collection-banner",
-      "name": "Trending collection",
-      "settings": {
-        "title": "Trending collection",
-        "description": "",
-        "header_button_label": "View all",
-        "header_button_link": "",
-        "collection": "new-arrival",
-        "banner_position": "left",
-        "desktop_image": "shopify://shop_images/7c704bcd-713b-43a0-965d-cca0ef5c46b7.png",
-        "banner_title": "Golden Grace Collection",
-        "banner_description": "<p>Crafted to complement your grace.</p>",
-        "banner_button_label": "Shop now",
-        "banner_button_link": "shopify://collections/new-arrival",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
     "featured_collection_AUtUXR": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -203,13 +184,32 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "trending_collection_banner_QTFFMV": {
+      "type": "trending-collection-banner",
+      "name": "Trending collection",
+      "settings": {
+        "title": "Trending collection",
+        "description": "",
+        "header_button_label": "View all",
+        "header_button_link": "",
+        "collection": "new-arrival",
+        "banner_position": "left",
+        "desktop_image": "shopify://shop_images/7c704bcd-713b-43a0-965d-cca0ef5c46b7.png",
+        "banner_title": "Golden Grace Collection",
+        "banner_description": "<p>Crafted to complement your grace.</p>",
+        "banner_button_label": "Shop now",
+        "banner_button_link": "shopify://collections/new-arrival",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
     "image_banner",
     "shop_by_category_circles_eKF9D7",
     "featured_collection_kPKGpe",
-    "trending_collection_banner_QTFFMV",
-    "featured_collection_AUtUXR"
+    "featured_collection_AUtUXR",
+    "trending_collection_banner_QTFFMV"
   ]
 }
