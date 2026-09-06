@@ -349,7 +349,7 @@
         "image_ratio": "1 / 1",
         "corner_radius": 8,
         "autoplay": true,
-        "autoplay_seconds": 5,
+        "autoplay_seconds": 12,
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
