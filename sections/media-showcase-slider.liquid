@@ -26,23 +26,24 @@
     max-width: 65rem;
   }
 
-  #MediaShowcase-{{ section.id }} .media-showcase__track {
-    display: grid;
-    gap: 1.5rem;
-    grid-auto-columns: minmax(19rem, 1fr);
-    grid-auto-flow: column;
-    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
-    list-style: none;
-    margin: 0;
-    overflow-x: auto;
-    padding: 0;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
+  #MediaShowcase-{{ section.id }} .media-showcase__slider {
+    overflow: hidden;
   }
 
-  #MediaShowcase-{{ section.id }} .media-showcase__track::-webkit-scrollbar { display: none; }
-  #MediaShowcase-{{ section.id }} .media-showcase__item { min-width: 0; scroll-snap-align: start; }
+  #MediaShowcase-{{ section.id }} .media-showcase__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__slider .swiper-wrapper {
+    transition-timing-function: linear;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__item {
+    min-width: 0;
+    width: calc(100% / {{ section.settings.columns_desktop }} - 1.5rem);
+  }
   #MediaShowcase-{{ section.id }} .media-showcase__link { display: block; text-decoration: none; }
   #MediaShowcase-{{ section.id }} .media-showcase__media {
     aspect-ratio: {{ section.settings.image_ratio }};
@@ -71,9 +72,12 @@
 
   @media screen and (max-width: 749px) {
     #MediaShowcase-{{ section.id }} .media-showcase__header { align-items: flex-start; flex-direction: column; }
-    #MediaShowcase-{{ section.id }} .media-showcase__track { gap: 1rem; grid-auto-columns: minmax(15rem, 78%); grid-template-columns: none; }
+    #MediaShowcase-{{ section.id }} .media-showcase__item { width: 78%; }
   }
 {%- endstyle -%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
 
 <section id="MediaShowcase-{{ section.id }}" class="media-showcase color-{{ section.settings.color_scheme }} gradient" data-media-showcase>
   <div class="page-width">
@@ -89,7 +93,8 @@
       </div>
     {%- endif -%}
 
-    <ul class="media-showcase__track" role="list" data-media-showcase-track>
+    <div class="media-showcase__slider swiper" data-media-showcase-slider>
+    <ul class="media-showcase__track swiper-wrapper" role="list">
       {%- for block in section.blocks -%}
         {% liquid
           assign video_url = block.settings.video_url
@@ -129,6 +134,7 @@
         </li>
       {%- endfor -%}
     </ul>
+    </div>
 
     {%- unless section_button_in_header -%}
       {%- if section.settings.button_label != blank -%}<div class="media-showcase__footer"><a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a></div>{%- endif -%}
@@ -141,36 +147,36 @@
     const section = document.getElementById('MediaShowcase-{{ section.id }}');
     if (!section || section.dataset.initialized) return;
     section.dataset.initialized = 'true';
-    const track = section.querySelector('[data-media-showcase-track]');
-    const cards = Array.from(track.querySelectorAll('.media-showcase__item'));
-    const autoplay = {{ section.settings.autoplay | json }};
-    const delay = {{ autoplay_delay | json }};
-    let interval;
-
-    const canSlide = () => track.scrollWidth > track.clientWidth + 1;
-    const cardStep = () => {
-      if (cards.length < 2) return track.clientWidth;
-      return cards[1].offsetLeft - cards[0].offsetLeft;
-    };
-    const advance = () => {
-      if (!canSlide()) return;
-      const reachedEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-      if (reachedEnd) track.scrollTo({ left: 0, behavior: 'smooth' });
-      else track.scrollBy({ left: cardStep(), behavior: 'smooth' });
-    };
-
-    if (autoplay && delay > 0) {
-      const start = () => {
-        clearInterval(interval);
-        interval = setInterval(advance, delay);
-      };
-      const stop = () => clearInterval(interval);
-      cards.forEach((card) => {
-        card.addEventListener('mouseenter', stop);
-        card.addEventListener('mouseleave', start);
+    const slider = section.querySelector('[data-media-showcase-slider]');
+    const initialiseSwiper = () => {
+      if (!slider || !window.Swiper || slider.swiper) return;
+      const cards = slider.querySelectorAll('.media-showcase__item');
+      const swiper = new Swiper(slider, {
+        slidesPerView: 'auto',
+        spaceBetween: 24,
+        loop: cards.length > 1,
+        allowTouchMove: true,
+        speed: {{ autoplay_delay | json }},
+        autoplay: {{ section.settings.autoplay | json }} ? {
+          delay: 0,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: false
+        } : false
       });
-      start();
-    }
+
+      if ({{ section.settings.autoplay | json }}) {
+        cards.forEach((card) => {
+          card.addEventListener('mouseenter', () => swiper.autoplay.pause());
+          card.addEventListener('mouseleave', () => swiper.autoplay.resume());
+        });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', initialiseSwiper);
+    window.addEventListener('load', initialiseSwiper);
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target.id === section.id || (event.target.querySelector && event.target.querySelector('#' + section.id))) initialiseSwiper();
+    });
   })();
 </script>
 
@@ -191,7 +197,7 @@
     { "type": "select", "id": "image_ratio", "label": "Media ratio", "default": "1 / 1", "options": [{ "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "16 / 9", "label": "Landscape" }] },
     { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 8 },
     { "type": "checkbox", "id": "autoplay", "label": "Enable automatic slider", "default": false },
-    { "type": "range", "id": "autoplay_seconds", "label": "Autoplay interval", "min": 2, "max": 12, "step": 1, "unit": "s", "default": 5 },
+    { "type": "range", "id": "autoplay_seconds", "label": "Continuous slider speed", "info": "Seconds taken to move one card. A lower value moves faster.", "min": 2, "max": 12, "step": 1, "unit": "s", "default": 5 },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 }
