@@ -1,0 +1,247 @@
+{% liquid
+  assign section_button_in_header = section.settings.button_in_header
+  assign autoplay_delay = section.settings.autoplay_seconds | times: 1000
+%}
+
+{%- style -%}
+  #MediaShowcase-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__header {
+    align-items: end;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-bottom: 2.4rem;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__heading {
+    margin: 0;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__description {
+    margin: 1rem 0 0;
+    max-width: 65rem;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__track {
+    display: grid;
+    gap: 1.5rem;
+    grid-auto-columns: minmax(19rem, 1fr);
+    grid-auto-flow: column;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    overflow-x: auto;
+    padding: 0;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__track::-webkit-scrollbar { display: none; }
+  #MediaShowcase-{{ section.id }} .media-showcase__item { min-width: 0; scroll-snap-align: start; }
+  #MediaShowcase-{{ section.id }} .media-showcase__link { display: block; text-decoration: none; }
+  #MediaShowcase-{{ section.id }} .media-showcase__media {
+    aspect-ratio: {{ section.settings.image_ratio }};
+    background: rgba(var(--color-foreground), .05);
+    border-radius: {{ section.settings.corner_radius }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__media img,
+  #MediaShowcase-{{ section.id }} .media-showcase__media video,
+  #MediaShowcase-{{ section.id }} .media-showcase__media iframe {
+    border: 0;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__media iframe { pointer-events: none; }
+  #MediaShowcase-{{ section.id }} .media-showcase__card-title { color: rgb(var(--color-foreground)); margin: 1rem 0 0; }
+  #MediaShowcase-{{ section.id }} .media-showcase__footer { margin-top: 2.4rem; text-align: center; }
+  #MediaShowcase-{{ section.id }} .media-showcase__controls { display: flex; gap: .8rem; justify-content: center; margin-top: 2rem; }
+  #MediaShowcase-{{ section.id }} .media-showcase__controls[hidden] { display: none; }
+  #MediaShowcase-{{ section.id }} .media-showcase__control {
+    align-items: center;
+    background: transparent;
+    border: 1px solid rgba(var(--color-foreground), .2);
+    border-radius: 50%;
+    color: rgb(var(--color-foreground));
+    cursor: pointer;
+    display: flex;
+    height: 4.2rem;
+    justify-content: center;
+    width: 4.2rem;
+  }
+
+  #MediaShowcase-{{ section.id }} .media-showcase__control:disabled { cursor: default; opacity: .35; }
+
+  @media screen and (min-width: 750px) {
+    #MediaShowcase-{{ section.id }} { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    #MediaShowcase-{{ section.id }} .media-showcase__header { align-items: flex-start; flex-direction: column; }
+    #MediaShowcase-{{ section.id }} .media-showcase__track { gap: 1rem; grid-auto-columns: minmax(15rem, 78%); grid-template-columns: none; }
+  }
+{%- endstyle -%}
+
+<section id="MediaShowcase-{{ section.id }}" class="media-showcase color-{{ section.settings.color_scheme }} gradient" data-media-showcase>
+  <div class="page-width">
+    {%- if section.settings.title != blank or section.settings.description != blank or section_button_in_header and section.settings.button_label != blank -%}
+      <div class="media-showcase__header">
+        <div>
+          {%- if section.settings.title != blank -%}<h2 class="media-showcase__heading {{ section.settings.heading_size }}">{{ section.settings.title | escape }}</h2>{%- endif -%}
+          {%- if section.settings.description != blank -%}<div class="media-showcase__description rte">{{ section.settings.description }}</div>{%- endif -%}
+        </div>
+        {%- if section_button_in_header and section.settings.button_label != blank -%}
+          <a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <ul class="media-showcase__track" role="list" data-media-showcase-track>
+      {%- for block in section.blocks -%}
+        {% liquid
+          assign video_url = block.settings.video_url
+          assign embed_url = video_url
+          assign is_direct_video = false
+          if video_url contains '.mp4' or video_url contains '.webm' or video_url contains '.ogg'
+            assign is_direct_video = true
+          elsif video_url contains 'youtube.com/watch?v='
+            assign embed_url = video_url | replace: 'watch?v=', 'embed/' | split: '&' | first
+          elsif video_url contains 'youtu.be/'
+            assign embed_url = video_url | replace: 'youtu.be/', 'www.youtube.com/embed/' | split: '?' | first
+          elsif video_url contains 'vimeo.com/'
+            unless video_url contains 'player.vimeo.com'
+              assign embed_url = video_url | replace: 'vimeo.com/', 'player.vimeo.com/video/'
+            endunless
+          endif
+        %}
+        <li class="media-showcase__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}<a class="media-showcase__link" href="{{ block.settings.link }}">{%- endif -%}
+            <div class="media-showcase__media">
+              {%- if block.settings.video != null -%}
+                {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false }}
+              {%- elsif video_url != blank -%}
+                {%- if is_direct_video -%}
+                  <video autoplay muted loop playsinline {% unless section.settings.autoplay %}controls{% endunless %}><source src="{{ video_url }}"></video>
+                {%- else -%}
+                  <iframe src="{{ embed_url }}" title="{{ block.settings.title | default: section.settings.title | escape }}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                {%- endif -%}
+              {%- elsif block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900, 1200', alt: block.settings.image.alt | default: block.settings.title }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.title != blank -%}<h3 class="media-showcase__card-title h5">{{ block.settings.title | escape }}</h3>{%- endif -%}
+          {%- if block.settings.link != blank -%}</a>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <div class="media-showcase__controls" data-media-showcase-controls>
+      <button class="media-showcase__control" type="button" name="previous" aria-label="Previous slide" data-media-showcase-previous>←</button>
+      <button class="media-showcase__control" type="button" name="next" aria-label="Next slide" data-media-showcase-next>→</button>
+    </div>
+
+    {%- unless section_button_in_header -%}
+      {%- if section.settings.button_label != blank -%}<div class="media-showcase__footer"><a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a></div>{%- endif -%}
+    {%- endunless -%}
+  </div>
+</section>
+
+<script>
+  (() => {
+    const section = document.getElementById('MediaShowcase-{{ section.id }}');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = 'true';
+    const track = section.querySelector('[data-media-showcase-track]');
+    const controls = section.querySelector('[data-media-showcase-controls]');
+    const previous = section.querySelector('[data-media-showcase-previous]');
+    const next = section.querySelector('[data-media-showcase-next]');
+    const autoplay = {{ section.settings.autoplay | json }};
+    const delay = {{ autoplay_delay | json }};
+    let interval;
+
+    const updateControls = () => {
+      const hasOverflow = track.scrollWidth > track.clientWidth + 1;
+      controls.hidden = !hasOverflow;
+      previous.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    };
+    const move = (direction) => track.scrollBy({ left: direction * track.clientWidth * .85, behavior: 'smooth' });
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    track.addEventListener('scroll', updateControls, { passive: true });
+    window.addEventListener('resize', updateControls);
+    updateControls();
+
+    if (autoplay && delay > 0) {
+      const start = () => {
+        clearInterval(interval);
+        interval = setInterval(() => {
+          if (next.disabled) track.scrollTo({ left: 0, behavior: 'smooth' });
+          else move(1);
+        }, delay);
+      };
+      const stop = () => clearInterval(interval);
+      section.addEventListener('mouseenter', stop);
+      section.addEventListener('mouseleave', start);
+      section.addEventListener('focusin', stop);
+      section.addEventListener('focusout', start);
+      start();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Media showcase slider",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Follow us on Instagram" },
+    { "type": "richtext", "id": "description", "label": "Description" },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h2", "options": [{ "value": "h2", "label": "Small" }, { "value": "h1", "label": "Medium" }, { "value": "h0", "label": "Large" }] },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "button_in_header", "label": "Show button beside title", "default": true },
+    { "type": "range", "id": "columns_desktop", "label": "Cards per row on desktop", "min": 2, "max": 8, "step": 1, "default": 6 },
+    { "type": "select", "id": "image_ratio", "label": "Media ratio", "default": "1 / 1", "options": [{ "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "16 / 9", "label": "Landscape" }] },
+    { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 8 },
+    { "type": "checkbox", "id": "autoplay", "label": "Enable automatic slider", "default": false },
+    { "type": "range", "id": "autoplay_seconds", "label": "Autoplay interval", "min": 2, "max": 12, "step": 1, "unit": "s", "default": 5 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 }
+  ],
+  "blocks": [
+    {
+      "type": "media",
+      "name": "Image or video",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+        { "type": "url", "id": "video_url", "label": "Video or embed URL", "info": "Supports YouTube, Vimeo, direct MP4/WebM files, or another provider's embed URL. Video is shown instead of the image." },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "url", "id": "link", "label": "Card link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media showcase slider",
+      "blocks": [{ "type": "media" }, { "type": "media" }, { "type": "media" }, { "type": "media" }, { "type": "media" }, { "type": "media" }]
+    }
+  ]
+}
+{% endschema %}
