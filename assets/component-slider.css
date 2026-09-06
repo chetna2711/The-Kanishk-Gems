@@ -327,7 +327,7 @@ slider-component.slider-component-full-width {
     gap: 1rem;
     margin: 0;
     position: absolute;
-    right: max(1.5rem, calc((100% - var(--page-width)) / 2));
+    right: max(5rem, calc((100% - var(--page-width)) / 2 + 5rem));
     top: 0;
   }
 
