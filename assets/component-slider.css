@@ -317,6 +317,33 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
+/* Featured Collection: place desktop carousel controls beside the heading. */
+.featured-collection__slider-component {
+  position: relative;
+}
+
+@media screen and (min-width: 750px) {
+  .featured-collection__slider-component .featured-collection__slider-buttons {
+    gap: 1rem;
+    margin: 0;
+    position: absolute;
+    right: max(1.5rem, calc((100% - var(--page-width)) / 2));
+    top: 0;
+  }
+
+  .featured-collection__slider-buttons .slider-counter {
+    display: none;
+  }
+
+  .featured-collection__slider-buttons .slider-button {
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    border-radius: 50%;
+    color: rgba(var(--color-foreground), 0.55);
+    height: 4.2rem;
+    width: 4.2rem;
+  }
+}
+
 /* Keep product swiping available on phones without showing carousel controls. */
 @media screen and (max-width: 749px) {
   .featured-collection__slider-buttons {
