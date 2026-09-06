@@ -77,6 +77,7 @@
     const button = event.target.closest('[data-wishlist-toggle]');
     if (!button) return;
     event.preventDefault();
+    event.stopPropagation();
     const handle = button.dataset.productHandle;
     if (!handle) return;
     const items = readWishlist();
