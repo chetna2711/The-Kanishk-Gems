@@ -210,6 +210,16 @@
         "media_4gQTNk": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/f499e924-22a8-43c8-b4a3-ebc94ac4ee43.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_QgdmTm": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/b7639317-f37c-467b-abb9-006dc2399321.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -218,6 +228,7 @@
         "media_zHULi8": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/9fd6911d-6aee-41dc-bfd1-a386ac8f05ec.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -226,6 +237,7 @@
         "media_dJj8CC": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/64e2ec2a-319b-40ba-8df7-6ba4142353af.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -234,12 +246,13 @@
         "media_px8wxx": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/be62d95d-e5cf-494f-895f-276395f17da2.jpg",
             "video_url": "",
             "title": "",
             "link": ""
           }
         },
-        "media_QgdmTm": {
+        "media_gRxwnJ": {
           "type": "media",
           "settings": {
             "video_url": "",
@@ -258,10 +271,11 @@
       },
       "block_order": [
         "media_4gQTNk",
+        "media_QgdmTm",
         "media_zHULi8",
         "media_dJj8CC",
         "media_px8wxx",
-        "media_QgdmTm",
+        "media_gRxwnJ",
         "media_kMVaE9"
       ],
       "name": "Media showcase slider",
@@ -272,7 +286,7 @@
         "button_label": "@thekanishkgems",
         "button_link": "",
         "button_in_header": true,
-        "columns_desktop": 6,
+        "columns_desktop": 4,
         "image_ratio": "1 / 1",
         "corner_radius": 8,
         "autoplay": false,
