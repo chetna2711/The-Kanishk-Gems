@@ -1096,6 +1096,42 @@ input.mobile-facets__checkbox {
   padding-right: 1.5rem;
 }
 
+/* On phones, reserve only a small overlay strip so every facet control,
+   including the sort label and its selected value, stays inside the drawer. */
+@media screen and (max-width: 749px) {
+  .mobile-facets__inner {
+    box-sizing: border-box;
+    max-width: none;
+    overflow-x: hidden;
+    width: calc(100% - 2rem);
+  }
+
+  .mobile-facets__header,
+  .mobile-facets__info,
+  .mobile-facets__summary {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .mobile-facets__sort {
+    gap: 0.8rem;
+    min-width: 0;
+  }
+
+  .mobile-facets__sort .select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .mobile-facets__sort .select__select {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+}
+
 .product-count {
   align-self: center;
   position: relative;
