@@ -317,6 +317,13 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
+/* Keep product swiping available on phones without showing carousel controls. */
+@media screen and (max-width: 749px) {
+  .featured-collection__slider-buttons {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 990px) {
   .slider:not(.slider--everywhere):not(.slider--desktop) + .slider-buttons {
     display: none;
