@@ -124,6 +124,10 @@
     margin-top: 1rem;
   }
 
+  #ShopByCategory-{{ section.id }} .shop-by-category__navigation[hidden] {
+    display: none;
+  }
+
   #ShopByCategory-{{ section.id }} .shop-by-category__arrow {
     align-items: center;
     background: var(--brand-background);
@@ -211,8 +215,12 @@
       const section = document.getElementById(sectionId);
       const slider = section && section.querySelector('[data-category-swiper]');
       if (!slider || !window.Swiper || slider.swiper) return;
+      const navigation = section.querySelector('.shop-by-category__navigation');
+      const updateNavigationVisibility = (swiper) => {
+        if (navigation) navigation.hidden = swiper.isLocked;
+      };
 
-      new Swiper(slider, {
+      const swiper = new Swiper(slider, {
         slidesPerView: 3,
         spaceBetween: 12,
         watchOverflow: true,
@@ -224,8 +232,15 @@
           768: { slidesPerView: 4, spaceBetween: 18 },
           1024: { slidesPerView: 6, spaceBetween: 26 },
           1440: { slidesPerView: 7, spaceBetween: 32 }
+        },
+        on: {
+          init: updateNavigationVisibility,
+          resize: updateNavigationVisibility,
+          update: updateNavigationVisibility
         }
       });
+
+      updateNavigationVisibility(swiper);
     };
 
     document.addEventListener('DOMContentLoaded', initialiseSwiper);
