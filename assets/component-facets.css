@@ -1103,7 +1103,7 @@ input.mobile-facets__checkbox {
     box-sizing: border-box;
     max-width: none;
     overflow-x: hidden;
-    width: calc(100% - 2rem);
+    width: 100vw;
   }
 
   .mobile-facets__header,
