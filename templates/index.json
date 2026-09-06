@@ -33,16 +33,17 @@
         "slide_Pg7pDk": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/d01ade47-d7c1-4906-b259-77645583a532.jpg",
             "image_overlay_opacity": 0,
-            "heading": "Image slide",
+            "heading": "Discover Your Signature Sparkle",
             "heading_size": "h1",
-            "subheading": "Tell your brand's story through images",
-            "button_label": "Button label",
+            "subheading": "Explore exquisite jewellery designed to elevate your everyday style and special moments.",
+            "button_label": "EXPLORE COLLECTION",
             "link": "",
             "button_style_secondary": false,
-            "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
+            "show_text_box": false,
+            "box_align": "middle-left",
+            "text_alignment": "left",
             "text_alignment_mobile": "center",
             "color_scheme": ""
           }
