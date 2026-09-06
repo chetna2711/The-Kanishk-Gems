@@ -109,8 +109,18 @@
 
   /* Match the mobile page-width gutter and keep every header control inside it. */
   @media screen and (max-width: 749px) {
+    .header-wrapper {
+      box-sizing: border-box;
+      margin: 0;
+      max-width: none;
+      width: 100%;
+    }
+
     .header.page-width {
       grid-template-columns: 3.2rem minmax(0, 1fr) auto !important;
+      margin-left: 0;
+      margin-right: 0;
+      max-width: none;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
       padding-top: 0.8rem;
@@ -122,9 +132,47 @@
     /* On the homepage the logo link is inside the h1 heading. Center the
        heading once, rather than positioning both parent and child. */
     .header__heading .header__heading-link {
+      display: block;
       left: auto;
       position: static;
       transform: none;
+    }
+
+    .header__heading {
+      display: block;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+      width: 7.2rem;
+      z-index: 2;
+    }
+
+    .header > .header__heading-link {
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+      width: 7.2rem;
+      z-index: 2;
+    }
+
+    .header__heading-link {
+      line-height: 0;
+      padding: 0;
+    }
+
+    .header__heading-logo-wrapper {
+      display: block;
+      width: 100%;
+    }
+
+    .header__heading-logo {
+      display: block;
+      height: auto;
+      margin: 0 auto;
+      max-height: 4.8rem;
+      max-width: 7.2rem;
+      object-fit: contain;
+      width: auto;
     }
 
     .header__icons {
