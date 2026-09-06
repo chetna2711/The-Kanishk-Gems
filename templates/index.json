@@ -234,10 +234,28 @@
             "link": ""
           }
         },
+        "media_R3NXRc": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/e702d289-8104-4278-9dd0-54a528f739e6.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
         "media_dJj8CC": {
           "type": "media",
           "settings": {
             "image": "shopify://shop_images/64e2ec2a-319b-40ba-8df7-6ba4142353af.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_kMVaE9": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/e91169dd-a7fb-4b1a-ac13-f852950a1063.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -252,17 +270,37 @@
             "link": ""
           }
         },
-        "media_gRxwnJ": {
+        "media_nBztjT": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/fbebdffb-0167-49cd-8267-74030a9084c1.jpg",
             "video_url": "",
             "title": "",
             "link": ""
           }
         },
-        "media_kMVaE9": {
+        "media_gRxwnJ": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/021e1655-2bbb-4cad-83da-37daa9727525.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_hh9zgC": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/7f4d0d4c-1cf1-4142-bd0a-5dcb713c9b83.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_xjfxCj": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -273,10 +311,14 @@
         "media_4gQTNk",
         "media_QgdmTm",
         "media_zHULi8",
+        "media_R3NXRc",
         "media_dJj8CC",
+        "media_kMVaE9",
         "media_px8wxx",
+        "media_nBztjT",
         "media_gRxwnJ",
-        "media_kMVaE9"
+        "media_hh9zgC",
+        "media_xjfxCj"
       ],
       "name": "Media showcase slider",
       "settings": {
