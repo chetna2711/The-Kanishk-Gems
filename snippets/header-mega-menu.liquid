@@ -44,10 +44,10 @@
                     endif
                   endfor
                 -%}
-                <ul class="mega-menu__list page-width{% if browse_has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--inline-row{% endif %}" role="list">
+                <ul class="mega-menu__list page-width{% if browse_has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--single-col{% endif %}" role="list">
                   {%- for cat_link in section.settings.browse_categories_menu.links -%}
-                    <li class="{% if browse_has_sublinks %}mega-menu__column{% else %}mega-menu__inline-item{% endif %}">
-                      <a href="{{ cat_link.url }}" class="{% if browse_has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% else %}mega-menu__pill-link link{% endif %}">
+                    <li class="{% if browse_has_sublinks %}mega-menu__column{% else %}mega-menu__single-col-item{% endif %}">
+                      <a href="{{ cat_link.url }}" class="{% if browse_has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% else %}mega-menu__single-col-link link{% endif %}">
                         {{ cat_link.title | escape }}
                       </a>
                       {%- if cat_link.links != blank -%}
@@ -135,15 +135,15 @@
                 -%}
                 <div class="mega-menu__inner page-width{% if matching_promo %} mega-menu__inner--with-promo{% endif %}" style="{% if matching_promo %}--promo-card-width: {{ matching_promo.settings.card_width | default: '32rem' }};{% endif %}">
                   <ul
-                    class="mega-menu__list{% if has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--inline-row{% endif %}{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    class="mega-menu__list{% if has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--single-col{% endif %}{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
                     role="list"
                   >
                     {%- for childlink in link.links -%}
-                      <li class="{% if has_sublinks %}mega-menu__column{% else %}mega-menu__inline-item{% endif %}">
+                      <li class="{% if has_sublinks %}mega-menu__column{% else %}mega-menu__single-col-item{% endif %}">
                         <a
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                           href="{{ childlink.url }}"
-                          class="{% if has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}{% else %}mega-menu__pill-link link{% if childlink.current %} mega-menu__pill-link--active{% endif %}{% endif %}"
+                          class="{% if has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}{% else %}mega-menu__single-col-link link{% if childlink.current %} mega-menu__single-col-link--active{% endif %}{% endif %}"
                           {% if childlink.current %}
                             aria-current="page"
                           {% endif %}
