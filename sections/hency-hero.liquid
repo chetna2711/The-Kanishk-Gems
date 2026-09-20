@@ -7,6 +7,39 @@
     background-color: var(--hency-cream, #f6f3ed);
   }
 
+  .hency-hero__slider-track {
+    position: relative;
+    width: 100%;
+    min-height: {{ section.settings.hero_height_desktop }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .hency-hero__slider-track {
+      min-height: {{ section.settings.hero_height_mobile }};
+    }
+  }
+
+  .hency-hero__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.7s ease;
+    z-index: 1;
+  }
+
+  .hency-hero__slide.is-active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
   .hency-hero__media {
     position: absolute;
     top: 0;
@@ -20,7 +53,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: {{ section.settings.image_focal_position }};
     display: block;
   }
 
@@ -29,14 +61,12 @@
   }
 
   @media screen and (max-width: 749px) {
-    {%- if section.settings.mobile_image != blank -%}
-      .hency-hero__image--desktop {
-        display: none;
-      }
-      .hency-hero__image--mobile {
-        display: block;
-      }
-    {%- endif -%}
+    .hency-hero__image--desktop.has-mobile-image {
+      display: none;
+    }
+    .hency-hero__image--mobile {
+      display: block;
+    }
   }
 
   .hency-hero__overlay {
@@ -46,7 +76,6 @@
     width: 100%;
     height: 100%;
     background-color: #000000;
-    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
     z-index: 2;
     pointer-events: none;
   }
@@ -99,9 +128,7 @@
   }
 
   .hency-hero__content {
-    max-width: {{ section.settings.content_max_width }}rem;
-    text-align: {{ section.settings.text_alignment }};
-    color: {%- if section.settings.text_color != blank and section.settings.text_color != 'rgba(0,0,0,0)' -%}{{ section.settings.text_color }}{%- else -%}#ffffff{%- endif -%};
+    color: #ffffff;
   }
 
   .hency-hero__eyebrow {
@@ -136,13 +163,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1.4rem;
-    {%- if section.settings.text_alignment == 'center' -%}
-      justify-content: center;
-    {%- elsif section.settings.text_alignment == 'right' -%}
-      justify-content: flex-end;
-    {%- else -%}
-      justify-content: flex-start;
-    {%- endif -%}
+  }
+
+  .hency-hero__buttons--center {
+    justify-content: center;
+  }
+  .hency-hero__buttons--right {
+    justify-content: flex-end;
+  }
+  .hency-hero__buttons--left {
+    justify-content: flex-start;
   }
 
   .hency-hero__btn {
@@ -182,83 +212,405 @@
     background-color: #ffffff;
     color: #1a1a1a;
   }
+
+  /* Slide active animation */
+  .hency-hero__slide.is-active .hency-hero__eyebrow {
+    animation: hencyHeroFadeUp 0.6s ease both 0.1s;
+  }
+  .hency-hero__slide.is-active .hency-hero__heading {
+    animation: hencyHeroFadeUp 0.7s ease both 0.25s;
+  }
+  .hency-hero__slide.is-active .hency-hero__description {
+    animation: hencyHeroFadeUp 0.8s ease both 0.4s;
+  }
+  .hency-hero__slide.is-active .hency-hero__buttons {
+    animation: hencyHeroFadeUp 0.8s ease both 0.5s;
+  }
+
+  @keyframes hencyHeroFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Slider Navigation Arrows */
+  .hency-hero__nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    background: rgba(26, 26, 26, 0.45);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    padding: 0;
+  }
+
+  .hency-hero__nav-btn:hover {
+    background: var(--hency-gold, #c5a059);
+    border-color: var(--hency-gold, #c5a059);
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .hency-hero__nav-btn--prev {
+    left: 2.5rem;
+  }
+
+  .hency-hero__nav-btn--next {
+    right: 2.5rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hency-hero__nav-btn {
+      width: 3.8rem;
+      height: 3.8rem;
+    }
+    .hency-hero__nav-btn--prev { left: 1rem; }
+    .hency-hero__nav-btn--next { right: 1rem; }
+  }
+
+  /* Slider Pagination Dots */
+  .hency-hero__pagination {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hency-hero__dot {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    border: 1.5px solid #ffffff;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .hency-hero__dot.is-active {
+    width: 3.2rem;
+    border-radius: 6px;
+    background-color: var(--hency-gold, #c5a059);
+    border-color: var(--hency-gold, #c5a059);
+  }
 {%- endstyle -%}
 
-<div id="HencyHero-{{ section.id }}" class="hency-hero color-{{ section.settings.color_scheme }} gradient">
-  <div class="hency-hero__media">
-    {%- if section.settings.desktop_image != blank -%}
-      {{
-        section.settings.desktop_image
-        | image_url: width: 3840
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          class: 'hency-hero__image hency-hero__image--desktop',
-          widths: '750, 1100, 1500, 1780, 2000, 3000, 3840',
-          alt: section.settings.desktop_image.alt | default: section.settings.heading | escape
-      }}
+<hency-hero-slider
+  id="HencyHero-{{ section.id }}"
+  class="hency-hero color-{{ section.settings.color_scheme }} gradient"
+  data-autoplay="{{ section.settings.auto_rotate }}"
+  data-speed="{{ section.settings.change_slides_speed | default: 5 }}"
+  data-pause-hover="{{ section.settings.pause_on_hover }}"
+>
+  <div class="hency-hero__slider-track" role="region" aria-roledescription="carousel" aria-label="Hero Banner Slides">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div
+          id="Slide-{{ section.id }}-{{ forloop.index }}"
+          class="hency-hero__slide{% if forloop.first %} is-active{% endif %}"
+          data-index="{{ forloop.index0 }}"
+          role="group"
+          aria-roledescription="slide"
+          aria-label="{{ forloop.index }} of {{ section.blocks.size }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="hency-hero__media">
+            {%- if block.settings.desktop_image != blank -%}
+              {{
+                block.settings.desktop_image
+                | image_url: width: 3840
+                | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  class: 'hency-hero__image hency-hero__image--desktop' | append: (block.settings.mobile_image != blank | default: '' | prepend: ' has-mobile-image'),
+                  style: 'object-position: ' | append: block.settings.image_focal_position | append: ';',
+                  widths: '750, 1100, 1500, 1780, 2000, 3000, 3840',
+                  alt: block.settings.desktop_image.alt | default: block.settings.heading | escape
+              }}
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hency-hero__image' }}
+            {%- endif -%}
+
+            {%- if block.settings.mobile_image != blank -%}
+              {{
+                block.settings.mobile_image
+                | image_url: width: 1500
+                | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  class: 'hency-hero__image hency-hero__image--mobile',
+                  style: 'object-position: ' | append: block.settings.image_focal_position | append: ';',
+                  widths: '375, 550, 750, 1100, 1500',
+                  alt: block.settings.mobile_image.alt | default: block.settings.heading | escape
+              }}
+            {%- endif -%}
+          </div>
+
+          <div class="hency-hero__overlay" style="opacity: {{ block.settings.overlay_opacity | default: 30 | divided_by: 100.0 }};"></div>
+
+          <div class="page-width">
+            <div class="hency-hero__container hency-hero__container--pos-{{ block.settings.text_position | default: 'middle-left' }}">
+              <div class="hency-hero__content" style="max-width: {{ block.settings.content_max_width | default: 65 }}rem; text-align: {{ block.settings.text_alignment | default: 'left' }}; color: {%- if block.settings.text_color != blank and block.settings.text_color != 'rgba(0,0,0,0)' -%}{{ block.settings.text_color }}{%- else -%}#ffffff{%- endif -%};">
+                {%- if block.settings.eyebrow != blank -%}
+                  <span class="hency-hero__eyebrow">{{ block.settings.eyebrow | escape }}</span>
+                {%- endif -%}
+
+                {%- if block.settings.heading != blank -%}
+                  <h1 class="hency-hero__heading">{{ block.settings.heading | escape }}</h1>
+                {%- endif -%}
+
+                {%- if block.settings.description != blank -%}
+                  <div class="hency-hero__description">
+                    <p>{{ block.settings.description | escape }}</p>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.primary_button_label != blank or block.settings.secondary_button_label != blank -%}
+                  <div class="hency-hero__buttons hency-hero__buttons--{{ block.settings.text_alignment | default: 'left' }}">
+                    {%- if block.settings.primary_button_label != blank -%}
+                      <a
+                        href="{{ block.settings.primary_button_link | default: routes.all_products_collection_url }}"
+                        class="hency-hero__btn hency-hero__btn--primary"
+                      >
+                        {{ block.settings.primary_button_label | escape }}
+                      </a>
+                    {%- endif -%}
+
+                    {%- if block.settings.secondary_button_label != blank -%}
+                      <a
+                        href="{{ block.settings.secondary_button_link | default: routes.all_products_collection_url }}"
+                        class="hency-hero__btn hency-hero__btn--secondary"
+                      >
+                        {{ block.settings.secondary_button_label | escape }}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
     {%- else -%}
-      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hency-hero__image' }}
-    {%- endif -%}
-
-    {%- if section.settings.mobile_image != blank -%}
-      {{
-        section.settings.mobile_image
-        | image_url: width: 1500
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          class: 'hency-hero__image hency-hero__image--mobile',
-          widths: '375, 550, 750, 1100, 1500',
-          alt: section.settings.mobile_image.alt | default: section.settings.heading | escape
-      }}
-    {%- endif -%}
-  </div>
-
-  <div class="hency-hero__overlay"></div>
-
-  <div class="page-width">
-    <div class="hency-hero__container hency-hero__container--pos-{{ section.settings.text_position }}">
-      <div class="hency-hero__content">
-        {%- if section.settings.eyebrow != blank -%}
-          <span class="hency-hero__eyebrow">{{ section.settings.eyebrow | escape }}</span>
-        {%- endif -%}
-
-        {%- if section.settings.heading != blank -%}
-          <h1 class="hency-hero__heading">{{ section.settings.heading | escape }}</h1>
-        {%- endif -%}
-
-        {%- if section.settings.description != blank -%}
-          <div class="hency-hero__description">
-            <p>{{ section.settings.description | escape }}</p>
+      {%- comment -%} Fallback when no blocks added {%- endcomment -%}
+      <div class="hency-hero__slide is-active" data-index="0">
+        <div class="hency-hero__media">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hency-hero__image' }}
+        </div>
+        <div class="hency-hero__overlay" style="opacity: 0.3;"></div>
+        <div class="page-width">
+          <div class="hency-hero__container hency-hero__container--pos-middle-left">
+            <div class="hency-hero__content">
+              <span class="hency-hero__eyebrow">Artisan Crafted Fine Jewellery</span>
+              <h1 class="hency-hero__heading">JEWELLERY THAT TELLS YOUR STORY</h1>
+              <div class="hency-hero__description">
+                <p>Timeless pieces crafted to complement every celebration, every mood and every moment.</p>
+              </div>
+              <div class="hency-hero__buttons hency-hero__buttons--left">
+                <a href="{{ routes.all_products_collection_url }}" class="hency-hero__btn hency-hero__btn--primary">Shop New Arrivals</a>
+              </div>
+            </div>
           </div>
-        {%- endif -%}
-
-        {%- if section.settings.primary_button_label != blank or section.settings.secondary_button_label != blank -%}
-          <div class="hency-hero__buttons">
-            {%- if section.settings.primary_button_label != blank -%}
-              <a
-                href="{{ section.settings.primary_button_link | default: routes.all_products_collection_url }}"
-                class="hency-hero__btn hency-hero__btn--primary"
-              >
-                {{ section.settings.primary_button_label | escape }}
-              </a>
-            {%- endif -%}
-
-            {%- if section.settings.secondary_button_label != blank -%}
-              <a
-                href="{{ section.settings.secondary_button_link | default: routes.all_products_collection_url }}"
-                class="hency-hero__btn hency-hero__btn--secondary"
-              >
-                {{ section.settings.secondary_button_label | escape }}
-              </a>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+        </div>
       </div>
-    </div>
+    {%- endif -%}
   </div>
-</div>
+
+  {%- if section.blocks.size > 1 -%}
+    {%- if section.settings.show_arrows -%}
+      <button type="button" class="hency-hero__nav-btn hency-hero__nav-btn--prev" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button type="button" class="hency-hero__nav-btn hency-hero__nav-btn--next" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    {%- endif -%}
+
+    {%- if section.settings.show_dots -%}
+      <div class="hency-hero__pagination" role="tablist" aria-label="Slide pagination">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="hency-hero__dot{% if forloop.first %} is-active{% endif %}"
+            data-index="{{ forloop.index0 }}"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-label="Slide {{ forloop.index }}"
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</hency-hero-slider>
+
+<script>
+  if (!customElements.get('hency-hero-slider')) {
+    customElements.define(
+      'hency-hero-slider',
+      class HencyHeroSlider extends HTMLElement {
+        constructor() {
+          super();
+          this.slides = this.querySelectorAll('.hency-hero__slide');
+          this.dots = this.querySelectorAll('.hency-hero__dot');
+          this.prevBtn = this.querySelector('.hency-hero__nav-btn--prev');
+          this.nextBtn = this.querySelector('.hency-hero__nav-btn--next');
+          this.autoplay = this.dataset.autoplay === 'true';
+          this.speed = parseInt(this.dataset.speed || 5, 10) * 1000;
+          this.pauseHover = this.dataset.pauseHover === 'true';
+          this.currentIndex = 0;
+          this.timer = null;
+
+          if (this.slides.length <= 1) return;
+
+          if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => {
+              this.goTo(this.currentIndex - 1);
+              this.resetTimer();
+            });
+          }
+
+          if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => {
+              this.goTo(this.currentIndex + 1);
+              this.resetTimer();
+            });
+          }
+
+          this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+              this.goTo(index);
+              this.resetTimer();
+            });
+          });
+
+          if (this.pauseHover) {
+            this.addEventListener('mouseenter', () => this.stopAutoplay());
+            this.addEventListener('mouseleave', () => this.startAutoplay());
+          }
+
+          let touchStartX = 0;
+          let touchEndX = 0;
+          this.addEventListener(
+            'touchstart',
+            (e) => {
+              touchStartX = e.changedTouches[0].screenX;
+            },
+            { passive: true }
+          );
+
+          this.addEventListener(
+            'touchend',
+            (e) => {
+              touchEndX = e.changedTouches[0].screenX;
+              if (touchStartX - touchEndX > 45) {
+                this.goTo(this.currentIndex + 1);
+                this.resetTimer();
+              } else if (touchEndX - touchStartX > 45) {
+                this.goTo(this.currentIndex - 1);
+                this.resetTimer();
+              }
+            },
+            { passive: true }
+          );
+
+          document.addEventListener('shopify:block:select', (event) => {
+            if (event.target && this.contains(event.target)) {
+              const slide = event.target.closest('.hency-hero__slide');
+              if (slide) {
+                const idx = parseInt(slide.dataset.index, 10);
+                this.goTo(idx);
+                this.stopAutoplay();
+              }
+            }
+          });
+
+          document.addEventListener('shopify:block:deselect', (event) => {
+            if (event.target && this.contains(event.target)) {
+              this.startAutoplay();
+            }
+          });
+
+          this.startAutoplay();
+        }
+
+        goTo(index) {
+          if (index < 0) {
+            index = this.slides.length - 1;
+          } else if (index >= this.slides.length) {
+            index = 0;
+          }
+
+          this.slides.forEach((slide, idx) => {
+            if (idx === index) {
+              slide.classList.add('is-active');
+            } else {
+              slide.classList.remove('is-active');
+            }
+          });
+
+          this.dots.forEach((dot, idx) => {
+            if (idx === index) {
+              dot.classList.add('is-active');
+              dot.setAttribute('aria-selected', 'true');
+            } else {
+              dot.classList.remove('is-active');
+              dot.setAttribute('aria-selected', 'false');
+            }
+          });
+
+          this.currentIndex = index;
+        }
+
+        startAutoplay() {
+          if (!this.autoplay || this.slides.length <= 1) return;
+          this.stopAutoplay();
+          this.timer = setInterval(() => {
+            this.goTo(this.currentIndex + 1);
+          }, this.speed);
+        }
+
+        stopAutoplay() {
+          if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }
+
+        resetTimer() {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+
+        disconnectedCallback() {
+          this.stopAutoplay();
+        }
+      }
+    );
+  }
+</script>
 
 {% schema %}
 {
@@ -270,27 +622,46 @@
   },
   "settings": [
     {
-      "type": "image_picker",
-      "id": "desktop_image",
-      "label": "Desktop banner image"
+      "type": "header",
+      "content": "Slider Settings"
     },
     {
-      "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile banner image (optional)"
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate slides",
+      "default": true
     },
     {
-      "type": "select",
-      "id": "image_focal_position",
-      "label": "Image focal position",
-      "options": [
-        { "value": "center center", "label": "Center" },
-        { "value": "top center", "label": "Top center" },
-        { "value": "bottom center", "label": "Bottom center" },
-        { "value": "center left", "label": "Center left" },
-        { "value": "center right", "label": "Center right" }
-      ],
-      "default": "center center"
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show pagination dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause auto-rotate on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Banner Dimensions"
     },
     {
       "type": "select",
@@ -317,115 +688,155 @@
       "default": "500px"
     },
     {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 80,
-      "step": 5,
-      "unit": "%",
-      "label": "Dark overlay opacity",
-      "default": 25
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow tag",
-      "default": "Artisan Crafted Fine Jewellery"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Main heading",
-      "default": "JEWELLERY THAT TELLS YOUR STORY"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Subheading / Description",
-      "default": "Timeless pieces crafted to complement every celebration, every mood and every moment."
-    },
-    {
-      "type": "range",
-      "id": "content_max_width",
-      "min": 40,
-      "max": 100,
-      "step": 5,
-      "unit": "rem",
-      "label": "Content max width",
-      "default": 65
-    },
-    {
-      "type": "select",
-      "id": "text_position",
-      "label": "Text position",
-      "options": [
-        { "value": "middle-left", "label": "Middle Left" },
-        { "value": "middle-center", "label": "Middle Center" },
-        { "value": "middle-right", "label": "Middle Right" },
-        { "value": "top-left", "label": "Top Left" },
-        { "value": "top-center", "label": "Top Center" },
-        { "value": "bottom-left", "label": "Bottom Left" },
-        { "value": "bottom-center", "label": "Bottom Center" }
-      ],
-      "default": "middle-left"
-    },
-    {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "Text alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Primary Button"
-    },
-    {
-      "type": "text",
-      "id": "primary_button_label",
-      "label": "Button text",
-      "default": "Shop New Arrivals"
-    },
-    {
-      "type": "url",
-      "id": "primary_button_link",
-      "label": "Button link"
-    },
-    {
-      "type": "header",
-      "content": "Secondary Button"
-    },
-    {
-      "type": "text",
-      "id": "secondary_button_label",
-      "label": "Button text",
-      "default": "Explore Mangalsutras"
-    },
-    {
-      "type": "url",
-      "id": "secondary_button_link",
-      "label": "Button link"
-    },
-    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-4"
     }
   ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop banner image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile banner image (optional)"
+        },
+        {
+          "type": "select",
+          "id": "image_focal_position",
+          "label": "Image focal position",
+          "options": [
+            { "value": "center center", "label": "Center" },
+            { "value": "top center", "label": "Top center" },
+            { "value": "bottom center", "label": "Bottom center" },
+            { "value": "center left", "label": "Center left" },
+            { "value": "center right", "label": "Center right" }
+          ],
+          "default": "center center"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "label": "Dark overlay opacity",
+          "default": 30
+        },
+        {
+          "type": "header",
+          "content": "Slide Content"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow tag",
+          "default": "Artisan Crafted Fine Jewellery"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Main heading",
+          "default": "JEWELLERY THAT TELLS YOUR STORY"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Subheading / Description",
+          "default": "Timeless pieces crafted to complement every celebration, every mood and every moment."
+        },
+        {
+          "type": "range",
+          "id": "content_max_width",
+          "min": 40,
+          "max": 100,
+          "step": 5,
+          "unit": "rem",
+          "label": "Content max width",
+          "default": 65
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            { "value": "middle-left", "label": "Middle Left" },
+            { "value": "middle-center", "label": "Middle Center" },
+            { "value": "middle-right", "label": "Middle Right" },
+            { "value": "top-left", "label": "Top Left" },
+            { "value": "top-center", "label": "Top Center" },
+            { "value": "bottom-left", "label": "Bottom Left" },
+            { "value": "bottom-center", "label": "Bottom Center" }
+          ],
+          "default": "middle-left"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Primary Button"
+        },
+        {
+          "type": "text",
+          "id": "primary_button_label",
+          "label": "Button text",
+          "default": "Shop New Arrivals"
+        },
+        {
+          "type": "url",
+          "id": "primary_button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Secondary Button"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_label",
+          "label": "Button text",
+          "default": "Explore Mangalsutras"
+        },
+        {
+          "type": "url",
+          "id": "secondary_button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Hency Hero Banner"
+      "name": "Hency Hero Banner",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
     }
   ]
 }

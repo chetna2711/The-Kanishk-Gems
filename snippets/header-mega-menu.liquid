@@ -32,13 +32,22 @@
               </summary>
               <div
                 id="MegaMenu-Content-BrowseCategories"
-                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce"
                 tabindex="-1"
               >
-                <ul class="mega-menu__list page-width" role="list">
+                {%- liquid
+                  assign browse_has_sublinks = false
+                  for cat_link in section.settings.browse_categories_menu.links
+                    if cat_link.links != blank
+                      assign browse_has_sublinks = true
+                      break
+                    endif
+                  endfor
+                -%}
+                <ul class="mega-menu__list page-width{% if browse_has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--inline-row{% endif %}" role="list">
                   {%- for cat_link in section.settings.browse_categories_menu.links -%}
-                    <li class="mega-menu__column">
-                      <a href="{{ cat_link.url }}" class="mega-menu__link mega-menu__link--level-2 link">
+                    <li class="{% if browse_has_sublinks %}mega-menu__column{% else %}mega-menu__inline-item{% endif %}">
+                      <a href="{{ cat_link.url }}" class="{% if browse_has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% else %}mega-menu__pill-link link{% endif %}">
                         {{ cat_link.title | escape }}
                       </a>
                       {%- if cat_link.links != blank -%}
@@ -100,7 +109,7 @@
               </summary>
               <div
                 id="MegaMenu-Content-{{ forloop.index }}"
-                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce"
                 tabindex="-1"
               >
                 {%- liquid
@@ -115,18 +124,26 @@
                       endif
                     endif
                   endfor
+
+                  assign has_sublinks = false
+                  for childlink in link.links
+                    if childlink.links != blank
+                      assign has_sublinks = true
+                      break
+                    endif
+                  endfor
                 -%}
                 <div class="mega-menu__inner page-width{% if matching_promo %} mega-menu__inner--with-promo{% endif %}" style="{% if matching_promo %}--promo-card-width: {{ matching_promo.settings.card_width | default: '32rem' }};{% endif %}">
                   <ul
-                    class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    class="mega-menu__list{% if has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--inline-row{% endif %}{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
                     role="list"
                   >
                     {%- for childlink in link.links -%}
-                      <li class="mega-menu__column">
+                      <li class="{% if has_sublinks %}mega-menu__column{% else %}mega-menu__inline-item{% endif %}">
                         <a
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                           href="{{ childlink.url }}"
-                          class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                          class="{% if has_sublinks %}mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}{% else %}mega-menu__pill-link link{% if childlink.current %} mega-menu__pill-link--active{% endif %}{% endif %}"
                           {% if childlink.current %}
                             aria-current="page"
                           {% endif %}

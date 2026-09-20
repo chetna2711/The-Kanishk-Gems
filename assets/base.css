@@ -2325,13 +2325,16 @@ input[type='checkbox'] {
 }
 
 /* section-header */
-.section-header.shopify-section-group-header-group {
-  z-index: 3;
+.section-header.shopify-section-group-header-group,
+.section-header {
+  position: relative;
+  z-index: 100;
 }
 
 .shopify-section-header-sticky {
   position: sticky;
   top: 0;
+  z-index: 100;
 }
 
 .shopify-section-header-hidden {
@@ -2340,6 +2343,7 @@ input[type='checkbox'] {
 
 .shopify-section-header-hidden.menu-open {
   top: 0;
+  z-index: 100;
 }
 
 .section-header.animate {
@@ -2347,7 +2351,8 @@ input[type='checkbox'] {
 }
 
 .shopify-section-group-header-group {
-  z-index: 4;
+  position: relative;
+  z-index: 100;
 }
 
 .section-header ~ .shopify-section-group-header-group {
@@ -2358,6 +2363,7 @@ input[type='checkbox'] {
 .header-wrapper {
   display: block;
   position: relative;
+  z-index: 100;
   background-color: rgb(var(--color-background));
 }
 
@@ -2877,8 +2883,7 @@ details[open] > .header__menu-item .icon-caret {
   transition: opacity var(--duration-default) ease, transform var(--duration-default) ease;
 }
 
-.global-settings-popup,
-.header__submenu.global-settings-popup {
+.global-settings-popup:not(.mega-menu__content):not(.header__submenu) {
   border-radius: var(--popup-corner-radius);
   border-color: rgba(var(--color-foreground), var(--popup-border-opacity));
   border-style: solid;
@@ -2886,6 +2891,16 @@ details[open] > .header__menu-item .icon-caret {
   box-shadow: var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius)
     rgba(var(--color-shadow), var(--popup-shadow-opacity));
   z-index: -1;
+}
+
+.header__submenu {
+  border-radius: var(--popup-corner-radius);
+  border-color: rgba(var(--color-foreground), var(--popup-border-opacity));
+  border-style: solid;
+  border-width: var(--popup-border-width);
+  box-shadow: var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius)
+    rgba(var(--color-shadow), var(--popup-shadow-opacity));
+  z-index: 100 !important;
 }
 
 .header__submenu.list-menu {
