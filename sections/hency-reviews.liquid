@@ -1,0 +1,373 @@
+{%- style -%}
+  #Reviews-{{ section.id }} {
+    background-color: var(--hency-ivory, #fafaf7);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #Reviews-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Reviews-{{ section.id }} .reviews__header {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto 3.8rem;
+  }
+
+  #Reviews-{{ section.id }} .reviews__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #Reviews-{{ section.id }} .reviews__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #Reviews-{{ section.id }} .reviews__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1.2rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  #Reviews-{{ section.id }} .reviews__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    #Reviews-{{ section.id }} .reviews__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1020px) {
+    #Reviews-{{ section.id }} .reviews__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop | default: 3 }}, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  #Reviews-{{ section.id }} .reviews__card {
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    padding: 2.8rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #Reviews-{{ section.id }} .reviews__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  #Reviews-{{ section.id }} .reviews__stars {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.6rem;
+    letter-spacing: 0.2rem;
+    margin-bottom: 1.6rem;
+  }
+
+  #Reviews-{{ section.id }} .reviews__text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: rgba(26, 26, 26, 0.85);
+    margin: 0 0 2.2rem;
+    font-style: italic;
+  }
+
+  #Reviews-{{ section.id }} .reviews__author-row {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 1.8rem;
+  }
+
+  #Reviews-{{ section.id }} .reviews__avatar {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--hency-gold, #c5a059);
+    flex-shrink: 0;
+  }
+
+  #Reviews-{{ section.id }} .reviews__avatar-placeholder {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    background: var(--hency-cream, #f6f3ed);
+    color: var(--hency-gold, #c5a059);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  #Reviews-{{ section.id }} .reviews__author-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #Reviews-{{ section.id }} .reviews__author-name {
+    font-family: var(--font-heading-family);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--hency-charcoal, #1a1a1a);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  #Reviews-{{ section.id }} .reviews__verified-badge {
+    color: #1b8a5a;
+    font-size: 1.3rem;
+  }
+
+  #Reviews-{{ section.id }} .reviews__author-label {
+    font-size: 1.25rem;
+    color: rgba(26, 26, 26, 0.6);
+    margin: 0.2rem 0 0;
+  }
+{%- endstyle -%}
+
+<section id="Reviews-{{ section.id }}" class="reviews color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="reviews__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="reviews__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="reviews__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="reviews__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="reviews__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="reviews__card" {{ block.shopify_attributes }}>
+            <div>
+              <div class="reviews__stars" aria-label="{{ block.settings.star_rating }} out of 5 stars">
+                {%- assign stars = block.settings.star_rating | default: 5 -%}
+                {%- for i in (1..stars) -%}
+                  ★
+                {%- endfor -%}
+              </div>
+
+              {%- if block.settings.review_text != blank -%}
+                <blockquote class="reviews__text">
+                  "{{ block.settings.review_text | escape }}"
+                </blockquote>
+              {%- endif -%}
+            </div>
+
+            <div class="reviews__author-row">
+              {%- if block.settings.customer_image != blank -%}
+                {{
+                  block.settings.customer_image
+                  | image_url: width: 120
+                  | image_tag:
+                    class: 'reviews__avatar',
+                    loading: 'lazy',
+                    alt: block.settings.customer_name | escape
+                }}
+              {%- else -%}
+                <div class="reviews__avatar-placeholder">
+                  {{ block.settings.customer_name | slice: 0, 1 | default: 'H' }}
+                </div>
+              {%- endif -%}
+
+              <div class="reviews__author-info">
+                <p class="reviews__author-name">
+                  <span>{{ block.settings.customer_name | escape }}</span>
+                  {%- if block.settings.show_verified -%}
+                    <span class="reviews__verified-badge" title="Verified Customer">✓</span>
+                  {%- endif -%}
+                </p>
+                {%- if block.settings.customer_location_or_product != blank -%}
+                  <p class="reviews__author-label">{{ block.settings.customer_location_or_product | escape }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "CHERISHED WORDS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "Loved By Our Connoisseurs"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover reflections of elegance and heartfelt joy shared by women across the country.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop columns",
+      "default": 3
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "range",
+          "id": "star_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "The delicate craft and brilliance of this piece surpassed every expectation. It felt like wearing a true heirloom on my brother's wedding day."
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer name",
+          "default": "Ananya Sharma"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Verified Buyer Badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "customer_location_or_product",
+          "label": "Subtitle / Purchased Item / City",
+          "default": "Verified Buyer • Kundan Choker Set"
+        },
+        {
+          "type": "image_picker",
+          "id": "customer_image",
+          "label": "Customer photo (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "customer_name": "Rhea Kapoor",
+            "customer_location_or_product": "Mumbai • Solitaire Mangalsutra",
+            "review_text": "The craftsmanship is exquisite. The mangalsutra is so lightweight yet regal—I wear it to the office and at dinner parties effortlessly."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "customer_name": "Priyanka Sen",
+            "customer_location_or_product": "Kolkata • Polki Jhumkis",
+            "review_text": "Photos don't do justice to the finish and packaging. Received so many compliments at our Diwali gathering. Truly premium quality."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "customer_name": "Dr. Kavita Nair",
+            "customer_location_or_product": "Bangalore • Royal Kada Bangles",
+            "review_text": "Being someone with sensitive skin, I was amazed that these bangles caused zero irritation. Beautifully polished and hypoallergenic."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

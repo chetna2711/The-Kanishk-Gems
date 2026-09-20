@@ -153,6 +153,37 @@
                         {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
                       {%- endif -%}
                     </div>
+                  {%- when 'contact_details' -%}
+                    <div class="footer-block__details-content footer-block--contact">
+                      <ul class="list-unstyled" style="display: flex; flex-direction: column; gap: 0.8rem; font-size: 1.4rem;">
+                        {%- if block.settings.show_email and settings.contact_email != blank -%}
+                          <li>
+                            <a href="mailto:{{ settings.contact_email }}" class="link link--text">
+                              <span>✉ {{ settings.contact_email }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.show_phone and settings.contact_phone != blank -%}
+                          <li>
+                            <a href="tel:{{ settings.contact_phone | replace: ' ', '' }}" class="link link--text">
+                              <span>☎ {{ settings.contact_phone }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.show_whatsapp and settings.contact_whatsapp != blank -%}
+                          <li>
+                            <a href="https://wa.me/{{ settings.contact_whatsapp | remove: '+' | replace: ' ', '' }}" class="link link--text" target="_blank" rel="noopener">
+                              <span>💬 WhatsApp: {{ settings.contact_whatsapp }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.show_hours and settings.contact_hours != blank -%}
+                          <li style="opacity: 0.8;">
+                            <span>🕒 {{ settings.contact_hours }}</span>
+                          </li>
+                        {%- endif -%}
+                      </ul>
+                    </div>
                 {%- endcase -%}
               </div>
             {%- endfor -%}
@@ -419,6 +450,42 @@
             }
           ],
           "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "contact_details",
+      "name": "Contact information",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Concierge & Support"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_email",
+          "label": "Show support email",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_phone",
+          "label": "Show support phone",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_whatsapp",
+          "label": "Show WhatsApp number",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_hours",
+          "label": "Show support hours",
+          "default": true
         }
       ]
     }

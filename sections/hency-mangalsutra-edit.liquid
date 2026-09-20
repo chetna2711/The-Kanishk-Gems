@@ -1,0 +1,401 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  #MangalsutraEdit-{{ section.id }} {
+    background-color: var(--hency-ivory, #fafaf7);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #MangalsutraEdit-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3.2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__subheading {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 0.8rem 0 0;
+    font-size: 1.5rem;
+    max-width: 55rem;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+    align-items: stretch;
+  }
+
+  @media screen and (min-width: 990px) {
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__layout {
+      grid-template-columns: 3.8fr 6.2fr;
+    }
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__layout--banner-right {
+      grid-template-columns: 6.2fr 3.8fr;
+    }
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__layout--banner-right .mangalsutra-edit__banner-col {
+      order: 2;
+    }
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__layout--banner-right .mangalsutra-edit__products-col {
+      order: 1;
+    }
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-col {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 380px;
+    background-color: var(--hency-cream, #f6f3ed);
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(2.4rem, 4vw, 4.5rem);
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.6s ease;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-col:hover .mangalsutra-edit__banner-img {
+    transform: scale(1.04);
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.72) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-content {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.2rem, 3vw, 3.2rem);
+    line-height: 1.2;
+    margin: 0 0 1rem;
+    color: #ffffff;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__banner-text {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin: 0 0 2rem;
+    opacity: 0.92;
+  }
+
+  #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 989px) {
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    #MangalsutraEdit-{{ section.id }} .mangalsutra-edit__products-grid {
+      grid-template-columns: repeat({{ section.settings.product_columns_desktop | default: 2 }}, 1fr);
+      gap: 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<section id="MangalsutraEdit-{{ section.id }}" class="mangalsutra-edit color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="mangalsutra-edit__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="mangalsutra-edit__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="mangalsutra-edit__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="mangalsutra-edit__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.header_cta_label != blank -%}
+        <a
+          href="{{ section.settings.header_cta_link | default: section.settings.collection.url | default: routes.all_products_collection_url }}"
+          class="button button--secondary"
+        >
+          {{ section.settings.header_cta_label | escape }} &rarr;
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="mangalsutra-edit__layout mangalsutra-edit__layout--{{ section.settings.banner_position }}">
+      <div class="mangalsutra-edit__banner-col">
+        {%- if section.settings.banner_image != blank -%}
+          {{
+            section.settings.banner_image
+            | image_url: width: 1000
+            | image_tag:
+              class: 'mangalsutra-edit__banner-img',
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000',
+              alt: section.settings.banner_title | default: section.settings.heading | escape
+          }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg mangalsutra-edit__banner-img' }}
+        {%- endif -%}
+
+        <div class="mangalsutra-edit__banner-overlay"></div>
+
+        <div class="mangalsutra-edit__banner-content">
+          {%- if section.settings.banner_title != blank -%}
+            <h3 class="mangalsutra-edit__banner-title">{{ section.settings.banner_title | escape }}</h3>
+          {%- endif -%}
+
+          {%- if section.settings.banner_description != blank -%}
+            <p class="mangalsutra-edit__banner-text">{{ section.settings.banner_description | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.banner_button_label != blank -%}
+            <a
+              href="{{ section.settings.banner_button_link | default: section.settings.collection.url | default: routes.all_products_collection_url }}"
+              class="button button--gold"
+            >
+              {{ section.settings.banner_button_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="mangalsutra-edit__products-col">
+        <ul class="mangalsutra-edit__products-grid" role="list">
+          {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
+            {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+              <li class="mangalsutra-edit__product-item">
+                {% render 'card-product',
+                  card_product: product,
+                  media_aspect_ratio: 'portrait',
+                  show_secondary_image: true,
+                  show_vendor: false,
+                  show_rating: true,
+                  quick_add: 'standard',
+                  section_id: section.id
+                %}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..section.settings.products_to_show) -%}
+              <li class="mangalsutra-edit__product-item">
+                {% render 'card-product',
+                  placeholder_image: 'product-apparel-1',
+                  media_aspect_ratio: 'portrait',
+                  section_id: section.id
+                %}
+              </li>
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "The Mangalsutra Edit",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Mangalsutra Collection"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "SACRED BONDS • MODERN DESIGNS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "THE MANGALSUTRA EDIT"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tradition, beautifully reimagined with delicate diamonds and versatile elegance."
+    },
+    {
+      "type": "text",
+      "id": "header_cta_label",
+      "label": "Header CTA text",
+      "default": "View All Mangalsutras"
+    },
+    {
+      "type": "url",
+      "id": "header_cta_link",
+      "label": "Header CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Editorial Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Editorial banner image"
+    },
+    {
+      "type": "select",
+      "id": "banner_position",
+      "label": "Banner position",
+      "options": [
+        { "value": "banner-left", "label": "Banner Left / Products Right" },
+        { "value": "banner-right", "label": "Banner Right / Products Left" }
+      ],
+      "default": "banner-left"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner title",
+      "default": "Modern Sacred Keepsakes"
+    },
+    {
+      "type": "text",
+      "id": "banner_description",
+      "label": "Banner description",
+      "default": "Designed for effortless everyday wear without compromising on cultural sanctity."
+    },
+    {
+      "type": "text",
+      "id": "banner_button_label",
+      "label": "Banner button label",
+      "default": "Shop The Edit"
+    },
+    {
+      "type": "url",
+      "id": "banner_button_link",
+      "label": "Banner button link"
+    },
+    {
+      "type": "header",
+      "content": "Product Grid"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 2,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "product_columns_desktop",
+      "min": 2,
+      "max": 3,
+      "step": 1,
+      "label": "Desktop product columns",
+      "default": 2
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "The Mangalsutra Edit"
+    }
+  ]
+}
+{% endschema %}

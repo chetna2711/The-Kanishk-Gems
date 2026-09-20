@@ -85,3 +85,56 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+/* Mega menu promo card layout */
+.mega-menu__inner--with-promo {
+  display: grid;
+  grid-template-columns: 1fr 28rem;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.mega-menu__promo-card {
+  background: var(--hency-cream, #f6f3ed);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.22));
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mega-menu__promo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.mega-menu__promo-media {
+  aspect-ratio: 4 / 3;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mega-menu__promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mega-menu__promo-title {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 1.7rem;
+  line-height: 1.25;
+}
+
+.mega-menu__promo-text {
+  margin: 0.4rem 0 0;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+

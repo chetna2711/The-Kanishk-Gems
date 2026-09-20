@@ -1,9 +1,16 @@
 (() => {
-  const storageKey = 'kanishk-gems-wishlist';
+  const primaryKey = 'hency-jewels-wishlist';
+  const legacyKey = 'kanishk-gems-wishlist';
 
   const readWishlist = () => {
     try {
-      const stored = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      let stored = JSON.parse(localStorage.getItem(primaryKey) || 'null');
+      if (!stored) {
+        stored = JSON.parse(localStorage.getItem(legacyKey) || '[]');
+        if (Array.isArray(stored) && stored.length > 0) {
+          localStorage.setItem(primaryKey, JSON.stringify(stored));
+        }
+      }
       return Array.isArray(stored) ? [...new Set(stored.filter((handle) => typeof handle === 'string' && handle))] : [];
     } catch (_) {
       return [];
@@ -12,7 +19,7 @@
 
   const writeWishlist = (items) => {
     try {
-      localStorage.setItem(storageKey, JSON.stringify(items));
+      localStorage.setItem(primaryKey, JSON.stringify(items));
     } catch (_) {
       // The storefront continues to work even if browser storage is unavailable.
     }
@@ -120,5 +127,5 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => { updateControls(); renderWishlist(); });
-  window.addEventListener('storage', (event) => { if (event.key === storageKey) { updateControls(); renderWishlist(); } });
+  window.addEventListener('storage', (event) => { if (event.key === primaryKey || event.key === legacyKey) { updateControls(); renderWishlist(); } });
 })();

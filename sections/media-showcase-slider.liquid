@@ -102,7 +102,7 @@
           {%- if section.settings.description != blank -%}<div class="media-showcase__description rte">{{ section.settings.description }}</div>{%- endif -%}
         </div>
         {%- if section_button_in_header and section.settings.button_label != blank -%}
-          <a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+          <a class="button button--secondary" href="{{ section.settings.button_link | default: settings.social_instagram_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -153,7 +153,7 @@
     </div>
 
     {%- unless section_button_in_header -%}
-      {%- if section.settings.button_label != blank -%}<div class="media-showcase__footer"><a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a></div>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}<div class="media-showcase__footer"><a class="button button--secondary" href="{{ section.settings.button_link | default: settings.social_instagram_link | default: '#' }}">{{ section.settings.button_label | escape }}</a></div>{%- endif -%}
     {%- endunless -%}
   </div>
 </section>

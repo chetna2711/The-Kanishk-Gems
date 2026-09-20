@@ -1,0 +1,434 @@
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  #ShopTheLook-{{ section.id }} {
+    background-color: var(--hency-ivory, #fafaf7);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ShopTheLook-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__header {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto 3.5rem;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1.2rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  /* Hotspot Container */
+  #ShopTheLook-{{ section.id }} .shop-the-look__container {
+    position: relative;
+    max-width: 100rem;
+    margin: 0 auto;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.07);
+    background: var(--hency-cream, #f6f3ed);
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: {{ section.settings.image_aspect_ratio | default: '16 / 9' }};
+    object-fit: cover;
+  }
+
+  /* Hotspot Pins */
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--hency-gold, #c5a059);
+    color: var(--hency-gold, #c5a059);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    transition: transform 0.25s ease, background 0.25s ease;
+    padding: 0;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(197, 160, 89, 0.6);
+    animation: hotspotPulse 2s infinite ease-out;
+  }
+
+  @keyframes hotspotPulse {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin-wrapper:hover .shop-the-look__pin,
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin-wrapper.is-active .shop-the-look__pin {
+    background: var(--hency-gold, #c5a059);
+    color: #ffffff;
+    transform: scale(1.15);
+  }
+
+  /* Popover Card */
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 26rem;
+    background: #ffffff;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.3));
+    border-radius: 4px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    padding: 1.4rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin-wrapper:hover .shop-the-look__popover,
+  #ShopTheLook-{{ section.id }} .shop-the-look__pin-wrapper.is-active .shop-the-look__popover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover-img {
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 2px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--hency-cream, #f6f3ed);
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover-price {
+    font-size: 1.3rem;
+    color: var(--hency-gold, #c5a059);
+    font-weight: 600;
+    margin: 0 0 0.6rem;
+  }
+
+  #ShopTheLook-{{ section.id }} .shop-the-look__popover-btn {
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+{%- endstyle -%}
+
+<section id="ShopTheLook-{{ section.id }}" class="shop-the-look color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="shop-the-look__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="shop-the-look__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="shop-the-look__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="shop-the-look__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="shop-the-look__container">
+      {%- if section.settings.look_image != blank -%}
+        {{
+          section.settings.look_image
+          | image_url: width: 2000
+          | image_tag:
+            class: 'shop-the-look__image',
+            loading: 'lazy',
+            widths: '600, 900, 1200, 1600, 2000',
+            alt: section.settings.title | escape
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg shop-the-look__image' }}
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign product = block.settings.product
+            assign label = block.settings.label
+            if label == blank and product != blank
+              assign label = product.title
+            endif
+            if label == blank
+              assign label = 'Fine Jewellery'
+            endif
+
+            assign url = block.settings.custom_link
+            if url == blank and product != blank
+              assign url = product.url
+            endif
+            if url == blank
+              assign url = routes.all_products_collection_url
+            endif
+          -%}
+          <div
+            class="shop-the-look__pin-wrapper"
+            style="top: {{ block.settings.y_position }}%; left: {{ block.settings.x_position }}%;"
+            {{ block.shopify_attributes }}
+          >
+            <button
+              type="button"
+              class="shop-the-look__pin"
+              aria-label="View {{ label | escape }}"
+            >
+              ✦
+            </button>
+
+            <div class="shop-the-look__popover">
+              {%- if product.featured_image != blank -%}
+                {{
+                  product.featured_image
+                  | image_url: width: 200
+                  | image_tag:
+                    class: 'shop-the-look__popover-img',
+                    loading: 'lazy',
+                    alt: label | escape
+                }}
+              {%- endif -%}
+              <div class="shop-the-look__popover-info">
+                <p class="shop-the-look__popover-title">{{ label | escape }}</p>
+                {%- if product != blank -%}
+                  <p class="shop-the-look__popover-price">{{ product.price | money }}</p>
+                {%- endif -%}
+                <a href="{{ url }}" class="shop-the-look__popover-btn full-unstyled-link">
+                  View Piece &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop The Look / Hotspots",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "look_image",
+      "label": "Main Look Image"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "16 / 9", "label": "Landscape (16:9)" },
+        { "value": "4 / 3", "label": "Standard (4:3)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" }
+      ],
+      "default": "16 / 9"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "COMPLETE THE ENSEMBLE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "Shop The Look"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Tap the pins on this editorial ensemble to explore each handcrafted piece worn together.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product Reference"
+        },
+        {
+          "type": "range",
+          "id": "x_position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal Position (X)",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "y_position",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical Position (Y)",
+          "default": 50
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Custom label / title override (optional)"
+        },
+        {
+          "type": "url",
+          "id": "custom_link",
+          "label": "Custom link override (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop The Look",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 48,
+            "y_position": 42,
+            "label": "Kundan Choker Set"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 62,
+            "y_position": 35,
+            "label": "Matching Jhumki Earrings"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 35,
+            "y_position": 70,
+            "label": "Artisan Kada Bangles"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

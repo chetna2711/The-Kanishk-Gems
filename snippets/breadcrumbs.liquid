@@ -1,0 +1,109 @@
+{%- unless template == 'index' or template == 'cart' or template == '404' -%}
+  {%- assign t = template | split: '.' | first -%}
+
+  <nav class="breadcrumbs page-width" role="navigation" aria-label="breadcrumbs" style="padding-top: 1.5rem; padding-bottom: 1.2rem; font-size: 1.3rem; letter-spacing: 0.04em;">
+    <ol class="breadcrumbs__list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; color: rgba(26, 26, 26, 0.65);" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ routes.root_url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+          <span itemprop="name">Home</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+
+      {%- case t -%}
+        {%- when 'page' -%}
+          <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ page.title }}</span>
+            <meta itemprop="position" content="2" />
+          </li>
+
+        {%- when 'product' -%}
+          {%- if collection.url -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a href="{{ collection.url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+                <span itemprop="name">{{ collection.title }}</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ product.title }}</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          {%- else -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a href="{{ routes.all_products_collection_url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+                <span itemprop="name">Jewellery</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ product.title }}</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          {%- endif -%}
+
+        {%- when 'collection' and collection.handle -%}
+          {%- if current_tags -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a href="{{ collection.url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+                <span itemprop="name">{{ collection.title }}</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ current_tags | join: " + " }}</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          {%- else -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ collection.title }}</span>
+              <meta itemprop="position" content="2" />
+            </li>
+          {%- endif -%}
+
+        {%- when 'blog' -%}
+          {%- if current_tags -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a href="{{ blog.url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+                <span itemprop="name">{{ blog.title }}</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+            <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ current_tags | join: " + " }}</span>
+              <meta itemprop="position" content="3" />
+            </li>
+          {%- else -%}
+            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ blog.title }}</span>
+              <meta itemprop="position" content="2" />
+            </li>
+          {%- endif -%}
+
+        {%- when 'article' -%}
+          <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ blog.url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">
+              <span itemprop="name">{{ blog.title }}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+          <li aria-hidden="true" style="color: var(--hency-gold, #c5a059); font-size: 1.1rem;">/</li>
+          <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ article.title }}</span>
+            <meta itemprop="position" content="3" />
+          </li>
+
+        {%- else -%}
+          <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span aria-current="page" itemprop="name" style="color: var(--hency-charcoal, #1a1a1a); font-weight: 500;">{{ page_title }}</span>
+            <meta itemprop="position" content="2" />
+          </li>
+      {%- endcase -%}
+    </ol>
+  </nav>
+{%- endunless -%}

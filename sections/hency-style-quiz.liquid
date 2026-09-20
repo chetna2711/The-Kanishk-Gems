@@ -1,0 +1,672 @@
+{%- style -%}
+  #StyleQuiz-{{ section.id }} {
+    background-color: var(--hency-cream, #f6f3ed);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #StyleQuiz-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__header {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto 3.5rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1.2rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  /* Quiz Card Container */
+  #StyleQuiz-{{ section.id }} .style-quiz__wrapper {
+    max-width: 76rem;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+    padding: clamp(2.4rem, 4.5vw, 4.5rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 1.5rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__step-indicator {
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--hency-gold, #c5a059);
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__bar {
+    width: 14rem;
+    height: 4px;
+    background: rgba(197, 160, 89, 0.15);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__bar-fill {
+    height: 100%;
+    background: var(--hency-gold, #c5a059);
+    transition: width 0.4s ease;
+  }
+
+  /* Steps */
+  #StyleQuiz-{{ section.id }} .style-quiz__step {
+    display: none;
+    animation: quizFadeIn 0.35s ease;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__step.is-active {
+    display: block;
+  }
+
+  @keyframes quizFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__question-text {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2rem, 2.5vw, 2.6rem);
+    color: var(--hency-charcoal, #1a1a1a);
+    margin: 0 0 0.8rem;
+    text-align: center;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__question-subtitle {
+    text-align: center;
+    font-size: 1.4rem;
+    color: rgba(26, 26, 26, 0.65);
+    margin: 0 0 2.8rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+  }
+
+  @media screen and (max-width: 550px) {
+    #StyleQuiz-{{ section.id }} .style-quiz__answers-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answer-btn {
+    background: var(--hency-ivory, #fafaf7);
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.3));
+    border-radius: 4px;
+    padding: 2rem 1.8rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answer-btn:hover {
+    border-color: var(--hency-gold, #c5a059);
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(197, 160, 89, 0.15);
+    transform: translateY(-3px);
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answer-icon {
+    font-size: 2.2rem;
+    color: var(--hency-gold, #c5a059);
+    line-height: 1;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answer-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--hency-charcoal, #1a1a1a);
+    margin: 0;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__answer-desc {
+    font-size: 1.25rem;
+    color: rgba(26, 26, 26, 0.65);
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  /* Results Step */
+  #StyleQuiz-{{ section.id }} .style-quiz__result {
+    display: none;
+    text-align: center;
+    animation: quizFadeIn 0.4s ease;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__result.is-active {
+    display: block;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__result-badge {
+    display: inline-block;
+    background: var(--hency-gold, #c5a059);
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.4rem 1.4rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__result-title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3vw, 3.2rem);
+    color: var(--hency-charcoal, #1a1a1a);
+    margin: 0 0 1rem;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__result-desc {
+    font-size: 1.5rem;
+    color: rgba(26, 26, 26, 0.75);
+    max-width: 50rem;
+    margin: 0 auto 2.5rem;
+    line-height: 1.5;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__recommendation-card {
+    background: var(--hency-cream, #f6f3ed);
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    border-radius: 4px;
+    padding: 2.2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 48rem;
+    margin: 0 auto 2.5rem;
+    text-align: left;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__rec-image {
+    width: 8.5rem;
+    height: 8.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--hency-gold, #c5a059);
+    flex-shrink: 0;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__rec-name {
+    font-family: var(--font-heading-family);
+    font-size: 1.8rem;
+    margin: 0 0 0.4rem;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__rec-sub {
+    font-size: 1.3rem;
+    color: rgba(26, 26, 26, 0.7);
+    margin: 0;
+  }
+
+  #StyleQuiz-{{ section.id }} .style-quiz__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+{%- endstyle -%}
+
+<section id="StyleQuiz-{{ section.id }}" class="style-quiz color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="style-quiz__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="style-quiz__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="style-quiz__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="style-quiz__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="style-quiz__wrapper" data-style-quiz>
+      <div class="style-quiz__progress">
+        <span class="style-quiz__step-indicator" data-step-indicator>Question 1 of 2</span>
+        <div class="style-quiz__bar">
+          <div class="style-quiz__bar-fill" style="width: 50%;" data-bar-fill></div>
+        </div>
+      </div>
+
+      <!-- Question 1 -->
+      <div class="style-quiz__step is-active" data-quiz-step="1">
+        <h3 class="style-quiz__question-text">{{ section.settings.q1_title | default: 'What is your preferred look?' | escape }}</h3>
+        <p class="style-quiz__question-subtitle">{{ section.settings.q1_subtitle | default: 'Select the style aesthetic that feels most uniquely you' | escape }}</p>
+        <div class="style-quiz__answers-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.question_number == 1 -%}
+              <button
+                type="button"
+                class="style-quiz__answer-btn"
+                data-answer
+                data-collection-title="{{ block.settings.collection.title | default: block.settings.answer_title | escape }}"
+                data-collection-url="{{ block.settings.collection.url | default: routes.all_products_collection_url }}"
+                data-collection-img="{% if block.settings.collection.featured_image != blank %}{{ block.settings.collection.featured_image | image_url: width: 300 }}{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.icon_emoji != blank -%}
+                  <span class="style-quiz__answer-icon">{{ block.settings.icon_emoji | escape }}</span>
+                {%- endif -%}
+                <span class="style-quiz__answer-title">{{ block.settings.answer_title | escape }}</span>
+                {%- if block.settings.answer_description != blank -%}
+                  <span class="style-quiz__answer-desc">{{ block.settings.answer_description | escape }}</span>
+                {%- endif -%}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="style-quiz__step" data-quiz-step="2">
+        <h3 class="style-quiz__question-text">{{ section.settings.q2_title | default: 'What is the upcoming occasion?' | escape }}</h3>
+        <p class="style-quiz__question-subtitle">{{ section.settings.q2_subtitle | default: 'Where will these sparkling pieces accompany you?' | escape }}</p>
+        <div class="style-quiz__answers-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.question_number == 2 -%}
+              <button
+                type="button"
+                class="style-quiz__answer-btn"
+                data-answer
+                data-collection-title="{{ block.settings.collection.title | default: block.settings.answer_title | escape }}"
+                data-collection-url="{{ block.settings.collection.url | default: routes.all_products_collection_url }}"
+                data-collection-img="{% if block.settings.collection.featured_image != blank %}{{ block.settings.collection.featured_image | image_url: width: 300 }}{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.icon_emoji != blank -%}
+                  <span class="style-quiz__answer-icon">{{ block.settings.icon_emoji | escape }}</span>
+                {%- endif -%}
+                <span class="style-quiz__answer-title">{{ block.settings.answer_title | escape }}</span>
+                {%- if block.settings.answer_description != blank -%}
+                  <span class="style-quiz__answer-desc">{{ block.settings.answer_description | escape }}</span>
+                {%- endif -%}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Result Screen -->
+      <div class="style-quiz__result" data-quiz-result>
+        <span class="style-quiz__result-badge">Your Personalized Match</span>
+        <h3 class="style-quiz__result-title">{{ section.settings.result_title | default: 'The Perfect Collection For You' | escape }}</h3>
+        <p class="style-quiz__result-desc">{{ section.settings.result_desc | default: 'Based on your aesthetic choices, we have handpicked this curated edit tailored to your unique elegance.' | escape }}</p>
+
+        <div class="style-quiz__recommendation-card">
+          <img src="" alt="" class="style-quiz__rec-image" data-rec-image style="display: none;">
+          <div>
+            <h4 class="style-quiz__rec-name" data-rec-title>Curated For You</h4>
+            <p class="style-quiz__rec-sub">Handcrafted designs that speak your style</p>
+          </div>
+        </div>
+
+        <div class="style-quiz__actions">
+          <a href="{{ routes.all_products_collection_url }}" class="button button--gold" data-rec-link>
+            {{ section.settings.result_btn_label | default: 'Explore Curated Edit' | escape }} &rarr;
+          </a>
+          <button type="button" class="button button--secondary" data-retake-quiz>
+            Retake Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const quiz = document.querySelector('#StyleQuiz-{{ section.id }} [data-style-quiz]');
+    if (!quiz) return;
+
+    const steps = quiz.querySelectorAll('[data-quiz-step]');
+    const result = quiz.querySelector('[data-quiz-result]');
+    const indicator = quiz.querySelector('[data-step-indicator]');
+    const barFill = quiz.querySelector('[data-bar-fill]');
+    const recTitle = quiz.querySelector('[data-rec-title]');
+    const recLink = quiz.querySelector('[data-rec-link]');
+    const recImg = quiz.querySelector('[data-rec-image]');
+    const retakeBtn = quiz.querySelector('[data-retake-quiz]');
+
+    let currentStep = 1;
+    let selectedRecommendations = [];
+
+    const showStep = (stepNum) => {
+      steps.forEach((s) => s.classList.remove('is-active'));
+      result.classList.remove('is-active');
+
+      if (stepNum <= steps.length) {
+        const target = quiz.querySelector(`[data-quiz-step="${stepNum}"]`);
+        if (target) target.classList.add('is-active');
+        if (indicator) indicator.textContent = `Question ${stepNum} of ${steps.length}`;
+        if (barFill) barFill.style.width = `${(stepNum / steps.length) * 100}%`;
+      } else {
+        // Show result
+        result.classList.add('is-active');
+        if (indicator) indicator.textContent = 'Quiz Complete';
+        if (barFill) barFill.style.width = '100%';
+
+        // Pick the top recommendation
+        const lastChoice = selectedRecommendations[selectedRecommendations.length - 1] || selectedRecommendations[0];
+        if (lastChoice) {
+          if (recTitle) recTitle.textContent = lastChoice.title;
+          if (recLink) recLink.setAttribute('href', lastChoice.url);
+          if (recImg) {
+            if (lastChoice.img) {
+              recImg.src = lastChoice.img;
+              recImg.alt = lastChoice.title;
+              recImg.style.display = 'block';
+            } else {
+              recImg.style.display = 'none';
+            }
+          }
+        }
+      }
+    };
+
+    quiz.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-answer]');
+      if (!btn) return;
+      e.preventDefault();
+
+      selectedRecommendations.push({
+        title: btn.dataset.collectionTitle || 'Fine Jewellery Edit',
+        url: btn.dataset.collectionUrl || '/collections/all',
+        img: btn.dataset.collectionImg || ''
+      });
+
+      currentStep++;
+      showStep(currentStep);
+    });
+
+    if (retakeBtn) {
+      retakeBtn.addEventListener('click', () => {
+        currentStep = 1;
+        selectedRecommendations = [];
+        showStep(currentStep);
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jewellery Style Quiz",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "FIND YOUR SIGNATURE LOOK"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "Jewellery Style Quiz"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Answer two brief questions to reveal jewellery curated perfectly for your persona and celebration.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Question 1"
+    },
+    {
+      "type": "text",
+      "id": "q1_title",
+      "label": "Question 1 Title",
+      "default": "What is your preferred look?"
+    },
+    {
+      "type": "text",
+      "id": "q1_subtitle",
+      "label": "Question 1 Subtitle",
+      "default": "Select the aesthetic that best speaks to your daily mood"
+    },
+    {
+      "type": "header",
+      "content": "Question 2"
+    },
+    {
+      "type": "text",
+      "id": "q2_title",
+      "label": "Question 2 Title",
+      "default": "What is the celebration?"
+    },
+    {
+      "type": "text",
+      "id": "q2_subtitle",
+      "label": "Question 2 Subtitle",
+      "default": "Where will you wear your next signature piece?"
+    },
+    {
+      "type": "header",
+      "content": "Result Screen"
+    },
+    {
+      "type": "text",
+      "id": "result_title",
+      "label": "Result heading",
+      "default": "The Perfect Match For You"
+    },
+    {
+      "type": "textarea",
+      "id": "result_desc",
+      "label": "Result description",
+      "default": "Based on your preferences, we have curated a magnificent selection of handcrafted designs tailored just for you."
+    },
+    {
+      "type": "text",
+      "id": "result_btn_label",
+      "label": "Result CTA button text",
+      "default": "Explore Your Edit"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "answer",
+      "name": "Quiz Answer Option",
+      "settings": [
+        {
+          "type": "range",
+          "id": "question_number",
+          "min": 1,
+          "max": 2,
+          "step": 1,
+          "label": "Belongs to Question #",
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "icon_emoji",
+          "label": "Icon or Symbol",
+          "default": "✦"
+        },
+        {
+          "type": "text",
+          "id": "answer_title",
+          "label": "Answer Title",
+          "default": "Minimal & Delicate"
+        },
+        {
+          "type": "text",
+          "id": "answer_description",
+          "label": "Short subtitle",
+          "default": "Subtle, effortless everyday sparkle"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Recommend Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jewellery Style Quiz",
+      "blocks": [
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "✦",
+            "answer_title": "Minimal",
+            "answer_description": "Clean lines and understated shimmer"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "👑",
+            "answer_title": "Traditional",
+            "answer_description": "Heritage Kundan & intricate gold craftsmanship"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "✨",
+            "answer_title": "Glamorous",
+            "answer_description": "Dazzling stones for showstopping elegance"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "💎",
+            "answer_title": "Contemporary",
+            "answer_description": "Modern silhouettes for the confident modern woman"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "☕",
+            "answer_title": "Everyday Chic",
+            "answer_description": "Work, coffee dates and daily grace"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "🎉",
+            "answer_title": "Festive Nights",
+            "answer_description": "Diwali, celebrations & family gatherings"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "💍",
+            "answer_title": "Royal Wedding",
+            "answer_description": "Grand bridal sets & ceremonial grandeur"
+          }
+        },
+        {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "🎁",
+            "answer_title": "Special Gifting",
+            "answer_description": "Treasured presents to mark precious milestones"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

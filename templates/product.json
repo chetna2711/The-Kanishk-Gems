@@ -62,6 +62,38 @@
           "settings": {
             "share_label": "Share"
           }
+        },
+        "tab_material": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Material & Purity",
+            "icon": "gem",
+            "content": "<p>Crafted in high-purity skin-safe brass alloy with high-micron 18K/22K gold plating. Adorned with hand-cut faceted stones and micro-pave simulated diamonds for unmatched brilliance.</p>"
+          }
+        },
+        "tab_care": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Care Instructions",
+            "icon": "heart",
+            "content": "<p>Keep away from moisture, perfumes, deodorants, and water. Wipe gently with a soft lint-free cloth after wear. Store individually in an airtight pouch or box to preserve its luster.</p>"
+          }
+        },
+        "tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & Delivery",
+            "icon": "truck",
+            "content": "<p>Enjoy complimentary insured express delivery across India. Orders are processed within 24–48 hours. Delivered in signature tamper-evident HencyJewels presentation packaging.</p>"
+          }
+        },
+        "tab_returns": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "15-Day Easy Exchange",
+            "icon": "return_icon",
+            "content": "<p>Shop with total confidence. We offer an easy 15-day exchange policy for all unworn pieces in original condition with security tags intact.</p>"
+          }
         }
       },
       "block_order": [
@@ -73,6 +105,10 @@
         "inventory_6bQr3R",
         "quantity_selector",
         "buy_buttons",
+        "tab_material",
+        "tab_care",
+        "tab_shipping",
+        "tab_returns",
         "share"
       ],
       "settings": {

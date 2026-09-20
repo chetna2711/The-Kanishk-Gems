@@ -17,7 +17,7 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Timeless Jewellery • Designed to Make Every Moment Shine",
             "link": ""
           }
         }
@@ -28,7 +28,7 @@
       "settings": {
         "auto_rotate": false,
         "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-4",
         "show_line_separator": true,
         "show_social": false,
         "enable_country_selector": false,
@@ -41,13 +41,13 @@
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": false,
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
         "enable_wishlist": true,
-        "wishlist_page": "shopify://pages/wihslist",
+        "wishlist_page": "shopify://pages/wishlist",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "margin_bottom": 0,

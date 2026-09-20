@@ -18,6 +18,54 @@
   {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 {% endif %}
 
+{%- style -%}
+  .announcement-bar-section {
+    {%- if section.settings.custom_bg != blank and section.settings.custom_bg != 'rgba(0,0,0,0)' -%}
+      background-color: {{ section.settings.custom_bg }} !important;
+    {%- endif -%}
+  }
+  .announcement-bar-section .announcement-bar__message {
+    font-size: {{ section.settings.font_size | default: 13 }}px;
+    letter-spacing: 0.08em;
+    padding-top: {{ section.settings.padding_vertical | default: 8 }}px;
+    padding-bottom: {{ section.settings.padding_vertical | default: 8 }}px;
+    text-align: {{ section.settings.text_alignment_mobile | default: 'center' }};
+    {%- if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)' -%}
+      color: {{ section.settings.custom_text_color }} !important;
+    {%- endif -%}
+  }
+  @media screen and (min-width: 750px) {
+    .announcement-bar-section .announcement-bar__message {
+      text-align: {{ section.settings.text_alignment_desktop | default: 'center' }};
+    }
+  }
+  .announcement-bar--ticker {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .announcement-bar--ticker .ticker-track {
+    display: inline-flex;
+    align-items: center;
+    animation: announcement-ticker-scroll {{ section.settings.ticker_speed | default: 25 }}s linear infinite;
+    min-width: 100%;
+  }
+  .announcement-bar--ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+  .announcement-bar--ticker .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 3rem;
+    flex-shrink: 0;
+  }
+  @keyframes announcement-ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+{%- endstyle -%}
+
 <div
   class="utility-bar color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator and section.blocks.size > 0 %} utility-bar--bottom-border{% elsif section.settings.show_line_separator and section.settings.show_social and social_icons%} utility-bar--bottom-border-social-only{% endif %}{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header-localization{% endif %}"
 >
@@ -25,7 +73,33 @@
     {%- if section.settings.show_social and social_icons -%}
       {%- render 'social-icons' -%}
     {%- endif -%}
-    {%- if section.blocks.size == 1 -%}
+    {%- if section.settings.enable_ticker and section.blocks.size > 0 -%}
+      <div
+        class="announcement-bar announcement-bar--ticker"
+        role="region"
+        aria-label="{{ 'sections.header.announcement' | t }}"
+      >
+        <div class="ticker-track">
+          {%- for i in (1..4) -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.text != blank -%}
+                <div class="ticker-item" {{ block.shopify_attributes }}>
+                  {%- if block.settings.link != blank -%}
+                    <a href="{{ block.settings.link }}" class="announcement-bar__link link focus-inset">
+                  {%- endif -%}
+                  <p class="announcement-bar__message h5">
+                    <span>{{ block.settings.text | escape }}</span>
+                  </p>
+                  {%- if block.settings.link != blank -%}
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- elsif section.blocks.size == 1 -%}
       <div
         class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
         role="region"
@@ -192,6 +266,82 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-4"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom text color"
+    },
+    {
+      "type": "header",
+      "content": "Scrolling ticker"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_ticker",
+      "label": "Enable continuous scrolling ticker",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Ticker animation speed",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Typography & Alignment"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "text_alignment_desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "label": "Desktop text alignment"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment_mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "label": "Mobile text alignment"
     },  
     {
       "type": "checkbox",
@@ -237,7 +387,7 @@
         {
           "type": "text",
           "id": "text",
-          "default": "t:sections.announcement-bar.blocks.announcement.settings.text.default",
+          "default": "Timeless Jewellery • Designed to Make Every Moment Shine",
           "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
         },
         {

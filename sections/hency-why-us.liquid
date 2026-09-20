@@ -1,0 +1,312 @@
+{%- style -%}
+  #WhyUs-{{ section.id }} {
+    background-color: var(--hency-cream, #f6f3ed);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    border-top: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+    border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+  }
+
+  @media screen and (min-width: 750px) {
+    #WhyUs-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #WhyUs-{{ section.id }} .why-us__header {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto 4rem;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.6rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #WhyUs-{{ section.id }} .why-us__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.4rem 1.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 800px) {
+    #WhyUs-{{ section.id }} .why-us__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+      gap: 3rem 2.4rem;
+    }
+  }
+
+  #WhyUs-{{ section.id }} .why-us__item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.4rem 1.8rem;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(197, 160, 89, 0.12);
+    border-color: var(--hency-gold, #c5a059);
+  }
+
+  #WhyUs-{{ section.id }} .why-us__icon-wrap {
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: 50%;
+    background: var(--hency-cream, #f6f3ed);
+    border: 1px solid var(--hency-gold, #c5a059);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.8rem;
+    font-size: 2.6rem;
+    color: var(--hency-gold, #c5a059);
+    flex-shrink: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__item:hover .why-us__icon-wrap {
+    background: var(--hency-gold, #c5a059);
+    color: #ffffff;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__custom-icon {
+    width: 3.2rem;
+    height: 3.2rem;
+    object-fit: contain;
+  }
+
+  #WhyUs-{{ section.id }} .why-us__heading {
+    font-family: var(--font-heading-family);
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin: 0 0 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #WhyUs-{{ section.id }} .why-us__text {
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: rgba(26, 26, 26, 0.72);
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<section id="WhyUs-{{ section.id }}" class="why-us color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="why-us__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="why-us__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="why-us__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="why-us__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="why-us__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="why-us__item" {{ block.shopify_attributes }}>
+            <div class="why-us__icon-wrap">
+              {%- if block.settings.custom_icon_image != blank -%}
+                {{
+                  block.settings.custom_icon_image
+                  | image_url: width: 80
+                  | image_tag:
+                    class: 'why-us__custom-icon',
+                    loading: 'lazy',
+                    alt: block.settings.heading | escape
+                }}
+              {%- elsif block.settings.icon_symbol != blank -%}
+                <span>{{ block.settings.icon_symbol | escape }}</span>
+              {%- else -%}
+                <span>✦</span>
+              {%- endif -%}
+            </div>
+            <h3 class="why-us__heading">{{ block.settings.heading | escape }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="why-us__text">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why HencyJewels",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "THE HENCYJEWELS PROMISE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "Why HencyJewels"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our jewellery apart.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop columns",
+      "default": 4
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_symbol",
+          "label": "Icon symbol / emoji",
+          "default": "✦",
+          "info": "e.g. ✦, 💎, 🛡️, 🚚, 🔄"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_image",
+          "label": "Custom icon image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Certified Authenticity"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Every stone and metal layer undergoes stringent purity verification."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why HencyJewels",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "💎",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🌿",
+            "heading": "100% Skin Safe",
+            "description": "Nickel-free, hypoallergenic compositions designed for sensitive skin."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🚚",
+            "heading": "Free Insured Shipping",
+            "description": "Complimentary safe transit with tamper-evident luxury packaging across India."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🔄",
+            "heading": "Easy 15-Day Exchange",
+            "description": "Hassle-free exchange policy to ensure complete peace of mind."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

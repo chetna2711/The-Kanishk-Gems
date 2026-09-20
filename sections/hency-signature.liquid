@@ -1,0 +1,372 @@
+{%- style -%}
+  #HencySignature-{{ section.id }} {
+    background-color: var(--hency-ivory, #fafaf7);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #HencySignature-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 850px) {
+    #HencySignature-{{ section.id }} .hency-sig__container {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(4rem, 6vw, 8rem);
+    }
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__media-col {
+    {%- if section.settings.image_position == 'right' -%}
+      order: 2;
+    {%- else -%}
+      order: 1;
+    {%- endif -%}
+  }
+
+  @media screen and (max-width: 849px) {
+    #HencySignature-{{ section.id }} .hency-sig__media-col {
+      order: 1 !important;
+    }
+    #HencySignature-{{ section.id }} .hency-sig__content-col {
+      order: 2 !important;
+    }
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__media-frame {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.image_ratio | default: '4 / 5' }};
+    background: var(--hency-cream, #f6f3ed);
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__media-frame:hover .hency-sig__image {
+    transform: scale(1.03);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__badge-accent {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--hency-gold, #c5a059);
+    padding: 1.2rem 2rem;
+    border-radius: 2px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__badge-text {
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--hency-gold, #c5a059);
+    font-weight: 700;
+    display: block;
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__content {
+    display: flex;
+    flex-direction: column;
+    text-align: {{ section.settings.content_alignment }};
+    {%- if section.settings.content_alignment == 'center' -%}
+      align-items: center;
+    {%- elsif section.settings.content_alignment == 'right' -%}
+      align-items: flex-end;
+    {%- else -%}
+      align-items: flex-start;
+    {%- endif -%}
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.28rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.6rem, 4vw, 4.2rem);
+    line-height: 1.18;
+    margin: 0 0 2rem;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__description {
+    font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+    line-height: 1.65;
+    color: rgba(26, 26, 26, 0.8);
+    margin: 0 0 2.8rem;
+    max-width: 54rem;
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 50rem;
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 1.4rem;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__feature-icon {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+
+  #HencySignature-{{ section.id }} .hency-sig__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.4rem 3.4rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.14rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0;
+    transition: all 0.3s ease;
+  }
+{%- endstyle -%}
+
+<section id="HencySignature-{{ section.id }}" class="hency-signature color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="hency-sig__container">
+      <div class="hency-sig__media-col">
+        <div class="hency-sig__media-frame">
+          {%- if section.settings.image != blank -%}
+            {{
+              section.settings.image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'hency-sig__image',
+                loading: 'lazy',
+                widths: '400, 600, 800, 1100, 1400',
+                alt: section.settings.heading | escape
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg hency-sig__image' }}
+          {%- endif -%}
+
+          {%- if section.settings.badge_label != blank -%}
+            <div class="hency-sig__badge-accent">
+              <span class="hency-sig__badge-text">{{ section.settings.badge_label | escape }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="hency-sig__content-col">
+        <div class="hency-sig__content">
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="hency-sig__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="hency-sig__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.description != blank -%}
+            <div class="hency-sig__description rte">
+              <p>{{ section.settings.description | escape }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if section.blocks.size > 0 -%}
+            <ul class="hency-sig__features" role="list">
+              {%- for block in section.blocks -%}
+                <li class="hency-sig__feature-item" {{ block.shopify_attributes }}>
+                  <span class="hency-sig__feature-icon">✦</span>
+                  <span>{{ block.settings.text | escape }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <a
+              href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+              class="hency-sig__button button button--gold"
+            >
+              {{ section.settings.button_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HencyJewels Signature",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "3 / 4", "label": "Tall Portrait (3:4)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "HERITAGE & CRAFTSMANSHIP"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HENCYJEWELS SIGNATURE"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Designed with delicate details, graceful silhouettes and timeless Indian-inspired elegance. Every jewel celebrates the union of rich cultural artistry and effortless modern style."
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Accent badge label",
+      "default": "100% Handcrafted Artisanship"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button text",
+      "default": "Explore Signature Creations"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Feature text",
+          "default": "Skin-safe, hypoallergenic premium metal base"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HencyJewels Signature",
+      "blocks": [
+        { "type": "feature", "settings": { "text": "Intricate micron gold plating with lasting brilliance" } },
+        { "type": "feature", "settings": { "text": "Artisan hand-set simulated stones & Kundan accents" } },
+        { "type": "feature", "settings": { "text": "Lightweight ergonomic silhouettes designed for all-day comfort" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

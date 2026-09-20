@@ -106,19 +106,24 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
-    "brand_headline": "THE KANISHK GEMS",
-    "brand_description": "<p>Timeless Elegance , crafted for  every occasion</p>",
+    "brand_headline": "HENCYJEWELS",
+    "brand_description": "<p>Timeless Jewellery • Designed to Make Every Moment Shine</p>",
     "brand_image": "shopify://shop_images/d7a775f4-0925-4453-af21-63794cb6202a.png",
     "brand_image_width": 100,
-    "social_facebook_link": "",
-    "social_instagram_link": "",
+    "social_facebook_link": "https://facebook.com/hencyjewels",
+    "social_instagram_link": "https://instagram.com/hencyjewels",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
     "social_snapchat_link": "",
-    "social_pinterest_link": "",
+    "social_pinterest_link": "https://pinterest.com/hencyjewels",
     "social_tumblr_link": "",
     "social_vimeo_link": "",
+    "social_whatsapp_link": "https://wa.me/919876543210",
+    "contact_email": "support@hencyjewels.com",
+    "contact_phone": "+91 98765 43210",
+    "contact_whatsapp": "+91 98765 43210",
+    "contact_hours": "Mon - Sat: 10:00 AM - 7:00 PM IST",
     "predictive_search_enabled": true,
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
@@ -147,57 +152,57 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#fefefe",
+          "background": "#fafaf7",
           "background_gradient": "",
-          "text": "#1f0e08",
-          "button": "#bb7137",
-          "button_label": "#fefefe",
-          "secondary_button_label": "#bb7137",
-          "shadow": "#1f0e08"
+          "text": "#1a1a1a",
+          "button": "#c5a059",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#1a1a1a",
+          "shadow": "#1a1a1a"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#f5ece3",
+          "background": "#f6f3ed",
           "background_gradient": "",
-          "text": "#1f0e08",
-          "button": "#bb7137",
-          "button_label": "#fefefe",
-          "secondary_button_label": "#bb7137",
-          "shadow": "#1f0e08"
+          "text": "#1a1a1a",
+          "button": "#1a1a1a",
+          "button_label": "#fafaf7",
+          "secondary_button_label": "#c5a059",
+          "shadow": "#1a1a1a"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#bb7137",
+          "background": "#c5a059",
           "background_gradient": "",
           "text": "#ffffff",
-          "button": "#fefefe",
-          "button_label": "#1f0e08",
+          "button": "#1a1a1a",
+          "button_label": "#ffffff",
           "secondary_button_label": "#ffffff",
-          "shadow": "#1f0e08"
+          "shadow": "#1a1a1a"
         }
       },
       "scheme-4": {
         "settings": {
-          "background": "#cf8754",
+          "background": "#1a1a1a",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#fefefe",
-          "button_label": "#1f0e08",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#1f0e08"
+          "text": "#fafaf7",
+          "button": "#c5a059",
+          "button_label": "#1a1a1a",
+          "secondary_button_label": "#fafaf7",
+          "shadow": "#1a1a1a"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#1f0e08",
+          "background": "#ffffff",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#1f0e08",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#1f0e08"
+          "text": "#1a1a1a",
+          "button": "#c5a059",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#1a1a1a",
+          "shadow": "#1a1a1a"
         }
       }
     }

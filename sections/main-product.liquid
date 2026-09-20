@@ -75,6 +75,7 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
     <div class="page-width">
+      {% render 'breadcrumbs' %}
       <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
         <div class="grid__item product__media-wrapper">
           {% render 'product-media-gallery', variant_images: variant_images %}
@@ -239,7 +240,24 @@
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </summary>
                       <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                        {{ block.settings.content }}
+                        {%- liquid
+                          assign content_to_render = block.settings.content
+                          assign lower_heading = block.settings.heading | downcase
+                          if content_to_render == blank
+                            if lower_heading contains 'material' and product.metafields.custom.material != blank
+                              assign content_to_render = product.metafields.custom.material | metafield_tag
+                            elsif lower_heading contains 'dimension' and product.metafields.custom.dimensions != blank
+                              assign content_to_render = product.metafields.custom.dimensions | metafield_tag
+                            elsif lower_heading contains 'care' and product.metafields.custom.care_instructions != blank
+                              assign content_to_render = product.metafields.custom.care_instructions | metafield_tag
+                            elsif lower_heading contains 'shipping' and product.metafields.custom.shipping_info != blank
+                              assign content_to_render = product.metafields.custom.shipping_info | metafield_tag
+                            elsif lower_heading contains 'return' and product.metafields.custom.returns_info != blank
+                              assign content_to_render = product.metafields.custom.returns_info | metafield_tag
+                            endif
+                          endif
+                        -%}
+                        {{ content_to_render }}
                         {{ block.settings.page.content }}
                       </div>
                     </details>

@@ -1356,6 +1356,12 @@
         "id": "social_vimeo_link",
         "label": "t:settings_schema.social-media.settings.social_vimeo_link.label",
         "placeholder": "t:settings_schema.social-media.settings.social_vimeo_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_whatsapp_link",
+        "label": "WhatsApp link",
+        "placeholder": "https://wa.me/919876543210"
       }
     ]
   },
@@ -1464,6 +1470,35 @@
         "id": "customer_account_menu",
         "default": "customer-account-main-menu",
         "label": "t:settings_schema.customer_accounts.settings.customer_account_menu.label"
+      }
+    ]
+  },
+  {
+    "name": "Contact Information",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Support email",
+        "default": "support@hencyjewels.com"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Support phone",
+        "default": "+91 98765 43210"
+      },
+      {
+        "type": "text",
+        "id": "contact_whatsapp",
+        "label": "WhatsApp number",
+        "default": "+91 98765 43210"
+      },
+      {
+        "type": "text",
+        "id": "contact_hours",
+        "label": "Support hours",
+        "default": "Mon - Sat: 10:00 AM - 7:00 PM IST"
       }
     ]
   }

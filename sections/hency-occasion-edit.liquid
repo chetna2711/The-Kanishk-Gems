@@ -1,0 +1,380 @@
+{%- style -%}
+  #OccasionEdit-{{ section.id }} {
+    background-color: var(--hency-ivory, #fafaf7);
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #OccasionEdit-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__header {
+    text-align: center;
+    max-width: 70rem;
+    margin: 0 auto 3.5rem;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--hency-charcoal, #1a1a1a);
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1.2rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    #OccasionEdit-{{ section.id }} .occasion-edit__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+      gap: 2.2rem;
+    }
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #ffffff;
+    border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card:hover .occasion-edit__image {
+    transform: scale(1.05);
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.68) 100%);
+    pointer-events: none;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.4rem 1.6rem;
+    box-sizing: border-box;
+    color: #ffffff;
+    z-index: 2;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card-title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.7rem, 2vw, 2.3rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card-desc {
+    font-size: 1.3rem;
+    margin: 0.4rem 0 0;
+    opacity: 0.9;
+    line-height: 1.4;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--hency-gold-light, #e0c890);
+    transition: gap 0.2s ease;
+  }
+
+  #OccasionEdit-{{ section.id }} .occasion-edit__card:hover .occasion-edit__card-cta {
+    gap: 0.8rem;
+  }
+{%- endstyle -%}
+
+<section id="OccasionEdit-{{ section.id }}" class="occasion-edit color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="occasion-edit__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="occasion-edit__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="occasion-edit__title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="occasion-edit__description rte">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="occasion-edit__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign collection = block.settings.collection
+            assign title = block.settings.title
+            if title == blank and collection != blank
+              assign title = collection.title
+            endif
+            if title == blank
+              assign title = 'Occasion'
+            endif
+
+            assign link = block.settings.link
+            if link == blank and collection != blank
+              assign link = collection.url
+            endif
+            if link == blank
+              assign link = routes.all_products_collection_url
+            endif
+
+            assign image = block.settings.image
+            if image == blank and collection.featured_image != blank
+              assign image = collection.featured_image
+            endif
+          -%}
+          <div class="occasion-edit__card" {{ block.shopify_attributes }}>
+            <a href="{{ link }}" class="full-unstyled-link" aria-label="{{ title | escape }}">
+              {%- if image != blank -%}
+                {{
+                  image
+                  | image_url: width: 800
+                  | image_tag:
+                    class: 'occasion-edit__image',
+                    loading: 'lazy',
+                    widths: '300, 450, 600, 800',
+                    alt: title | escape
+                }}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg occasion-edit__image' }}
+              {%- endif -%}
+
+              <div class="occasion-edit__overlay" style="opacity: {{ block.settings.overlay_opacity | default: 60 | divided_by: 100.0 }};"></div>
+
+              <div class="occasion-edit__content" style="text-align: {{ block.settings.text_position | default: 'left' }};">
+                <h3 class="occasion-edit__card-title">{{ title | escape }}</h3>
+                {%- if block.settings.description != blank -%}
+                  <p class="occasion-edit__card-desc">{{ block.settings.description | escape }}</p>
+                {%- endif -%}
+                <span class="occasion-edit__card-cta">Explore Edit &rarr;</span>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Occasion Edit",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "STYLED FOR YOUR MOMENTS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section heading",
+      "default": "The Occasion Edit"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>From sacred rituals to modern celebrations, find pieces styled for every milestone.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop columns",
+      "default": 4
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "occasion",
+      "name": "Occasion Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Occasion Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Occasion Title",
+          "default": "Wedding Guest"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Subtitle",
+          "default": "Grandeur designed to mesmerize"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom Link override (optional)"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 20,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "label": "Overlay opacity",
+          "default": 55
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "The Occasion Edit",
+      "blocks": [
+        {
+          "type": "occasion",
+          "settings": {
+            "title": "Wedding Guest",
+            "description": "Opulent Kundan & statement jhumkis"
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "title": "Festive Days",
+            "description": "Lustrous gold tones for festive gatherings"
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "title": "Date Night",
+            "description": "Delicate diamond sparkle and sleek chains"
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "title": "Everyday Chic",
+            "description": "Subtle hoops, studs and minimal mangalsutras"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

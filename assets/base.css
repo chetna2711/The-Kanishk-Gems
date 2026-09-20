@@ -3635,3 +3635,85 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* ==========================================================================
+   HencyJewels Luxury Jewellery Design System Tokens & Utilities
+   ========================================================================== */
+:root {
+  --hency-gold: #c5a059;
+  --hency-gold-dark: #9f7d37;
+  --hency-gold-light: #e0c890;
+  --hency-ivory: #fafaf7;
+  --hency-cream: #f6f3ed;
+  --hency-charcoal: #1a1a1a;
+  --hency-border-subtle: rgba(197, 160, 89, 0.22);
+}
+
+.hency-gold-text {
+  color: var(--hency-gold);
+}
+
+.hency-badge-gold {
+  background: var(--hency-gold);
+  color: #ffffff;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.hency-subheading {
+  font-size: 1.2rem;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: var(--hency-gold);
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+/* Luxury button styling refinement */
+.button--gold {
+  background-color: var(--hency-gold);
+  color: #ffffff;
+  border: 1px solid var(--hency-gold);
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.button--gold:hover {
+  background-color: var(--hency-charcoal);
+  color: #ffffff;
+  border-color: var(--hency-charcoal);
+}
+
+.button--outline-gold {
+  background-color: transparent;
+  color: var(--hency-gold);
+  border: 1px solid var(--hency-gold);
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.button--outline-gold:hover {
+  background-color: var(--hency-gold);
+  color: #ffffff;
+}
+
+/* Subtle gold hairline borders for cards */
+.card--hency-luxury {
+  border: 1px solid var(--hency-border-subtle);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card--hency-luxury:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
