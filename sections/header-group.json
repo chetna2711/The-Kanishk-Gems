@@ -46,6 +46,18 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mega_menu_promo_heMkpG": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item_title": "Women",
+            "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
+            "heading": "Royal Heritage Collection",
+            "subheading": "Handcrafted bridal & festive elegance",
+            "link": "",
+            "button_label": "Shop Now",
+            "featured_collection": ""
+          }
+        },
         "mega_menu_promo_product": {
           "type": "mega_menu_promo",
           "settings": {
@@ -55,11 +67,12 @@
             "subheading": "",
             "link": "shopify://collections",
             "button_label": "SEE MORE",
-            "featured_collection": ""
+            "featured_collection": "mangalsutra"
           }
         }
       },
       "block_order": [
+        "mega_menu_promo_heMkpG",
         "mega_menu_promo_product"
       ],
       "settings": {
