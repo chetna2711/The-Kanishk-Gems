@@ -38,6 +38,13 @@ class HeaderMenu extends DetailsDisclosure {
     this.header = document.querySelector('.header-wrapper');
   }
 
+  onFocusOut() {
+    setTimeout(() => {
+      if (this.matches(':hover') || (this.content && this.content.matches(':hover'))) return;
+      if (!this.contains(document.activeElement)) this.close();
+    });
+  }
+
   onToggle() {
     if (!this.header) return;
     this.header.preventHide = this.mainDetailsToggle.open;

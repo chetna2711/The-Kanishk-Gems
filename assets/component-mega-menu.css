@@ -2,6 +2,10 @@
   position: static;
 }
 
+header-menu {
+  display: block;
+}
+
 .mega-menu__content {
   background: #ffffff !important;
   background-color: #ffffff !important;
@@ -21,6 +25,19 @@
   top: 100%;
   width: 100%;
   z-index: 1000 !important;
+}
+
+/* Hover bridge: bridges any gap between header nav items and dropdown content */
+.mega-menu__content::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: transparent;
+  pointer-events: auto;
+  z-index: 1001;
 }
 
 .shopify-section-header-sticky .mega-menu__content {

@@ -641,25 +641,88 @@
     true
   );
 
-  // Desktop dropdowns also open on hover. The existing `open` styles provide
-  // the same fade-and-slide animation used for keyboard and click interaction.
-  document.querySelectorAll('.header__inline-menu > .list-menu > li > header-menu').forEach((menu) => {
-    const details = menu.querySelector(':scope > details');
-    const summary = details?.querySelector(':scope > summary');
-    if (!details || !summary) return;
+  // Desktop dropdowns hover management with debounced close timer & content bridge support
+  (function initDesktopHeaderHover() {
+    const menuItems = document.querySelectorAll('.header__inline-menu header-menu');
+    if (!menuItems.length) return;
 
-    menu.addEventListener('mouseenter', () => {
-      if (!window.matchMedia('(min-width: 990px)').matches) return;
-      details.open = true;
-      summary.setAttribute('aria-expanded', 'true');
-    });
+    let activeMenu = null;
+    let closeTimer = null;
 
-    menu.addEventListener('mouseleave', () => {
+    const closeMenu = (item) => {
+      if (!item) return;
+      const details = item.querySelector(':scope > details');
+      const summary = details?.querySelector(':scope > summary');
+      if (details) {
+        details.open = false;
+        summary?.setAttribute('aria-expanded', 'false');
+      }
+      if (activeMenu === item) activeMenu = null;
+    };
+
+    const openMenu = (item) => {
+      if (!item) return;
       if (!window.matchMedia('(min-width: 990px)').matches) return;
-      details.open = false;
-      summary.setAttribute('aria-expanded', 'false');
+
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+
+      if (activeMenu && activeMenu !== item) {
+        closeMenu(activeMenu);
+      }
+
+      const details = item.querySelector(':scope > details');
+      const summary = details?.querySelector(':scope > summary');
+      if (details) {
+        details.open = true;
+        summary?.setAttribute('aria-expanded', 'true');
+        activeMenu = item;
+      }
+    };
+
+    const scheduleClose = (item) => {
+      if (!window.matchMedia('(min-width: 990px)').matches) return;
+      if (closeTimer) clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        closeMenu(item);
+      }, 250);
+    };
+
+    menuItems.forEach((item) => {
+      const details = item.querySelector(':scope > details');
+      const summary = details?.querySelector(':scope > summary');
+      const content = details?.querySelector('.mega-menu__content, .header__submenu');
+      if (!details || !summary) return;
+
+      item.addEventListener('mouseenter', () => openMenu(item));
+      item.addEventListener('mouseleave', (event) => {
+        if (content && event.relatedTarget && (content === event.relatedTarget || content.contains(event.relatedTarget))) {
+          return;
+        }
+        scheduleClose(item);
+      });
+
+      if (content) {
+        content.addEventListener('mouseenter', () => {
+          if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          if (activeMenu !== item) {
+            openMenu(item);
+          }
+        });
+        content.addEventListener('mouseleave', (event) => {
+          if (event.relatedTarget && (item === event.relatedTarget || item.contains(event.relatedTarget))) {
+            return;
+          }
+          scheduleClose(item);
+        });
+      }
     });
-  });
+  })();
 
   customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
