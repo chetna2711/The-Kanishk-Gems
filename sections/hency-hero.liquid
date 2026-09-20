@@ -334,6 +334,14 @@
           {{ block.shopify_attributes }}
         >
           <div class="hency-hero__media">
+            {%- liquid
+              assign desktop_classes = 'hency-hero__image hency-hero__image--desktop'
+              if block.settings.mobile_image != blank
+                assign desktop_classes = desktop_classes | append: ' has-mobile-image'
+              endif
+              assign focal_style = 'object-position: ' | append: block.settings.image_focal_position | append: ';'
+              assign desktop_alt = block.settings.desktop_image.alt | default: block.settings.heading | escape
+            -%}
             {%- if block.settings.desktop_image != blank -%}
               {{
                 block.settings.desktop_image
@@ -341,16 +349,17 @@
                 | image_tag:
                   loading: 'eager',
                   fetchpriority: 'high',
-                  class: 'hency-hero__image hency-hero__image--desktop' | append: (block.settings.mobile_image != blank | default: '' | prepend: ' has-mobile-image'),
-                  style: 'object-position: ' | append: block.settings.image_focal_position | append: ';',
+                  class: desktop_classes,
+                  style: focal_style,
                   widths: '750, 1100, 1500, 1780, 2000, 3000, 3840',
-                  alt: block.settings.desktop_image.alt | default: block.settings.heading | escape
+                  alt: desktop_alt
               }}
             {%- else -%}
               {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hency-hero__image' }}
             {%- endif -%}
 
             {%- if block.settings.mobile_image != blank -%}
+              {%- assign mobile_alt = block.settings.mobile_image.alt | default: block.settings.heading | escape -%}
               {{
                 block.settings.mobile_image
                 | image_url: width: 1500
@@ -358,9 +367,9 @@
                   loading: 'eager',
                   fetchpriority: 'high',
                   class: 'hency-hero__image hency-hero__image--mobile',
-                  style: 'object-position: ' | append: block.settings.image_focal_position | append: ';',
+                  style: focal_style,
                   widths: '375, 550, 750, 1100, 1500',
-                  alt: block.settings.mobile_image.alt | default: block.settings.heading | escape
+                  alt: mobile_alt
               }}
             {%- endif -%}
           </div>
