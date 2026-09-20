@@ -1,0 +1,226 @@
+{
+  "sections": {
+    "page_header": {
+      "type": "hency-page-header",
+      "settings": {
+        "show_breadcrumbs": true,
+        "breadcrumb_title": "The Brand",
+        "eyebrow": "ARTISAN HERITAGE",
+        "heading": "THE BRAND",
+        "subtitle": "Modern fine jewellery crafted for everyday elegance, celebrated milestones and timeless individuality.",
+        "color_scheme": "scheme-1",
+        "padding_top": 45,
+        "padding_bottom": 35
+      }
+    },
+    "brand_stories": {
+      "type": "hency-brand-story",
+      "blocks": {
+        "story_about_us": {
+          "type": "story",
+          "settings": {
+            "image": "shopify://shop_images/9676fa9e-1656-49a3-abc6-5454235b32cf.png",
+            "layout": "image_first",
+            "eyebrow": "ABOUT US",
+            "heading": "Crafting Fine Jewellery for Every Milestone",
+            "byline": "",
+            "content": "<p>HencyJewels is a modern fine-jewellery house creating lightweight gold, bridal and certified diamond jewellery for women who celebrate their milestones with pride. Our minimalist designs fit naturally into everyday life—from work meetings and family gatherings to grand evenings out.</p><p>We believe a first salary, a promotion, a wedding or a personal new beginning deserves to be celebrated in a way that feels uniquely your own. With thoughtful design, clear product disclosures and honest value, we make choosing fine jewellery feel as comfortable as wearing it.</p>",
+            "button_label": "Explore New Arrivals",
+            "button_link": "shopify://collections"
+          }
+        },
+        "story_the_visionary": {
+          "type": "story",
+          "settings": {
+            "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
+            "layout": "text_first",
+            "eyebrow": "THE VISIONARY",
+            "heading": "Empowering Women Through Timeless Craft",
+            "byline": "Founder & Creative Director — HencyJewels",
+            "content": "<p>Growing up surrounded by India's rich jewellery heritage taught us how deeply fine jewellery is intertwined with personal dignity, independence and celebration. We set out to build a brand that reflects modern ambition and effortless everyday progress.</p><p>Each HencyJewels creation is sculpted with lightweight balance, ergonomic comfort and heirloom longevity. As our house expands, our vision remains clear: empowering every woman to feel confident celebrating her achievements and shaping her own future.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "story_our_philosophy": {
+          "type": "story",
+          "settings": {
+            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
+            "layout": "image_first",
+            "eyebrow": "OUR PHILOSOPHY",
+            "heading": "Purity, Transparency & Ethical Artistry",
+            "byline": "",
+            "content": "<p>We believe fine jewellery should feel personal, comfortable and relevant to the modern life you lead. Our approach centres on featherlight wearability, understated elegance and meticulous setting artistry—pieces you can wear through a demanding day and enjoy into the evening.</p><p>Confidence begins with absolute transparency: government BIS hallmarked gold, verified diamond carat weights, certificate disclosures and lifetime after-sales care. Every piece carries the memory of a milestone, a relationship or a choice made for yourself.</p>",
+            "button_label": "Discover Collections",
+            "button_link": "shopify://collections"
+          }
+        }
+      },
+      "block_order": [
+        "story_about_us",
+        "story_the_visionary",
+        "story_our_philosophy"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "why_us": {
+      "type": "hency-why-us",
+      "blocks": {
+        "why_1": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "✦",
+            "title": "100% BIS Hallmarked Gold",
+            "text": "Every single piece is stamped with the government-approved BIS hallmark and unique HUID code for absolute authenticity."
+          }
+        },
+        "why_2": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "💎",
+            "title": "Certified Diamonds",
+            "text": "Independently graded diamonds with clear disclosures on cut, clarity, color and carat specifications on every invoice."
+          }
+        },
+        "why_3": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🛡️",
+            "title": "Insured & Trackable Delivery",
+            "text": "Tamper-evident, fully insured door-to-door courier transit across India so your investment arrives safely."
+          }
+        },
+        "why_4": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🔄",
+            "title": "Lifetime Care & Exchange",
+            "text": "Enjoy lifetime plating, cleaning, professional inspection and guaranteed transparent buyback & exchange value."
+          }
+        }
+      },
+      "block_order": [
+        "why_1",
+        "why_2",
+        "why_3",
+        "why_4"
+      ],
+      "settings": {
+        "eyebrow": "THE HENCYJEWELS PROMISE",
+        "title": "Why Choose HencyJewels",
+        "description": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our fine jewellery apart.</p>",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "faq": {
+      "type": "hency-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What materials are used in HencyJewels creations?",
+            "answer": "<p>We exclusively craft fine jewellery in genuine 14K and 18K BIS hallmarked yellow, rose and white gold, paired with hand-selected laboratory-grown and natural diamonds. Full metal purity and stone weights are disclosed on every certificate and invoice.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I verify the BIS hallmark on my jewellery?",
+            "answer": "<p>All gold jewellery carries the BIS logo, fineness purity mark (e.g. 750 for 18K or 585 for 14K) and a six-digit alphanumeric HUID code laser-inscribed on the piece. You can verify your unique HUID anytime using the official BIS Care app.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I wear HencyJewels jewellery every day?",
+            "answer": "<p>Yes, our designs are engineered specifically for daily and office wear. To preserve their brilliance over decades, we advise removing pieces before heavy workouts, swimming, gardening or direct exposure to perfumes and chemical cleaning agents.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is domestic and international shipping insured?",
+            "answer": "<p>Yes. Every parcel dispatched by HencyJewels travels in tamper-evident security packaging under 100% comprehensive transit insurance until physically signed for and handed over to you.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does your lifetime exchange and buyback policy work?",
+            "answer": "<p>We offer transparent lifetime exchange and buyback benefits based on prevailing gold market rates and assessed diamond values, providing lasting peace of mind for your precious investments.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ],
+      "settings": {
+        "eyebrow": "EVERYTHING YOU MAY WANT TO KNOW",
+        "title": "Frequently Asked Questions",
+        "description": "<p>Clear answers about our craftsmanship, materials, hallmarking, delivery and lifetime care.</p>",
+        "open_first_item": true,
+        "enable_faq_schema": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "cta": {
+      "type": "rich-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Discover Timeless Artistry",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Explore our handcrafted collections designed to celebrate every chapter of your story.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Collections",
+            "button_link": "shopify://collections",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-4",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "page_header",
+    "brand_stories",
+    "why_us",
+    "faq",
+    "cta"
+  ]
+}

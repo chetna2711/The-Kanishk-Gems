@@ -1,0 +1,105 @@
+{{ 'section-hency-about-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #HencySecurityNote-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {%- if section.settings.bg_color != blank -%}
+      background-color: {{ section.settings.bg_color }};
+    {%- endif -%}
+  }
+
+  @media screen and (min-width: 750px) {
+    #HencySecurityNote-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="HencySecurityNote-{{ section.id }}"
+  class="hency-security-note color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width hency-security-note__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="hency-security-note__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h3 class="hency-security-note__title">{{ section.settings.heading | escape }}</h3>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <p class="hency-security-note__text">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hency Security Note",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A QUICK SECURITY NOTE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your trust matters."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Security notice",
+      "default": "HencyJewels will never ask for your UPI PIN, card PIN, CVV, account password or remote-access app. Please share delivery OTPs only when the insured parcel is physically presented to you."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background color (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 35
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hency Security Note"
+    }
+  ]
+}
+{% endschema %}

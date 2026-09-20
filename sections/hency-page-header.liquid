@@ -1,0 +1,125 @@
+{{ 'section-hency-about-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #HencyPageHeader-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {%- if section.settings.bg_color != blank -%}
+      background-color: {{ section.settings.bg_color }};
+    {%- endif -%}
+  }
+
+  @media screen and (min-width: 750px) {
+    #HencyPageHeader-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="HencyPageHeader-{{ section.id }}"
+  class="hency-page-header color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width hency-page-header__inner">
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="hency-page-header__breadcrumbs" aria-label="Breadcrumbs">
+        <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | default: 'Home' }}</a>
+        <span class="hency-page-header__breadcrumbs-sep" aria-hidden="true">/</span>
+        <span aria-current="page">{{ section.settings.breadcrumb_title | default: page.title | default: 'The Brand' }}</span>
+      </nav>
+    {%- endif -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="hency-page-header__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+    {%- endif -%}
+
+    <h1 class="hency-page-header__title">
+      {{ section.settings.heading | default: page.title | default: 'THE BRAND' | escape }}
+    </h1>
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="hency-page-header__subtitle">{{ section.settings.subtitle | escape }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hency Page Header",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_title",
+      "label": "Breadcrumb title (optional)",
+      "info": "Leave blank to use the page title"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "ARTISAN HERITAGE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page title",
+      "default": "THE BRAND"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle / Philosophy",
+      "default": "Creating timeless fine jewellery crafted for everyday elegance, celebrated milestones and modern individuality."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background color (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 35
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hency Page Header"
+    }
+  ]
+}
+{% endschema %}

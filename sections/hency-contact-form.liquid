@@ -1,0 +1,256 @@
+{{ 'section-hency-about-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #HencyContactForm-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {%- if section.settings.bg_color != blank -%}
+      background-color: {{ section.settings.bg_color }};
+    {%- endif -%}
+  }
+
+  @media screen and (min-width: 750px) {
+    #HencyContactForm-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="HencyContactForm-{{ section.id }}"
+  class="hency-contact-form-section color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width">
+    <div class="hency-contact-form-wrap">
+      {%- if section.settings.heading != blank -%}
+        <div class="hency-contact-form__header">
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="hency-contact-form__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+          {%- endif -%}
+          <h2 class="hency-contact-form__title">{{ section.settings.heading | escape }}</h2>
+          {%- if section.settings.description != blank -%}
+            <p class="hency-contact-form__desc">{{ section.settings.description | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'contact', id: 'ContactForm', class: 'hency-contact-native-form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="form-status form-status--success form__message" tabindex="-1" autofocus style="background: #eef8f1; color: #1b6336; border: 1px solid #c2e6cc; padding: 1.6rem 2rem; border-radius: 4px; margin-bottom: 2.4rem; display: flex; align-items: center; gap: 1rem; font-size: 1.45rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span>{{ 'templates.contact.form.post_success' | default: 'Thank you for contacting HencyJewels. Our specialist will respond shortly.' }}</span>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="form__message" tabindex="-1" autofocus style="background: #fdf2f2; color: #991b1b; border: 1px solid #fecaca; padding: 1.6rem 2rem; border-radius: 4px; margin-bottom: 2.4rem; font-size: 1.45rem;">
+            <h3 style="font-size: 1.5rem; margin: 0 0 0.8rem; color: #991b1b;">{{ 'templates.contact.form.error_heading' | default: 'Please adjust the following:' }}</h3>
+            <ul style="margin: 0; padding-left: 2rem;">
+              {%- for error in form.errors -%}
+                <li>
+                  {%- if error == 'form' -%}
+                    {{ form.errors.messages[error] }}
+                  {%- else -%}
+                    <a href="#ContactForm-{{ error }}" style="color: inherit;">
+                      {{ form.errors.translated_fields[error] }} {{ form.errors.messages[error] }}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <div class="hency-form-grid">
+          <div class="hency-field">
+            <label for="ContactForm-name">{{ 'templates.contact.form.name' | default: 'Full name' }} <span aria-hidden="true">*</span></label>
+            <input
+              class="hency-input"
+              autocomplete="name"
+              type="text"
+              id="ContactForm-name"
+              name="contact[{{ 'templates.contact.form.name' | default: 'name' }}]"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              placeholder="Enter your full name"
+              required
+            >
+          </div>
+
+          <div class="hency-field">
+            <label for="ContactForm-phone">{{ 'templates.contact.form.phone' | default: 'Mobile number' }} <span aria-hidden="true">*</span></label>
+            <input
+              type="tel"
+              id="ContactForm-phone"
+              class="hency-input"
+              autocomplete="tel"
+              name="contact[{{ 'templates.contact.form.phone' | default: 'phone' }}]"
+              pattern="[0-9+() -]{10,18}"
+              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+              placeholder="Enter your contact number"
+              required
+            >
+          </div>
+
+          <div class="hency-field">
+            <label for="ContactForm-email">{{ 'templates.contact.form.email' | default: 'Email address' }} <span aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="ContactForm-email"
+              class="hency-input"
+              autocomplete="email"
+              name="contact[email]"
+              spellcheck="false"
+              autocapitalize="off"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              aria-required="true"
+              placeholder="Enter your email address"
+              required
+            >
+          </div>
+
+          <div class="hency-field">
+            <label for="ContactForm-enquiry-type">Enquiry type <span aria-hidden="true">*</span></label>
+            <select
+              id="ContactForm-enquiry-type"
+              name="contact[Enquiry Type]"
+              class="hency-select"
+              required
+            >
+              <option value="" disabled selected>Select an enquiry type</option>
+              <option value="Product guidance & diamond specs">Product guidance & diamond specs</option>
+              <option value="Custom bridal & jewellery design">Custom bridal & jewellery design</option>
+              <option value="Order status & delivery support">Order status & delivery support</option>
+              <option value="Resizing, exchange or repair">Resizing, exchange or repair</option>
+              <option value="Business, boutique or collaboration">Business, boutique or collaboration</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="hency-field hency-form-field--wide">
+            <label for="ContactForm-order">Order number <span>(optional)</span></label>
+            <input
+              type="text"
+              id="ContactForm-order"
+              class="hency-input"
+              name="contact[Order Number]"
+              placeholder="e.g. #HJ1089 (for order inquiries)"
+            >
+          </div>
+
+          <div class="hency-field hency-form-field--wide">
+            <label for="ContactForm-body">{{ 'templates.contact.form.comment' | default: 'How can we help?' }} <span aria-hidden="true">*</span></label>
+            <textarea
+              rows="6"
+              id="ContactForm-body"
+              class="hency-textarea"
+              name="contact[{{ 'templates.contact.form.comment' | default: 'body' }}]"
+              placeholder="Write your message with any specific jewellery or custom design details..."
+              required
+            >{{- form.body -}}</textarea>
+          </div>
+
+          <div class="hency-form-field--wide">
+            <label class="hency-consent">
+              <input type="checkbox" required name="contact[Consent]">
+              <span>{{ section.settings.consent_text | default: 'I agree that HencyJewels may contact me regarding this enquiry. We protect your privacy and never share your details.' }}</span>
+            </label>
+          </div>
+
+          <div class="hency-submit-row hency-form-field--wide">
+            <button type="submit" class="hency-btn-primary hency-submit-btn">
+              {{ section.settings.submit_label | default: 'Send Message' | escape }}
+            </button>
+            <p class="hency-submit-note">
+              {{ section.settings.submit_note | default: 'Your enquiry is delivered directly to our senior jewellery concierge team.' | escape }}
+            </p>
+          </div>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hency Contact Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "SEND US A MESSAGE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Personal Jewellery Assistance"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Have a question about a piece or desire a custom creation? Fill in the details below and we will get back to you promptly."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Privacy consent text",
+      "default": "I agree that HencyJewels may contact me regarding this enquiry. We protect your privacy and never share your details."
+    },
+    {
+      "type": "text",
+      "id": "submit_note",
+      "label": "Note below button",
+      "default": "Your enquiry is delivered directly to our senior jewellery concierge team."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background color (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 55
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hency Contact Form"
+    }
+  ]
+}
+{% endschema %}

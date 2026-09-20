@@ -222,20 +222,41 @@
       object-fit: contain;
     }
 
-    /* Reserve equal outer columns so the navigation sits at the page centre,
-       independently of the logo and header icon widths. */
-    .header--middle-left {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    }
-
-    .header--middle-left .header__inline-menu {
-      justify-self: center;
-      margin-left: 0;
-    }
-
-    .header__inline-menu > .list-menu--inline {
-      justify-content: center;
-    }
+    /* Desktop header layout and alignment */
+    {%- if section.settings.menu_alignment_desktop == 'left' -%}
+      .header--middle-left {
+        grid-template-columns: auto 1fr auto;
+      }
+      .header--middle-left .header__inline-menu {
+        justify-self: start;
+        margin-left: 2.5rem;
+      }
+      .header__inline-menu > .list-menu--inline {
+        justify-content: flex-start;
+      }
+    {%- elsif section.settings.menu_alignment_desktop == 'space-between' -%}
+      .header--middle-left {
+        grid-template-columns: auto 1fr auto;
+      }
+      .header--middle-left .header__inline-menu {
+        width: 100%;
+        margin-left: 2.5rem;
+      }
+      .header__inline-menu > .list-menu--inline {
+        justify-content: space-between;
+      }
+    {%- else -%}
+      .header--middle-left {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      }
+      .header--middle-left .header__inline-menu {
+        justify-self: center;
+        margin-left: 0;
+      }
+      .header__inline-menu > .list-menu--inline {
+        justify-content: center;
+      }
+    {%- endif -%}
 
     /* Header links use colour only; the header separator is configured off. */
     .header__inline-menu .header__menu-item,
@@ -287,7 +308,7 @@
       assign language_selector = true
     endif
   -%}
-  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if country_selector or language_selector %} header--has-localizations{% endif %}">
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} header--menu-{{ section.settings.menu_alignment_desktop | default: 'center' }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if country_selector or language_selector %} header--has-localizations{% endif %}">
     {%- liquid
       assign render_search_left = false
       if section.settings.logo_position == 'top-center' or section.settings.menu == blank or shop.customer_accounts_enabled
@@ -413,6 +434,24 @@
           <span slot="signed-out-avatar" class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
           <span slot="signed-out-avatar" class="visually-hidden">{{ 'customer.log_in' | t }}</span>
         </shopify-account>
+      {%- else -%}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header__icon header__icon--account link focus-inset"
+          rel="nofollow"
+          aria-label="Account"
+        >
+          <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+          <span class="visually-hidden">
+            {%- liquid
+              if customer
+                echo 'customer.account_fallback' | t
+              else
+                echo 'customer.log_in' | t
+              endif
+            -%}
+          </span>
+        </a>
       {%- endif -%}
 
       {%- if section.settings.enable_wishlist -%}
@@ -663,8 +702,80 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 15,
   "settings": [
+    {
+      "type": "header",
+      "content": "Navigation & Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_browse_categories",
+      "label": "Show 'Browse Categories' button in menu",
+      "default": false,
+      "info": "Displays a luxury 'Browse Categories' button on the left of navigation."
+    },
+    {
+      "type": "text",
+      "id": "browse_categories_label",
+      "label": "'Browse Categories' button text",
+      "default": "Browse Categories"
+    },
+    {
+      "type": "url",
+      "id": "browse_categories_link",
+      "label": "'Browse Categories' link"
+    },
+    {
+      "type": "link_list",
+      "id": "browse_categories_menu",
+      "label": "'Browse Categories' dropdown menu (optional)",
+      "info": "If selected, clicking or hovering 'Browse Categories' will open this menu dropdown."
+    },
+    {
+      "type": "select",
+      "id": "browse_categories_style",
+      "label": "'Browse Categories' button style",
+      "options": [
+        {
+          "value": "theme_header",
+          "label": "Theme Header (Clean text & gold arrow - like reference)"
+        },
+        {
+          "value": "gold_solid",
+          "label": "Hency Gold (Solid filled)"
+        },
+        {
+          "value": "gold_outline",
+          "label": "Hency Gold (Border outline)"
+        },
+        {
+          "value": "charcoal_solid",
+          "label": "Charcoal (Solid filled)"
+        }
+      ],
+      "default": "theme_header"
+    },
+    {
+      "type": "select",
+      "id": "menu_alignment_desktop",
+      "label": "Desktop menu alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left (aligned next to logo / categories)"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
+      ],
+      "default": "center"
+    },
     {
       "type": "select",
       "id": "logo_position",
@@ -857,30 +968,58 @@
     },
     {
       "type": "mega_menu_promo",
-      "name": "Mega menu promo card",
+      "name": "Mega menu promo banner",
       "settings": [
         {
           "type": "text",
           "id": "menu_item_title",
           "label": "Target menu item title",
-          "info": "Matches the top-level menu link title (e.g. 'Shop', 'Categories', 'Collections')"
+          "default": "PRODUCT",
+          "info": "Matches the top-level menu link title (e.g. 'PRODUCT', 'SHOP', 'MANGALSUTRA', 'RINGS'). Case-insensitive."
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Promotional image"
+          "label": "Promotional banner image"
+        },
+        {
+          "type": "select",
+          "id": "card_style",
+          "label": "Banner design style",
+          "options": [
+            { "value": "overlay", "label": "Editorial Overlay (Text over image - like reference)" },
+            { "value": "card", "label": "Card Box (Text below image)" }
+          ],
+          "default": "overlay"
+        },
+        {
+          "type": "select",
+          "id": "card_width",
+          "label": "Banner width",
+          "options": [
+            { "value": "28rem", "label": "Compact (280px)" },
+            { "value": "32rem", "label": "Standard (320px)" },
+            { "value": "36rem", "label": "Wide (360px)" }
+          ],
+          "default": "32rem"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge text (optional)",
+          "default": "SPECIAL OFFER"
         },
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "Royal Heritage Collection"
+          "default": "Mid Sale Summer Offer!"
         },
         {
           "type": "text",
           "id": "subheading",
-          "label": "Subheading",
-          "default": "Handcrafted bridal & festive elegance"
+          "label": "Subheading / Description",
+          "default": "Up to 40% Off Handcrafted Designs"
         },
         {
           "type": "url",
@@ -890,8 +1029,18 @@
         {
           "type": "text",
           "id": "button_label",
-          "label": "Button text",
-          "default": "Shop Now"
+          "label": "CTA Link text",
+          "default": "SEE MORE"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay shadow opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "default": 35
         },
         {
           "type": "collection",

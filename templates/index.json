@@ -154,6 +154,34 @@
         "padding_bottom": 56
       }
     },
+    "featured_collection_new": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "new-arrival",
+        "products_to_show": 6,
+        "title": "New Arrivals",
+        "heading_size": "h1",
+        "description": "Freshly crafted designs that redefine contemporary Indian luxury.",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 48,
+        "padding_bottom": 36
+      }
+    },
     "hency_signature": {
       "type": "hency-signature",
       "blocks": {
@@ -195,12 +223,536 @@
         "padding_top": 60,
         "padding_bottom": 60
       }
+    },
+    "featured_collection_best": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "best-seller",
+        "products_to_show": 6,
+        "title": "Best Sellers",
+        "heading_size": "h1",
+        "description": "Our most coveted, highly rated creations loved by jewellery connoisseurs across India.",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "color_scheme": "scheme-2",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "mangalsutra_edit": {
+      "type": "hency-mangalsutra-edit",
+      "settings": {
+        "collection": "new-arrival",
+        "eyebrow": "SACRED BONDS • MODERN DESIGNS",
+        "heading": "THE MANGALSUTRA EDIT",
+        "subheading": "Tradition, beautifully reimagined with delicate diamonds and versatile elegance.",
+        "header_cta_label": "View All Mangalsutras",
+        "header_cta_link": "shopify://collections",
+        "banner_image": "shopify://shop_images/7c704bcd-713b-43a0-965d-cca0ef5c46b7.png",
+        "banner_position": "banner-left",
+        "banner_title": "Modern Sacred Keepsakes",
+        "banner_description": "Designed for effortless everyday wear without compromising on cultural sanctity.",
+        "banner_button_label": "Shop The Edit",
+        "banner_button_link": "shopify://collections",
+        "products_to_show": 4,
+        "product_columns_desktop": 2,
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "jewellery_style_quiz": {
+      "type": "hency-style-quiz",
+      "blocks": {
+        "q1_a1": {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "✦",
+            "answer_title": "Minimal & Sleek",
+            "answer_description": "Clean lines and understated shimmer"
+          }
+        },
+        "q1_a2": {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "👑",
+            "answer_title": "Royal Traditional",
+            "answer_description": "Heritage Kundan & intricate gold craftsmanship"
+          }
+        },
+        "q1_a3": {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "✨",
+            "answer_title": "Glamorous Radiance",
+            "answer_description": "Dazzling stones for showstopping elegance"
+          }
+        },
+        "q1_a4": {
+          "type": "answer",
+          "settings": {
+            "question_number": 1,
+            "icon_emoji": "💎",
+            "answer_title": "Contemporary Fusion",
+            "answer_description": "Modern silhouettes for everyday confidence"
+          }
+        },
+        "q2_a1": {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "☕",
+            "answer_title": "Everyday Chic",
+            "answer_description": "Work, brunch and daily grace"
+          }
+        },
+        "q2_a2": {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "🎉",
+            "answer_title": "Festive Celebrations",
+            "answer_description": "Diwali, celebrations & family gatherings"
+          }
+        },
+        "q2_a3": {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "💍",
+            "answer_title": "Royal Wedding",
+            "answer_description": "Grand bridal sets & ceremonial grandeur"
+          }
+        },
+        "q2_a4": {
+          "type": "answer",
+          "settings": {
+            "question_number": 2,
+            "icon_emoji": "🎁",
+            "answer_title": "Special Gifting",
+            "answer_description": "Treasured presents to mark precious milestones"
+          }
+        }
+      },
+      "block_order": [
+        "q1_a1",
+        "q1_a2",
+        "q1_a3",
+        "q1_a4",
+        "q2_a1",
+        "q2_a2",
+        "q2_a3",
+        "q2_a4"
+      ],
+      "settings": {
+        "eyebrow": "FIND YOUR SIGNATURE LOOK",
+        "title": "Jewellery Style Quiz",
+        "description": "<p>Answer two brief questions to reveal jewellery curated perfectly for your persona and celebration.</p>",
+        "q1_title": "What is your preferred look?",
+        "q1_subtitle": "Select the aesthetic that best speaks to your daily mood",
+        "q2_title": "What is the celebration?",
+        "q2_subtitle": "Where will you wear your next signature piece?",
+        "result_title": "The Perfect Match For You",
+        "result_desc": "Based on your preferences, we have curated a magnificent selection of handcrafted designs tailored just for you.",
+        "result_btn_label": "Explore Your Curated Edit",
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "shop_the_look": {
+      "type": "hency-shop-the-look",
+      "blocks": {
+        "pin_1": {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 48,
+            "y_position": 42,
+            "label": "Kundan Choker Set"
+          }
+        },
+        "pin_2": {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 62,
+            "y_position": 35,
+            "label": "Matching Jhumki Earrings"
+          }
+        },
+        "pin_3": {
+          "type": "hotspot",
+          "settings": {
+            "x_position": 35,
+            "y_position": 70,
+            "label": "Artisan Kada Bangles"
+          }
+        }
+      },
+      "block_order": [
+        "pin_1",
+        "pin_2",
+        "pin_3"
+      ],
+      "settings": {
+        "image_aspect_ratio": "16 / 9",
+        "eyebrow": "COMPLETE THE ENSEMBLE",
+        "title": "Shop The Look",
+        "description": "<p>Tap the pins on this editorial ensemble to explore each handcrafted piece styled together.</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "occasion_edit": {
+      "type": "hency-occasion-edit",
+      "blocks": {
+        "occ_wedding": {
+          "type": "occasion",
+          "settings": {
+            "title": "Wedding Guest",
+            "description": "Opulent Kundan sets & statement jhumkis",
+            "text_position": "left",
+            "overlay_opacity": 55
+          }
+        },
+        "occ_festive": {
+          "type": "occasion",
+          "settings": {
+            "title": "Festive Days",
+            "description": "Lustrous gold tones for festive gatherings",
+            "text_position": "left",
+            "overlay_opacity": 55
+          }
+        },
+        "occ_datenight": {
+          "type": "occasion",
+          "settings": {
+            "title": "Date Night",
+            "description": "Delicate diamond sparkle and sleek chains",
+            "text_position": "left",
+            "overlay_opacity": 55
+          }
+        },
+        "occ_chic": {
+          "type": "occasion",
+          "settings": {
+            "title": "Everyday Chic",
+            "description": "Subtle hoops, studs and minimal mangalsutras",
+            "text_position": "left",
+            "overlay_opacity": 55
+          }
+        }
+      },
+      "block_order": [
+        "occ_wedding",
+        "occ_festive",
+        "occ_datenight",
+        "occ_chic"
+      ],
+      "settings": {
+        "eyebrow": "STYLED FOR YOUR MOMENTS",
+        "title": "The Occasion Edit",
+        "description": "<p>From sacred rituals to modern celebrations, find pieces styled for every milestone.</p>",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "why_hency": {
+      "type": "hency-why-us",
+      "blocks": {
+        "why_1": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "💎",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
+          }
+        },
+        "why_2": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🌿",
+            "heading": "100% Skin Safe",
+            "description": "Nickel-free, hypoallergenic compositions designed for sensitive skin."
+          }
+        },
+        "why_3": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🚚",
+            "heading": "Free Insured Shipping",
+            "description": "Complimentary safe transit with tamper-evident luxury packaging across India."
+          }
+        },
+        "why_4": {
+          "type": "benefit",
+          "settings": {
+            "icon_symbol": "🔄",
+            "heading": "Easy 15-Day Exchange",
+            "description": "Hassle-free exchange policy to ensure complete peace of mind."
+          }
+        }
+      },
+      "block_order": [
+        "why_1",
+        "why_2",
+        "why_3",
+        "why_4"
+      ],
+      "settings": {
+        "eyebrow": "THE HENCYJEWELS PROMISE",
+        "title": "Why HencyJewels",
+        "description": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our jewellery apart.</p>",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "customer_reviews": {
+      "type": "hency-reviews",
+      "blocks": {
+        "rev_1": {
+          "type": "review",
+          "settings": {
+            "star_rating": 5,
+            "customer_name": "Rhea Kapoor",
+            "customer_location_or_product": "Mumbai • Solitaire Mangalsutra",
+            "review_text": "The craftsmanship is exquisite. The mangalsutra is so lightweight yet regal—I wear it to the office and at dinner parties effortlessly."
+          }
+        },
+        "rev_2": {
+          "type": "review",
+          "settings": {
+            "star_rating": 5,
+            "customer_name": "Priyanka Sen",
+            "customer_location_or_product": "Kolkata • Polki Jhumkis",
+            "review_text": "Photos don't do justice to the finish and packaging. Received so many compliments at our Diwali gathering. Truly premium quality."
+          }
+        },
+        "rev_3": {
+          "type": "review",
+          "settings": {
+            "star_rating": 5,
+            "customer_name": "Dr. Kavita Nair",
+            "customer_location_or_product": "Bangalore • Royal Kada Bangles",
+            "review_text": "Being someone with sensitive skin, I was amazed that these bangles caused zero irritation. Beautifully polished and hypoallergenic."
+          }
+        }
+      },
+      "block_order": [
+        "rev_1",
+        "rev_2",
+        "rev_3"
+      ],
+      "settings": {
+        "eyebrow": "CHERISHED WORDS",
+        "title": "Loved By Our Connoisseurs",
+        "description": "<p>Discover reflections of elegance and heartfelt joy shared by women across the country.</p>",
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "instagram_showcase": {
+      "type": "media-showcase-slider",
+      "blocks": {
+        "insta_1": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/f499e924-22a8-43c8-b4a3-ebc94ac4ee43.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "insta_2": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/b7639317-f37c-467b-abb9-006dc2399321.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "insta_3": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/9fd6911d-6aee-41dc-bfd1-a386ac8f05ec.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "insta_4": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/e702d289-8104-4278-9dd0-54a528f739e6.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "insta_5": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/64e2ec2a-319b-40ba-8df7-6ba4142353af.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "insta_6": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/e91169dd-a7fb-4b1a-ac13-f852950a1063.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "insta_1",
+        "insta_2",
+        "insta_3",
+        "insta_4",
+        "insta_5",
+        "insta_6"
+      ],
+      "settings": {
+        "title": "Follow us on Instagram",
+        "description": "Tag @hencyjewels to be featured on our official channel.",
+        "heading_size": "h2",
+        "button_label": "@hencyjewels",
+        "button_link": "https://instagram.com/hencyjewels",
+        "button_in_header": true,
+        "columns_desktop": 6,
+        "image_ratio": "1 / 1",
+        "corner_radius": 4,
+        "autoplay": true,
+        "autoplay_seconds": 15,
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "nl_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Join The HencyJewels Circle",
+            "heading_size": "h1"
+          }
+        },
+        "nl_para": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Subscribe to receive preview access to new collections, bridal styling consultations, and insider celebration offers.</p>"
+          }
+        },
+        "nl_form": {
+          "type": "email_form"
+        }
+      },
+      "block_order": [
+        "nl_heading",
+        "nl_para",
+        "nl_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "faq_section": {
+      "type": "hency-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What materials and craftsmanship are used in HencyJewels pieces?",
+            "answer": "<p>Our jewellery is crafted using skin-safe, hypoallergenic brass and copper alloys, coated with durable micro-gold plating and adorned with precision-cut stones, simulated uncut diamonds and genuine Kundan work.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How should I care for my jewellery to maintain its shine?",
+            "answer": "<p>Store your jewellery in airtight zip pouches away from moisture, perfumes and harsh sprays. Wipe gently with a dry lint-free cloth after each wear.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take across India?",
+            "answer": "<p>Orders are dispatched within 24-48 hours. Delivery takes 3-5 business days for major metropolitan areas and 5-7 business days for other regions.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your exchange and return policy?",
+            "answer": "<p>We offer a hassle-free 15-day exchange policy for all unworn items retained in their original packaging and security tags.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "eyebrow": "CLEAR GUIDANCE",
+        "title": "Frequently Asked Questions",
+        "description": "<p>Everything you need to know about our craftsmanship, materials, sizing and shipping.</p>",
+        "open_first_item": true,
+        "enable_faq_schema": true,
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "hency_hero",
     "shop_by_category",
     "shop_by_mood",
-    "hency_signature"
+    "featured_collection_new",
+    "hency_signature",
+    "featured_collection_best",
+    "mangalsutra_edit",
+    "jewellery_style_quiz",
+    "shop_the_look",
+    "occasion_edit",
+    "why_hency",
+    "customer_reviews",
+    "instagram_showcase",
+    "newsletter",
+    "faq_section"
   ]
 }

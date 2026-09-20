@@ -7,6 +7,70 @@
 
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
+    {%- if section.settings.enable_browse_categories -%}
+      <li class="header__browse-categories-wrapper">
+        {%- if section.settings.browse_categories_menu != blank and section.settings.browse_categories_menu.links.size > 0 -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-BrowseCategories">
+              <summary
+                id="HeaderMenu-BrowseCategories"
+                class="header__browse-categories-btn header__browse-categories-btn--{{ section.settings.browse_categories_style | default: 'theme_header' }}"
+              >
+                <span class="header__browse-categories-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </svg>
+                </span>
+                <span>{{ section.settings.browse_categories_label | default: 'Browse Categories' }}</span>
+                <span class="header__browse-categories-caret">
+                  <svg width="9" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 1L5 5L9 1"/>
+                  </svg>
+                </span>
+              </summary>
+              <ul
+                id="HeaderMenu-MenuList-BrowseCategories"
+                class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
+                role="list"
+                tabindex="-1"
+              >
+                {%- for cat_link in section.settings.browse_categories_menu.links -%}
+                  <li>
+                    <a
+                      href="{{ cat_link.url }}"
+                      class="header__menu-item list-menu__item link link--text focus-inset caption-large"
+                    >
+                      {{ cat_link.title | escape }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a
+            href="{{ section.settings.browse_categories_link | default: routes.collections_url }}"
+            class="header__browse-categories-btn header__browse-categories-btn--{{ section.settings.browse_categories_style | default: 'theme_header' }}"
+          >
+            <span class="header__browse-categories-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </span>
+            <span>{{ section.settings.browse_categories_label | default: 'Browse Categories' }}</span>
+            <span class="header__browse-categories-caret">
+              <svg width="9" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 1L5 5L9 1"/>
+              </svg>
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endif -%}
     {%- for link in section.settings.menu.links -%}
       <li>
         {%- if link.links != blank -%}

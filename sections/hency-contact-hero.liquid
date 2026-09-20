@@ -1,0 +1,213 @@
+{{ 'section-hency-about-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #HencyContactHero-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {%- if section.settings.bg_color != blank -%}
+      background-color: {{ section.settings.bg_color }};
+    {%- endif -%}
+  }
+
+  @media screen and (min-width: 750px) {
+    #HencyContactHero-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="HencyContactHero-{{ section.id }}"
+  class="hency-contact-hero color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width">
+    <div class="hency-contact-hero__grid">
+      <div class="hency-contact-hero__copy">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="hency-contact-hero__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        <h1 class="hency-contact-hero__title">
+          {{ section.settings.heading }}
+        </h1>
+
+        {%- if section.settings.description != blank -%}
+          <p class="hency-contact-hero__description">{{ section.settings.description | escape }}</p>
+        {%- endif -%}
+
+        <div class="hency-contact-hero__actions">
+          {%- if section.settings.phone_number != blank -%}
+            <a href="tel:{{ section.settings.phone_number | replace: ' ', '' }}" class="hency-btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>{{ section.settings.phone_button_label | default: 'Call customer care' | escape }}</span>
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.whatsapp_number != blank -%}
+            {%- assign wa_num = section.settings.whatsapp_number | replace: '+', '' | replace: ' ', '' | replace: '-', '' -%}
+            <a
+              href="https://wa.me/{{ wa_num }}?text={{ section.settings.whatsapp_message | default: 'Hello HencyJewels, I would like to inquire about a jewellery piece.' | url_encode }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hency-link-whatsapp"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.009-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.894 9.825 9.825 0 0 1 2.9 6.986c-.002 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.3-1.654a11.882 11.882 0 0 0 5.69 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+              </svg>
+              <span>{{ section.settings.whatsapp_button_label | default: 'Chat on WhatsApp →' | escape }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="hency-contact-hero__art" aria-hidden="true">
+        {%- if section.settings.art_image != blank -%}
+          {{
+            section.settings.art_image
+            | image_url: width: 900
+            | image_tag:
+              loading: 'eager',
+              class: 'hency-contact-hero__art-img',
+              widths: '400, 600, 800, 900',
+              alt: section.settings.art_caption_title | default: 'HencyJewels' | escape
+          }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hency-contact-hero__art-img' }}
+        {%- endif -%}
+
+        <div class="hency-contact-hero__art-overlay">
+          <div class="hency-contact-hero__art-caption">
+            <strong>{{ section.settings.art_caption_title | default: 'Handcrafted With Passion.' | escape }}</strong>
+            <small>{{ section.settings.art_caption_subtitle | default: 'Surat · Gujarat · India' | escape }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hency Contact Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "WE ARE HERE TO HELP"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading (use <em> for gold accent)",
+      "default": "Let's start a <em>conversation.</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Whether you need product guidance, custom bridal design or order assistance, our dedicated jewellery specialists are ready to help."
+    },
+    {
+      "type": "header",
+      "content": "Quick Actions"
+    },
+    {
+      "type": "text",
+      "id": "phone_button_label",
+      "label": "Phone button label",
+      "default": "Call customer care"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Customer care phone",
+      "default": "+91 73592 15333"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_button_label",
+      "label": "WhatsApp button label",
+      "default": "Chat on WhatsApp →"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp phone number",
+      "default": "+91 73592 15333"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_message",
+      "label": "Pre-filled WhatsApp message",
+      "default": "Hello HencyJewels, I would like assistance with an inquiry."
+    },
+    {
+      "type": "header",
+      "content": "Hero Artwork / Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "art_image",
+      "label": "Hero feature image"
+    },
+    {
+      "type": "text",
+      "id": "art_caption_title",
+      "label": "Art caption heading",
+      "default": "Handcrafted With Passion."
+    },
+    {
+      "type": "text",
+      "id": "art_caption_subtitle",
+      "label": "Art caption subtitle",
+      "default": "Surat · Gujarat · India"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background color (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hency Contact Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,222 @@
+{{ 'section-hency-about-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #HencyBrandStory-{{ section.id }} {
+    --story-pt: {{ section.settings.padding_top }}px;
+    --story-pb: {{ section.settings.padding_bottom }}px;
+    {%- if section.settings.bg_color != blank -%}
+      background-color: {{ section.settings.bg_color }};
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div
+  id="HencyBrandStory-{{ section.id }}"
+  class="hency-brand-story color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width">
+    <div class="hency-brand-story__list">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'story' -%}
+            {%- assign is_reverse = false -%}
+            {%- if block.settings.layout == 'text_first' -%}
+              {%- assign is_reverse = true -%}
+            {%- endif -%}
+            <article
+              id="Story-{{ block.id }}"
+              class="hency-story-item{% if is_reverse %} hency-story-item--reverse{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="hency-story-item__media{% if block.settings.image == blank %} hency-story-item__media--placeholder{% endif %}">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1200
+                    | image_tag:
+                      loading: 'lazy',
+                      class: 'hency-story-item__img',
+                      widths: '400, 600, 800, 1000, 1200',
+                      alt: block.settings.heading | default: block.settings.eyebrow | escape
+                  }}
+                {%- else -%}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+
+              <div class="hency-story-item__content">
+                {%- if block.settings.eyebrow != blank -%}
+                  <span class="hency-story-item__eyebrow">{{ block.settings.eyebrow | escape }}</span>
+                {%- endif -%}
+
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="hency-story-item__title">{{ block.settings.heading | escape }}</h2>
+                {%- endif -%}
+
+                {%- if block.settings.byline != blank -%}
+                  <div class="hency-story-item__byline">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="7" r="4"></circle>
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    </svg>
+                    <span>{{ block.settings.byline | escape }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.content != blank -%}
+                  <div class="hency-story-item__text rte">
+                    {{ block.settings.content }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                  <div class="hency-story-item__cta">
+                    <a href="{{ block.settings.button_link }}" class="hency-btn-primary">
+                      {{ block.settings.button_label | escape }}
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+            </article>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hency Brand Stories",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background color (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Brand Story Chapter",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Chapter image"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Desktop layout",
+          "options": [
+            { "value": "image_first", "label": "Image on Left, Text on Right" },
+            { "value": "text_first", "label": "Text on Left, Image on Right" }
+          ],
+          "default": "image_first"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow tag",
+          "default": "ABOUT US"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Heritage, Craftsmanship & Modern Grace"
+        },
+        {
+          "type": "text",
+          "id": "byline",
+          "label": "Byline / Founder badge (optional)",
+          "info": "e.g. 'Apurva Yadav — Founder, HencyJewels'"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Story description",
+          "default": "<p>HencyJewels is a modern fine-jewellery house dedicated to creating lightweight gold and certified diamond jewellery for women celebrating their milestones and building their own identity. Every piece is thoughtfully conceptualized to transition seamlessly from morning boardroom meetings to evening celebrations.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button text (optional)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hency Brand Stories",
+      "blocks": [
+        {
+          "type": "story",
+          "settings": {
+            "eyebrow": "ABOUT US",
+            "heading": "Crafting Fine Jewellery for Every Milestone",
+            "layout": "image_first",
+            "content": "<p>HencyJewels is a modern fine-jewellery house creating lightweight gold, bridal and certified diamond jewellery for women who celebrate their milestones with pride. Our minimalist designs fit naturally into everyday life—from work meetings and family gatherings to grand evenings out. With thoughtful design, clear product disclosures and honest value, we make choosing fine jewellery feel as comfortable as wearing it.</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "eyebrow": "THE VISIONARY",
+            "heading": "Empowering Women Through Timeless Craft",
+            "byline": "Founder & Creative Director",
+            "layout": "text_first",
+            "content": "<p>Growing up surrounded by India's rich artisanal jewellery legacy taught us how much jewellery symbolizes independence, dignity and celebration. Each design is crafted to honour her personal journey—from a first salary to a promotion, bridal union or personal new chapter. As HencyJewels grows, our mission remains empowering women to feel confident shaping their own future while wearing pieces that last for generations.</p>"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "eyebrow": "OUR PHILOSOPHY",
+            "heading": "Purity, Transparency & Ethical Artistry",
+            "layout": "image_first",
+            "content": "<p>We believe fine jewellery should feel personal, comfortable and completely authentic. Our approach centres on lightweight designs, understated elegance and ethical sourcing. We also believe confidence in a purchase begins with absolute clarity: BIS hallmarked gold, disclosed stone weights, certified diamond reports and lifetime after-sales care.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

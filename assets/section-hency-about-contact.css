@@ -1,0 +1,807 @@
+/* ==========================================================================
+   HencyJewels - About Us & Contact Us Luxury Page Styles
+   Matches brand tokens: --hency-gold, --hency-charcoal, --hency-ivory, --hency-cream
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Page Header / Breadcrumbs Section (.hency-page-header)
+   -------------------------------------------------------------------------- */
+.hency-page-header {
+  padding: 4.5rem 0 3rem;
+  background-color: var(--hency-ivory, #fafaf7);
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+}
+
+.hency-page-header__inner {
+  text-align: center;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.hency-page-header__breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+  margin-bottom: 1.6rem;
+}
+
+.hency-page-header__breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.hency-page-header__breadcrumbs a:hover {
+  color: var(--hency-gold, #c5a059);
+}
+
+.hency-page-header__breadcrumbs-sep {
+  opacity: 0.5;
+  font-size: 1.1rem;
+}
+
+.hency-page-header__eyebrow {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.8rem;
+}
+
+.hency-page-header__title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.8rem, 4vw, 4.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-page-header__subtitle {
+  font-size: 1.55rem;
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.75);
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. Editorial Brand Story Section (.hency-brand-story)
+   -------------------------------------------------------------------------- */
+.hency-brand-story {
+  padding-top: var(--story-pt, 5rem);
+  padding-bottom: var(--story-pb, 5rem);
+  background-color: var(--hency-ivory, #fafaf7);
+}
+
+.hency-brand-story__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+@media screen and (min-width: 990px) {
+  .hency-brand-story__list {
+    gap: 8rem;
+  }
+}
+
+.hency-story-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 750px) {
+  .hency-story-item {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+  }
+
+  .hency-story-item--reverse .hency-story-item__media {
+    order: 2;
+  }
+
+  .hency-story-item--reverse .hency-story-item__content {
+    order: 1;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .hency-story-item {
+    gap: 7.5rem;
+  }
+}
+
+.hency-story-item__media {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+  background: var(--hency-cream, #f6f3ed);
+  aspect-ratio: 4 / 5;
+}
+
+.hency-story-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hency-story-item:hover .hency-story-item__img {
+  transform: scale(1.03);
+}
+
+.hency-story-item__media--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hency-story-item__media--placeholder svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.4;
+}
+
+.hency-story-item__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hency-story-item__eyebrow {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 1rem;
+}
+
+.hency-story-item__title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.4rem, 3.2vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin: 0 0 1.2rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-story-item__byline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+}
+
+.hency-story-item__text {
+  font-size: 1.55rem;
+  line-height: 1.75;
+  color: rgba(26, 26, 26, 0.8);
+  margin: 0 0 2rem;
+}
+
+.hency-story-item__text p {
+  margin: 0 0 1.2rem;
+}
+
+.hency-story-item__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. Contact Hero Section (.hency-contact-hero)
+   -------------------------------------------------------------------------- */
+.hency-contact-hero {
+  padding: 5rem 0 4rem;
+  background-color: var(--hency-ivory, #fafaf7);
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+}
+
+@media screen and (min-width: 750px) {
+  .hency-contact-hero {
+    padding: 6.5rem 0 5rem;
+  }
+}
+
+.hency-contact-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 850px) {
+  .hency-contact-hero__grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 6rem;
+  }
+}
+
+.hency-contact-hero__copy {
+  max-width: 60rem;
+}
+
+.hency-contact-hero__eyebrow {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 1.2rem;
+}
+
+.hency-contact-hero__title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(3.2rem, 4.5vw, 5rem);
+  line-height: 1.12;
+  font-weight: 600;
+  margin: 0 0 1.6rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-contact-hero__title em {
+  font-style: italic;
+  font-family: var(--font-heading-family);
+  color: var(--hency-gold, #c5a059);
+}
+
+.hency-contact-hero__description {
+  font-size: 1.6rem;
+  line-height: 1.65;
+  color: rgba(26, 26, 26, 0.8);
+  margin: 0 0 2.8rem;
+}
+
+.hency-contact-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.hency-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background-color: var(--hency-gold, #c5a059);
+  color: #ffffff !important;
+  border: 1px solid var(--hency-gold, #c5a059);
+  border-radius: 4px;
+  padding: 1.2rem 2.6rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(197, 160, 89, 0.25);
+}
+
+.hency-btn-primary:hover {
+  background-color: var(--hency-gold-dark, #9f7d37);
+  border-color: var(--hency-gold-dark, #9f7d37);
+  box-shadow: 0 6px 18px rgba(159, 125, 55, 0.35);
+  transform: translateY(-2px);
+}
+
+.hency-link-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--hency-charcoal, #1a1a1a);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.hency-link-whatsapp:hover {
+  color: #25D366;
+  transform: translateX(3px);
+}
+
+.hency-contact-hero__art {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+  aspect-ratio: 4 / 3;
+  background-color: var(--hency-cream, #f6f3ed);
+}
+
+.hency-contact-hero__art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hency-contact-hero__art-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.7) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 2.4rem;
+}
+
+.hency-contact-hero__art-caption {
+  color: #ffffff;
+}
+
+.hency-contact-hero__art-caption strong {
+  display: block;
+  font-family: var(--font-heading-family);
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.hency-contact-hero__art-caption small {
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+/* --------------------------------------------------------------------------
+   4. Contact Channels Grid (.hency-contact-details)
+   -------------------------------------------------------------------------- */
+.hency-contact-details {
+  padding: 5rem 0;
+  background-color: #ffffff;
+}
+
+.hency-contact-details__header {
+  text-align: center;
+  max-width: 65rem;
+  margin: 0 auto 4rem;
+}
+
+.hency-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 550px) {
+  .hency-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .hency-card-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.4rem;
+  }
+}
+
+.hency-contact-card {
+  background: var(--hency-ivory, #fafaf7);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.22));
+  border-radius: 6px;
+  padding: 2.8rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hency-contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  border-color: var(--hency-gold, #c5a059);
+}
+
+.hency-contact-card__icon {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  background: var(--hency-cream, #f6f3ed);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 1.8rem;
+}
+
+.hency-contact-card__icon svg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.hency-contact-card__category {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.6rem;
+}
+
+.hency-contact-card__title {
+  font-family: var(--font-heading-family);
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-contact-card__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hency-charcoal, #1a1a1a);
+  text-decoration: none;
+  margin-bottom: 0.8rem;
+  transition: color 0.2s ease;
+}
+
+.hency-contact-card__value:hover {
+  color: var(--hency-gold, #c5a059);
+}
+
+.hency-contact-card__desc {
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: rgba(26, 26, 26, 0.72);
+  margin: 0 0 1.8rem;
+  flex-grow: 1;
+}
+
+.hency-contact-card__action {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--hency-gold, #c5a059);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.hency-contact-card__action:hover {
+  color: var(--hency-charcoal, #1a1a1a);
+  gap: 0.7rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Contact Form Section (.hency-contact-form-section)
+   -------------------------------------------------------------------------- */
+.hency-contact-form-section {
+  padding: 5.5rem 0;
+  background-color: var(--hency-ivory, #fafaf7);
+  border-top: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+}
+
+.hency-contact-form-wrap {
+  max-width: 78rem;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 3.5rem 2.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
+}
+
+@media screen and (min-width: 750px) {
+  .hency-contact-form-wrap {
+    padding: 4.8rem 4.4rem;
+  }
+}
+
+.hency-contact-form__header {
+  text-align: center;
+  margin-bottom: 3.2rem;
+}
+
+.hency-contact-form__eyebrow {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.8rem;
+}
+
+.hency-contact-form__title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.4rem, 3vw, 3.2rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 1rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-contact-form__desc {
+  font-size: 1.45rem;
+  color: rgba(26, 26, 26, 0.72);
+  margin: 0 auto;
+}
+
+.hency-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem 2.4rem;
+}
+
+@media screen and (min-width: 650px) {
+  .hency-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hency-form-field--wide {
+    grid-column: span 2;
+  }
+}
+
+.hency-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hency-field label {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-field label span {
+  font-weight: 400;
+  color: rgba(26, 26, 26, 0.5);
+}
+
+.hency-input,
+.hency-select,
+.hency-textarea {
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+  font-family: var(--font-body-family);
+  font-size: 1.45rem;
+  color: var(--hency-charcoal, #1a1a1a);
+  background-color: var(--hency-ivory, #fafaf7);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.3));
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.hency-input:focus,
+.hency-select:focus,
+.hency-textarea:focus {
+  border-color: var(--hency-gold, #c5a059);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.18);
+}
+
+.hency-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c5a059' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.4rem center;
+  background-size: 1.6rem;
+  padding-right: 3.8rem;
+  cursor: pointer;
+}
+
+.hency-textarea {
+  resize: vertical;
+  min-height: 12rem;
+}
+
+.hency-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: rgba(26, 26, 26, 0.72);
+  cursor: pointer;
+}
+
+.hency-consent input[type="checkbox"] {
+  margin-top: 0.3rem;
+  accent-color: var(--hency-gold, #c5a059);
+}
+
+.hency-submit-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 0.8rem;
+}
+
+.hency-submit-btn {
+  width: 100%;
+  padding: 1.4rem;
+  font-size: 1.45rem;
+}
+
+@media screen and (min-width: 600px) {
+  .hency-submit-btn {
+    width: auto;
+    min-width: 26rem;
+  }
+}
+
+.hency-submit-note {
+  font-size: 1.25rem;
+  color: rgba(26, 26, 26, 0.55);
+  margin: 0;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   6. Location & Map Section (.hency-contact-location)
+   -------------------------------------------------------------------------- */
+.hency-contact-location {
+  padding: 5rem 0;
+  background-color: #ffffff;
+}
+
+.hency-location-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: stretch;
+}
+
+@media screen and (min-width: 850px) {
+  .hency-location-grid {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 5rem;
+  }
+}
+
+.hency-address-panel {
+  background: var(--hency-ivory, #fafaf7);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+  border-radius: 6px;
+  padding: 3.8rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hency-address-panel__icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: var(--hency-cream, #f6f3ed);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.3));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 2rem;
+}
+
+.hency-address-panel__eyebrow {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.8rem;
+}
+
+.hency-address-panel__title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.4rem, 3vw, 3.2rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 1.6rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-address-panel address {
+  font-style: normal;
+  font-size: 1.55rem;
+  line-height: 1.7;
+  color: rgba(26, 26, 26, 0.82);
+  margin-bottom: 2.5rem;
+}
+
+.hency-address-panel__note {
+  font-size: 1.3rem;
+  color: rgba(26, 26, 26, 0.6);
+  margin-top: 1.4rem;
+}
+
+.hency-map-frame {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  min-height: 38rem;
+  background-color: var(--hency-cream, #f6f3ed);
+}
+
+.hency-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 38rem;
+  border: none;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   7. Security & Trust Note (.hency-security-note)
+   -------------------------------------------------------------------------- */
+.hency-security-note {
+  padding: 3.5rem 0;
+  background-color: var(--hency-ivory, #fafaf7);
+  border-top: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.2));
+}
+
+.hency-security-note__inner {
+  max-width: 85rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hency-security-note__eyebrow {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.6rem;
+}
+
+.hency-security-note__title {
+  font-family: var(--font-heading-family);
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--hency-charcoal, #1a1a1a);
+}
+
+.hency-security-note__text {
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: rgba(26, 26, 26, 0.75);
+  margin: 0;
+}

@@ -86,55 +86,349 @@
   font-weight: normal;
 }
 
-/* Mega menu promo card layout */
+/* Browse Categories button */
+.header__browse-categories-wrapper {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header__browse-categories-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem 1.6rem;
+  margin-right: 1.6rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  line-height: 1;
+}
+
+.header__browse-categories-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--hency-gold, #c5a059);
+}
+
+.header__browse-categories-caret {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.2rem;
+  opacity: 0.8;
+}
+
+/* 1. Theme Header (Minimal clean text & gold arrow - matches reference screenshot) */
+.header__browse-categories-btn--theme_header {
+  background-color: transparent;
+  border: none;
+  padding-left: 0;
+  color: rgb(var(--color-foreground));
+}
+
+.header__browse-categories-btn--theme_header:hover {
+  background-color: transparent;
+  color: var(--hency-gold, #c5a059);
+}
+
+.header__browse-categories-btn--theme_header:hover .header__browse-categories-caret {
+  transform: translateY(2px);
+}
+
+/* 2. Hency Gold Solid */
+.header__browse-categories-btn--gold_solid {
+  background-color: var(--hency-gold, #c5a059);
+  color: #ffffff;
+  border: 1px solid var(--hency-gold, #c5a059);
+  border-radius: 4px;
+}
+
+.header__browse-categories-btn--gold_solid .header__browse-categories-icon,
+.header__browse-categories-btn--gold_solid .header__browse-categories-caret {
+  color: #ffffff;
+}
+
+.header__browse-categories-btn--gold_solid:hover {
+  background-color: var(--hency-gold-dark, #9f7d37);
+  border-color: var(--hency-gold-dark, #9f7d37);
+  color: #ffffff;
+}
+
+/* 3. Hency Gold Outline */
+.header__browse-categories-btn--gold_outline {
+  background-color: transparent;
+  color: var(--hency-gold, #c5a059);
+  border: 1px solid var(--hency-gold, #c5a059);
+  border-radius: 4px;
+}
+
+.header__browse-categories-btn--gold_outline .header__browse-categories-icon,
+.header__browse-categories-btn--gold_outline .header__browse-categories-caret {
+  color: var(--hency-gold, #c5a059);
+}
+
+.header__browse-categories-btn--gold_outline:hover {
+  background-color: var(--hency-gold, #c5a059);
+  color: #ffffff;
+}
+
+.header__browse-categories-btn--gold_outline:hover .header__browse-categories-icon,
+.header__browse-categories-btn--gold_outline:hover .header__browse-categories-caret {
+  color: #ffffff;
+}
+
+/* 4. Charcoal Solid */
+.header__browse-categories-btn--charcoal_solid {
+  background-color: var(--hency-charcoal, #1a1a1a);
+  color: #ffffff;
+  border: 1px solid var(--hency-charcoal, #1a1a1a);
+  border-radius: 4px;
+}
+
+.header__browse-categories-btn--charcoal_solid .header__browse-categories-icon,
+.header__browse-categories-btn--charcoal_solid .header__browse-categories-caret {
+  color: var(--hency-gold, #c5a059);
+}
+
+.header__browse-categories-btn--charcoal_solid:hover {
+  background-color: var(--hency-gold, #c5a059);
+  border-color: var(--hency-gold, #c5a059);
+  color: #ffffff;
+}
+
+.header__browse-categories-btn--charcoal_solid:hover .header__browse-categories-icon,
+.header__browse-categories-btn--charcoal_solid:hover .header__browse-categories-caret {
+  color: #ffffff;
+}
+
+/* Mega menu with promo card layout */
 .mega-menu__inner--with-promo {
   display: grid;
-  grid-template-columns: 1fr 28rem;
-  gap: 3.5rem;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) var(--promo-card-width, 32rem);
+  gap: 4rem;
+  align-items: stretch;
 }
 
-.mega-menu__promo-card {
-  background: var(--hency-cream, #f6f3ed);
-  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.22));
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 1.5rem;
+.mega-menu__inner--with-promo .mega-menu__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2.5rem 3.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-menu__column {
   display: flex;
   flex-direction: column;
+}
+
+.mega-menu__link--level-2 {
+  font-family: var(--font-heading-family);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgb(var(--color-foreground));
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.mega-menu__link--level-2:hover {
+  color: var(--hency-gold, #c5a059);
+}
+
+.mega-menu__sublist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mega-menu__sublist a {
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.75);
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.35rem 0;
+  transition: all 0.2s ease;
+}
+
+.mega-menu__sublist a:hover {
+  color: var(--hency-gold, #c5a059);
+  padding-left: 4px;
+}
+
+/* Mega Menu Promo Banner (Matches User Screenshot) */
+.mega-menu__promo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mega-menu__promo-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+}
+
+.mega-menu__promo-banner {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 38rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.mega-menu__promo-banner:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Editorial Overlay Style (Text over Image) */
+.mega-menu__promo-banner--overlay {
+  justify-content: flex-end;
+  background-color: var(--hency-cream, #f6f3ed);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.25));
+}
+
+.mega-menu__promo-banner--overlay .mega-menu__promo-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.mega-menu__promo-banner--overlay .mega-menu__promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mega-menu__promo-banner--overlay:hover .mega-menu__promo-img {
+  transform: scale(1.05);
+}
+
+.mega-menu__promo-banner--overlay .mega-menu__promo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 30%, rgba(0, 0, 0, 0.45) 65%, rgba(0, 0, 0, 0.88) 100%);
+  opacity: var(--overlay-op, 0.35);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.mega-menu__promo-banner--overlay .mega-menu__promo-content {
+  position: relative;
+  z-index: 3;
+  padding: 2.8rem 2.4rem;
+  color: #ffffff;
+}
+
+.mega-menu__promo-badge {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
+  margin-bottom: 0.8rem;
+}
+
+.mega-menu__promo-title {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2rem, 2.2vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.8rem;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.mega-menu__promo-subtitle {
+  font-size: 1.35rem;
+  line-height: 1.4;
+  margin: 0 0 1.6rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.mega-menu__promo-cta {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--hency-gold, #c5a059);
+  transition: all 0.25s ease;
+}
+
+.mega-menu__promo-banner--overlay:hover .mega-menu__promo-cta {
+  text-decoration-color: #ffffff;
+  color: var(--hency-gold, #c5a059);
+}
+
+/* Card Box Style (Text below Image) */
+.mega-menu__promo-banner--card {
+  background: var(--hency-cream, #f6f3ed);
+  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.22));
+  padding: 1.5rem;
   gap: 1.2rem;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.mega-menu__promo-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-}
-
-.mega-menu__promo-media {
+.mega-menu__promo-banner--card .mega-menu__promo-media {
   aspect-ratio: 4 / 3;
   border-radius: 2px;
   overflow: hidden;
 }
 
-.mega-menu__promo-img {
+.mega-menu__promo-banner--card .mega-menu__promo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.mega-menu__promo-title {
+.mega-menu__promo-banner--card .mega-menu__promo-title {
   margin: 0;
   font-family: var(--font-heading-family);
   font-size: 1.7rem;
-  line-height: 1.25;
+  color: var(--hency-charcoal, #1a1a1a);
 }
 
-.mega-menu__promo-text {
+.mega-menu__promo-banner--card .mega-menu__promo-subtitle {
   margin: 0.4rem 0 0;
   font-size: 1.3rem;
-  line-height: 1.4;
-  opacity: 0.8;
+  color: rgba(26, 26, 26, 0.75);
+}
+
+.mega-menu__promo-banner--card .mega-menu__promo-cta {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--hency-gold, #c5a059);
 }
 

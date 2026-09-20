@@ -7,6 +7,79 @@
 
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
+    {%- if section.settings.enable_browse_categories -%}
+      <li class="header__browse-categories-wrapper">
+        {%- if section.settings.browse_categories_menu != blank and section.settings.browse_categories_menu.links.size > 0 -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-BrowseCategories" class="mega-menu">
+              <summary
+                id="HeaderMenu-BrowseCategories"
+                class="header__browse-categories-btn header__browse-categories-btn--{{ section.settings.browse_categories_style | default: 'theme_header' }}"
+              >
+                <span class="header__browse-categories-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </svg>
+                </span>
+                <span>{{ section.settings.browse_categories_label | default: 'Browse Categories' }}</span>
+                <span class="header__browse-categories-caret">
+                  <svg width="9" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 1L5 5L9 1"/>
+                  </svg>
+                </span>
+              </summary>
+              <div
+                id="MegaMenu-Content-BrowseCategories"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                <ul class="mega-menu__list page-width" role="list">
+                  {%- for cat_link in section.settings.browse_categories_menu.links -%}
+                    <li class="mega-menu__column">
+                      <a href="{{ cat_link.url }}" class="mega-menu__link mega-menu__link--level-2 link">
+                        {{ cat_link.title | escape }}
+                      </a>
+                      {%- if cat_link.links != blank -%}
+                        <ul class="list-unstyled mega-menu__sublist" role="list">
+                          {%- for sub_cat_link in cat_link.links -%}
+                            <li>
+                              <a href="{{ sub_cat_link.url }}" class="mega-menu__link link">
+                                {{ sub_cat_link.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a
+            href="{{ section.settings.browse_categories_link | default: routes.collections_url }}"
+            class="header__browse-categories-btn header__browse-categories-btn--{{ section.settings.browse_categories_style | default: 'theme_header' }}"
+          >
+            <span class="header__browse-categories-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </span>
+            <span>{{ section.settings.browse_categories_label | default: 'Browse Categories' }}</span>
+            <span class="header__browse-categories-caret">
+              <svg width="9" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 1L5 5L9 1"/>
+              </svg>
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endif -%}
     {%- for link in section.settings.menu.links -%}
       <li>
         {%- if link.links != blank -%}
@@ -43,13 +116,13 @@
                     endif
                   endfor
                 -%}
-                <div class="mega-menu__inner page-width{% if matching_promo %} mega-menu__inner--with-promo{% endif %}">
+                <div class="mega-menu__inner page-width{% if matching_promo %} mega-menu__inner--with-promo{% endif %}" style="{% if matching_promo %}--promo-card-width: {{ matching_promo.settings.card_width | default: '32rem' }};{% endif %}">
                   <ul
                     class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
                     role="list"
                   >
                     {%- for childlink in link.links -%}
-                      <li>
+                      <li class="mega-menu__column">
                         <a
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                           href="{{ childlink.url }}"
@@ -61,7 +134,7 @@
                           {{ childlink.title | escape }}
                         </a>
                         {%- if childlink.links != blank -%}
-                          <ul class="list-unstyled" role="list">
+                          <ul class="list-unstyled mega-menu__sublist" role="list">
                             {%- for grandchildlink in childlink.links -%}
                               <li>
                                 <a
@@ -82,37 +155,56 @@
                     {%- endfor -%}
                   </ul>
                   {%- if matching_promo -%}
+                    {%- assign card_style = matching_promo.settings.card_style | default: 'overlay' -%}
+                    {%- assign promo_url = matching_promo.settings.link | default: matching_promo.settings.collection.url -%}
                     <div class="mega-menu__promo" {{ matching_promo.shopify_attributes }}>
-                      {%- if matching_promo.settings.link != blank -%}
-                        <a href="{{ matching_promo.settings.link }}" class="mega-menu__promo-link full-unstyled-link">
+                      {%- if promo_url != blank -%}
+                        <a href="{{ promo_url }}" class="mega-menu__promo-link full-unstyled-link">
                       {%- endif -%}
-                      <div class="mega-menu__promo-card">
+                      <div class="mega-menu__promo-banner mega-menu__promo-banner--{{ card_style }}">
                         {%- if matching_promo.settings.image != blank -%}
                           <div class="mega-menu__promo-media">
                             {{
                               matching_promo.settings.image
-                              | image_url: width: 600
+                              | image_url: width: 800
                               | image_tag:
                                 loading: 'lazy',
                                 class: 'mega-menu__promo-img',
-                                widths: '300, 450, 600',
-                                alt: matching_promo.settings.heading | escape
+                                widths: '300, 450, 600, 800',
+                                alt: matching_promo.settings.heading | default: matching_promo.settings.menu_item_title | escape
                             }}
                           </div>
+                        {%- else -%}
+                          <div class="mega-menu__promo-media mega-menu__promo-media--placeholder">
+                            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg mega-menu__promo-img' }}
+                          </div>
                         {%- endif -%}
-                        <div class="mega-menu__promo-info">
+
+                        {%- if card_style == 'overlay' -%}
+                          <div class="mega-menu__promo-overlay" style="--overlay-op: {{ matching_promo.settings.overlay_opacity | default: 35 | divided_by: 100.0 }};"></div>
+                        {%- endif -%}
+
+                        <div class="mega-menu__promo-content">
+                          {%- if matching_promo.settings.badge_text != blank -%}
+                            <span class="mega-menu__promo-badge">{{ matching_promo.settings.badge_text | escape }}</span>
+                          {%- endif -%}
+
                           {%- if matching_promo.settings.heading != blank -%}
                             <h4 class="mega-menu__promo-title">{{ matching_promo.settings.heading | escape }}</h4>
                           {%- endif -%}
+
                           {%- if matching_promo.settings.subheading != blank -%}
-                            <p class="mega-menu__promo-text">{{ matching_promo.settings.subheading | escape }}</p>
+                            <p class="mega-menu__promo-subtitle">{{ matching_promo.settings.subheading | escape }}</p>
                           {%- endif -%}
+
                           {%- if matching_promo.settings.button_label != blank -%}
-                            <span class="button button--small button--gold" style="margin-top: 0.5rem;">{{ matching_promo.settings.button_label | escape }}</span>
+                            <span class="mega-menu__promo-cta">
+                              {{ matching_promo.settings.button_label | escape }}
+                            </span>
                           {%- endif -%}
                         </div>
                       </div>
-                      {%- if matching_promo.settings.link != blank -%}
+                      {%- if promo_url != blank -%}
                         </a>
                       {%- endif -%}
                     </div>
