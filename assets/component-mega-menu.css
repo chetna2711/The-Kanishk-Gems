@@ -247,57 +247,51 @@
   }
 }
 
-/* Single-line layout for menus with NO child submenus (e.g. Offers: Combo Offers, Under ₹999, Under ₹1999) */
-.mega-menu__list--inline-row,
-.mega-menu__inner--with-promo .mega-menu__list--inline-row {
+/* Single vertical column for menus with NO child submenus (e.g. Offers: Combo Offers, Under ₹999, Under ₹1999) */
+.mega-menu__list--single-col,
+.mega-menu__inner--with-promo .mega-menu__list--single-col {
   display: flex !important;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.4rem 1.8rem;
+  flex-direction: column !important;
+  gap: 0.6rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.mega-menu__inline-item {
+.mega-menu__single-col-item {
   list-style: none;
-  display: inline-flex;
 }
 
-.mega-menu__pill-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 1.1rem 2.4rem;
+.mega-menu__single-col-link {
   font-family: var(--font-heading-family);
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--hency-charcoal, #1a1a1a);
-  background-color: var(--hency-cream, #f6f3ed);
-  border: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.35));
-  border-radius: 4px;
+  color: rgb(var(--color-foreground));
   text-decoration: none;
-  line-height: 1.2;
-  transition: all 0.25s ease;
+  display: inline-block;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  line-height: 1.3;
 }
 
-.mega-menu__pill-link:hover,
-.mega-menu__pill-link--active {
-  background-color: var(--hency-gold, #c5a059);
-  border-color: var(--hency-gold, #c5a059);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(197, 160, 89, 0.25);
+.mega-menu__single-col-link:hover,
+.mega-menu__single-col-link--active {
+  color: var(--hency-gold, #c5a059);
+  padding-left: 6px;
 }
 
-.mega-menu__inner--with-promo:has(.mega-menu__list--inline-row) {
+.mega-menu__inner--with-promo:has(.mega-menu__list--single-col) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--promo-card-width, 30rem);
+  gap: 3rem 4rem;
   align-items: center;
 }
 
-.mega-menu__inner--with-promo:has(.mega-menu__list--inline-row) .mega-menu__promo-banner {
-  min-height: 22rem;
+.mega-menu__inner--with-promo:has(.mega-menu__list--single-col) .mega-menu__promo-banner {
+  min-height: 24rem;
 }
 
 .mega-menu__column {
