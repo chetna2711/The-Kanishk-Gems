@@ -12,6 +12,25 @@
     "hency_hero": {
       "type": "hency-hero",
       "blocks": {
+        "slide_LfgtcE": {
+          "type": "slide",
+          "settings": {
+            "desktop_image": "shopify://shop_images/d8e1fea5-59ab-420f-a3fd-33487db3a526.png",
+            "image_focal_position": "center center",
+            "overlay_opacity": 30,
+            "eyebrow": "",
+            "heading": "",
+            "description": "",
+            "content_max_width": 65,
+            "text_position": "middle-left",
+            "text_alignment": "left",
+            "text_color": "#ffffff",
+            "primary_button_label": "",
+            "primary_button_link": "",
+            "secondary_button_label": "",
+            "secondary_button_link": ""
+          }
+        },
         "slide_neqhLV": {
           "type": "slide",
           "settings": {
@@ -33,12 +52,13 @@
         }
       },
       "block_order": [
+        "slide_LfgtcE",
         "slide_neqhLV"
       ],
       "settings": {
         "auto_rotate": true,
         "change_slides_speed": 5,
-        "show_arrows": true,
+        "show_arrows": false,
         "show_dots": true,
         "pause_on_hover": true,
         "hero_height_desktop": "500px",
