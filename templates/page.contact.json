@@ -1,96 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "contact_hero": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "hency_contact_hero_XAwftQ": {
       "type": "hency-contact-hero",
+      "name": "Hency Contact Hero",
       "settings": {
         "eyebrow": "WE ARE HERE TO HELP",
         "heading": "Let's start a <em>conversation.</em>",
-        "description": "Whether you need product guidance, diamond specifications, order assistance or want to discuss a custom bridal design, the HencyJewels concierge team is ready to help.",
+        "description": "Whether you need product guidance, custom bridal design or order assistance, our dedicated jewellery specialists are ready to help.",
         "phone_button_label": "Call customer care",
         "phone_number": "+91 73592 15333",
         "whatsapp_button_label": "Chat on WhatsApp →",
         "whatsapp_number": "+91 73592 15333",
-        "whatsapp_message": "Hello HencyJewels, I need guidance with a jewellery enquiry.",
-        "art_image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
-        "art_caption_title": "Together, We Shine.",
+        "whatsapp_message": "Hello HencyJewels, I would like assistance with an inquiry.",
+        "art_image": "shopify://shop_images/1df81aa3-5b17-4051-9680-7ed7be018a07.jpg",
+        "art_caption_title": "Handcrafted With Passion.",
         "art_caption_subtitle": "Surat · Gujarat · India",
-        "color_scheme": "scheme-1",
+        "color_scheme": "",
+        "bg_color": "",
         "padding_top": 65,
         "padding_bottom": 50
       }
     },
-    "contact_details": {
-      "type": "hency-contact-details",
-      "blocks": {
-        "channel_phone": {
-          "type": "channel",
-          "settings": {
-            "icon": "phone",
-            "category": "CALL OR WHATSAPP",
-            "title": "Customer Care",
-            "value": "+91 73592 15333",
-            "link": "tel:+917359215333",
-            "description": "Product questions, diamond guidance, order status and courier delivery support.",
-            "action_label": "Start WhatsApp chat",
-            "action_url": "https://wa.me/917359215333"
-          }
-        },
-        "channel_business": {
-          "type": "channel",
-          "settings": {
-            "icon": "email",
-            "category": "GENERAL ENQUIRIES",
-            "title": "Business & Brand",
-            "value": "hencyjewels@gmail.com",
-            "link": "mailto:hencyjewels@gmail.com",
-            "description": "General questions, bespoke bridal inquiries and brand collaboration proposals.",
-            "action_label": "Write to us",
-            "action_url": "mailto:hencyjewels@gmail.com"
-          }
-        },
-        "channel_support": {
-          "type": "channel",
-          "settings": {
-            "icon": "support",
-            "category": "CUSTOMER ASSISTANCE",
-            "title": "Order Support",
-            "value": "support@hencyjewels.com",
-            "link": "mailto:support@hencyjewels.com",
-            "description": "Orders, delivery tracking, exchanges, resizing and after-sales jewellery care.",
-            "action_label": "Email support",
-            "action_url": "mailto:support@hencyjewels.com"
-          }
-        },
-        "channel_hours": {
-          "type": "channel",
-          "settings": {
-            "icon": "clock",
-            "category": "SERVICE HOURS",
-            "title": "Monday–Saturday",
-            "value": "10:00 AM–6:00 PM IST",
-            "description": "Excluding national holidays. All messages are answered within one business day.",
-            "action_label": "",
-            "action_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "channel_phone",
-        "channel_business",
-        "channel_support",
-        "channel_hours"
-      ],
-      "settings": {
-        "eyebrow": "CONTACT OPTIONS",
-        "heading": "Choose the right channel",
-        "description": "For faster assistance, please use the contact option that best matches your enquiry.",
-        "color_scheme": "scheme-1",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "contact_form": {
+    "hency_contact_form_Wy9GwH": {
       "type": "hency-contact-form",
+      "name": "Hency Contact Form",
       "settings": {
         "eyebrow": "SEND US A MESSAGE",
         "heading": "Personal Jewellery Assistance",
@@ -98,93 +48,102 @@
         "submit_label": "Send Message",
         "consent_text": "I agree that HencyJewels may contact me regarding this enquiry. We protect your privacy and never share your details.",
         "submit_note": "Your enquiry is delivered directly to our senior jewellery concierge team.",
-        "color_scheme": "scheme-2",
+        "color_scheme": "",
+        "bg_color": "",
         "padding_top": 55,
         "padding_bottom": 55
       }
     },
-    "contact_location": {
-      "type": "hency-contact-location",
+    "form": {
+      "type": "contact-form",
+      "disabled": true,
       "settings": {
-        "eyebrow": "OUR BOUTIQUE & ATELIER",
-        "heading": "Visit HencyJewels in Surat",
-        "address_html": "HencyJewels Studio & Atelier<br>501, 5th Floor, Trivedaa Rize<br>Beside Sangini Evoq, Near Bhagwan Mahavir College<br>VIP Road, Vesu, Surat<br>Gujarat 395007, India",
-        "maps_url": "https://www.google.com/maps/search/?api=1&query=501%2C%205th%20Floor%2C%20Trivedaa%20Rize%2C%20Beside%20Sangini%20Evoq%2C%20Near%20Bhagwan%20Mahavir%20College%2C%20VIP%20Road%2C%20Vesu%2C%20Surat%2C%20Gujarat%20395007%2C%20India",
-        "maps_button_label": "Open in Google Maps",
-        "note": "Please call customer care if you need assistance locating our atelier.",
-        "map_embed_url": "https://www.google.com/maps?q=501%2C%205th%20Floor%2C%20Trivedaa%20Rize%2C%20Beside%20Sangini%20Evoq%2C%20Near%20Bhagwan%20Mahavir%20College%2C%20VIP%20Road%2C%20Vesu%2C%20Surat%2C%20Gujarat%20395007%2C%20India&output=embed",
+        "heading": "",
+        "heading_size": "h1",
         "color_scheme": "scheme-1",
-        "padding_top": 50,
-        "padding_bottom": 50
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
-    "contact_faqs": {
-      "type": "hency-faq",
+    "hency_contact_details_9rAncx": {
+      "type": "hency-contact-details",
       "blocks": {
-        "faq_c1": {
-          "type": "faq_item",
+        "channel_4fNyri": {
+          "type": "channel",
           "settings": {
-            "question": "When will my jewellery order be delivered?",
-            "answer": "<p>Ready-to-ship designs are typically dispatched within 2–4 business days. Made-to-order, custom engraved or resized pieces require 7–15 business days for master craftsmanship, followed by 2–5 business days of insured courier transit.</p>"
+            "icon": "phone",
+            "category": "CALL OR WHATSAPP",
+            "title": "Customer Care",
+            "value": "+91 73592 15333",
+            "link": "tel:+917359215333",
+            "description": "Product questions, order assistance and delivery support.",
+            "action_label": "Start WhatsApp chat",
+            "action_url": "https://wa.me/917359215333"
           }
         },
-        "faq_c2": {
-          "type": "faq_item",
+        "channel_9QrDMH": {
+          "type": "channel",
           "settings": {
-            "question": "How can I track my order?",
-            "answer": "<p>As soon as your jewellery is handed over to our insured courier partner, you will receive a tracking link via SMS and email with live transit updates and estimated delivery time.</p>"
+            "icon": "email",
+            "category": "GENERAL ENQUIRIES",
+            "title": "Business & Brand",
+            "value": "hencyjewels@gmail.com",
+            "link": "mailto:hencyjewels@gmail.com",
+            "description": "General, business, bespoke styling, and collaboration enquiries.",
+            "action_label": "Write to us",
+            "action_url": "mailto:hencyjewels@gmail.com"
           }
         },
-        "faq_c3": {
-          "type": "faq_item",
+        "channel_TDQDEg": {
+          "type": "channel",
           "settings": {
-            "question": "Do you offer custom bridal and bespoke design consultations?",
-            "answer": "<p>Yes! Our master jewellery designers specialize in bespoke creations. Select 'Custom bridal & jewellery design' in the contact form above or reach out via WhatsApp to begin your personalized consultation.</p>"
+            "icon": "support",
+            "category": "CUSTOMER ASSISTANCE",
+            "title": "Order Support",
+            "value": "support@hencyjewels.com",
+            "link": "mailto:support@hencyjewels.com",
+            "description": "Orders, delivery updates, returns, repairs and jewellery care advice.",
+            "action_label": "Email support",
+            "action_url": "mailto:support@hencyjewels.com"
           }
         },
-        "faq_c4": {
-          "type": "faq_item",
+        "channel_TzrNzN": {
+          "type": "channel",
           "settings": {
-            "question": "What is your return and exchange window?",
-            "answer": "<p>Eligible pieces can be returned or exchanged within 15 calendar days of verified delivery, subject to intact security tags, original luxury packaging, certificates and invoice.</p>"
+            "icon": "clock",
+            "category": "SERVICE HOURS",
+            "title": "Monday–Saturday",
+            "value": "10:00 AM–6:00 PM IST",
+            "link": "",
+            "description": "Excluding public holidays. Inquiries are responded to within one business day.",
+            "action_label": "",
+            "action_url": ""
           }
         }
       },
       "block_order": [
-        "faq_c1",
-        "faq_c2",
-        "faq_c3",
-        "faq_c4"
+        "channel_4fNyri",
+        "channel_9QrDMH",
+        "channel_TDQDEg",
+        "channel_TzrNzN"
       ],
+      "name": "Hency Contact Channels",
       "settings": {
-        "eyebrow": "EVERYTHING YOU MAY WANT TO KNOW",
-        "title": "Frequently Asked Questions",
-        "description": "<p>Clear answers regarding ordering, personalized jewellery, shipping and after-sales support.</p>",
-        "open_first_item": true,
-        "enable_faq_schema": true,
-        "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "security_note": {
-      "type": "hency-security-note",
-      "settings": {
-        "eyebrow": "A QUICK SECURITY NOTE",
-        "heading": "Your trust matters.",
-        "text": "HencyJewels will never ask for your UPI PIN, card PIN, CVV, account password or remote-access app. Share delivery OTPs only when the insured parcel is physically presented to you.",
-        "color_scheme": "scheme-1",
-        "padding_top": 35,
-        "padding_bottom": 35
+        "eyebrow": "CONTACT OPTIONS",
+        "heading": "Choose the right channel",
+        "description": "For faster assistance, please use the contact option that best matches your enquiry.",
+        "color_scheme": "",
+        "bg_color": "",
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     }
   },
   "order": [
-    "contact_hero",
-    "contact_details",
-    "contact_form",
-    "contact_location",
-    "contact_faqs",
-    "security_note"
+    "main",
+    "hency_contact_hero_XAwftQ",
+    "hency_contact_form_Wy9GwH",
+    "form",
+    "hency_contact_details_9rAncx"
   ]
 }
