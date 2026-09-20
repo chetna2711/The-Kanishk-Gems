@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "page_header": {
@@ -73,33 +82,25 @@
         "why_1": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "✦",
-            "title": "100% BIS Hallmarked Gold",
-            "text": "Every single piece is stamped with the government-approved BIS hallmark and unique HUID code for absolute authenticity."
+            "icon_symbol": "✦"
           }
         },
         "why_2": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "💎",
-            "title": "Certified Diamonds",
-            "text": "Independently graded diamonds with clear disclosures on cut, clarity, color and carat specifications on every invoice."
+            "icon_symbol": "💎"
           }
         },
         "why_3": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "🛡️",
-            "title": "Insured & Trackable Delivery",
-            "text": "Tamper-evident, fully insured door-to-door courier transit across India so your investment arrives safely."
+            "icon_symbol": "🛡️"
           }
         },
         "why_4": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "🔄",
-            "title": "Lifetime Care & Exchange",
-            "text": "Enjoy lifetime plating, cleaning, professional inspection and guaranteed transparent buyback & exchange value."
+            "icon_symbol": "🔄"
           }
         }
       },

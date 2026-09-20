@@ -51,14 +51,10 @@
           "settings": {
             "menu_item_title": "Product",
             "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
-            "card_style": "overlay",
-            "card_width": "32rem",
-            "badge_text": "",
             "heading": "Mid Sale Summer Offer!",
             "subheading": "",
             "link": "shopify://collections",
-            "button_label": "SEE MORE",
-            "overlay_opacity": 35
+            "button_label": "SEE MORE"
           }
         }
       },
@@ -66,10 +62,6 @@
         "mega_menu_promo_product"
       ],
       "settings": {
-        "enable_browse_categories": true,
-        "browse_categories_label": "Browse Categories",
-        "browse_categories_style": "theme_header",
-        "menu_alignment_desktop": "center",
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "main-menu",
