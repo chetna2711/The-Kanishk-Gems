@@ -49,12 +49,13 @@
         "mega_menu_promo_product": {
           "type": "mega_menu_promo",
           "settings": {
-            "menu_item_title": "Product",
+            "menu_item_title": "Earrings",
             "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
             "heading": "Mid Sale Summer Offer!",
             "subheading": "",
             "link": "shopify://collections",
-            "button_label": "SEE MORE"
+            "button_label": "SEE MORE",
+            "featured_collection": ""
           }
         }
       },
