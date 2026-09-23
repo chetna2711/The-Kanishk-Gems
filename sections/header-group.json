@@ -14,32 +14,48 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_TQbE6F": {
+          "type": "announcement",
+          "settings": {
+            "text": "🎁 Exclusive Offers on Your Favourite Jewellery — Shop Now",
+            "link": ""
+          }
+        },
         "announcement_waAT9B": {
           "type": "announcement",
           "settings": {
-            "text": "Buy 1 Get 1 Free",
+            "text": "✨ Elegant Jewellery, Everyday Glamour — Shop Now",
             "link": ""
           }
         },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Timeless Jewellery • Designed to Make Every Moment Shine",
+            "text": "💖 New Arrivals Are Here — Discover Your Perfect Style",
+            "link": ""
+          }
+        },
+        "announcement_hQz8XB": {
+          "type": "announcement",
+          "settings": {
+            "text": "🔄 15 Days Easy Exchange Available",
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_TQbE6F",
         "announcement_waAT9B",
-        "announcement-bar-0"
+        "announcement-bar-0",
+        "announcement_hQz8XB"
       ],
       "settings": {
-        "auto_rotate": true,
+        "auto_rotate": false,
         "change_slides_speed": 3,
         "color_scheme": "scheme-4",
         "custom_bg": "",
         "custom_text_color": "",
-        "enable_ticker": false,
+        "enable_ticker": true,
         "ticker_speed": 25,
         "font_size": 13,
         "padding_vertical": 8,
