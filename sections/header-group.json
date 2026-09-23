@@ -14,6 +14,13 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_waAT9B": {
+          "type": "announcement",
+          "settings": {
+            "text": "Buy 1 Get 1 Free",
+            "link": ""
+          }
+        },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
@@ -23,6 +30,7 @@
         }
       },
       "block_order": [
+        "announcement_waAT9B",
         "announcement-bar-0"
       ],
       "settings": {
