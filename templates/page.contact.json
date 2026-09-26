@@ -12,10 +12,7 @@
     "main": {
       "type": "main-page",
       "disabled": true,
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+      "settings": {}
     },
     "hency_contact_hero_XAwftQ": {
       "type": "hency-contact-hero",
@@ -33,9 +30,7 @@
         "art_caption_title": "Handcrafted With Passion.",
         "art_caption_subtitle": "Surat · Gujarat · India",
         "color_scheme": "",
-        "bg_color": "",
-        "padding_top": 65,
-        "padding_bottom": 50
+        "bg_color": ""
       }
     },
     "hency_contact_form_Wy9GwH": {
@@ -49,9 +44,7 @@
         "consent_text": "I agree that HencyJewels may contact me regarding this enquiry. We protect your privacy and never share your details.",
         "submit_note": "Your enquiry is delivered directly to our senior jewellery concierge team.",
         "color_scheme": "",
-        "bg_color": "",
-        "padding_top": 55,
-        "padding_bottom": 55
+        "bg_color": ""
       }
     },
     "form": {
@@ -60,9 +53,7 @@
       "settings": {
         "heading": "",
         "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "color_scheme": "scheme-1"
       }
     },
     "hency_contact_details_9rAncx": {
@@ -133,9 +124,22 @@
         "heading": "Choose the right channel",
         "description": "For faster assistance, please use the contact option that best matches your enquiry.",
         "color_scheme": "",
-        "bg_color": "",
-        "padding_top": 50,
-        "padding_bottom": 50
+        "bg_color": ""
+      }
+    },
+    "hency_contact_location_H9nmr4": {
+      "type": "hency-contact-location",
+      "name": "Hency Boutique & Map",
+      "settings": {
+        "eyebrow": "OUR BOUTIQUE & OFFICE",
+        "heading": "Visit HencyJewels",
+        "address_html": "HencyJewels Atelier &amp; Studio<br>501, Luxury Arcade, VIP Road<br>Vesu, Surat<br>Gujarat 395007, India",
+        "maps_url": "",
+        "maps_button_label": "Open in Google Maps",
+        "note": "Please call customer care if you need assistance locating our atelier.",
+        "map_embed_url": "https://www.google.com/maps?q=Surat%2C%20Gujarat%20395007%2C%20India&output=embed",
+        "color_scheme": "",
+        "bg_color": ""
       }
     }
   },
@@ -144,6 +148,7 @@
     "hency_contact_hero_XAwftQ",
     "hency_contact_form_Wy9GwH",
     "form",
-    "hency_contact_details_9rAncx"
+    "hency_contact_details_9rAncx",
+    "hency_contact_location_H9nmr4"
   ]
 }
