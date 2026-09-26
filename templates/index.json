@@ -486,6 +486,7 @@
         "media_mWxjHh": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/021e1655-2bbb-4cad-83da-37daa9727525.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -494,6 +495,7 @@
         "media_qbLXjR": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/fbebdffb-0167-49cd-8267-74030a9084c1.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -502,6 +504,7 @@
         "media_n9W7cJ": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/e91169dd-a7fb-4b1a-ac13-f852950a1063.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -510,6 +513,7 @@
         "media_Q8yqpz": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -518,6 +522,7 @@
         "media_zVdfMc": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/e702d289-8104-4278-9dd0-54a528f739e6.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -526,6 +531,16 @@
         "media_HYVY9G": {
           "type": "media",
           "settings": {
+            "image": "shopify://shop_images/782f2235-7104-4ce2-8b1c-1d029642985f.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_FcbVRm": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/9676fa9e-1656-49a3-abc6-5454235b32cf.png",
             "video_url": "",
             "title": "",
             "link": ""
@@ -538,7 +553,8 @@
         "media_n9W7cJ",
         "media_Q8yqpz",
         "media_zVdfMc",
-        "media_HYVY9G"
+        "media_HYVY9G",
+        "media_FcbVRm"
       ],
       "name": "Media showcase slider",
       "settings": {
