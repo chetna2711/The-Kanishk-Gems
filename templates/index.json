@@ -16,6 +16,7 @@
           "type": "slide",
           "settings": {
             "desktop_image": "shopify://shop_images/d8e1fea5-59ab-420f-a3fd-33487db3a526.png",
+            "mobile_image": "shopify://shop_images/0c8ca637-df12-4a45-aadc-bc835a386666.png",
             "image_focal_position": "center center",
             "overlay_opacity": 30,
             "eyebrow": "",
@@ -153,11 +154,9 @@
         "eyebrow": "DISCOVER BY CATEGORY",
         "title": "Shop By Category",
         "description": "<p>Explore thoughtfully designed categories hand-set with radiant stones and heritage gold polish.</p>",
-        "button_text": "View All Categories",
-        "button_link": "shopify://collections",
-        "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "button_text": "",
+        "button_link": "",
+        "color_scheme": "scheme-1"
       }
     },
     "shop_by_mood": {
@@ -219,9 +218,7 @@
         "title": "Shop By Mood",
         "description": "<p>Discover jewels thoughtfully composed for every mood, sentiment and milestone.</p>",
         "columns_desktop": 4,
-        "color_scheme": "scheme-2",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "color_scheme": "scheme-2"
       }
     },
     "hency_signature": {
@@ -262,9 +259,7 @@
         "badge_label": "100% Handcrafted Artisanship",
         "button_label": "Explore Signature Creations",
         "button_link": "shopify://collections/new-arrival",
-        "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "color_scheme": "scheme-1"
       }
     },
     "hency_why_us_FJRhHq": {
@@ -315,9 +310,7 @@
         "title": "Why HencyJewels",
         "description": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our jewellery apart.</p>",
         "columns_desktop": 4,
-        "color_scheme": "",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "color_scheme": ""
       }
     },
     "hency_occasion_edit_VG7i8r": {
@@ -384,9 +377,7 @@
         "title": "The Occasion Edit",
         "description": "<p>From sacred rituals to modern celebrations, find pieces styled for every milestone.</p>",
         "columns_desktop": 4,
-        "color_scheme": "",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "color_scheme": ""
       }
     }
   },
