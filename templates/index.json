@@ -221,6 +221,106 @@
         "color_scheme": "scheme-2"
       }
     },
+    "shoppable_video_gallery_GHy8mA": {
+      "type": "shoppable-video-gallery",
+      "blocks": {
+        "video_q3XW9R": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM.mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "Royal Kundan Choker",
+            "subtitle": "Handcrafted Festive Edit",
+            "enable_product_info": true,
+            "video_position": "center",
+            "show_play_icon": true,
+            "autoplay_preview": true
+          }
+        },
+        "video_JGQw4j": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "Emerald Solitaire Drops",
+            "subtitle": "Statement Earring Duo",
+            "enable_product_info": true,
+            "video_position": "center",
+            "show_play_icon": true,
+            "autoplay_preview": true
+          }
+        },
+        "video_PcHbjb": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.18 PM.mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "Polki Heritage Bangle",
+            "subtitle": "22K Gold Plated Finish",
+            "enable_product_info": true,
+            "video_position": "center",
+            "show_play_icon": true,
+            "autoplay_preview": true
+          }
+        },
+        "video_keTPXH": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "Minimalist Solitaire Ring",
+            "subtitle": "Everyday Luxury Accent",
+            "enable_product_info": true,
+            "video_position": "center",
+            "show_play_icon": true,
+            "autoplay_preview": true
+          }
+        }
+      },
+      "block_order": [
+        "video_q3XW9R",
+        "video_JGQw4j",
+        "video_PcHbjb",
+        "video_keTPXH"
+      ],
+      "name": "Shoppable Video Gallery",
+      "settings": {
+        "heading": "DISCOVER YOUR STYLE",
+        "subheading": "Jewellery that completes every look.",
+        "heading_alignment": "center",
+        "section_bg_color": "#fafaf7",
+        "text_color": "#1a1a1a",
+        "desktop_video_gap": 20,
+        "mobile_video_gap": 12,
+        "enable_desktop_slider": true,
+        "show_desktop_arrows": true,
+        "columns_desktop": "4",
+        "columns_tablet": "3",
+        "columns_mobile": "2",
+        "enable_mobile_swipe": true,
+        "video_border_radius": 8,
+        "show_play_icon": true,
+        "autoplay_preview": true,
+        "loop_preview": true,
+        "enable_popup": true,
+        "show_nav_buttons": true,
+        "show_counter": true,
+        "enable_keyboard_nav": true,
+        "enable_touch_swipe": true,
+        "loop_navigation": true,
+        "popup_overlay_opacity": 85,
+        "popup_bg_color": "#000000",
+        "show_product_info": true,
+        "show_price": true,
+        "show_compare_price": true,
+        "show_view_button": true,
+        "view_button_text": "View Product"
+      }
+    },
     "hency_signature": {
       "type": "hency-signature",
       "blocks": {
@@ -379,14 +479,92 @@
         "columns_desktop": 4,
         "color_scheme": ""
       }
+    },
+    "media_showcase_slider_WxHkcT": {
+      "type": "media-showcase-slider",
+      "blocks": {
+        "media_mWxjHh": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_qbLXjR": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_n9W7cJ": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_Q8yqpz": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_zVdfMc": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_HYVY9G": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "media_mWxjHh",
+        "media_qbLXjR",
+        "media_n9W7cJ",
+        "media_Q8yqpz",
+        "media_zVdfMc",
+        "media_HYVY9G"
+      ],
+      "name": "Media showcase slider",
+      "settings": {
+        "title": "Follow us on Instagram",
+        "description": "",
+        "heading_size": "h2",
+        "button_label": "@hencyjewels",
+        "button_link": "",
+        "button_in_header": true,
+        "columns_desktop": 6,
+        "image_ratio": "1 / 1",
+        "corner_radius": 8,
+        "autoplay": false,
+        "autoplay_seconds": 5,
+        "color_scheme": ""
+      }
     }
   },
   "order": [
     "hency_hero",
     "shop_by_category",
     "shop_by_mood",
+    "shoppable_video_gallery_GHy8mA",
     "hency_signature",
     "hency_why_us_FJRhHq",
-    "hency_occasion_edit_VG7i8r"
+    "hency_occasion_edit_VG7i8r",
+    "media_showcase_slider_WxHkcT"
   ]
 }
