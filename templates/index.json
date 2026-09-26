@@ -303,7 +303,7 @@
         "columns_mobile": "1",
         "enable_mobile_swipe": true,
         "video_border_radius": 8,
-        "show_play_icon": true,
+        "show_play_icon": false,
         "autoplay_preview": true,
         "loop_preview": true,
         "enable_popup": true,
