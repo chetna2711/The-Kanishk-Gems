@@ -567,8 +567,8 @@
         "columns_desktop": 6,
         "image_ratio": "1 / 1",
         "corner_radius": 8,
-        "autoplay": false,
-        "autoplay_seconds": 5,
+        "autoplay": true,
+        "autoplay_seconds": 13,
         "color_scheme": ""
       }
     }
