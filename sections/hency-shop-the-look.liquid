@@ -6,14 +6,14 @@
 {%- style -%}
   #ShopTheLook-{{ section.id }} {
     background-color: var(--hency-ivory, #fafaf7);
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
   }
 
   @media screen and (min-width: 750px) {
     #ShopTheLook-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
 
@@ -291,7 +291,10 @@
   "tag": "section",
   "class": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -304,10 +307,22 @@
       "id": "image_aspect_ratio",
       "label": "Image ratio",
       "options": [
-        { "value": "16 / 9", "label": "Landscape (16:9)" },
-        { "value": "4 / 3", "label": "Standard (4:3)" },
-        { "value": "1 / 1", "label": "Square (1:1)" },
-        { "value": "4 / 5", "label": "Portrait (4:5)" }
+        {
+          "value": "16 / 9",
+          "label": "Landscape (16:9)"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Standard (4:3)"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait (4:5)"
+        }
       ],
       "default": "16 / 9"
     },
@@ -334,26 +349,6 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 64
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 64
     }
   ],
   "blocks": [

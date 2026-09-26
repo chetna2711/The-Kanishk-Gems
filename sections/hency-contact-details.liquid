@@ -2,8 +2,8 @@
 
 {%- style -%}
   #HencyContactDetails-{{ section.id }} {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
     {%- if section.settings.bg_color != blank -%}
       background-color: {{ section.settings.bg_color }};
     {%- endif -%}
@@ -11,8 +11,8 @@
 
   @media screen and (min-width: 750px) {
     #HencyContactDetails-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
 {%- endstyle -%}
@@ -141,30 +141,6 @@
       "type": "color",
       "id": "bg_color",
       "label": "Custom background color (optional)"
-    },
-    {
-      "type": "header",
-      "content": "Section Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 50
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 50
     }
   ],
   "blocks": [
@@ -177,10 +153,22 @@
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "phone", "label": "Phone" },
-            { "value": "email", "label": "Email" },
-            { "value": "support", "label": "Customer Support Chat" },
-            { "value": "clock", "label": "Operating Hours Clock" }
+            {
+              "value": "phone",
+              "label": "Phone"
+            },
+            {
+              "value": "email",
+              "label": "Email"
+            },
+            {
+              "value": "support",
+              "label": "Customer Support Chat"
+            },
+            {
+              "value": "clock",
+              "label": "Operating Hours Clock"
+            }
           ],
           "default": "phone"
         },

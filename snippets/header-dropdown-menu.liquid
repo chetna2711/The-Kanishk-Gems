@@ -9,7 +9,8 @@
   <ul class="list-menu list-menu--inline" role="list">
     {%- if section.settings.enable_browse_categories -%}
       <li class="header__browse-categories-wrapper">
-        {%- if section.settings.browse_categories_menu != blank and section.settings.browse_categories_menu.links.size > 0 -%}
+        {%- assign browse_menu = linklists[section.settings.browse_categories_menu] | default: section.settings.browse_categories_menu -%}
+        {%- if browse_menu != blank and browse_menu.links.size > 0 -%}
           <header-menu>
             <details id="Details-HeaderMenu-BrowseCategories">
               <summary
@@ -36,7 +37,7 @@
                 role="list"
                 tabindex="-1"
               >
-                {%- for cat_link in section.settings.browse_categories_menu.links -%}
+                {%- for cat_link in browse_menu.links -%}
                   <li>
                     <a
                       href="{{ cat_link.url }}"

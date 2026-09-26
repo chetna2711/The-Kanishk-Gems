@@ -1,14 +1,14 @@
 {%- style -%}
   #HencySignature-{{ section.id }} {
     background-color: var(--hency-ivory, #fafaf7);
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
   }
 
   @media screen and (min-width: 750px) {
     #HencySignature-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
 
@@ -242,7 +242,10 @@
   "tag": "section",
   "class": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -255,8 +258,14 @@
       "id": "image_position",
       "label": "Image position (Desktop)",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "left"
     },
@@ -265,9 +274,18 @@
       "id": "image_ratio",
       "label": "Image aspect ratio",
       "options": [
-        { "value": "1 / 1", "label": "Square (1:1)" },
-        { "value": "4 / 5", "label": "Portrait (4:5)" },
-        { "value": "3 / 4", "label": "Tall Portrait (3:4)" }
+        {
+          "value": "1 / 1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait (4:5)"
+        },
+        {
+          "value": "3 / 4",
+          "label": "Tall Portrait (3:4)"
+        }
       ],
       "default": "4 / 5"
     },
@@ -294,9 +312,18 @@
       "id": "content_alignment",
       "label": "Content alignment",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ],
       "default": "left"
     },
@@ -322,26 +349,6 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 64
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 64
     }
   ],
   "blocks": [
@@ -362,9 +369,24 @@
     {
       "name": "HencyJewels Signature",
       "blocks": [
-        { "type": "feature", "settings": { "text": "Intricate micron gold plating with lasting brilliance" } },
-        { "type": "feature", "settings": { "text": "Artisan hand-set simulated stones & Kundan accents" } },
-        { "type": "feature", "settings": { "text": "Lightweight ergonomic silhouettes designed for all-day comfort" } }
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Intricate micron gold plating with lasting brilliance"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Artisan hand-set simulated stones & Kundan accents"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "text": "Lightweight ergonomic silhouettes designed for all-day comfort"
+          }
+        }
       ]
     }
   ]

@@ -9,7 +9,8 @@
   <ul class="list-menu list-menu--inline" role="list">
     {%- if section.settings.enable_browse_categories -%}
       <li class="header__browse-categories-wrapper">
-        {%- if section.settings.browse_categories_menu != blank and section.settings.browse_categories_menu.links.size > 0 -%}
+        {%- assign browse_menu = linklists[section.settings.browse_categories_menu] | default: section.settings.browse_categories_menu -%}
+        {%- if browse_menu != blank and browse_menu.links.size > 0 -%}
           <header-menu>
             <details id="Details-HeaderMenu-BrowseCategories" class="mega-menu">
               <summary
@@ -37,7 +38,7 @@
               >
                 {%- liquid
                   assign browse_has_sublinks = false
-                  for cat_link in section.settings.browse_categories_menu.links
+                  for cat_link in browse_menu.links
                     if cat_link.links != blank
                       assign browse_has_sublinks = true
                       break
@@ -45,7 +46,7 @@
                   endfor
                 -%}
                 <ul class="mega-menu__list page-width{% if browse_has_sublinks %} mega-menu__list--with-sublinks{% else %} mega-menu__list--single-col{% endif %}" role="list">
-                  {%- for cat_link in section.settings.browse_categories_menu.links -%}
+                  {%- for cat_link in browse_menu.links -%}
                     {%- assign cat_title_check = cat_link.title | strip -%}
                     {%- if cat_title_check != blank -%}
                       <li class="{% if browse_has_sublinks %}mega-menu__column{% else %}mega-menu__single-col-item{% endif %}">

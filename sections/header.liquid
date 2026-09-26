@@ -28,6 +28,14 @@
     }
   {%- endif -%}
 
+  .header__heading-logo-wrapper {
+    transition: width 0.25s ease;
+  }
+
+  .shopify-section-header-sticky.scrolled-past-header .header-wrapper {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
   {%- if section.settings.menu_type_desktop != "drawer" -%}
     @media screen and (min-width: 990px) {
       header-drawer {
@@ -199,9 +207,15 @@
   }
 
   .section-header {
-    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
+    position: relative;
     z-index: 100;
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-header.shopify-section-header-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 500 !important;
   }
 
   .header-wrapper {
@@ -520,12 +534,14 @@
     }
 
     connectedCallback() {
-      this.header = document.querySelector('.section-header');
+      this.header = this.closest('.section-header') || document.querySelector('.section-header');
       this.mobileMediaQuery = window.matchMedia('(max-width: 990px)');
       this.headerIsAlwaysSticky =
         this.getAttribute('data-sticky-type') === 'always' ||
         this.getAttribute('data-sticky-type') === 'reduce-logo-size';
-      this.headerBounds = {};
+      this.headerBounds = this.header
+        ? { top: this.header.offsetTop || 0, bottom: (this.header.offsetTop || 0) + (this.header.offsetHeight || 80) }
+        : { top: 0, bottom: 80 };
 
       this.setHeaderHeight();
 
@@ -560,11 +576,13 @@
 
     createObserver() {
       let observer = new IntersectionObserver((entries, observer) => {
-        this.headerBounds = entries[0].intersectionRect;
+        if (entries[0] && entries[0].intersectionRect && entries[0].intersectionRect.bottom > 0) {
+          this.headerBounds = entries[0].intersectionRect;
+        }
         observer.disconnect();
       });
 
-      observer.observe(this.header);
+      if (this.header) observer.observe(this.header);
     }
 
     onScroll() {
@@ -796,10 +814,10 @@
       "label": "'Browse Categories' link"
     },
     {
-      "type": "link_list",
+      "type": "text",
       "id": "browse_categories_menu",
-      "label": "'Browse Categories' dropdown menu (optional)",
-      "info": "If selected, clicking or hovering 'Browse Categories' will open this menu dropdown."
+      "label": "'Browse Categories' menu handle (optional)",
+      "info": "Handle of the navigation menu for the dropdown (e.g. 'categories')."
     },
     {
       "type": "select",
@@ -808,7 +826,7 @@
       "options": [
         {
           "value": "theme_header",
-          "label": "Theme Header (Clean text & gold arrow - like reference)"
+          "label": "Theme Header (Clean text & gold arrow)"
         },
         {
           "value": "gold_solid",
@@ -1056,7 +1074,7 @@
           "id": "card_style",
           "label": "Banner design style",
           "options": [
-            { "value": "overlay", "label": "Editorial Overlay (Text over image - like reference)" },
+            { "value": "overlay", "label": "Editorial Overlay (Text over image)" },
             { "value": "card", "label": "Card Box (Text below image)" }
           ],
           "default": "overlay"

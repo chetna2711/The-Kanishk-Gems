@@ -2,9 +2,16 @@
 
 {%- style -%}
   #HencyBrandStory-{{ section.id }} {
-    --story-pt: {{ section.settings.padding_top }}px;
-    --story-pb: {{ section.settings.padding_bottom }}px;
+    --story-pt: calc(var(--spacing-sections-mobile, 0px)) / 2);
+    --story-pb: calc(var(--spacing-sections-mobile, 0px)) / 2);
     {%- if section.settings.bg_color != blank -%}
+
+  @media screen and (min-width: 750px) {
+    #HencyBrandStory-{{ section.id }} {
+      --story-pt: calc(var(--spacing-sections-desktop, 0px)) / 2);
+      --story-pb: calc(var(--spacing-sections-desktop, 0px)) / 2);
+    }
+  }
       background-color: {{ section.settings.bg_color }};
     {%- endif -%}
   }
@@ -100,30 +107,6 @@
       "type": "color",
       "id": "bg_color",
       "label": "Custom background color (optional)"
-    },
-    {
-      "type": "header",
-      "content": "Section Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 20,
-      "max": 120,
-      "step": 5,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 20,
-      "max": 120,
-      "step": 5,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 60
     }
   ],
   "blocks": [
@@ -141,8 +124,14 @@
           "id": "layout",
           "label": "Desktop layout",
           "options": [
-            { "value": "image_first", "label": "Image on Left, Text on Right" },
-            { "value": "text_first", "label": "Text on Left, Image on Right" }
+            {
+              "value": "image_first",
+              "label": "Image on Left, Text on Right"
+            },
+            {
+              "value": "text_first",
+              "label": "Text on Left, Image on Right"
+            }
           ],
           "default": "image_first"
         },

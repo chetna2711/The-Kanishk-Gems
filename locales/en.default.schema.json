@@ -357,7 +357,10 @@
           "label": "Page width"
         },
         "spacing_sections": {
-          "label": "Space between template sections"
+          "label": "Space between template sections (desktop)"
+        },
+        "spacing_sections_mobile": {
+          "label": "Space between template sections (mobile)"
         },
         "header__grid": {
           "content": "Grid"

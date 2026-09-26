@@ -7,8 +7,8 @@
 {%- style -%}
   #TrendingCollection-{{ section.id }} {
     background: var(--brand-background, #fefefe);
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
   }
 
   #TrendingCollection-{{ section.id }} .trending-collection__heading-row {
@@ -191,9 +191,10 @@
 
   @media screen and (min-width: 750px) {
     #TrendingCollection-{{ section.id }} {
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-      padding-top: {{ section.settings.padding_top }}px;
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
+  }
   }
 
   @media screen and (max-width: 989px) {
@@ -303,25 +304,102 @@
   "name": "Trending collection",
   "tag": "section",
   "class": "section",
-  "disabled_on": { "groups": ["header", "footer"] },
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
-    { "type": "text", "id": "title", "label": "Section title", "default": "Trending collection" },
-    { "type": "richtext", "id": "description", "label": "Section description" },
-    { "type": "text", "id": "header_button_label", "label": "Section button label", "default": "View all" },
-    { "type": "url", "id": "header_button_link", "label": "Section button link" },
-    { "type": "collection", "id": "collection", "label": "Collection" },
-    { "type": "select", "id": "banner_position", "label": "Banner position", "default": "left", "options": [{ "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }] },
-    { "type": "header", "content": "Banner content" },
-    { "type": "image_picker", "id": "desktop_image", "label": "Banner image (desktop)" },
-    { "type": "image_picker", "id": "mobile_image", "label": "Banner image (mobile)" },
-    { "type": "text", "id": "banner_title", "label": "Banner title", "default": "Golden Grace Collection" },
-    { "type": "richtext", "id": "banner_description", "label": "Banner description", "default": "<p>Crafted to complement your grace.</p>" },
-    { "type": "text", "id": "banner_button_label", "label": "Banner button label", "default": "Shop now" },
-    { "type": "url", "id": "banner_button_link", "label": "Banner button link" },
-    { "type": "header", "content": "Section spacing" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 40 }
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Trending collection"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Section description"
+    },
+    {
+      "type": "text",
+      "id": "header_button_label",
+      "label": "Section button label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "header_button_link",
+      "label": "Section button link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "banner_position",
+      "label": "Banner position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Banner content"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Banner image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Banner image (mobile)"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner title",
+      "default": "Golden Grace Collection"
+    },
+    {
+      "type": "richtext",
+      "id": "banner_description",
+      "label": "Banner description",
+      "default": "<p>Crafted to complement your grace.</p>"
+    },
+    {
+      "type": "text",
+      "id": "banner_button_label",
+      "label": "Banner button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "banner_button_link",
+      "label": "Banner button link"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    }
   ],
-  "presets": [{ "name": "Trending collection" }]
+  "presets": [
+    {
+      "name": "Trending collection"
+    }
+  ]
 }
 {% endschema %}

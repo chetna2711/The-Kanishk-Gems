@@ -1,0 +1,2656 @@
+{% comment %}
+  Shoppable Video Gallery Section
+  Designed for Kanishk Gems - Imitation Jewellery Brand
+  Fully compatible with Shopify Online Store 2.0
+  Vanilla HTML5, CSS, and JavaScript (Zero external dependencies)
+{% endcomment %}
+
+{%- liquid
+  assign section_id = section.id
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign heading_align = section.settings.heading_alignment | default: 'center'
+  assign bg_color = section.settings.section_bg_color | default: 'var(--hency-ivory, #fafaf7)'
+  assign text_color = section.settings.text_color | default: 'var(--hency-charcoal, #1a1a1a)'
+  assign desktop_gap = section.settings.desktop_video_gap | default: 20
+  assign mobile_gap = section.settings.mobile_video_gap | default: 12
+  assign cols_desktop = section.settings.columns_desktop | default: '4'
+  assign cols_desktop_num = cols_desktop | plus: 0
+  assign cols_tablet = section.settings.columns_tablet | default: '3'
+  assign cols_tablet_num = cols_tablet | plus: 0
+  assign cols_mobile = section.settings.columns_mobile | default: '2'
+  assign cols_mobile_num = cols_mobile | plus: 0
+  assign total_blocks = section.blocks.size
+
+  assign show_desktop_arrows = true
+  if section.settings.show_desktop_arrows == false
+    assign show_desktop_arrows = false
+  endif
+
+  assign has_desktop_slider = false
+  if total_blocks > cols_desktop_num
+    assign has_desktop_slider = true
+  endif
+
+  assign enable_popup = true
+  if section.settings.enable_popup == false
+    assign enable_popup = false
+  endif
+
+  assign show_nav_buttons = true
+  if section.settings.show_nav_buttons == false
+    assign show_nav_buttons = false
+  endif
+
+  assign show_counter = true
+  if section.settings.show_counter == false
+    assign show_counter = false
+  endif
+
+  assign enable_keyboard_nav = true
+  if section.settings.enable_keyboard_nav == false
+    assign enable_keyboard_nav = false
+  endif
+
+  assign enable_touch_swipe = true
+  if section.settings.enable_touch_swipe == false
+    assign enable_touch_swipe = false
+  endif
+
+  assign loop_navigation = true
+  if section.settings.loop_navigation == false
+    assign loop_navigation = false
+  endif
+
+  assign border_radius = section.settings.video_border_radius | default: 8
+  assign popup_bg = section.settings.popup_bg_color | default: '#000000'
+  assign popup_opacity = section.settings.popup_overlay_opacity | default: 85 | divided_by: 100.0
+-%}
+
+{%- style -%}
+  #ShoppableVideoGallery-{{ section_id }} {
+    --svg-bg: {{ bg_color }};
+    --svg-text: {{ text_color }};
+    --svg-gold: var(--hency-gold, #c5a059);
+    --svg-gold-dark: var(--hency-gold-dark, #9f7d37);
+    --svg-gold-light: var(--hency-gold-light, #e0c890);
+    --svg-border-subtle: var(--hency-border-subtle, rgba(197, 160, 89, 0.22));
+    --svg-radius: {{ border_radius }}px;
+    --svg-desktop-gap: {{ desktop_gap }}px;
+    --svg-mobile-gap: {{ mobile_gap }}px;
+    --svg-popup-bg: {{ popup_bg }};
+    --svg-popup-opacity: {{ popup_opacity }};
+    
+    background-color: var(--svg-bg);
+    color: var(--svg-text);
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
+    position: relative;
+    overflow-x: clip;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ShoppableVideoGallery-{{ section_id }} {
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
+    }
+  }
+  }
+
+  /* Header Styles */
+  #ShoppableVideoGallery-{{ section_id }} .svg-header {
+    max-width: 72rem;
+    margin: 0 auto 3rem;
+    text-align: {{ heading_align }};
+    {%- if heading_align == 'left' -%}
+      margin-left: 0;
+    {%- elsif heading_align == 'right' -%}
+      margin-right: 0;
+    {%- endif -%}
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-header__eyebrow {
+    display: inline-block;
+    color: var(--svg-gold);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-header__heading {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.2vw, 3.8rem);
+    font-weight: var(--font-heading-weight, 500);
+    line-height: 1.25;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--svg-text);
+    margin: 0;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-header__subheading {
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    line-height: 1.55;
+    color: rgba(26, 26, 26, 0.72);
+    margin: 1rem 0 0;
+  }
+
+  /* Video Grid & Swiper Track */
+  #ShoppableVideoGallery-{{ section_id }} .svg-gallery__container {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-gallery__wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track {
+      display: flex;
+      gap: var(--svg-desktop-gap);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      list-style: none;
+      margin: 0;
+      padding: 0.5rem 0.2rem 1.5rem;
+      cursor: grab;
+    }
+    #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track:active {
+      cursor: grabbing;
+    }
+    #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track::-webkit-scrollbar {
+      display: none;
+    }
+    #ShoppableVideoGallery-{{ section_id }} .svg-card {
+      flex: 0 0 calc((100% - (var(--svg-desktop-gap) * ({{ cols_desktop }} - 1))) / {{ cols_desktop }});
+      min-width: calc((100% - (var(--svg-desktop-gap) * ({{ cols_desktop }} - 1))) / {{ cols_desktop }});
+      max-width: calc((100% - (var(--svg-desktop-gap) * ({{ cols_desktop }} - 1))) / {{ cols_desktop }});
+      aspect-ratio: 9 / 16;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    #ShoppableVideoGallery-{{ section_id }} .svg-card {
+      flex: 0 0 calc((100% - (var(--svg-desktop-gap) * ({{ cols_tablet }} - 1))) / {{ cols_tablet }});
+      min-width: calc((100% - (var(--svg-desktop-gap) * ({{ cols_tablet }} - 1))) / {{ cols_tablet }});
+      max-width: calc((100% - (var(--svg-desktop-gap) * ({{ cols_tablet }} - 1))) / {{ cols_tablet }});
+    }
+  }
+
+  /* Desktop Slider Arrows */
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid var(--svg-gold);
+    color: var(--svg-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100 !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease, opacity 0.25s ease;
+    padding: 0;
+    pointer-events: auto !important;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow:hover {
+    background: var(--svg-gold);
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow:disabled,
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow[disabled],
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow[aria-disabled="true"] {
+    opacity: 0.18 !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: translateY(-50%) scale(0.95) !important;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow--prev {
+    left: 0.5rem;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow--next {
+    right: 0.5rem;
+  }
+
+  @media screen and (min-width: 1200px) {
+    #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow--prev {
+      left: -2rem;
+    }
+    #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow--next {
+      right: -2rem;
+    }
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- if section.settings.enable_mobile_swipe -%}
+      #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track {
+        display: flex;
+        gap: var(--svg-mobile-gap);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.5rem 1.5rem 1.5rem;
+        margin: 0 -1.5rem;
+        scrollbar-width: none;
+      }
+      #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track::-webkit-scrollbar {
+        display: none;
+      }
+      #ShoppableVideoGallery-{{ section_id }} .svg-card {
+        scroll-snap-align: start;
+        aspect-ratio: 9 / 16;
+        height: auto !important;
+        {%- if cols_mobile == '1' -%}
+          flex: 0 0 calc(100% - 3.5rem) !important;
+          min-width: calc(100% - 3.5rem) !important;
+          max-width: calc(100% - 3.5rem) !important;
+          width: calc(100% - 3.5rem) !important;
+        {%- else -%}
+          flex: 0 0 calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
+          min-width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
+          max-width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
+          width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
+        {%- endif -%}
+      }
+    {%- else -%}
+      #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track {
+        display: grid;
+        gap: var(--svg-mobile-gap);
+        {%- if cols_mobile == '1' -%}
+          grid-template-columns: 1fr;
+          max-width: 380px;
+          margin: 0 auto;
+        {%- else -%}
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        {%- endif -%}
+        padding: 0.5rem 0 1.5rem;
+        list-style: none;
+      }
+      #ShoppableVideoGallery-{{ section_id }} .svg-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        aspect-ratio: 9 / 16;
+        height: auto !important;
+        margin: 0 auto;
+      }
+    {%- endif -%}
+  }
+
+  /* Video Card Styles */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card {
+    position: relative;
+    border-radius: var(--svg-radius);
+    overflow: hidden;
+    background: #111111;
+    aspect-ratio: 9 / 16;
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+    border-color: var(--svg-gold);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Card Video & Poster Media */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__video,
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border: none;
+    z-index: 1;
+    background: #111111;
+  }
+
+  /* Gradient Overlay */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0) 35%,
+      rgba(0, 0, 0, 0.45) 65%,
+      rgba(0, 0, 0, 0.88) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Play Icon Overlay */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__play-badge {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 3;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card:hover .svg-card__play-badge {
+    transform: scale(1.1);
+    background: rgba(197, 160, 89, 0.85);
+    border-color: var(--svg-gold-light);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__play-badge svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    fill: currentColor;
+    margin-left: 2px;
+  }
+
+  /* Live Tag or Gem Accent (Optional luxury touch) */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__tag {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(26, 26, 26, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 2rem;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--svg-gold-light);
+    pointer-events: none;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--svg-gold);
+    box-shadow: 0 0 6px var(--svg-gold);
+    animation: svgPulse 2s infinite ease-in-out;
+  }
+
+  @keyframes svgPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  /* Card Content & Product Card */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__titles {
+    color: #ffffff;
+    pointer-events: none;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__subtitle {
+    font-size: 1.2rem;
+    line-height: 1.35;
+    margin: 0.3rem 0 0;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Embedded Product Card */
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: calc(var(--svg-radius) - 2px);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-thumb {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f6f3ed;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__price-regular {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--svg-gold-dark);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__price-compare {
+    font-size: 1.1rem;
+    text-decoration: line-through;
+    color: rgba(26, 26, 26, 0.45);
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--svg-gold);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-card__product-btn:hover {
+    background: var(--svg-gold-dark);
+    color: #ffffff;
+  }
+
+  /* MODAL / LIGHTBOX POPUP */
+  .svg-modal-{{ section_id }} {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999999 !important;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    opacity: 0;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --svg-popup-bg: {{ popup_bg }};
+    --svg-popup-opacity: {{ popup_opacity }};
+    --svg-gold: var(--hency-gold, #c5a059);
+    --svg-gold-dark: var(--hency-gold-dark, #9f7d37);
+    --svg-gold-light: var(--hency-gold-light, #e0c890);
+  }
+
+  .svg-modal-{{ section_id }}.svg-modal--active {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__backdrop {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 90rem;
+    height: 100%;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+
+  /* Desktop Flanking Nav Buttons */
+  .svg-modal-{{ section_id }} .svg-modal__nav-btn {
+    pointer-events: auto;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1.5px solid var(--svg-gold);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    margin: 0 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__nav-btn:hover {
+    background: var(--svg-gold);
+    color: #ffffff;
+    transform: scale(1.1);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__nav-btn[disabled],
+  .svg-modal-{{ section_id }} .svg-modal__nav-btn:disabled {
+    opacity: 0.25 !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__nav-btn svg {
+    width: 2rem;
+    height: 2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Center Video Player Stage */
+  .svg-modal-{{ section_id }} .svg-modal__stage {
+    pointer-events: auto;
+    position: relative;
+    z-index: 5;
+    height: min(84vh, 700px);
+    width: calc(min(84vh, 700px) * 9 / 16);
+    max-width: min(90vw, 395px);
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000000;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(197, 160, 89, 0.25);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__poster-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__stage-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 25%,
+      rgba(0, 0, 0, 0) 65%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+  }
+
+  /* Modal Top Bar */
+  .svg-modal-{{ section_id }} .svg-modal__top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 1.6rem;
+    pointer-events: none;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__counter {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 2rem;
+    padding: 0.4rem 1.2rem;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__top-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: auto;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__icon-btn {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__icon-btn:hover {
+    background: rgba(197, 160, 89, 0.9);
+    border-color: var(--svg-gold-light);
+    transform: scale(1.06);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__icon-btn svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    fill: currentColor;
+  }
+
+  /* Play/Pause Center Indicator */
+  .svg-modal-{{ section_id }} .svg-modal__center-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__center-indicator.svg-active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__center-indicator svg {
+    width: 2.6rem;
+    height: 2.6rem;
+    fill: currentColor;
+  }
+
+  /* Modal Bottom Content & Product Shopping */
+  .svg-modal-{{ section_id }} .svg-modal__bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__meta {
+    color: #ffffff;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__subtitle {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    margin: 0.4rem 0 0;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Modal Product Card */
+  .svg-modal-{{ section_id }} .svg-modal__product {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-img {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f6f3ed;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #1a1a1a;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 0.3rem;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-price {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--svg-gold-dark);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-compare {
+    font-size: 1.2rem;
+    text-decoration: line-through;
+    color: rgba(26, 26, 26, 0.45);
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--svg-gold);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__product-btn:hover {
+    background: var(--svg-gold-dark);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  /* Progress Bar */
+  .svg-modal-{{ section_id }} .svg-modal__progress-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 6;
+  }
+
+  .svg-modal-{{ section_id }} .svg-modal__progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--svg-gold);
+    transition: width 0.1s linear;
+  }
+
+  /* Mobile In-Stage Navigation Overlay Controls */
+  @media screen and (max-width: 768px) {
+    .svg-modal-{{ section_id }} .svg-modal__container {
+      padding: 1rem;
+    }
+
+    .svg-modal-{{ section_id }} .svg-modal__nav-btn {
+      display: none; /* Mobile utilizes edge tap zones & swipe */
+    }
+
+    .svg-modal-{{ section_id }} .svg-modal__stage {
+      height: 88vh;
+      max-height: 88vh;
+      width: calc(88vh * 9 / 16);
+      max-width: calc(100vw - 2rem);
+    }
+
+    .svg-modal-{{ section_id }} .svg-mobile-tap-prev,
+    .svg-modal-{{ section_id }} .svg-mobile-tap-next {
+      position: absolute;
+      top: 20%;
+      bottom: 30%;
+      width: 25%;
+      z-index: 3;
+      pointer-events: auto;
+    }
+
+    .svg-modal-{{ section_id }} .svg-mobile-tap-prev { left: 0; }
+    .svg-modal-{{ section_id }} .svg-mobile-tap-next { right: 0; }
+  }
+
+  /* Placeholder Styling for Theme Editor */
+  #ShoppableVideoGallery-{{ section_id }} .svg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #2e2619 0%, #151515 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--svg-gold-light);
+    padding: 2rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  #ShoppableVideoGallery-{{ section_id }} .svg-placeholder svg {
+    width: 4rem;
+    height: 4rem;
+    fill: currentColor;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  /* Prevent Body Scroll on Open */
+  body.svg-body-locked {
+    overflow: hidden !important;
+    touch-action: none;
+  }
+{%- endstyle -%}
+
+<div
+  id="ShoppableVideoGallery-{{ section_id }}"
+  class="shoppable-video-gallery"
+  data-section-id="{{ section_id }}"
+  data-autoplay-preview="{{ section.settings.autoplay_preview }}"
+  data-loop-preview="{{ section.settings.loop_preview }}"
+  data-enable-popup="{{ enable_popup }}"
+  data-loop-navigation="{{ loop_navigation }}"
+  data-enable-keyboard="{{ enable_keyboard_nav }}"
+  data-enable-swipe="{{ enable_touch_swipe }}"
+>
+  <div class="page-width">
+    {%- if heading != blank or subheading != blank -%}
+      <div class="svg-header">
+          <span class="svg-header__eyebrow">Kanishk Gems Luxury</span>
+        {%- if heading != blank -%}
+          <h2 class="svg-header__heading">{{ heading | escape }}</h2>
+        {%- endif -%}
+        {%- if subheading != blank -%}
+          <p class="svg-header__subheading">{{ subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="svg-gallery__container">
+      <div class="svg-gallery__wrapper">
+        {%- if show_desktop_arrows and has_desktop_slider -%}
+          <button
+            type="button"
+            class="svg-slider-arrow svg-slider-arrow--prev"
+            aria-label="Previous video"
+            data-gallery-prev
+          >
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+        {%- endif -%}
+
+        <ul class="svg-gallery__track" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign video_item = block.settings.video
+            assign custom_url = block.settings.custom_video_url
+            assign poster = block.settings.poster_image | default: video_item.preview_image
+            assign product = block.settings.product
+            assign title = block.settings.title
+            assign subtitle = block.settings.subtitle
+            assign show_product = false
+            if product != blank and block.settings.enable_product_info and section.settings.show_product_info
+              assign show_product = true
+            endif
+
+            if settings.currency_code_enabled
+              assign formatted_price = product.price | money_with_currency
+              assign formatted_compare = product.compare_at_price | money_with_currency
+            else
+              assign formatted_price = product.price | money
+              assign formatted_compare = product.compare_at_price | money
+            endif
+
+            assign has_compare_price = false
+            if product.compare_at_price > product.price and section.settings.show_compare_price
+              assign has_compare_price = true
+            endif
+
+            assign best_mp4_url = ''
+            if video_item != blank
+              for source in video_item.sources
+                if source.mime_type contains 'mp4'
+                  assign best_mp4_url = source.url
+                  break
+                endif
+              endfor
+              if best_mp4_url == blank and video_item.sources.size > 0
+                assign best_mp4_url = video_item.sources.first.url
+              endif
+            elsif custom_url != blank
+              assign best_mp4_url = custom_url
+            endif
+
+            assign product_img_url = ''
+            if product != blank and product.featured_image != blank
+              assign product_img_url = product.featured_image | image_url: width: 240
+            endif
+
+            assign poster_preview_url = ''
+            assign poster_full_url = ''
+            if poster != blank
+              assign poster_preview_url = poster | image_url: width: 480
+              assign poster_full_url = poster | image_url: width: 1080
+            endif
+
+            assign show_play = false
+            if section.settings.show_play_icon and block.settings.show_play_icon
+              assign show_play = true
+            endif
+          -%}
+
+          <li
+            class="svg-card"
+            data-index="{{ forloop.index0 }}"
+            data-block-id="{{ block.id }}"
+            tabindex="0"
+            role="button"
+            aria-label="Play video: {{ title | default: product.title | default: 'Jewellery showcase' | escape }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="svg-card__inner">
+              {%- if video_item != blank or custom_url != blank -%}
+                <video
+                  class="svg-card__video"
+                  {% if best_mp4_url != blank %}src="{{ best_mp4_url }}"{% endif %}
+                  playsinline
+                  webkit-playsinline
+                  x5-playsinline
+                  muted
+                  autoplay
+                  loop
+                  preload="auto"
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  {% if poster_preview_url != blank %}poster="{{ poster_preview_url }}"{% endif %}
+                  style="object-position: {{ block.settings.video_position | default: 'center' }};"
+                >
+                  {%- if best_mp4_url != blank -%}
+                    <source src="{{ best_mp4_url }}" type="video/mp4">
+                  {%- endif -%}
+                  {%- if video_item != blank -%}
+                    {%- for source in video_item.sources -%}
+                      {%- unless source.url == best_mp4_url -%}
+                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                </video>
+              {%- elsif poster_preview_url != blank -%}
+                <img
+                  src="{{ poster_preview_url }}"
+                  loading="lazy"
+                  class="svg-card__poster"
+                  alt="{{ title | default: product.title | default: 'Kanishk Gems jewellery' | escape }}"
+                >
+              {%- else -%}
+                <div class="svg-placeholder">
+                  <svg viewBox="0 0 24 24">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                  <span>Kanishk Gems</span>
+                </div>
+              {%- endif -%}
+
+              <div class="svg-card__overlay"></div>
+
+              {%- if show_play -%}
+                <div class="svg-card__play-badge" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                  </svg>
+                </div>
+              {%- endif -%}
+
+
+              <div class="svg-card__content">
+                {%- if title != blank or subtitle != blank -%}
+                  <div class="svg-card__titles">
+                    {%- if title != blank -%}
+                      <h3 class="svg-card__title">{{ title | escape }}</h3>
+                    {%- endif -%}
+                    {%- if subtitle != blank -%}
+                      <p class="svg-card__subtitle">{{ subtitle | escape }}</p>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if show_product -%}
+                  <div class="svg-card__product">
+                    {%- if product != blank and product.featured_image != blank -%}
+                      <img
+                        src="{{ product.featured_image | image_url: width: 120 }}"
+                        loading="lazy"
+                        class="svg-card__product-thumb"
+                        alt="{{ product.title | escape }}"
+                      >
+                    {%- endif -%}
+                    <div class="svg-card__product-details">
+                      <p class="svg-card__product-title">{{ product.title | escape }}</p>
+                      {%- if section.settings.show_price -%}
+                        <div class="svg-card__product-prices">
+                          <span class="svg-card__price-regular">{{ formatted_price }}</span>
+                          {%- if has_compare_price -%}
+                            <span class="svg-card__price-compare">{{ formatted_compare }}</span>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                    {%- if section.settings.show_view_button -%}
+                      <a
+                        href="{{ product.url }}"
+                        class="svg-card__product-btn"
+                        aria-label="View {{ product.title | escape }}"
+                        data-product-link
+                      >
+                        {{ section.settings.view_button_text | default: 'View' }}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- comment -%} Structured JSON payload for Modal Viewer {%- endcomment -%}
+            <script type="application/json" class="svg-card-data">
+              {
+                "index": {{ forloop.index0 }},
+                "title": {{ title | default: product.title | default: "" | json }},
+                "subtitle": {{ subtitle | default: "" | json }},
+                "poster": {{ poster_full_url | json }},
+                "position": {{ block.settings.video_position | default: "center" | json }},
+                "hasProduct": {{ show_product | json }},
+                "product": {
+                  "title": {{ product.title | default: "" | json }},
+                  "url": {{ product.url | default: "" | json }},
+                  "price": {{ formatted_price | default: "" | json }},
+                  "comparePrice": {{ formatted_compare | default: "" | json }},
+                  "hasCompare": {{ has_compare_price | json }},
+                  "showPrice": {{ section.settings.show_price | json }},
+                  "image": {{ product_img_url | json }}
+                },
+                "mp4Url": {{ best_mp4_url | json }},
+                "sources": [
+                  {%- if video_item != blank -%}
+                    {%- for source in video_item.sources -%}
+                      {"url": {{ source.url | json }}, "mimeType": {{ source.mime_type | json }}}{% unless forloop.last %},{% endunless %}
+                    {%- endfor -%}
+                  {%- elsif custom_url != blank -%}
+                    {"url": {{ custom_url | json }}, "mimeType": "video/mp4"}
+                  {%- endif -%}
+                ]
+              }
+            </script>
+          </li>
+        {%- else -%}
+          {%- comment -%} Empty state when no blocks exist {%- endcomment -%}
+          <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+            <p>Add video blocks in the theme editor to showcase your jewellery pieces.</p>
+          </div>
+        {%- endfor -%}
+        </ul>
+
+        {%- if show_desktop_arrows and has_desktop_slider -%}
+          <button
+            type="button"
+            class="svg-slider-arrow svg-slider-arrow--next"
+            aria-label="Next video"
+            data-gallery-next
+          >
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Popup / Lightbox Modal Container (Always rendered in DOM, toggled via JS) {%- endcomment -%}
+  <div
+    id="SvgModal-{{ section_id }}"
+    class="svg-modal-{{ section_id }}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Shoppable Video Viewer"
+    tabindex="-1"
+    style="--svg-popup-bg: {{ popup_bg }}; --svg-popup-opacity: {{ popup_opacity }};"
+  >
+    <div
+      class="svg-modal__backdrop"
+      style="background-color: {{ popup_bg }}; opacity: {{ popup_opacity }};"
+      data-close-modal
+    ></div>
+
+    <div class="svg-modal__container">
+      {%- if show_nav_buttons -%}
+        <button
+          type="button"
+          class="svg-modal__nav-btn svg-modal__nav-btn--prev"
+          data-nav-prev
+          aria-label="Previous video"
+        >
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      {%- endif -%}
+
+      <div class="svg-modal__stage">
+        <div class="svg-modal__video-wrapper" data-video-stage>
+          <video
+            class="svg-modal__video"
+            playsinline
+            preload="auto"
+            {% if loop_navigation %}loop{% endif %}
+          ></video>
+
+          <img class="svg-modal__poster-placeholder" alt="" style="display: none;">
+
+          <div class="svg-modal__stage-overlay"></div>
+
+          {%- comment -%} Tap zones for mobile next/prev navigation {%- endcomment -%}
+          <div class="svg-mobile-tap-prev" data-nav-prev aria-hidden="true"></div>
+          <div class="svg-mobile-tap-next" data-nav-next aria-hidden="true"></div>
+
+          <div class="svg-modal__center-indicator" aria-hidden="true">
+            <svg class="svg-icon-play" viewBox="0 0 24 24">
+              <polygon points="6 3 20 12 6 21 6 3"></polygon>
+            </svg>
+            <svg class="svg-icon-pause" viewBox="0 0 24 24" style="display: none;">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </div>
+        </div>
+
+        <div class="svg-modal__top-bar">
+          {%- if show_counter -%}
+            <div class="svg-modal__counter">
+              <span data-counter-current>1</span> / <span data-counter-total>{{ section.blocks.size }}</span>
+            </div>
+          {%- else -%}
+            <div></div>
+          {%- endif -%}
+
+          <div class="svg-modal__top-actions">
+            <button
+              type="button"
+              class="svg-modal__icon-btn"
+              data-sound-toggle
+              aria-label="Toggle sound"
+              aria-pressed="false"
+            >
+              <!-- Sound Off / Muted Icon -->
+              <svg class="svg-icon-sound-off" viewBox="0 0 24 24">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+              </svg>
+              <!-- Sound On Icon -->
+              <svg class="svg-icon-sound-on" viewBox="0 0 24 24" style="display: none;">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              class="svg-modal__icon-btn"
+              data-close-modal
+              aria-label="Close video"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="svg-modal__bottom-bar">
+          <div class="svg-modal__meta" data-modal-meta>
+            <h3 class="svg-modal__title" data-modal-title></h3>
+            <p class="svg-modal__subtitle" data-modal-subtitle></p>
+          </div>
+
+          <div class="svg-modal__product" data-modal-product style="display: none;">
+            <img class="svg-modal__product-img" data-product-img src="" alt="">
+            <div class="svg-modal__product-info">
+              <p class="svg-modal__product-title" data-product-title></p>
+              <div class="svg-modal__product-prices" data-product-prices>
+                <span class="svg-modal__product-price" data-product-price></span>
+                <span class="svg-modal__product-compare" data-product-compare style="display: none;"></span>
+              </div>
+            </div>
+            <a
+              href="#"
+              class="svg-modal__product-btn"
+              data-product-btn
+            >
+              {{ section.settings.view_button_text | default: 'View Product' }}
+            </a>
+          </div>
+        </div>
+
+        <div class="svg-modal__progress-track" aria-hidden="true">
+          <div class="svg-modal__progress-bar" data-progress-bar></div>
+        </div>
+      </div>
+
+      {%- if show_nav_buttons -%}
+        <button
+          type="button"
+          class="svg-modal__nav-btn svg-modal__nav-btn--next"
+          data-nav-next
+          aria-label="Next video"
+        >
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    class ShoppableVideoGallery {
+      constructor(container) {
+        this.container = container;
+        this.sectionId = container.dataset.sectionId;
+        this.cards = Array.from(container.querySelectorAll('.svg-card'));
+        this.itemsData = this.cards.map((card, idx) => {
+          const script = card.querySelector('.svg-card-data');
+          if (script) {
+            try {
+              const data = JSON.parse(script.textContent);
+              data.index = idx;
+              return data;
+            } catch (err) {
+              console.warn('ShoppableVideoGallery: error parsing card json', err);
+            }
+          }
+          const v = card.querySelector('.svg-card__video');
+          const img = card.querySelector('.svg-card__poster');
+          const t = card.querySelector('.svg-card__title');
+          const st = card.querySelector('.svg-card__subtitle');
+          return {
+            index: idx,
+            title: t ? t.textContent.trim() : '',
+            subtitle: st ? st.textContent.trim() : '',
+            poster: img ? img.src : (v ? v.poster : ''),
+            mp4Url: v ? (v.currentSrc || v.src || '') : '',
+            hasProduct: false,
+            product: {},
+            sources: []
+          };
+        });
+
+        this.autoplayPreview = container.dataset.autoplayPreview !== 'false';
+        this.enablePopup = container.dataset.enablePopup !== 'false';
+        this.loopNav = container.dataset.loopNavigation !== 'false';
+        this.enableKeyboard = container.dataset.enableKeyboard !== 'false';
+        this.enableSwipe = container.dataset.enableSwipe !== 'false';
+
+        this.modal = document.getElementById('SvgModal-' + this.sectionId);
+        this.currentIndex = 0;
+        this.isMuted = true;
+        this.isPlaying = false;
+        this.lastFocusedCard = null;
+        this.hasDragged = false;
+
+        this.galleryTrack = container.querySelector('.svg-gallery__track');
+        this.desktopPrevBtn = container.querySelector('[data-gallery-prev]');
+        this.desktopNextBtn = container.querySelector('[data-gallery-next]');
+
+        this.initPreviewAutoplay();
+        this.initCardInteractions();
+        if (this.galleryTrack) {
+          this.initDesktopSlider();
+        }
+        if (this.modal) {
+          this.initModal();
+        }
+      }
+
+      /* Desktop slider arrow navigation & drag */
+      initDesktopSlider() {
+        if (!this.galleryTrack || this.cards.length === 0) return;
+
+        const getActiveIndex = () => {
+          const trackRect = this.galleryTrack.getBoundingClientRect();
+          let closestIdx = 0;
+          let minDistance = Infinity;
+
+          this.cards.forEach((card, idx) => {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left - trackRect.left);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestIdx = idx;
+            }
+          });
+          return closestIdx;
+        };
+
+        const updateArrowStates = () => {
+          if (!this.galleryTrack) return;
+          const maxScroll = Math.max(0, this.galleryTrack.scrollWidth - this.galleryTrack.clientWidth);
+          const scrollLeft = this.galleryTrack.scrollLeft;
+
+          // If all cards fit on screen without horizontal overflow, hide slider arrows
+          const hasOverflow = maxScroll > 8;
+          if (!hasOverflow) {
+            if (this.desktopPrevBtn) this.desktopPrevBtn.style.display = 'none';
+            if (this.desktopNextBtn) this.desktopNextBtn.style.display = 'none';
+            return;
+          } else {
+            if (this.desktopPrevBtn) this.desktopPrevBtn.style.display = '';
+            if (this.desktopNextBtn) this.desktopNextBtn.style.display = '';
+          }
+
+          const currentIndex = getActiveIndex();
+
+          if (this.desktopPrevBtn) {
+            const isAtStart = scrollLeft <= 8 || currentIndex === 0;
+            this.desktopPrevBtn.disabled = isAtStart;
+            this.desktopPrevBtn.setAttribute('aria-disabled', isAtStart ? 'true' : 'false');
+          }
+          if (this.desktopNextBtn) {
+            const isAtEnd = scrollLeft >= maxScroll - 8 || currentIndex >= this.cards.length - 1;
+            this.desktopNextBtn.disabled = isAtEnd;
+            this.desktopNextBtn.setAttribute('aria-disabled', isAtEnd ? 'true' : 'false');
+          }
+        };
+
+        const scrollToCard = (targetIndex) => {
+          const boundedIndex = Math.max(0, Math.min(targetIndex, this.cards.length - 1));
+          const targetCard = this.cards[boundedIndex];
+          if (!targetCard) return;
+
+          // Temporarily disable scroll-snap to prevent Chrome/Safari snap interference
+          this.galleryTrack.style.scrollSnapType = 'none';
+
+          const trackRect = this.galleryTrack.getBoundingClientRect();
+          const cardRect = targetCard.getBoundingClientRect();
+          const targetScrollLeft = this.galleryTrack.scrollLeft + (cardRect.left - trackRect.left);
+
+          this.galleryTrack.scrollTo({
+            left: targetScrollLeft,
+            behavior: 'smooth'
+          });
+
+          clearTimeout(this._snapTimer);
+          this._snapTimer = setTimeout(() => {
+            if (this.galleryTrack) {
+              this.galleryTrack.style.scrollSnapType = 'x mandatory';
+            }
+            updateArrowStates();
+          }, 450);
+        };
+
+        const slide = (direction) => {
+          const currentIndex = getActiveIndex();
+          const maxScroll = Math.max(0, this.galleryTrack.scrollWidth - this.galleryTrack.clientWidth);
+
+          if (direction === 1) {
+            // Next: advance only if not already at end
+            if (currentIndex < this.cards.length - 1 && this.galleryTrack.scrollLeft < maxScroll - 8) {
+              scrollToCard(currentIndex + 1);
+            }
+          } else {
+            // Prev: go back only if not already at start
+            if (currentIndex > 0 && this.galleryTrack.scrollLeft > 8) {
+              scrollToCard(currentIndex - 1);
+            }
+          }
+        };
+
+        if (this.desktopPrevBtn) {
+          this.desktopPrevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            slide(-1);
+          });
+        }
+        if (this.desktopNextBtn) {
+          this.desktopNextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            slide(1);
+          });
+        }
+
+        this.galleryTrack.addEventListener('scroll', () => {
+          requestAnimationFrame(updateArrowStates);
+        }, { passive: true });
+
+        // Initial check to disable prev arrow at start
+        setTimeout(updateArrowStates, 80);
+
+        // Mouse drag-to-scroll support on desktop
+        let isDown = false;
+        let startX = 0;
+        let scrollStart = 0;
+
+        this.galleryTrack.addEventListener('mousedown', (e) => {
+          if (e.target.closest('button') || e.target.closest('a')) return;
+          isDown = true;
+          this.hasDragged = false;
+          startX = e.pageX - this.galleryTrack.offsetLeft;
+          scrollStart = this.galleryTrack.scrollLeft;
+          this.galleryTrack.style.cursor = 'grabbing';
+          this.galleryTrack.style.scrollBehavior = 'auto';
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (!isDown) return;
+          isDown = false;
+          this.galleryTrack.style.cursor = '';
+          this.galleryTrack.style.scrollBehavior = 'smooth';
+          setTimeout(() => {
+            this.hasDragged = false;
+            updateArrowStates();
+          }, 80);
+        });
+
+        this.galleryTrack.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          const x = e.pageX - this.galleryTrack.offsetLeft;
+          const walk = (x - startX);
+          if (Math.abs(walk) > 15) {
+            this.hasDragged = true;
+            this.galleryTrack.scrollLeft = scrollStart - walk;
+          }
+        });
+      }
+
+      /* Card preview autoplay & continuous seamless loop manager */
+      initPreviewAutoplay() {
+        this.cards.forEach((card) => {
+          const video = card.querySelector('.svg-card__video');
+          if (!video) return;
+
+          // Strictly enforce inline muted looping configuration
+          video.muted = true;
+          video.defaultMuted = true;
+          video.volume = 0;
+          video.playsInline = true;
+          video.loop = true;
+          video.setAttribute('muted', '');
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+          video.setAttribute('loop', '');
+
+          const playVideo = () => {
+            if (this.isModalOpen()) return;
+            // If clip is at or near the end, restart from frame 0
+            if (video.duration && video.currentTime >= video.duration - 0.2) {
+              video.currentTime = 0;
+            }
+            const promise = video.play();
+            if (promise !== undefined) {
+              promise
+                .then(() => {
+                  card.classList.add('svg-card--playing');
+                })
+                .catch(() => {
+                  // Fallback: re-enforce muted and retry
+                  video.muted = true;
+                  video.defaultMuted = true;
+                  video.play().catch(() => {});
+                });
+            }
+          };
+
+          // 1. Continuous Seamless Loop: Restart before clip reaches end-of-stream (fixes 3s stall)
+          video.addEventListener('timeupdate', () => {
+            if (video.duration && video.currentTime >= video.duration - 0.25) {
+              video.currentTime = 0;
+              playVideo();
+            }
+          });
+
+          // 2. Loop fallback: Native ended event
+          video.addEventListener('ended', () => {
+            video.currentTime = 0;
+            playVideo();
+          });
+
+          // 3. Loop recovery: If video paused unexpectedly near end, restart immediately
+          video.addEventListener('pause', () => {
+            if (!this.isModalOpen()) {
+              if (video.duration && video.currentTime >= video.duration - 0.4) {
+                video.currentTime = 0;
+              }
+              playVideo();
+            }
+          });
+
+          video.addEventListener('playing', () => {
+            card.classList.add('svg-card--playing');
+          });
+
+          // Multi-event fast pre-warming
+          video.addEventListener('loadstart', playVideo, { once: true });
+          video.addEventListener('loadedmetadata', playVideo, { once: true });
+          video.addEventListener('loadeddata', playVideo, { once: true });
+          video.addEventListener('canplay', playVideo, { once: true });
+          video.addEventListener('canplaythrough', playVideo, { once: true });
+
+          // Immediate playback start
+          playVideo();
+        });
+
+        // Global trigger on first user interaction to bypass any strict browser autoplay policy
+        const triggerAutoplayOnGesture = () => {
+          this.cards.forEach((card) => {
+            const v = card.querySelector('.svg-card__video');
+            if (v && v.paused && !this.isModalOpen()) {
+              if (v.duration && v.currentTime >= v.duration - 0.2) {
+                v.currentTime = 0;
+              }
+              v.play().catch(() => {});
+            }
+          });
+        };
+
+        ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach((evt) => {
+          window.addEventListener(evt, triggerAutoplayOnGesture, { once: true, passive: true });
+        });
+
+        // IntersectionObserver: Ensure videos play whenever approaching the viewport
+        if ('IntersectionObserver' in window) {
+          const observerOptions = {
+            root: null,
+            rootMargin: '350px 0px',
+            threshold: 0,
+          };
+
+          this.previewObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              const card = entry.target;
+              const video = card.querySelector('.svg-card__video');
+              if (!video) return;
+
+              if (entry.isIntersecting && !this.isModalOpen()) {
+                if (video.duration && video.currentTime >= video.duration - 0.2) {
+                  video.currentTime = 0;
+                }
+                video.play().then(() => {
+                  card.classList.add('svg-card--playing');
+                }).catch(() => {});
+              }
+            });
+          }, observerOptions);
+
+          this.cards.forEach((card) => this.previewObserver.observe(card));
+        }
+      }
+
+      /* Desktop hover and click handling on cards */
+      initCardInteractions() {
+        this.cards.forEach((card, index) => {
+          const video = card.querySelector('.svg-card__video');
+
+          // Desktop hover play (restarts if clip finished)
+          card.addEventListener('mouseenter', () => {
+            if (video && !this.isModalOpen()) {
+              if (video.duration && video.currentTime >= video.duration - 0.2) {
+                video.currentTime = 0;
+              }
+              video.play().catch(() => {});
+            }
+          });
+
+          // Card click to open modal
+          card.addEventListener('click', (e) => {
+            if (this.hasDragged) return;
+            if (e.target.closest('[data-product-link]')) {
+              // Direct navigation to product page; do not open modal
+              return;
+            }
+            if (this.enablePopup) {
+              this.lastFocusedCard = card;
+              this.openModal(index);
+            }
+          });
+
+          // Keyboard Enter / Space support on cards
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              if (e.target.closest('[data-product-link]')) return;
+              e.preventDefault();
+              if (this.enablePopup) {
+                this.lastFocusedCard = card;
+                this.openModal(index);
+              }
+            }
+          });
+        });
+      }
+
+      /* Modal Lightbox Logic */
+      initModal() {
+        this.modalVideo = this.modal.querySelector('.svg-modal__video');
+        this.modalPoster = this.modal.querySelector('.svg-modal__poster-placeholder');
+        this.videoStage = this.modal.querySelector('[data-video-stage]');
+        this.soundBtn = this.modal.querySelector('[data-sound-toggle]');
+        this.soundIconOn = this.modal.querySelector('.svg-icon-sound-on');
+        this.soundIconOff = this.modal.querySelector('.svg-icon-sound-off');
+        this.counterCurrent = this.modal.querySelector('[data-counter-current]');
+        this.counterTotal = this.modal.querySelector('[data-counter-total]');
+        this.centerIndicator = this.modal.querySelector('.svg-modal__center-indicator');
+        this.indicatorPlay = this.modal.querySelector('.svg-icon-play');
+        this.indicatorPause = this.modal.querySelector('.svg-icon-pause');
+        this.progressBar = this.modal.querySelector('[data-progress-bar]');
+
+        // Product fields in modal
+        this.modalProduct = this.modal.querySelector('[data-modal-product]');
+        this.productImg = this.modal.querySelector('[data-product-img]');
+        this.productTitle = this.modal.querySelector('[data-product-title]');
+        this.productPrices = this.modal.querySelector('[data-product-prices]');
+        this.productPrice = this.modal.querySelector('[data-product-price]');
+        this.productCompare = this.modal.querySelector('[data-product-compare]');
+        this.productBtn = this.modal.querySelector('[data-product-btn]');
+        this.modalMeta = this.modal.querySelector('[data-modal-meta]');
+        this.modalTitle = this.modal.querySelector('[data-modal-title]');
+        this.modalSubtitle = this.modal.querySelector('[data-modal-subtitle]');
+
+        // Close handlers
+        const closeBtns = this.modal.querySelectorAll('[data-close-modal]');
+        closeBtns.forEach((btn) => btn.addEventListener('click', () => this.closeModal()));
+
+        // Nav buttons
+        const prevBtns = this.modal.querySelectorAll('[data-nav-prev]');
+        const nextBtns = this.modal.querySelectorAll('[data-nav-next]');
+        prevBtns.forEach((btn) => btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.prevVideo();
+        }));
+        nextBtns.forEach((btn) => btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.nextVideo();
+        }));
+
+        // Sound Toggle
+        if (this.soundBtn) {
+          this.soundBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleSound();
+          });
+        }
+
+        // Play/Pause tap on video stage
+        if (this.videoStage) {
+          this.videoStage.addEventListener('click', (e) => {
+            if (e.target.closest('[data-nav-prev]') || e.target.closest('[data-nav-next]')) return;
+            this.togglePlayPause();
+          });
+        }
+
+        // Progress bar updates
+        if (this.modalVideo && this.progressBar) {
+          this.modalVideo.addEventListener('timeupdate', () => {
+            if (this.modalVideo.duration) {
+              const progress = (this.modalVideo.currentTime / this.modalVideo.duration) * 100;
+              this.progressBar.style.width = progress + '%';
+            }
+          });
+
+          this.modalVideo.addEventListener('ended', () => {
+            if (!this.loopNav && this.currentIndex === this.itemsData.length - 1) {
+              this.progressBar.style.width = '100%';
+            } else if (this.modalVideo.hasAttribute('loop')) {
+              this.progressBar.style.width = '0%';
+            } else {
+              this.nextVideo();
+            }
+          });
+        }
+
+        // Mobile touch swipe gestures
+        if (this.enableSwipe && this.videoStage) {
+          this.initSwipeGesture();
+        }
+
+        // Keyboard handler
+        this.boundKeyHandler = this.handleKeydown.bind(this);
+      }
+
+      initSwipeGesture() {
+        let startX = 0;
+        let startY = 0;
+        let isTouching = false;
+
+        this.videoStage.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isTouching = true;
+          }
+        }, { passive: true });
+
+        this.videoStage.addEventListener('touchend', (e) => {
+          if (!isTouching) return;
+          isTouching = false;
+          const endX = e.changedTouches[0].clientX;
+          const endY = e.changedTouches[0].clientY;
+          const diffX = endX - startX;
+          const diffY = endY - startY;
+
+          // Determine horizontal swipe vs vertical scroll
+          if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX < 0) {
+              this.nextVideo(); // Swipe left
+            } else {
+              this.prevVideo(); // Swipe right
+            }
+          }
+        }, { passive: true });
+      }
+
+      isModalOpen() {
+        return this.modal && this.modal.classList.contains('svg-modal--active');
+      }
+
+      openModal(index) {
+        if (!this.enablePopup) return;
+        if (!this.modal) {
+          this.modal = document.getElementById('SvgModal-' + this.sectionId);
+          if (this.modal) this.initModal();
+        }
+        if (!this.modal) return;
+        if (!this.itemsData || !this.itemsData[index]) return;
+
+        // Ensure modal is attached to document.body to prevent any parent clipping or overflow issues
+        if (this.modal.parentElement !== document.body) {
+          document.body.appendChild(this.modal);
+        }
+
+        this.pauseAllPreviewVideos();
+        this.currentIndex = index;
+        this.modal.classList.add('svg-modal--active');
+        document.body.classList.add('svg-body-locked');
+
+        this.loadVideoIndex(this.currentIndex);
+
+        if (this.enableKeyboard) {
+          window.addEventListener('keydown', this.boundKeyHandler);
+        }
+
+        this.modal.focus();
+      }
+
+      closeModal() {
+        if (!this.modal) return;
+
+        this.modal.classList.remove('svg-modal--active');
+        document.body.classList.remove('svg-body-locked');
+
+        if (this.modalVideo) {
+          this.modalVideo.pause();
+          this.modalVideo.removeAttribute('src');
+          this.modalVideo.innerHTML = '';
+          this.modalVideo.load();
+        }
+
+        if (this.enableKeyboard) {
+          window.removeEventListener('keydown', this.boundKeyHandler);
+        }
+
+        if (this.lastFocusedCard) {
+          this.lastFocusedCard.focus();
+        }
+
+        this.resumePreviewVideos();
+      }
+
+      loadVideoIndex(index) {
+        const item = this.itemsData[index];
+        if (!item) return;
+
+        // Update counter
+        if (this.counterCurrent) {
+          this.counterCurrent.textContent = index + 1;
+        }
+
+        // Update Nav button states if loop is disabled
+        if (!this.loopNav) {
+          const prevBtns = this.modal.querySelectorAll('.svg-modal__nav-btn--prev');
+          const nextBtns = this.modal.querySelectorAll('.svg-modal__nav-btn--next');
+          prevBtns.forEach((btn) => {
+            btn.disabled = index === 0;
+            btn.setAttribute('aria-disabled', index === 0 ? 'true' : 'false');
+          });
+          nextBtns.forEach((btn) => {
+            btn.disabled = index === this.itemsData.length - 1;
+            btn.setAttribute('aria-disabled', index === this.itemsData.length - 1 ? 'true' : 'false');
+          });
+        }
+
+        // Update Titles
+        if (this.modalTitle) {
+          this.modalTitle.textContent = item.title || '';
+          this.modalTitle.style.display = item.title ? 'block' : 'none';
+        }
+        if (this.modalSubtitle) {
+          this.modalSubtitle.textContent = item.subtitle || '';
+          this.modalSubtitle.style.display = item.subtitle ? 'block' : 'none';
+        }
+
+        // Update Product Card
+        if (this.modalProduct) {
+          if (item.hasProduct && item.product && item.product.title) {
+            this.modalProduct.style.display = 'flex';
+            if (this.productImg) {
+              this.productImg.src = item.product.image || '';
+              this.productImg.alt = item.product.title || '';
+              this.productImg.style.display = item.product.image ? 'block' : 'none';
+            }
+            if (this.productTitle) {
+              this.productTitle.textContent = item.product.title;
+            }
+            if (this.productPrice && item.product.showPrice) {
+              this.productPrice.textContent = item.product.price;
+              if (item.product.hasCompare && item.product.comparePrice) {
+                this.productCompare.textContent = item.product.comparePrice;
+                this.productCompare.style.display = 'inline-block';
+              } else {
+                this.productCompare.style.display = 'none';
+              }
+            }
+            if (this.productBtn) {
+              this.productBtn.href = item.product.url;
+            }
+          } else {
+            this.modalProduct.style.display = 'none';
+          }
+        }
+
+        // Load & Play Video
+        if (this.modalVideo) {
+          this.modalVideo.pause();
+          if (this.progressBar) this.progressBar.style.width = '0%';
+
+          const videoUrl = item.mp4Url || (item.sources && item.sources.find(s => s.mimeType && s.mimeType.toLowerCase().includes('mp4')) ? item.sources.find(s => s.mimeType && s.mimeType.toLowerCase().includes('mp4')).url : (item.sources && item.sources[0] ? item.sources[0].url : ''));
+
+          if (videoUrl) {
+            this.modalVideo.src = videoUrl;
+            this.modalVideo.poster = item.poster || '';
+            this.modalVideo.muted = this.isMuted;
+            this.modalVideo.style.objectPosition = item.position || 'center';
+            this.modalVideo.load();
+
+            const playPromise = this.modalVideo.play();
+            if (playPromise !== undefined) {
+              playPromise.then(() => {
+                this.isPlaying = true;
+              }).catch(() => {
+                // If unmuted autoplay blocked by browser policy, fall back to muted play
+                this.modalVideo.muted = true;
+                this.isMuted = true;
+                this.updateSoundIcons();
+                this.modalVideo.play().catch(() => {});
+              });
+            }
+            if (this.modalPoster) this.modalPoster.style.display = 'none';
+          } else if (item.poster) {
+            // No video uploaded yet (placeholder preview)
+            if (this.modalPoster) {
+              this.modalPoster.src = item.poster;
+              this.modalPoster.style.display = 'block';
+            }
+          }
+        }
+      }
+
+      nextVideo() {
+        let nextIndex = this.currentIndex + 1;
+        if (nextIndex >= this.itemsData.length) {
+          if (this.loopNav) {
+            nextIndex = 0;
+          } else {
+            return;
+          }
+        }
+        this.currentIndex = nextIndex;
+        this.loadVideoIndex(this.currentIndex);
+      }
+
+      prevVideo() {
+        let prevIndex = this.currentIndex - 1;
+        if (prevIndex < 0) {
+          if (this.loopNav) {
+            prevIndex = this.itemsData.length - 1;
+          } else {
+            return;
+          }
+        }
+        this.currentIndex = prevIndex;
+        this.loadVideoIndex(this.currentIndex);
+      }
+
+      togglePlayPause() {
+        if (!this.modalVideo) return;
+
+        if (this.modalVideo.paused) {
+          this.modalVideo.play();
+          this.isPlaying = true;
+          this.flashIndicator(false);
+        } else {
+          this.modalVideo.pause();
+          this.isPlaying = false;
+          this.flashIndicator(true);
+        }
+      }
+
+      flashIndicator(isPaused) {
+        if (!this.centerIndicator) return;
+        if (isPaused) {
+          this.indicatorPlay.style.display = 'none';
+          this.indicatorPause.style.display = 'block';
+        } else {
+          this.indicatorPlay.style.display = 'block';
+          this.indicatorPause.style.display = 'none';
+        }
+        this.centerIndicator.classList.add('svg-active');
+        clearTimeout(this.indicatorTimeout);
+        this.indicatorTimeout = setTimeout(() => {
+          this.centerIndicator.classList.remove('svg-active');
+        }, 500);
+      }
+
+      toggleSound() {
+        if (!this.modalVideo) return;
+        this.isMuted = !this.modalVideo.muted;
+        this.modalVideo.muted = this.isMuted;
+        this.updateSoundIcons();
+      }
+
+      updateSoundIcons() {
+        if (this.soundIconOn && this.soundIconOff) {
+          if (this.isMuted) {
+            this.soundIconOn.style.display = 'none';
+            this.soundIconOff.style.display = 'block';
+            if (this.soundBtn) this.soundBtn.setAttribute('aria-pressed', 'false');
+          } else {
+            this.soundIconOn.style.display = 'block';
+            this.soundIconOff.style.display = 'none';
+            if (this.soundBtn) this.soundBtn.setAttribute('aria-pressed', 'true');
+          }
+        }
+      }
+
+      handleKeydown(e) {
+        if (!this.isModalOpen()) return;
+
+        switch (e.key) {
+          case 'ArrowLeft':
+            e.preventDefault();
+            this.prevVideo();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            this.nextVideo();
+            break;
+          case 'Escape':
+            e.preventDefault();
+            this.closeModal();
+            break;
+          case ' ':
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+              e.preventDefault();
+              this.togglePlayPause();
+            }
+            break;
+        }
+      }
+
+      pauseAllPreviewVideos() {
+        this.cards.forEach((card) => {
+          const video = card.querySelector('.svg-card__video');
+          if (video) {
+            video.pause();
+            card.classList.remove('svg-card--playing');
+          }
+        });
+      }
+
+      resumePreviewVideos() {
+        if (!this.autoplayPreview) return;
+        this.cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          const video = card.querySelector('.svg-card__video');
+          if (inView && video) {
+            if (video.duration && video.currentTime >= video.duration - 0.2) {
+              video.currentTime = 0;
+            }
+            video.play().then(() => {
+              card.classList.add('svg-card--playing');
+            }).catch(() => {});
+          }
+        });
+      }
+    }
+
+    // Initialize every instance of Shoppable Video Gallery on page
+    function initGalleries() {
+      const galleries = document.querySelectorAll('.shoppable-video-gallery');
+      galleries.forEach((gallery) => {
+        if (!gallery._shoppableVideoGallery) {
+          gallery._shoppableVideoGallery = new ShoppableVideoGallery(gallery);
+        }
+      });
+    }
+
+    // Immediate synchronous execution for fastest possible autoplay
+    initGalleries();
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initGalleries);
+    }
+
+    // Support Shopify Theme Editor live reload events
+    document.addEventListener('shopify:section:load', function (e) {
+      const section = (e.target.classList && e.target.classList.contains('shoppable-video-gallery')) ? e.target : e.target.querySelector('.shoppable-video-gallery');
+      if (section) {
+        section._shoppableVideoGallery = new ShoppableVideoGallery(section);
+      }
+    });
+
+    // Theme Editor interactive preview: selecting a block automatically opens that video in the modal
+    document.addEventListener('shopify:block:select', function (e) {
+      const section = e.target.classList?.contains('shoppable-video-gallery') 
+        ? e.target 
+        : (e.target.closest('.shoppable-video-gallery') || document.querySelector('.shoppable-video-gallery'));
+      if (section && section._shoppableVideoGallery) {
+        const blockId = e.detail?.blockId;
+        const targetCard = blockId ? section.querySelector(`[data-block-id="${blockId}"]`) : null;
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          const index = parseInt(targetCard.dataset.index, 10);
+          if (!isNaN(index) && section._shoppableVideoGallery.enablePopup) {
+            section._shoppableVideoGallery.openModal(index);
+          }
+        }
+      }
+    });
+
+    document.addEventListener('shopify:block:deselect', function (e) {
+      const section = e.target.classList?.contains('shoppable-video-gallery') 
+        ? e.target 
+        : (e.target.closest('.shoppable-video-gallery') || document.querySelector('.shoppable-video-gallery'));
+      if (section && section._shoppableVideoGallery) {
+        section._shoppableVideoGallery.closeModal();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Shoppable Video Gallery",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "DISCOVER YOUR STYLE",
+      "label": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Jewellery that completes every look.",
+      "label": "Section subheading"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background color",
+      "default": "#fafaf7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "desktop_video_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop video gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_video_gap",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile video gap",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Video Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_desktop_slider",
+      "label": "Enable slider on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desktop_arrows",
+      "label": "Show desktop slider arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 Columns"
+        },
+        {
+          "value": "3",
+          "label": "3 Columns"
+        },
+        {
+          "value": "4",
+          "label": "4 Columns"
+        },
+        {
+          "value": "5",
+          "label": "5 Columns"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Tablet columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 Columns"
+        },
+        {
+          "value": "3",
+          "label": "3 Columns"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_swipe",
+      "label": "Enable horizontal swipe on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "video_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Video border radius",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_play_icon",
+      "label": "Show play icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_preview",
+      "label": "Autoplay preview",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_preview",
+      "label": "Loop preview",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Popup"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_popup",
+      "label": "Enable popup",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_buttons",
+      "label": "Show Previous/Next buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "Show video counter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_keyboard_nav",
+      "label": "Enable keyboard navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_touch_swipe",
+      "label": "Enable mobile swipe",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_navigation",
+      "label": "Loop navigation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "popup_overlay_opacity",
+      "min": 50,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "label": "Popup overlay opacity",
+      "default": 85
+    },
+    {
+      "type": "color",
+      "id": "popup_bg_color",
+      "label": "Popup background color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_info",
+      "label": "Show product information",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare_price",
+      "label": "Show compare-at price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_button",
+      "label": "Show View Product button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_button_text",
+      "label": "View Product button text",
+      "default": "View Product"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Shopify video"
+        },
+        {
+          "type": "text",
+          "id": "custom_video_url",
+          "label": "Or direct video MP4 URL (optional)",
+          "info": "Useful for external or CDN direct MP4 video URLs"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster_image",
+          "label": "Poster / thumbnail image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Custom subtitle"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_product_info",
+          "label": "Enable product information",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "video_position",
+          "label": "Video object position",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_play_icon",
+          "label": "Show play icon",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay_preview",
+          "label": "Enable autoplay preview",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shoppable Video Gallery",
+      "blocks": [
+        {
+          "type": "video",
+          "settings": {
+            "title": "Royal Kundan Choker",
+            "subtitle": "Handcrafted Festive Edit"
+          }
+        },
+        {
+          "type": "video",
+          "settings": {
+            "title": "Emerald Solitaire Drops",
+            "subtitle": "Statement Earring Duo"
+          }
+        },
+        {
+          "type": "video",
+          "settings": {
+            "title": "Polki Heritage Bangle",
+            "subtitle": "22K Gold Plated Finish"
+          }
+        },
+        {
+          "type": "video",
+          "settings": {
+            "title": "Minimalist Solitaire Ring",
+            "subtitle": "Everyday Luxury Accent"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -7,14 +7,14 @@
 {%- style -%}
   #MangalsutraEdit-{{ section.id }} {
     background-color: var(--hency-ivory, #fafaf7);
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: calc(var(--spacing-sections-mobile, 0px));
+    padding-bottom: calc(var(--spacing-sections-mobile, 0px));
   }
 
   @media screen and (min-width: 750px) {
     #MangalsutraEdit-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: calc(var(--spacing-sections-desktop, 0px));
+      padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
 
@@ -264,7 +264,10 @@
   "tag": "section",
   "class": "section",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -315,8 +318,14 @@
       "id": "banner_position",
       "label": "Banner position",
       "options": [
-        { "value": "banner-left", "label": "Banner Left / Products Right" },
-        { "value": "banner-right", "label": "Banner Right / Products Left" }
+        {
+          "value": "banner-left",
+          "label": "Banner Left / Products Right"
+        },
+        {
+          "value": "banner-right",
+          "label": "Banner Right / Products Left"
+        }
       ],
       "default": "banner-left"
     },
@@ -357,39 +366,26 @@
       "default": 4
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "product_columns_desktop",
-      "min": 2,
-      "max": 3,
-      "step": 1,
       "label": "Desktop product columns",
-      "default": 2
+      "options": [
+        {
+          "value": "2",
+          "label": "2 Columns"
+        },
+        {
+          "value": "3",
+          "label": "3 Columns"
+        }
+      ],
+      "default": "2"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 56
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 56
     }
   ],
   "presets": [
