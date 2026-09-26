@@ -300,7 +300,7 @@
         "show_desktop_arrows": true,
         "columns_desktop": "4",
         "columns_tablet": "3",
-        "columns_mobile": "2",
+        "columns_mobile": "1",
         "enable_mobile_swipe": true,
         "video_border_radius": 8,
         "show_play_icon": true,
