@@ -1,6 +1,293 @@
+{% doc %}
+  @prompt
+    Create a premium Shopify homepage video carousel matching my existing luxury Indian jewellery website style: warm ivory, champagne-gold accents, elegant typography, clean and minimal.
+    
+    Allow up to 5 vertical 9:16 videos. Each video must have its own Shopify product selector, so customers can click the video/product and open the correct product page.
+    
+    Include autoplay, loop, mute/unmute sound control, optional play/pause, navigation arrows on desktop, swipe on mobile, and responsive 9:16 sizing.
+    
+    Show 4 videos on desktop and about 1.3 videos on mobile to encourage swiping.
+    
+    Add a subtle product title, price and "VIEW PRODUCT" overlay on each video.
+    
+    Make all videos, products, text and settings editable through the Shopify Theme Editor.
+    
+    Use only Liquid, CSS and JavaScript. No external apps or libraries.
+    
+    Keep the design luxurious and editorial — no bulky cards, heavy shadows, bright colours or generic social-media styling.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-jewel-reel-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: 36px 0;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__inner { width: 100%; }
+  .ai-jewel-reel-{{ ai_gen_id }}__heading {
+    margin: 0 0 24px;
+    padding: 0 4px;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: {{ block.settings.heading_size }}px;
+    letter-spacing: .04em;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__track {
+    display: flex;
+    gap: {{ block.settings.gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 4px 4px;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__track::-webkit-scrollbar { display: none; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item {
+    position: relative;
+    flex: 0 0 calc((100% - (3 * {{ block.settings.gap }}px)) / 4);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: #e9e2d5;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__item video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__item-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-decoration: none;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__shade {
+    position: absolute;
+    inset: 48% 0 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(transparent, rgba(22, 18, 13, .78));
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__caption {
+    position: absolute;
+    z-index: 2;
+    right: 12px;
+    bottom: 14px;
+    left: 12px;
+    color: #fffaf0;
+    pointer-events: none;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__title {
+    margin: 0 0 4px;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: 15px;
+    line-height: 1.25;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__price { margin: 0 0 8px; font-size: 13px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__view {
+    color: #fffaf0;
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__control {
+    position: absolute;
+    z-index: 3;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(255,250,240,.75);
+    border-radius: 50%;
+    background: rgba(30,24,17,.36);
+    color: #fffaf0;
+    cursor: pointer;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__control:focus-visible,
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow:focus-visible,
+  .ai-jewel-reel-{{ ai_gen_id }}__item-link:focus-visible { outline: 2px solid {{ block.settings.accent_color }}; outline-offset: 3px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__sound { right: 10px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__play { right: 52px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__controls { display: flex; gap: 8px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid {{ block.settings.accent_color }};
+    border-radius: 50%;
+    background: transparent;
+    color: {{ block.settings.text_color }};
+    cursor: pointer;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow svg { width: 16px; height: 16px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__empty {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background: #eee9df;
+    color: #514a3f;
+    text-align: center;
+    padding: 20px;
+  }
+  @media screen and (max-width: 749px) {
+    .ai-jewel-reel-{{ ai_gen_id }} { padding: 28px 0; }
+    .ai-jewel-reel-{{ ai_gen_id }}__item { flex-basis: 76.9%; }
+    .ai-jewel-reel-{{ ai_gen_id }}__controls { display: none; }
+    .ai-jewel-reel-{{ ai_gen_id }}__heading { margin-bottom: 18px; }
+  }
+{% endstyle %}
+
+<jewel-reel-{{ ai_gen_id }} class="ai-jewel-reel-{{ ai_gen_id }}" {{ block.shopify_attributes }} data-pausable="{{ block.settings.show_play_control }}">
+  <div class="ai-jewel-reel-{{ ai_gen_id }}__inner">
+    {% if block.settings.heading != blank or block.settings.show_arrows %}
+      <div class="ai-jewel-reel-{{ ai_gen_id }}__topline">
+        <div class="ai-jewel-reel-{{ ai_gen_id }}__top-spacer"></div>
+        {% if block.settings.heading != blank %}<h2 class="ai-jewel-reel-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>{% endif %}
+        {% if block.settings.show_arrows %}
+          <div class="ai-jewel-reel-{{ ai_gen_id }}__controls">
+            <button class="ai-jewel-reel-{{ ai_gen_id }}__arrow" type="button" data-direction="prev" aria-label="Previous videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+            <button class="ai-jewel-reel-{{ ai_gen_id }}__arrow" type="button" data-direction="next" aria-label="Next videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="ai-jewel-reel-{{ ai_gen_id }}__track" aria-label="Jewellery videos">
+      {% for i in (1..5) %}
+        {% liquid
+          assign video_key = 'video_' | append: i
+          assign product_key = 'product_' | append: i
+          assign reel_video = block.settings[video_key]
+          assign reel_product = block.settings[product_key]
+        %}
+        {% if reel_video != blank %}
+          <article class="ai-jewel-reel-{{ ai_gen_id }}__item">
+            {{ reel_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata' }}
+            {% if block.settings.show_play_control %}<button class="ai-jewel-reel-{{ ai_gen_id }}__control ai-jewel-reel-{{ ai_gen_id }}__play" type="button" aria-label="Pause video" data-play><span aria-hidden="true">Ⅱ</span></button>{% endif %}
+            <button class="ai-jewel-reel-{{ ai_gen_id }}__control ai-jewel-reel-{{ ai_gen_id }}__sound" type="button" aria-label="Unmute video" data-sound><span aria-hidden="true">♪</span></button>
+            {% if reel_product != blank %}
+              <a class="ai-jewel-reel-{{ ai_gen_id }}__item-link" href="{{ reel_product.url }}" aria-label="View {{ reel_product.title | escape }}"></a>
+              <span class="ai-jewel-reel-{{ ai_gen_id }}__shade"></span>
+              <div class="ai-jewel-reel-{{ ai_gen_id }}__caption" aria-hidden="true">
+                <h3 class="ai-jewel-reel-{{ ai_gen_id }}__title">{{ reel_product.title | escape }}</h3>
+                <p class="ai-jewel-reel-{{ ai_gen_id }}__price">{{ reel_product.price | money }}</p>
+                <span class="ai-jewel-reel-{{ ai_gen_id }}__view">{{ block.settings.link_label | escape }}</span>
+              </div>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+      {% assign any_video = false %}
+      {% for i in (1..5) %}
+        {% assign video_key = 'video_' | append: i %}
+        {% if block.settings[video_key] != blank %}{% assign any_video = true %}{% endif %}
+      {% endfor %}
+      {% unless any_video %}<div class="ai-jewel-reel-{{ ai_gen_id }}__empty">Add a video and choose its matching product in the block settings.</div>{% endunless %}
+    </div>
+  </div>
+</jewel-reel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    const tagName = 'jewel-reel-{{ ai_gen_id }}';
+    if (customElements.get(tagName)) return;
+    class JewelReel extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('.ai-jewel-reel-{{ ai_gen_id }}__track');
+        this.querySelectorAll('[data-sound]').forEach((button) => {
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const video = button.closest('.ai-jewel-reel-{{ ai_gen_id }}__item').querySelector('video');
+            video.muted = !video.muted;
+            button.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+            button.querySelector('span').textContent = video.muted ? '♪' : '♫';
+          });
+        });
+        this.querySelectorAll('[data-play]').forEach((button) => {
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const video = button.closest('.ai-jewel-reel-{{ ai_gen_id }}__item').querySelector('video');
+            if (video.paused) {
+              video.play();
+              button.setAttribute('aria-label', 'Pause video');
+              button.querySelector('span').textContent = 'Ⅱ';
+            } else {
+              video.pause();
+              button.setAttribute('aria-label', 'Play video');
+              button.querySelector('span').textContent = '▶';
+            }
+          });
+        });
+        this.querySelectorAll('[data-direction]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const firstItem = this.track.querySelector('.ai-jewel-reel-{{ ai_gen_id }}__item');
+            if (!firstItem) return;
+            const amount = firstItem.getBoundingClientRect().width + parseFloat(getComputedStyle(this.track).gap || 0);
+            this.track.scrollBy({ left: button.dataset.direction === 'next' ? amount : -amount, behavior: 'smooth' });
+          });
+        });
+      }
+    }
+    customElements.define(tagName, JewelReel);
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Luxury video carousel",
+  "settings": [
+    { "type": "header", "content": "Carousel content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A closer look" },
+    { "type": "text", "id": "link_label", "label": "Product link label", "default": "VIEW PRODUCT" },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show desktop arrows", "default": true },
+    { "type": "checkbox", "id": "show_play_control", "label": "Show play and pause control", "default": true },
+    { "type": "header", "content": "Video 1" },
+    { "type": "video", "id": "video_1", "label": "Video" },
+    { "type": "product", "id": "product_1", "label": "Product" },
+    { "type": "header", "content": "Video 2" },
+    { "type": "video", "id": "video_2", "label": "Video" },
+    { "type": "product", "id": "product_2", "label": "Product" },
+    { "type": "header", "content": "Video 3" },
+    { "type": "video", "id": "video_3", "label": "Video" },
+    { "type": "product", "id": "product_3", "label": "Product" },
+    { "type": "header", "content": "Video 4" },
+    { "type": "video", "id": "video_4", "label": "Video" },
+    { "type": "product", "id": "product_4", "label": "Product" },
+    { "type": "header", "content": "Video 5" },
+    { "type": "video", "id": "video_5", "label": "Video" },
+    { "type": "product", "id": "product_5", "label": "Product" },
+    { "type": "header", "content": "Appearance" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "gap", "label": "Video spacing", "min": 4, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 18, "max": 40, "step": 2, "unit": "px", "default": 26 },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FAF8F2" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#29251F" },
+    { "type": "color", "id": "accent_color", "label": "Champagne accent", "default": "#A27C3E" }
+  ],
+  "presets": [{ "name": "Luxury video carousel" }],
+  "tag": null,
+  "class": "luxury-video-carousel-block"
+}
 {% endschema %}
