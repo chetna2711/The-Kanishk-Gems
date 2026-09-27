@@ -1,6 +1,201 @@
+{% doc %}
+  @prompt
+    Create a premium Shopify homepage video carousel matching my existing luxury Indian jewellery website style: warm ivory, champagne-gold accents, elegant typography, clean and minimal.
+    
+    Allow up to 5 vertical 9:16 videos. Each video must have its own Shopify product selector, so customers can click the video/product and open the correct product page.
+    
+    Include autoplay, loop, mute/unmute sound control, optional play/pause, navigation arrows on desktop, swipe on mobile, and responsive 9:16 sizing.
+    
+    Show 4 videos on desktop and about 1.3 videos on mobile to encourage swiping.
+    
+    Add a subtle product title, price and "VIEW PRODUCT" overlay on each video.
+    
+    Make all videos, products, text and settings editable through the Shopify Theme Editor.
+    
+    Use only Liquid, CSS and JavaScript. No external apps or libraries.
+    
+    Keep the design luxurious and editorial — no bulky cards, heavy shadows, bright colours or generic social-media styling., premium with curve edges and auto play and mute control, Redesign this video carousel to feel much more premium and luxurious, matching the HENCY Indian luxury jewellery website.
+    
+    Remove autoplay completely. Videos must NOT play automatically and must NOT have sound or mute/unmute controls. The customer should manually tap/click to play a video, always silently.
+    
+    Make the videos significantly larger and more immersive. Use 3 large 9:16 videos on desktop instead of 4 small cards, with generous spacing and elegant proportions. On mobile, show 1 large video with a small portion of the next video visible for swiping.
+    
+    Remove the dark circular sound icons and unnecessary controls. Keep the interface extremely minimal.
+    
+    Use a warm ivory/champagne background matching the existing website, subtle thin gold borders, very soft shadows, refined rounded corners and generous whitespace.
+    
+    Each video should have a subtle elegant product name and "VIEW PRODUCT →" link near the bottom, only when a product is connected.
+    
+    Use smooth premium transitions and subtle hover effects.
+    
+    The overall design should feel like an editorial luxury jewellery campaign — sophisticated, quiet, expensive and minimal — not a generic Shopify video gallery or social-media carousel.
+    
+    Keep up to 5 videos, individual Shopify product linking, desktop arrows and mobile swipe functionality.
+    
+    Do not add autoplay.
+    Do not add sound.
+    Do not add mute/unmute controls.
+    Do not use large buttons.
+    Do not use heavy shadows.
+    Do not use generic card styling.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-jewel-reel-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: 54px 0;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__inner { width: 100%; }
+  .ai-jewel-reel-{{ ai_gen_id }}__heading {
+    margin: 0 0 34px;
+    padding: 0 4px;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-size: {{ block.settings.heading_size }}px;
+    letter-spacing: .07em;
+  }
+  .ai-jewel-reel-{{ ai_gen_id }}__topline { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__track { display:flex; gap:{{ block.settings.gap }}px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 4px 8px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__track::-webkit-scrollbar { display:none; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item { position:relative; flex:0 0 calc((100% - (2 * {{ block.settings.gap }}px)) / 3); aspect-ratio:9 / 16; overflow:hidden; border-radius:{{ block.settings.corner_radius }}px; border:1px solid {{ block.settings.accent_color }}; scroll-snap-align:start; background:#e9e2d5; box-shadow:0 5px 18px rgba(65,48,25,.07); transition:box-shadow .35s ease, transform .35s ease; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item:hover { box-shadow:0 9px 24px rgba(65,48,25,.11); transform:translateY(-3px); }
+  .ai-jewel-reel-{{ ai_gen_id }}__item video { display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit; cursor:pointer; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item-link { position:absolute; inset:0; z-index:2; border-radius:inherit; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item-link:focus-visible { outline:2px solid {{ block.settings.accent_color }}; outline-offset:3px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__shade { position:absolute; inset:54% 0 0; z-index:1; pointer-events:none; background:linear-gradient(transparent,rgba(22,18,13,.64)); border-radius:inherit; }
+  .ai-jewel-reel-{{ ai_gen_id }}__caption { position:absolute; z-index:3; right:18px; bottom:20px; left:18px; color:#fffaf0; pointer-events:none; text-shadow:0 1px 5px rgba(0,0,0,.25); }
+  .ai-jewel-reel-{{ ai_gen_id }}__title { margin:0 0 9px; font-family:{{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }}; font-weight:{{ block.settings.heading_font.weight }}; font-size:18px; line-height:1.25; letter-spacing:.02em; }
+  .ai-jewel-reel-{{ ai_gen_id }}__view { color:#fffaf0; font-size:10px; letter-spacing:.18em; }
+  .ai-jewel-reel-{{ ai_gen_id }}__playhint { position:absolute; z-index:2; top:50%; left:50%; display:grid; place-items:center; width:52px; height:52px; border:1px solid rgba(255,250,240,.78); border-radius:50%; color:#fffaf0; background:rgba(38,31,22,.24); transform:translate(-50%,-50%); pointer-events:none; opacity:.9; transition:opacity .25s ease; }
+  .ai-jewel-reel-{{ ai_gen_id }}__playhint svg { width:16px; height:16px; margin-left:2px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__item.is-playing .ai-jewel-reel-{{ ai_gen_id }}__playhint { opacity:0; }
+  .ai-jewel-reel-{{ ai_gen_id }}__controls { display:flex; gap:10px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow { display:grid; place-items:center; width:40px; height:40px; border:1px solid {{ block.settings.accent_color }}; border-radius:50%; background:transparent; color:{{ block.settings.text_color }}; cursor:pointer; transition:background-color .25s ease,color .25s ease; }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow:hover { background:{{ block.settings.accent_color }}; color:#fffaf0; }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow:focus-visible { outline:2px solid {{ block.settings.accent_color }}; outline-offset:3px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__arrow svg { width:16px; height:16px; }
+  .ai-jewel-reel-{{ ai_gen_id }}__empty { display:grid; place-items:center; width:100%; aspect-ratio:9 / 16; border:1px solid {{ block.settings.accent_color }}; border-radius:{{ block.settings.corner_radius }}px; background:#eee9df; color:#514a3f; text-align:center; padding:20px; }
+  @media screen and (max-width:749px) {
+    .ai-jewel-reel-{{ ai_gen_id }} { padding:38px 0; }
+    .ai-jewel-reel-{{ ai_gen_id }}__item { flex-basis:88%; }
+    .ai-jewel-reel-{{ ai_gen_id }}__controls { display:none; }
+    .ai-jewel-reel-{{ ai_gen_id }}__heading { margin-bottom:24px; }
+    .ai-jewel-reel-{{ ai_gen_id }}__caption { right:14px; bottom:16px; left:14px; }
+    .ai-jewel-reel-{{ ai_gen_id }}__item:hover { transform:none; }
+  }
+{% endstyle %}
+
+<jewel-reel-{{ ai_gen_id }} class="ai-jewel-reel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-jewel-reel-{{ ai_gen_id }}__inner">
+    {% if block.settings.heading != blank or block.settings.show_arrows %}
+      <div class="ai-jewel-reel-{{ ai_gen_id }}__topline">
+        <span aria-hidden="true"></span>
+        {% if block.settings.heading != blank %}<h2 class="ai-jewel-reel-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>{% endif %}
+        {% if block.settings.show_arrows %}<div class="ai-jewel-reel-{{ ai_gen_id }}__controls"><button class="ai-jewel-reel-{{ ai_gen_id }}__arrow" type="button" data-direction="prev" aria-label="Previous videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ai-jewel-reel-{{ ai_gen_id }}__arrow" type="button" data-direction="next" aria-label="Next videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>{% endif %}
+      </div>
+    {% endif %}
+    <div class="ai-jewel-reel-{{ ai_gen_id }}__track" aria-label="Jewellery videos">
+      {% assign any_video = false %}
+      {% for i in (1..5) %}
+        {% liquid
+          assign video_key = 'video_' | append: i
+          assign product_key = 'product_' | append: i
+          assign reel_video = block.settings[video_key]
+          assign reel_product = block.settings[product_key]
+        %}
+        {% if reel_video != blank %}
+          {% assign any_video = true %}
+          <article class="ai-jewel-reel-{{ ai_gen_id }}__item">
+            {{ reel_video | video_tag: autoplay: false, loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata' }}
+            <span class="ai-jewel-reel-{{ ai_gen_id }}__playhint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            {% if reel_product != blank %}
+              <span class="ai-jewel-reel-{{ ai_gen_id }}__shade"></span>
+              <a class="ai-jewel-reel-{{ ai_gen_id }}__item-link" href="{{ reel_product.url }}" aria-label="View {{ reel_product.title | escape }}"></a>
+              <div class="ai-jewel-reel-{{ ai_gen_id }}__caption" aria-hidden="true"><h3 class="ai-jewel-reel-{{ ai_gen_id }}__title">{{ reel_product.title | escape }}</h3><span class="ai-jewel-reel-{{ ai_gen_id }}__view">{{ block.settings.link_label | escape }} →</span></div>
+            {% endif %}
+          </article>
+        {% endif %}
+      {% endfor %}
+      {% unless any_video %}<div class="ai-jewel-reel-{{ ai_gen_id }}__empty">Add a video and choose its matching product in the block settings.</div>{% endunless %}
+    </div>
+  </div>
+</jewel-reel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    const tagName = 'jewel-reel-{{ ai_gen_id }}';
+    if (customElements.get(tagName)) return;
+    class JewelReel extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('.ai-jewel-reel-{{ ai_gen_id }}__track');
+        this.querySelectorAll('.ai-jewel-reel-{{ ai_gen_id }}__item video').forEach((video) => {
+          video.muted = true;
+          video.controls = false;
+          video.addEventListener('click', (event) => {
+            event.preventDefault();
+            const item = video.closest('.ai-jewel-reel-{{ ai_gen_id }}__item');
+            if (video.paused) {
+              this.querySelectorAll('.ai-jewel-reel-{{ ai_gen_id }}__item video').forEach((other) => {
+                if (other !== video) { other.pause(); other.closest('.ai-jewel-reel-{{ ai_gen_id }}__item').classList.remove('is-playing'); }
+              });
+              video.play();
+              item.classList.add('is-playing');
+            } else {
+              video.pause();
+              item.classList.remove('is-playing');
+            }
+          });
+          video.addEventListener('ended', () => video.closest('.ai-jewel-reel-{{ ai_gen_id }}__item').classList.remove('is-playing'));
+        });
+        this.querySelectorAll('[data-direction]').forEach((button) => button.addEventListener('click', () => {
+          const item = this.track.querySelector('.ai-jewel-reel-{{ ai_gen_id }}__item');
+          if (!item) return;
+          const distance = item.getBoundingClientRect().width + parseFloat(getComputedStyle(this.track).gap || 0);
+          this.track.scrollBy({ left: button.dataset.direction === 'next' ? distance : -distance, behavior: 'smooth' });
+        }));
+      }
+    }
+    customElements.define(tagName, JewelReel);
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Luxury video carousel",
+  "settings": [
+    { "type": "header", "content": "Carousel content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A closer look" },
+    { "type": "text", "id": "link_label", "label": "Product link label", "default": "VIEW PRODUCT" },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show desktop arrows", "default": true },
+    { "type": "header", "content": "Video 1" },
+    { "type": "video", "id": "video_1", "label": "Video" }, { "type": "product", "id": "product_1", "label": "Product" },
+    { "type": "header", "content": "Video 2" },
+    { "type": "video", "id": "video_2", "label": "Video" }, { "type": "product", "id": "product_2", "label": "Product" },
+    { "type": "header", "content": "Video 3" },
+    { "type": "video", "id": "video_3", "label": "Video" }, { "type": "product", "id": "product_3", "label": "Product" },
+    { "type": "header", "content": "Video 4" },
+    { "type": "video", "id": "video_4", "label": "Video" }, { "type": "product", "id": "product_4", "label": "Product" },
+    { "type": "header", "content": "Video 5" },
+    { "type": "video", "id": "video_5", "label": "Video" }, { "type": "product", "id": "product_5", "label": "Product" },
+    { "type": "header", "content": "Appearance" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "gap", "label": "Video spacing", "min": 8, "max": 32, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "corner_radius", "label": "Curve radius", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 18, "max": 40, "step": 2, "unit": "px", "default": 26 },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FAF8F2" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#29251F" },
+    { "type": "color", "id": "accent_color", "label": "Champagne accent", "default": "#A27C3E" }
+  ],
+  "presets": [{ "name": "Luxury video carousel" }],
+  "tag": null,
+  "class": "luxury-video-carousel-block"
+}
 {% endschema %}
