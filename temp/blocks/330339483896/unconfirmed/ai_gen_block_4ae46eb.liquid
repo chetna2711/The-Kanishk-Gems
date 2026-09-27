@@ -1,0 +1,159 @@
+{% doc %}
+  @prompt
+    Create a premium scrolling announcement bar for the HENCY luxury Indian jewellery website.
+    
+    Make it a continuous infinite horizontal loop with smooth, slow movement.
+    
+    Use multiple editable announcements, for example:
+    
+    ✦ NEW ARRIVALS — DISCOVER YOUR NEXT SIGNATURE PIECE
+    ✦ ELEGANT JEWELLERY, EVERYDAY GLAMOUR
+    ✦ 15 DAYS EASY EXCHANGE AVAILABLE
+    ✦ COMPLIMENTARY SHIPPING ON SELECTED ORDERS
+    ✦ CRAFTED FOR MOMENTS THAT MATTER
+    
+    DESIGN:
+    - Match the existing HENCY theme
+    - Deep charcoal/black background
+    - Warm champagne-gold and ivory typography
+    - Elegant premium serif/sans-serif combination
+    - Small refined gold separators between messages
+    - Thin, clean height
+    - No bulky icons
+    - No gradients
+    - No excessive animations
+    
+    BEHAVIOUR:
+    - Continuous seamless marquee loop
+    - No visible jump when the animation restarts
+    - Smooth constant speed
+    - Automatically loops forever
+    - Pause on hover
+    - Mobile responsive
+    - Text remains on one line
+    - No horizontal page overflow
+    
+    SHOPIFY CUSTOMIZATION:
+    Allow each announcement/message to be edited, added or removed from the Theme Editor.
+    Allow adjustable scrolling speed.
+    Allow background colour, text colour and font size customization.
+    Allow the bar to be enabled/disabled.
+    
+    Keep it minimal, sophisticated and consistent with a premium Indian jewellery brand.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-announcement-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__viewport {
+    width: 100%;
+    overflow: hidden;
+    background-color: {{ block.settings.background_color }};
+    padding: 10px 0;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__track {
+    display: flex;
+    width: max-content;
+    animation: ai-announcement-scroll-{{ ai_gen_id }} {{ block.settings.scroll_duration }}s linear infinite;
+    will-change: transform;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__viewport:hover .ai-announcement-{{ ai_gen_id }}__track,
+  .ai-announcement-{{ ai_gen_id }}__viewport:focus-within .ai-announcement-{{ ai_gen_id }}__track {
+    animation-play-state: paused;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 24px;
+    color: {{ block.settings.text_color }};
+    font-family: {{ block.settings.text_font.family }}, {{ block.settings.text_font.fallback_families }};
+    font-size: {{ block.settings.font_size }}px;
+    line-height: 1.3;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .ai-announcement-{{ ai_gen_id }}__separator {
+    color: {{ block.settings.separator_color }};
+    font-family: serif;
+    font-size: 0.85em;
+    padding-left: 28px;
+    line-height: 1;
+  }
+
+  @keyframes ai-announcement-scroll-{{ ai_gen_id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-announcement-{{ ai_gen_id }}__track { animation: none; }
+    .ai-announcement-{{ ai_gen_id }}__viewport { overflow-x: auto; }
+  }
+{% endstyle %}
+
+{% if block.settings.enabled %}
+  <div class="ai-announcement-{{ ai_gen_id }}" style="width: {{ block.settings.desktop_width_percent }}%;" {{ block.shopify_attributes }}>
+    <div class="ai-announcement-{{ ai_gen_id }}__viewport" role="region" aria-label="Store announcements">
+      <div class="ai-announcement-{{ ai_gen_id }}__track">
+        {% for copy in (1..2) %}
+          <div class="ai-announcement-{{ ai_gen_id }}__group" {% if copy == 2 %}aria-hidden="true"{% endif %}>
+            {% for i in (1..5) %}
+              {% assign message_key = 'message_' | append: i %}
+              {% assign message = block.settings[message_key] %}
+              {% if message != blank %}
+                <span class="ai-announcement-{{ ai_gen_id }}__item">
+                  {{ message | escape }}
+                  <span class="ai-announcement-{{ ai_gen_id }}__separator" aria-hidden="true">✦</span>
+                </span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Scrolling announcements",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Enable bar", "default": true },
+    { "type": "header", "content": "Messages" },
+    { "type": "text", "id": "message_1", "label": "Message 1", "default": "New arrivals — discover your next signature piece" },
+    { "type": "text", "id": "message_2", "label": "Message 2", "default": "Elegant jewellery, everyday glamour" },
+    { "type": "text", "id": "message_3", "label": "Message 3", "default": "15 days easy exchange available" },
+    { "type": "text", "id": "message_4", "label": "Message 4", "default": "Complimentary shipping on selected orders" },
+    { "type": "text", "id": "message_5", "label": "Message 5", "default": "Crafted for moments that matter" },
+    { "type": "header", "content": "Appearance" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "scroll_duration", "label": "Loop duration", "min": 20, "max": 100, "step": 5, "unit": "s", "default": 50 },
+    { "type": "range", "id": "font_size", "label": "Font size", "min": 10, "max": 20, "step": 1, "unit": "px", "default": 12 },
+    { "type": "font_picker", "id": "text_font", "label": "Text font", "default": "barlow_condensed_n4" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#1A1A1A" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FAFAF7" },
+    { "type": "color", "id": "separator_color", "label": "Separator", "default": "#C5A059" }
+  ],
+  "presets": [
+    { "name": "Scrolling announcements" }
+  ],
+  "tag": null,
+  "class": "announcement-marquee"
+}
+{% endschema %}
