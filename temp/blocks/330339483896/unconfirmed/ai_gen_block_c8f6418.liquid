@@ -1,6 +1,243 @@
+{% doc %}
+  @prompt
+    Create a completely customizable premium Hero Banner for my HENCY luxury jewellery Shopify homepage.
+    
+    Use 2 slides maximum.
+    
+    DESKTOP:
+    - 16:9 hero banner ratio
+    - Full-width edge-to-edge
+    - Use the uploaded desktop image without cropping important jewellery, model or text
+    - Automatically fit the image proportionally
+    - No stretching or distortion
+    
+    MOBILE:
+    - Add a separate mobile image picker for every slide
+    - Automatically switch to the mobile image on mobile devices
+    - Fit the complete mobile composition without cutting off the jewellery, model or important content
+    - No stretching or distortion
+    - Do not simply crop the desktop image
+    
+    EACH SLIDE:
+    - Desktop image
+    - Mobile image
+    - Eyebrow text
+    - Main heading
+    - Description
+    - Button text
+    - Button link
+    - Text position
+    - Text alignment
+    - Overlay opacity
+    - Image focal position
+    
+    FUNCTIONS:
+    - Exactly 2 slide blocks
+    - Smooth fade/slide transition
+    - Optional autoplay
+    - Adjustable slide duration
+    - Pause on hover
+    - Desktop and mobile settings separately
+    
+    DESIGN:
+    Match the existing HENCY website:
+    warm ivory, champagne gold, elegant black typography, refined luxury Indian jewellery aesthetic, generous whitespace and minimal premium styling.
+    
+    Make the hero feel like a high-end jewellery campaign, not a generic Shopify banner.
+    
+    IMPORTANT:
+    Never crop important product or model details.
+    Use responsive image handling and separate mobile images so every slide looks intentionally composed on both desktop and mobile., Fix the hero banner height and remove the empty space above and below the image.
+    
+    DESKTOP:
+    The hero section must have EXACTLY the same aspect ratio as the uploaded desktop image: 16:9.
+    
+    Do NOT place the 16:9 image inside a taller container.
+    
+    The image must fill the entire hero section from edge to edge with no white, ivory or empty space above or below.
+    
+    Use:
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    
+    The image should display at its natural 16:9 ratio without distortion.
+    
+    Do NOT use a fixed min-height.
+    Do NOT use extra vertical padding.
+    Do NOT force the hero into a taller viewport height.
+    Do NOT add blank space around the image.
+    
+    Keep the existing text, button and image composition exactly as they are.
+    
+    MOBILE:
+    Keep the separate mobile image functionality.
+    The mobile hero should automatically use the mobile image and fit its own intended mobile aspect ratio without creating empty space.
+    
+    IMPORTANT:
+    Desktop and mobile must have independent responsive heights based on their respective image aspect ratios.
+    
+    The hero should be completely edge-to-edge horizontally and vertically, with the image touching the top and bottom boundaries of the hero.
+    
+    Keep the 2-slide functionality, arrows, dots, autoplay and all existing customization options.
+    
+    Do not change the visual design — ONLY fix the unwanted space and make the hero height follow the image ratio exactly., Rebuild the hero image sizing so the section automatically adapts to the exact dimensions/aspect ratio of the uploaded image.
+    
+    IMPORTANT:
+    Do NOT force the hero into 16:9.
+    Do NOT use a fixed height.
+    Do NOT use min-height.
+    Do NOT crop the image.
+    Do NOT use object-fit: cover.
+    
+    The hero container height must automatically follow the actual uploaded image's aspect ratio.
+    
+    DESKTOP:
+    Display the complete uploaded desktop image at 100% width while preserving its original aspect ratio.
+    
+    Use responsive image sizing so:
+    - width: 100%
+    - height: auto
+    - aspect ratio automatically comes from the uploaded image
+    - no cropping
+    - no stretching
+    - no empty space above or below
+    
+    MOBILE:
+    Allow a separate mobile image for each slide.
+    The mobile hero should independently calculate its height from the uploaded mobile image's own dimensions.
+    
+    If the mobile image has a different aspect ratio from desktop, that's completely fine.
+    
+    The image itself should determine the hero height.
+    
+    Keep the existing:
+    - 2 slide options
+    - desktop/mobile image selectors
+    - text and button controls
+    - slide navigation
+    - autoplay
+    - responsive behaviour
+    
+    IMPORTANT:
+    The hero should always hug the image exactly on every screen size.
+    
+    If I upload a 1944 × 810 image, display it at that exact aspect ratio.
+    If I upload a different ratio later, automatically adapt to that ratio without requiring any manual height setting.
+    
+    Do not add padding or blank space around the image.
+    Do not crop important jewellery, models, text or products.
+    
+    The final result should be a full-width responsive image banner where the image's natural aspect ratio controls the section height automatically.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% style %}
+.ai-luxe-hero-{{ ai_gen_id }}{display:block;position:relative;width:100%;max-width:100%;color:#1a1a1a}
+.ai-luxe-hero-{{ ai_gen_id }}__viewport{position:relative;width:100%;height:auto;overflow:hidden}
+.ai-luxe-hero-{{ ai_gen_id }}__slide{position:relative;display:none;width:100%;height:auto}
+.ai-luxe-hero-{{ ai_gen_id }}__slide.is-active{display:block}
+.ai-luxe-hero-{{ ai_gen_id }}__media{display:block;width:100%;height:auto;line-height:0}
+.ai-luxe-hero-{{ ai_gen_id }}__media img{display:block;width:100%;height:auto;object-fit:initial;object-position:var(--hero-focal,50% 50%)}
+.ai-luxe-hero-{{ ai_gen_id }}__placeholder{position:relative;width:100%;aspect-ratio:2.4/1;background:#eee9df}
+.ai-luxe-hero-{{ ai_gen_id }}__placeholder svg{display:block;width:100%;height:100%}
+.ai-luxe-hero-{{ ai_gen_id }}__empty{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);padding:8px 12px;color:#3b352c;background:#fafaf7;font-size:13px;text-align:center}
+.ai-luxe-hero-{{ ai_gen_id }}__shade{position:absolute;inset:0;pointer-events:none;background:rgba(0,0,0,var(--shade-opacity))}
+.ai-luxe-hero-{{ ai_gen_id }}__content{position:absolute;z-index:2;top:var(--content-top);left:var(--content-left);width:min(44%,560px);transform:translate(var(--content-x),var(--content-y));text-align:var(--content-align);color:var(--content-color)}
+.ai-luxe-hero-{{ ai_gen_id }}__eyebrow{margin:0 0 16px;color:var(--eyebrow-color);font-size:12px;letter-spacing:.22em;line-height:1.4;text-transform:uppercase}
+.ai-luxe-hero-{{ ai_gen_id }}__heading{margin:0;color:inherit;font-family:var(--font-heading-family,Georgia,serif);font-size:clamp(32px,4vw,66px);font-weight:500;line-height:1.05;letter-spacing:.015em}
+.ai-luxe-hero-{{ ai_gen_id }}__description{margin-top:18px;color:inherit;font-size:16px;line-height:1.65}.ai-luxe-hero-{{ ai_gen_id }}__description p{margin:0}
+.ai-luxe-hero-{{ ai_gen_id }}__button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:26px;padding:12px 28px;border:1px solid var(--button-border);background:var(--button-bg);color:var(--button-text);font-size:12px;letter-spacing:.12em;text-decoration:none;text-transform:uppercase}
+.ai-luxe-hero-{{ ai_gen_id }}__button:hover{background:var(--button-hover-bg);color:var(--button-hover-text)}
+.ai-luxe-hero-{{ ai_gen_id }}__button:focus-visible,.ai-luxe-hero-{{ ai_gen_id }}__control:focus-visible,.ai-luxe-hero-{{ ai_gen_id }}__dot:focus-visible{outline:2px solid #8b6a2f;outline-offset:4px}
+.ai-luxe-hero-{{ ai_gen_id }}__controls{position:absolute;z-index:3;right:28px;bottom:24px;display:flex;align-items:center;gap:10px}
+.ai-luxe-hero-{{ ai_gen_id }}__control{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid rgba(26,26,26,.5);border-radius:50%;background:rgba(250,250,247,.9);color:#1a1a1a;cursor:pointer}
+.ai-luxe-hero-{{ ai_gen_id }}__control svg{width:14px;height:14px}.ai-luxe-hero-{{ ai_gen_id }}__dots{display:flex;gap:7px}
+.ai-luxe-hero-{{ ai_gen_id }}__dot{width:8px;height:8px;padding:0;border:1px solid #1a1a1a;border-radius:50%;background:#fafaf7;cursor:pointer}.ai-luxe-hero-{{ ai_gen_id }}__dot[aria-current=true]{background:#1a1a1a}
+@media(max-width:749px){.ai-luxe-hero-{{ ai_gen_id }}__content{top:auto;left:0;bottom:0;width:100%;transform:none;padding:26px 22px 30px;background:rgba(246,243,237,.94);color:#1a1a1a;text-align:var(--mobile-align)}.ai-luxe-hero-{{ ai_gen_id }}__eyebrow{margin-bottom:11px;color:#765b2b;font-size:10px}.ai-luxe-hero-{{ ai_gen_id }}__heading{font-size:clamp(30px,9vw,44px)}.ai-luxe-hero-{{ ai_gen_id }}__description{margin-top:12px;font-size:15px}.ai-luxe-hero-{{ ai_gen_id }}__button{margin-top:20px;min-height:44px}.ai-luxe-hero-{{ ai_gen_id }}__controls{right:16px;bottom:12px}}
+@media(prefers-reduced-motion:reduce){.ai-luxe-hero-{{ ai_gen_id }}__button{transition:none}}
+{% endstyle %}
+<luxury-hero-{{ ai_gen_id }} class="ai-luxe-hero-{{ ai_gen_id }}" style="width:{{ block.settings.desktop_width_percent }}%;--font-heading-family:{{ block.settings.heading_font.family | default:'Georgia' | escape }}" data-autoplay="{{ block.settings.autoplay }}" data-duration="{{ block.settings.slide_duration | times:1000 }}" data-pause-hover="{{ block.settings.pause_hover }}" {{ block.shopify_attributes }}>
+<div class="ai-luxe-hero-{{ ai_gen_id }}__viewport" aria-roledescription="carousel">
+{% for i in (1..2) %}
+{% liquid
+assign desktop_key='slide_' | append:i | append:'_desktop_image'
+assign mobile_key='slide_' | append:i | append:'_mobile_image'
+assign eyebrow_key='slide_' | append:i | append:'_eyebrow'
+assign heading_key='slide_' | append:i | append:'_heading'
+assign description_key='slide_' | append:i | append:'_description'
+assign button_text_key='slide_' | append:i | append:'_button_text'
+assign button_link_key='slide_' | append:i | append:'_button_link'
+assign position_key='slide_' | append:i | append:'_text_position'
+assign alignment_key='slide_' | append:i | append:'_text_alignment'
+assign mobile_alignment_key='slide_' | append:i | append:'_mobile_alignment'
+assign overlay_key='slide_' | append:i | append:'_overlay_opacity'
+assign focal_x_key='slide_' | append:i | append:'_focal_x'
+assign focal_y_key='slide_' | append:i | append:'_focal_y'
+assign mobile_focal_x_key='slide_' | append:i | append:'_mobile_focal_x'
+assign mobile_focal_y_key='slide_' | append:i | append:'_mobile_focal_y'
+assign desktop_image=block.settings[desktop_key]
+assign mobile_image=block.settings[mobile_key]
+assign pos=block.settings[position_key]
+assign ct='50%'
+assign cl='50%'
+assign cx='-50%'
+assign cy='-50%'
+if pos=='top_left'
+assign ct='12%'
+assign cl='8%'
+assign cx='0'
+assign cy='0'
+elsif pos=='top_center'
+assign ct='12%'
+assign cx='-50%'
+assign cy='0'
+elsif pos=='top_right'
+assign ct='12%'
+assign cl='92%'
+assign cx='-100%'
+assign cy='0'
+elsif pos=='center_left'
+assign cl='8%'
+assign cx='0'
+elsif pos=='center_right'
+assign cl='92%'
+assign cx='-100%'
+elsif pos=='bottom_left'
+assign ct='88%'
+assign cl='8%'
+assign cx='0'
+assign cy='-100%'
+elsif pos=='bottom_center'
+assign ct='88%'
+assign cx='-50%'
+assign cy='-100%'
+elsif pos=='bottom_right'
+assign ct='88%'
+assign cl='92%'
+assign cx='-100%'
+assign cy='-100%'
+endif
+assign fx=block.settings[focal_x_key]
+assign fy=block.settings[focal_y_key]
+assign mfx=block.settings[mobile_focal_x_key]
+assign mfy=block.settings[mobile_focal_y_key]
+%}
+<section class="ai-luxe-hero-{{ ai_gen_id }}__slide{% if forloop.first %} is-active{% endif %}" aria-roledescription="slide" aria-label="{{ forloop.index }} of 2" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}" style="--content-top:{{ ct }};--content-left:{{ cl }};--content-x:{{ cx }};--content-y:{{ cy }};--content-align:{{ block.settings[alignment_key] }};--mobile-align:{{ block.settings[mobile_alignment_key] }};--shade-opacity:{{ block.settings[overlay_key] | divided_by:100.0 }};--content-color:{{ block.settings.text_color }};--eyebrow-color:{{ block.settings.accent_color }};--button-bg:{{ block.settings.button_background }};--button-text:{{ block.settings.button_text_color }};--button-border:{{ block.settings.button_border_color }};--button-hover-bg:{{ block.settings.button_hover_background }};--button-hover-text:{{ block.settings.button_hover_text_color }}">
+{% if desktop_image or mobile_image %}<picture class="ai-luxe-hero-{{ ai_gen_id }}__media">{% if mobile_image %}<source media="(max-width:749px)" srcset="{{ mobile_image | image_url:width:1600 }}" width="{{ mobile_image.width }}" height="{{ mobile_image.height }}">{% endif %}{% if desktop_image %}<img src="{{ desktop_image | image_url:width:2400 }}" alt="{{ desktop_image.alt | default:block.settings[heading_key] | escape }}" width="{{ desktop_image.width }}" height="{{ desktop_image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" style="--hero-focal:{{ fx }}% {{ fy }}%">{% else %}<img src="{{ mobile_image | image_url:width:1600 }}" alt="{{ mobile_image.alt | default:block.settings[heading_key] | escape }}" width="{{ mobile_image.width }}" height="{{ mobile_image.height }}" loading="lazy" style="--hero-focal:{{ mfx }}% {{ mfy }}%">{% endif %}</picture>{% else %}<div class="ai-luxe-hero-{{ ai_gen_id }}__placeholder">{{ 'hero-apparel-1' | placeholder_svg_tag }}<div class="ai-luxe-hero-{{ ai_gen_id }}__empty">Add campaign images for this slide.</div></div>{% endif %}
+<div class="ai-luxe-hero-{{ ai_gen_id }}__shade" style="--shade-opacity:{{ block.settings[overlay_key] | divided_by:100.0 }}"></div><div class="ai-luxe-hero-{{ ai_gen_id }}__content">{% if block.settings[eyebrow_key] != blank %}<p class="ai-luxe-hero-{{ ai_gen_id }}__eyebrow">{{ block.settings[eyebrow_key] | escape }}</p>{% endif %}{% if block.settings[heading_key] != blank %}<h2 class="ai-luxe-hero-{{ ai_gen_id }}__heading">{{ block.settings[heading_key] | escape }}</h2>{% endif %}{% if block.settings[description_key] != blank %}<div class="ai-luxe-hero-{{ ai_gen_id }}__description">{{ block.settings[description_key] }}</div>{% endif %}{% if block.settings[button_text_key] != blank and block.settings[button_link_key] != blank %}<a class="ai-luxe-hero-{{ ai_gen_id }}__button" href="{{ block.settings[button_link_key] }}">{{ block.settings[button_text_key] | escape }}</a>{% endif %}</div>
+</section>
+{% endfor %}
+<div class="ai-luxe-hero-{{ ai_gen_id }}__controls" aria-label="Hero slide controls"><button class="ai-luxe-hero-{{ ai_gen_id }}__control ai-luxe-hero-{{ ai_gen_id }}__previous" type="button" aria-label="Previous slide"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><div class="ai-luxe-hero-{{ ai_gen_id }}__dots"><button class="ai-luxe-hero-{{ ai_gen_id }}__dot" type="button" aria-label="Show slide 1" aria-current="true"></button><button class="ai-luxe-hero-{{ ai_gen_id }}__dot" type="button" aria-label="Show slide 2" aria-current="false"></button></div><button class="ai-luxe-hero-{{ ai_gen_id }}__control ai-luxe-hero-{{ ai_gen_id }}__next" type="button" aria-label="Next slide"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>
+</div></luxury-hero-{{ ai_gen_id }}>
+<script>(()=>{const tag='luxury-hero-{{ ai_gen_id }}';if(customElements.get(tag))return;class LuxuryHero extends HTMLElement{connectedCallback(){this.slides=[...this.querySelectorAll('.ai-luxe-hero-{{ ai_gen_id }}__slide')];this.dots=[...this.querySelectorAll('.ai-luxe-hero-{{ ai_gen_id }}__dot')];this.index=0;this.timer=null;this.autoplay=this.dataset.autoplay==='true'&&this.slides.length>1;this.duration=Math.max(3000,Number(this.dataset.duration)||6000);this.pauseHover=this.dataset.pauseHover==='true';this.querySelector('.ai-luxe-hero-{{ ai_gen_id }}__previous').addEventListener('click',()=>this.show(this.index-1));this.querySelector('.ai-luxe-hero-{{ ai_gen_id }}__next').addEventListener('click',()=>this.show(this.index+1));this.dots.forEach((dot,i)=>dot.addEventListener('click',()=>this.show(i)));if(this.pauseHover){this.addEventListener('mouseenter',()=>this.stop());this.addEventListener('mouseleave',()=>this.start())}this.addEventListener('focusin',()=>this.stop());this.addEventListener('focusout',e=>{if(!this.contains(e.relatedTarget))this.start()});this.start()}disconnectedCallback(){this.stop()}show(n){this.index=(n+this.slides.length)%this.slides.length;this.slides.forEach((s,i)=>{const a=i===this.index;s.classList.toggle('is-active',a);s.setAttribute('aria-hidden',a?'false':'true')});this.dots.forEach((d,i)=>d.setAttribute('aria-current',i===this.index?'true':'false'));this.stop();this.start()}start(){if(!this.autoplay||this.timer||(this.pauseHover&&this.matches(':hover')))return;this.timer=setInterval(()=>this.show(this.index+1),this.duration)}stop(){if(this.timer)clearInterval(this.timer);this.timer=null}}customElements.define(tag,LuxuryHero)})();</script>
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+"name":"Hency luxury hero","settings":[
+{"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+{"type":"font_picker","id":"heading_font","label":"Heading font","default":"serif"},
+{"type":"color","id":"text_color","label":"Text color","default":"#1A1A1A"},{"type":"color","id":"accent_color","label":"Accent color","default":"#765B2B"},{"type":"color","id":"button_background","label":"Button background","default":"#1A1A1A"},{"type":"color","id":"button_text_color","label":"Button text","default":"#FFFFFF"},{"type":"color","id":"button_border_color","label":"Button border","default":"#1A1A1A"},{"type":"color","id":"button_hover_background","label":"Button hover background","default":"#C5A059"},{"type":"color","id":"button_hover_text_color","label":"Button hover text","default":"#1A1A1A"},{"type":"checkbox","id":"autoplay","label":"Autoplay slides","default":true},{"type":"range","id":"slide_duration","label":"Slide duration","min":3,"max":12,"step":1,"unit":"s","default":6},{"type":"checkbox","id":"pause_hover","label":"Pause on hover","default":true},
+{"type":"header","content":"Slide 1"},{"type":"image_picker","id":"slide_1_desktop_image","label":"Desktop image"},{"type":"image_picker","id":"slide_1_mobile_image","label":"Mobile image"},{"type":"text","id":"slide_1_eyebrow","label":"Eyebrow","default":"HENCY JEWELS"},{"type":"text","id":"slide_1_heading","label":"Main heading","default":"A legacy in every detail"},{"type":"richtext","id":"slide_1_description","label":"Description","default":"<p>Discover jewellery crafted for the moments that become timeless.</p>"},{"type":"text","id":"slide_1_button_text","label":"Button text","default":"Discover the collection"},{"type":"url","id":"slide_1_button_link","label":"Button link"},{"type":"select","id":"slide_1_text_position","label":"Text position","options":[{"value":"top_left","label":"Top left"},{"value":"top_center","label":"Top center"},{"value":"top_right","label":"Top right"},{"value":"center_left","label":"Center left"},{"value":"center","label":"Center"},{"value":"center_right","label":"Center right"},{"value":"bottom_left","label":"Bottom left"},{"value":"bottom_center","label":"Bottom center"},{"value":"bottom_right","label":"Bottom right"}],"default":"center_left"},{"type":"select","id":"slide_1_text_alignment","label":"Text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}],"default":"left"},{"type":"select","id":"slide_1_mobile_alignment","label":"Mobile text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}],"default":"center"},{"type":"range","id":"slide_1_overlay_opacity","label":"Desktop overlay opacity","min":0,"max":80,"step":5,"unit":"%","default":10},{"type":"range","id":"slide_1_focal_x","label":"Desktop focal point horizontal","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_1_focal_y","label":"Desktop focal point vertical","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_1_mobile_focal_x","label":"Mobile focal point horizontal","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_1_mobile_focal_y","label":"Mobile focal point vertical","min":0,"max":100,"step":5,"unit":"%","default":50},
+{"type":"header","content":"Slide 2"},{"type":"image_picker","id":"slide_2_desktop_image","label":"Desktop image"},{"type":"image_picker","id":"slide_2_mobile_image","label":"Mobile image"},{"type":"text","id":"slide_2_eyebrow","label":"Eyebrow","default":"MADE TO BE TREASURED"},{"type":"text","id":"slide_2_heading","label":"Main heading","default":"Celebrate your brilliance"},{"type":"richtext","id":"slide_2_description","label":"Description","default":"<p>Distinctive designs, thoughtfully made to accompany your story.</p>"},{"type":"text","id":"slide_2_button_text","label":"Button text","default":"Explore fine jewellery"},{"type":"url","id":"slide_2_button_link","label":"Button link"},{"type":"select","id":"slide_2_text_position","label":"Text position","options":[{"value":"top_left","label":"Top left"},{"value":"top_center","label":"Top center"},{"value":"top_right","label":"Top right"},{"value":"center_left","label":"Center left"},{"value":"center","label":"Center"},{"value":"center_right","label":"Center right"},{"value":"bottom_left","label":"Bottom left"},{"value":"bottom_center","label":"Bottom center"},{"value":"bottom_right","label":"Bottom right"}],"default":"center_right"},{"type":"select","id":"slide_2_text_alignment","label":"Text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}],"default":"right"},{"type":"select","id":"slide_2_mobile_alignment","label":"Mobile text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}],"default":"center"},{"type":"range","id":"slide_2_overlay_opacity","label":"Desktop overlay opacity","min":0,"max":80,"step":5,"unit":"%","default":10},{"type":"range","id":"slide_2_focal_x","label":"Desktop focal point horizontal","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_2_focal_y","label":"Desktop focal point vertical","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_2_mobile_focal_x","label":"Mobile focal point horizontal","min":0,"max":100,"step":5,"unit":"%","default":50},{"type":"range","id":"slide_2_mobile_focal_y","label":"Mobile focal point vertical","min":0,"max":100,"step":5,"unit":"%","default":50}],
+"presets":[{"name":"Hency luxury hero"}],"tag":null,"class":"hency-luxury-hero"
+}
 {% endschema %}
