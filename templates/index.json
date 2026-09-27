@@ -9,6 +9,63 @@
  */
 {
   "sections": {
+    "1790507880011a075b": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_c8f6418_8qaTEd": {
+          "type": "ai_gen_block_c8f6418",
+          "settings": {
+            "desktop_width_percent": 100,
+            "heading_font": "serif",
+            "text_color": "#1A1A1A",
+            "accent_color": "#765B2B",
+            "button_background": "#1A1A1A",
+            "button_text_color": "#FFFFFF",
+            "button_border_color": "#1A1A1A",
+            "button_hover_background": "#C5A059",
+            "button_hover_text_color": "#1A1A1A",
+            "autoplay": true,
+            "slide_duration": 6,
+            "pause_hover": true,
+            "slide_1_desktop_image": "shopify://shop_images/d8e1fea5-59ab-420f-a3fd-33487db3a526.png",
+            "slide_1_mobile_image": "shopify://shop_images/0c8ca637-df12-4a45-aadc-bc835a386666.png",
+            "slide_1_eyebrow": "",
+            "slide_1_heading": "",
+            "slide_1_description": "",
+            "slide_1_button_text": "",
+            "slide_1_button_link": "",
+            "slide_1_text_position": "center_left",
+            "slide_1_text_alignment": "left",
+            "slide_1_mobile_alignment": "center",
+            "slide_1_overlay_opacity": 10,
+            "slide_1_focal_x": 50,
+            "slide_1_focal_y": 50,
+            "slide_1_mobile_focal_x": 50,
+            "slide_1_mobile_focal_y": 50,
+            "slide_2_desktop_image": "shopify://shop_images/3dbd9cd6-9ea5-48aa-aab1-b72640f26792.png",
+            "slide_2_mobile_image": "shopify://shop_images/0c8ca637-df12-4a45-aadc-bc835a386666.png",
+            "slide_2_eyebrow": "",
+            "slide_2_heading": "",
+            "slide_2_description": "",
+            "slide_2_button_text": "",
+            "slide_2_button_link": "",
+            "slide_2_text_position": "center_right",
+            "slide_2_text_alignment": "right",
+            "slide_2_mobile_alignment": "center",
+            "slide_2_overlay_opacity": 10,
+            "slide_2_focal_x": 50,
+            "slide_2_focal_y": 50,
+            "slide_2_mobile_focal_x": 50,
+            "slide_2_mobile_focal_y": 50
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_c8f6418_8qaTEd"
+      ],
+      "settings": {}
+    },
     "hency_hero": {
       "type": "hency-hero",
       "blocks": {
@@ -56,6 +113,7 @@
         "slide_LfgtcE",
         "slide_neqhLV"
       ],
+      "disabled": true,
       "settings": {
         "auto_rotate": true,
         "change_slides_speed": 5,
@@ -221,6 +279,40 @@
         "color_scheme": "scheme-2"
       }
     },
+    "1790506726715cb864": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_1a567eb_aW9Fkz": {
+          "type": "ai_gen_block_1a567eb",
+          "settings": {
+            "heading": "The art of adornment",
+            "link_label": "VIEW PRODUCT",
+            "video_1": "shopify://files/videos/clean_Model_wearing_HENCY_jewellery_ne…_20260927161913.mp4",
+            "product_1": "",
+            "video_2": "shopify://files/videos/clean_Gold_floral_ring_video_1080p_20260927161801.mp4",
+            "product_2": "",
+            "video_3": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM.mp4",
+            "product_3": "",
+            "video_4": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.18 PM.mp4",
+            "product_4": "",
+            "product_5": "",
+            "desktop_width_percent": 100,
+            "video_gap": 20,
+            "corner_radius": 8,
+            "heading_size": 26,
+            "heading_font": "bricolage_grotesque_n6",
+            "background_color": "#FAFAF7",
+            "text_color": "#1A1A1A",
+            "accent_color": "#C5A059"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_1a567eb_aW9Fkz"
+      ],
+      "settings": {}
+    },
     "shoppable_video_gallery_GHy8mA": {
       "type": "shoppable-video-gallery",
       "blocks": {
@@ -287,6 +379,7 @@
         "video_PcHbjb",
         "video_keTPXH"
       ],
+      "disabled": true,
       "name": "Shoppable Video Gallery",
       "settings": {
         "heading": "DISCOVER YOUR STYLE",
@@ -594,9 +687,11 @@
     }
   },
   "order": [
+    "1790507880011a075b",
     "hency_hero",
     "shop_by_category",
     "shop_by_mood",
+    "1790506726715cb864",
     "shoppable_video_gallery_GHy8mA",
     "hency_signature",
     "hency_why_us_FJRhHq",

@@ -11,6 +11,35 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "1790508330df6dc67e": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_60269e7_hjQ4QY": {
+          "type": "ai_gen_block_60269e7",
+          "settings": {
+            "enabled": true,
+            "message_1": "FESTIVE SEASON IS HERE — NEW COLLECTIONS ARE NOW LIVE",
+            "message_2": "LIMITED-TIME OFFER — BUY 1 GET 1 FREE ON SELECTED PIECES",
+            "message_3": "COMPLIMENTARY SHIPPING — SHOP YOUR FAVOURITES TODAY",
+            "message_4": "Crafted for moments that matter",
+            "message_5": "",
+            "desktop_width_percent": 100,
+            "scroll_duration": 60,
+            "font_size": 12,
+            "bar_height": 12,
+            "text_font": "barlow_condensed_n4",
+            "background_color": "#F6F3ED",
+            "text_color": "#8A735C",
+            "separator_color": "#B99A68"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_60269e7_hjQ4QY"
+      ],
+      "settings": {}
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -49,6 +78,7 @@
         "announcement-bar-0",
         "announcement_hQz8XB"
       ],
+      "disabled": true,
       "settings": {
         "auto_rotate": false,
         "change_slides_speed": 3,
@@ -75,10 +105,14 @@
           "settings": {
             "menu_item_title": "Offers",
             "image": "shopify://shop_images/d01ade47-d7c1-4906-b259-77645583a532.jpg",
+            "card_style": "overlay",
+            "card_width": "32rem",
+            "badge_text": "SPECIAL OFFER",
             "heading": "Royal Heritage Collection",
             "subheading": "Handcrafted bridal & festive elegance",
             "link": "",
             "button_label": "Shop Now",
+            "overlay_opacity": 35,
             "featured_collection": ""
           }
         },
@@ -87,10 +121,14 @@
           "settings": {
             "menu_item_title": "Women",
             "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
+            "card_style": "overlay",
+            "card_width": "32rem",
+            "badge_text": "SPECIAL OFFER",
             "heading": "Royal Heritage Collection",
             "subheading": "Handcrafted bridal & festive elegance",
             "link": "",
             "button_label": "Shop Now",
+            "overlay_opacity": 35,
             "featured_collection": ""
           }
         },
@@ -99,10 +137,14 @@
           "settings": {
             "menu_item_title": "Men",
             "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
+            "card_style": "overlay",
+            "card_width": "32rem",
+            "badge_text": "SPECIAL OFFER",
             "heading": "Mid Sale Summer Offer!",
             "subheading": "",
             "link": "shopify://collections",
             "button_label": "SEE MORE",
+            "overlay_opacity": 35,
             "featured_collection": "mangalsutra"
           }
         }
@@ -113,6 +155,12 @@
         "mega_menu_promo_product"
       ],
       "settings": {
+        "enable_browse_categories": false,
+        "browse_categories_label": "Browse Categories",
+        "browse_categories_link": "",
+        "browse_categories_menu": "",
+        "browse_categories_style": "theme_header",
+        "menu_alignment_desktop": "center",
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "main-menu",
@@ -132,6 +180,7 @@
     }
   },
   "order": [
+    "1790508330df6dc67e",
     "announcement-bar",
     "header"
   ]
