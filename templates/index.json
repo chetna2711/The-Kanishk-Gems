@@ -488,7 +488,7 @@
       "settings": {
         "collection": "best-seller",
         "products_to_show": 5,
-        "title": "Featured collection",
+        "title": "Best Seller",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
