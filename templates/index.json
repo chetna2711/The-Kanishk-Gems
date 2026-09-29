@@ -357,20 +357,6 @@
             "autoplay_preview": true
           }
         },
-        "video_JGQw4j": {
-          "type": "video",
-          "settings": {
-            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
-            "custom_video_url": "",
-            "product": "",
-            "title": "Emerald Solitaire Drops",
-            "subtitle": "Statement Earring Duo",
-            "enable_product_info": true,
-            "video_position": "center",
-            "show_play_icon": true,
-            "autoplay_preview": true
-          }
-        },
         "video_PcHbjb": {
           "type": "video",
           "settings": {
@@ -402,7 +388,6 @@
       },
       "block_order": [
         "video_q3XW9R",
-        "video_JGQw4j",
         "video_PcHbjb",
         "video_keTPXH"
       ],
@@ -469,7 +454,7 @@
         "sig_feat_3"
       ],
       "settings": {
-        "image": "shopify://shop_images/f499e924-22a8-43c8-b4a3-ebc94ac4ee43.jpg",
+        "image": "shopify://shop_images/f75b0a7d-1b7c-4a7b-89e5-674fee1a8790.png",
         "image_position": "left",
         "image_ratio": "1 / 1",
         "eyebrow": "HERITAGE & CRAFTSMANSHIP",
