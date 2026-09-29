@@ -12,14 +12,13 @@
     "page_header": {
       "type": "hency-page-header",
       "settings": {
-        "show_breadcrumbs": true,
+        "show_breadcrumbs": false,
         "breadcrumb_title": "The Brand",
         "eyebrow": "ARTISAN HERITAGE",
         "heading": "THE BRAND",
         "subtitle": "Modern fine jewellery crafted for everyday elegance, celebrated milestones and timeless individuality.",
         "color_scheme": "scheme-1",
-        "padding_top": 45,
-        "padding_bottom": 35
+        "bg_color": ""
       }
     },
     "brand_stories": {
@@ -72,8 +71,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "bg_color": ""
       }
     },
     "why_us": {
@@ -82,25 +80,33 @@
         "why_1": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "✦"
+            "icon_symbol": "✦",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
           }
         },
         "why_2": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "💎"
+            "icon_symbol": "💎",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
           }
         },
         "why_3": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "🛡️"
+            "icon_symbol": "🛡️",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
           }
         },
         "why_4": {
           "type": "benefit",
           "settings": {
-            "icon_symbol": "🔄"
+            "icon_symbol": "🔄",
+            "heading": "Certified Authenticity",
+            "description": "Every stone and metal layer undergoes stringent purity verification."
           }
         }
       },
@@ -115,9 +121,7 @@
         "title": "Why Choose HencyJewels",
         "description": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our fine jewellery apart.</p>",
         "columns_desktop": 4,
-        "color_scheme": "scheme-2",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "color_scheme": "scheme-2"
       }
     },
     "faq": {
@@ -172,9 +176,7 @@
         "description": "<p>Clear answers about our craftsmanship, materials, hallmarking, delivery and lifetime care.</p>",
         "open_first_item": true,
         "enable_faq_schema": true,
-        "color_scheme": "scheme-1",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "color_scheme": "scheme-1"
       }
     },
     "cta": {
@@ -198,7 +200,10 @@
           "settings": {
             "button_label": "Shop Collections",
             "button_link": "shopify://collections",
-            "button_style_secondary": false
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
@@ -211,9 +216,7 @@
         "desktop_content_position": "center",
         "content_alignment": "center",
         "color_scheme": "scheme-4",
-        "full_width": true,
-        "padding_top": 60,
-        "padding_bottom": 60
+        "full_width": true
       }
     }
   },
