@@ -482,6 +482,33 @@
         "color_scheme": "scheme-1"
       }
     },
+    "featured_collection_PA7C3W": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "best-seller",
+        "products_to_show": 5,
+        "title": "Featured collection",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false
+      }
+    },
     "hency_why_us_FJRhHq": {
       "type": "hency-why-us",
       "blocks": {
@@ -722,6 +749,7 @@
     "1790506726715cb864",
     "shoppable_video_gallery_GHy8mA",
     "hency_signature",
+    "featured_collection_PA7C3W",
     "hency_why_us_FJRhHq",
     "hency_occasion_edit_VG7i8r",
     "media_showcase_slider_WxHkcT"
