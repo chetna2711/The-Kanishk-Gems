@@ -57,18 +57,13 @@
             "show_gift_card_recipient": true
           }
         },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
         "tab_material": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Material & Purity",
             "icon": "gem",
-            "content": "<p>Crafted in high-purity skin-safe brass alloy with high-micron 18K/22K gold plating. Adorned with hand-cut faceted stones and micro-pave simulated diamonds for unmatched brilliance.</p>"
+            "content": "<p>Crafted in high-purity skin-safe brass alloy with high-micron 18K/22K gold plating. Adorned with hand-cut faceted stones and micro-pave simulated diamonds for unmatched brilliance.</p>",
+            "page": ""
           }
         },
         "tab_care": {
@@ -76,7 +71,8 @@
           "settings": {
             "heading": "Care Instructions",
             "icon": "heart",
-            "content": "<p>Keep away from moisture, perfumes, deodorants, and water. Wipe gently with a soft lint-free cloth after wear. Store individually in an airtight pouch or box to preserve its luster.</p>"
+            "content": "<p>Keep away from moisture, perfumes, deodorants, and water. Wipe gently with a soft lint-free cloth after wear. Store individually in an airtight pouch or box to preserve its luster.</p>",
+            "page": ""
           }
         },
         "tab_shipping": {
@@ -84,7 +80,8 @@
           "settings": {
             "heading": "Shipping & Delivery",
             "icon": "truck",
-            "content": "<p>Enjoy complimentary insured express delivery across India. Orders are processed within 24–48 hours. Delivered in signature tamper-evident HencyJewels presentation packaging.</p>"
+            "content": "<p>Enjoy complimentary insured express delivery across India. Orders are processed within 24–48 hours. Delivered in signature tamper-evident HencyJewels presentation packaging.</p>",
+            "page": ""
           }
         },
         "tab_returns": {
@@ -92,7 +89,14 @@
           "settings": {
             "heading": "15-Day Easy Exchange",
             "icon": "return_icon",
-            "content": "<p>Shop with total confidence. We offer an easy 15-day exchange policy for all unworn pieces in original condition with security tags intact.</p>"
+            "content": "<p>Shop with total confidence. We offer an easy 15-day exchange policy for all unworn pieces in original condition with security tags intact.</p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
           }
         }
       },
@@ -118,14 +122,12 @@
         "media_size": "small",
         "constrain_to_viewport": true,
         "media_fit": "cover",
-        "gallery_layout": "stacked",
+        "gallery_layout": "thumbnail_slider",
         "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "hover",
         "hide_variants": true,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "enable_video_looping": false
       }
     },
     "disclosures": {
@@ -134,9 +136,7 @@
         "heading": "Disclosures",
         "heading_size": "h2",
         "open_by_default": false,
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 0
+        "color_scheme": ""
       }
     },
     "related-products": {
@@ -152,9 +152,7 @@
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
-        "padding_top": 36,
-        "padding_bottom": 28
+        "show_rating": false
       }
     }
   },
