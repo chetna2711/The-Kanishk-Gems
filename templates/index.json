@@ -424,8 +424,8 @@
       ],
       "name": "Shoppable Video Gallery",
       "settings": {
-        "heading": "DISCOVER YOUR STYLE",
-        "subheading": "Jewellery that completes every look.",
+        "heading": "",
+        "subheading": "",
         "heading_alignment": "center",
         "section_bg_color": "#fafaf7",
         "text_color": "#1a1a1a",
