@@ -58,8 +58,27 @@
             "show_gift_card_recipient": true
           }
         },
+        "collapsible_tab_jpiJmH": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Description",
+            "icon": "none",
+            "content": "{{ product.description }}",
+            "page": ""
+          }
+        },
+        "collapsible_tab_ntkQKV": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Returns",
+            "icon": "none",
+            "content": "<p>1. Enjoy hassle-free returns within 2 days of delivery.<br/>2. Products must be unused and packed with original tags.<br/>3. Get your refund within 7–10 working days after pickup and verification.<br/>4. Return of Products purchased under Buy 1 Get 1 or other related offers would be eligible for refund to Palmonas Wallet.</p>",
+            "page": ""
+          }
+        },
         "share": {
           "type": "share",
+          "disabled": true,
           "settings": {
             "share_label": "Share"
           }
@@ -74,6 +93,8 @@
         "inventory_6bQr3R",
         "quantity_selector",
         "buy_buttons",
+        "collapsible_tab_jpiJmH",
+        "collapsible_tab_ntkQKV",
         "share"
       ],
       "settings": {
