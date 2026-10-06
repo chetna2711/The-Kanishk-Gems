@@ -344,6 +344,20 @@
     "shoppable_video_gallery_GHy8mA": {
       "type": "shoppable-video-gallery",
       "blocks": {
+        "video_BKnbGK": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/clean_Model_wearing_HENCY_jewellery_ne…_20260927161913.mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "",
+            "subtitle": "",
+            "enable_product_info": false,
+            "video_position": "center",
+            "show_play_icon": false,
+            "autoplay_preview": false
+          }
+        },
         "video_q3XW9R": {
           "type": "video",
           "settings": {
@@ -388,6 +402,7 @@
         }
       },
       "block_order": [
+        "video_BKnbGK",
         "video_q3XW9R",
         "video_PcHbjb",
         "video_keTPXH"
