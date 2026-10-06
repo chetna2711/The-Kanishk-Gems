@@ -338,6 +338,7 @@
       "block_order": [
         "ai_gen_block_1a567eb_aW9Fkz"
       ],
+      "disabled": true,
       "settings": {}
     },
     "shoppable_video_gallery_GHy8mA": {
@@ -349,12 +350,12 @@
             "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM.mp4",
             "custom_video_url": "",
             "product": "",
-            "title": "Royal Kundan Choker",
-            "subtitle": "Handcrafted Festive Edit",
-            "enable_product_info": true,
+            "title": "",
+            "subtitle": "",
+            "enable_product_info": false,
             "video_position": "center",
-            "show_play_icon": true,
-            "autoplay_preview": true
+            "show_play_icon": false,
+            "autoplay_preview": false
           }
         },
         "video_PcHbjb": {
@@ -363,8 +364,8 @@
             "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.18 PM.mp4",
             "custom_video_url": "",
             "product": "",
-            "title": "Polki Heritage Bangle",
-            "subtitle": "22K Gold Plated Finish",
+            "title": "",
+            "subtitle": "",
             "enable_product_info": true,
             "video_position": "center",
             "show_play_icon": true,
@@ -377,12 +378,12 @@
             "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
             "custom_video_url": "",
             "product": "",
-            "title": "Minimalist Solitaire Ring",
-            "subtitle": "Everyday Luxury Accent",
-            "enable_product_info": true,
+            "title": "",
+            "subtitle": "",
+            "enable_product_info": false,
             "video_position": "center",
-            "show_play_icon": true,
-            "autoplay_preview": true
+            "show_play_icon": false,
+            "autoplay_preview": false
           }
         }
       },
@@ -391,7 +392,6 @@
         "video_PcHbjb",
         "video_keTPXH"
       ],
-      "disabled": true,
       "name": "Shoppable Video Gallery",
       "settings": {
         "heading": "DISCOVER YOUR STYLE",
