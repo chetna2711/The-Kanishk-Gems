@@ -433,7 +433,7 @@
         "mobile_video_gap": 12,
         "enable_desktop_slider": true,
         "show_desktop_arrows": true,
-        "columns_desktop": "4",
+        "columns_desktop": "5",
         "columns_tablet": "3",
         "columns_mobile": "1",
         "enable_mobile_swipe": true,
