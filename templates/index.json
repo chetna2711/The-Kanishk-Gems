@@ -358,6 +358,20 @@
             "autoplay_preview": false
           }
         },
+        "video_ewT6Ve": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
+            "custom_video_url": "",
+            "product": "",
+            "title": "",
+            "subtitle": "",
+            "enable_product_info": true,
+            "video_position": "center",
+            "show_play_icon": true,
+            "autoplay_preview": true
+          }
+        },
         "video_q3XW9R": {
           "type": "video",
           "settings": {
@@ -389,7 +403,7 @@
         "video_keTPXH": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/WhatsApp Video 2026-09-26 at 5.35.17 PM (1).mp4",
+            "video": "shopify://files/videos/clean_Gold_floral_ring_video_1080p_20260927161801.mp4",
             "custom_video_url": "",
             "product": "",
             "title": "",
@@ -403,6 +417,7 @@
       },
       "block_order": [
         "video_BKnbGK",
+        "video_ewT6Ve",
         "video_q3XW9R",
         "video_PcHbjb",
         "video_keTPXH"
