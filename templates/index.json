@@ -128,16 +128,6 @@
     "shop_by_category": {
       "type": "shop-by-category-circles",
       "blocks": {
-        "cat_bangles": {
-          "type": "category",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
-            "use_collection_image": true,
-            "title": "Bangles",
-            "link": "shopify://collections"
-          }
-        },
         "cat_mangalsutra": {
           "type": "category",
           "settings": {
@@ -145,7 +135,47 @@
             "image": "shopify://shop_images/8f1bd5e1-1561-4c44-8987-bdc8bdf38946.png",
             "use_collection_image": true,
             "title": "Mangalsutra",
-            "link": "shopify://collections"
+            "link": "shopify://collections/mangalsutra"
+          }
+        },
+        "cat_bangles": {
+          "type": "category",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
+            "use_collection_image": true,
+            "title": "Bangles",
+            "link": "shopify://collections/bangles"
+          }
+        },
+        "category_Aj4fBP": {
+          "type": "category",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/2c65ae8e-ee0c-4f8f-8bf9-cc50086bb225.jpg",
+            "use_collection_image": true,
+            "title": "Mangalsutra Pendant Set",
+            "link": "shopify://collections/mangalsutra-pendant-set"
+          }
+        },
+        "category_Vbkgjc": {
+          "type": "category",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/bca64d52-bcf8-4928-af88-886e7d74e1b2.png",
+            "use_collection_image": true,
+            "title": "Necklace",
+            "link": "shopify://collections/necklace"
+          }
+        },
+        "cat_rings": {
+          "type": "category",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
+            "use_collection_image": true,
+            "title": "Rings",
+            "link": "shopify://collections/rings"
           }
         },
         "cat_earrings": {
@@ -158,34 +188,14 @@
             "link": "shopify://collections"
           }
         },
-        "cat_chains": {
+        "category_iTVWcq": {
           "type": "category",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/301f57b0-44b1-4280-9fd1-f4701f20f3c8.png",
+            "image": "shopify://shop_images/GoldenOvalGemstoneJewellerySet.png",
             "use_collection_image": true,
-            "title": "Gold Chains",
-            "link": "shopify://collections"
-          }
-        },
-        "cat_payal": {
-          "type": "category",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/867b5657-f1af-4d02-bf11-642885d00cd4.png",
-            "use_collection_image": true,
-            "title": "Payal",
-            "link": "shopify://collections"
-          }
-        },
-        "cat_rings": {
-          "type": "category",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
-            "use_collection_image": true,
-            "title": "Rings",
-            "link": "shopify://collections"
+            "title": "Necklace Set",
+            "link": "shopify://collections/necklace-set"
           }
         },
         "cat_sets": {
@@ -195,17 +205,18 @@
             "image": "shopify://shop_images/885318ad-df35-4667-a735-dbf67aa91343.png",
             "use_collection_image": true,
             "title": "Mangalsutra with Earrings",
-            "link": "shopify://collections"
+            "link": "shopify://collections/mangalsutra-with-earrings"
           }
         }
       },
       "block_order": [
-        "cat_bangles",
         "cat_mangalsutra",
-        "cat_earrings",
-        "cat_chains",
-        "cat_payal",
+        "cat_bangles",
+        "category_Aj4fBP",
+        "category_Vbkgjc",
         "cat_rings",
+        "cat_earrings",
+        "category_iTVWcq",
         "cat_sets"
       ],
       "settings": {
