@@ -32,6 +32,28 @@
           "type": "price",
           "settings": {}
         },
+        "trust_pills": {
+          "type": "trust_pills",
+          "settings": {
+            "pill_1_text": "Anti-Tarnish",
+            "pill_1_icon": "sparkle",
+            "pill_2_text": "Skin Safe Jewellery",
+            "pill_2_icon": "shield",
+            "pill_3_text": "18K Gold Tone Plated",
+            "pill_3_icon": "gem"
+          }
+        },
+        "sales_urgency": {
+          "type": "sales_urgency",
+          "settings": {
+            "data_source": "metafield_hybrid",
+            "min_threshold": 1,
+            "icon": "bolt",
+            "sold_count": "29",
+            "days_count": "7",
+            "custom_text": ""
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -49,13 +71,37 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
+            "show_quantity_input": true,
             "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "show_gift_card_recipient": false
+          }
+        },
+        "service_features": {
+          "type": "service_features",
+          "settings": {
+            "feature_1_icon": "truck",
+            "feature_1_title": "Free Shipping",
+            "feature_2_icon": "return",
+            "feature_2_title": "2 Days Return",
+            "feature_3_icon": "refresh",
+            "feature_3_title": "10 Days Exchange",
+            "feature_4_icon": "cash",
+            "feature_4_title": "Cash On Delivery"
+          }
+        },
+        "pincode_checker": {
+          "type": "pincode_checker",
+          "settings": {
+            "heading": "Deliver To:",
+            "placeholder": "Enter pincode",
+            "button_text": "Check",
+            "estimate_days": "3-5"
           }
         },
         "collapsible_tab_VMfEgJ": {
@@ -67,10 +113,28 @@
             "page": ""
           }
         },
+        "collapsible_tab_spec": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Specification",
+            "icon": "check_mark",
+            "content": "<p><strong>Base Metal:</strong> Premium Brass / Stainless Steel<br/><strong>Plating:</strong> 18K Yellow Gold Tone Plated<br/><strong>Stone Type:</strong> AAA Grade Cubic Zirconia<br/><strong>Water Resistant:</strong> Yes (Anti-Tarnish Coating)</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_supplier": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Supplier Information",
+            "icon": "check_mark",
+            "content": "<p><strong>Manufactured & Marketed by:</strong> Hency Jewels Pvt. Ltd.<br/><strong>Country of Origin:</strong> India<br/><strong>Customer Care:</strong> care@hencyjewels.com</p>",
+            "page": ""
+          }
+        },
         "collapsible_tab_h8dAd9": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Returns",
+            "heading": "Returns & Shipping",
             "icon": "check_mark",
             "content": "<p>1. Enjoy hassle-free returns within 2 days of delivery.<br/>2. Products must be unused and packed with original tags.<br/>3. Get your refund within 7–10 working days after pickup and verification.<br/>4. Return of Products purchased under Buy 1 Get 1 or other related offers would be eligible for refund to Hency Jewels Wallet.</p>",
             "page": ""
@@ -88,11 +152,17 @@
         "title",
         "description",
         "price",
+        "trust_pills",
+        "sales_urgency",
         "variant_picker",
         "inventory_6bQr3R",
         "quantity_selector",
         "buy_buttons",
+        "service_features",
+        "pincode_checker",
         "collapsible_tab_VMfEgJ",
+        "collapsible_tab_spec",
+        "collapsible_tab_supplier",
         "collapsible_tab_h8dAd9",
         "share"
       ],
@@ -108,7 +178,9 @@
         "media_position": "left",
         "image_zoom": "hover",
         "hide_variants": true,
-        "enable_video_looping": false
+        "enable_video_looping": false,
+        "show_media_arrows": true,
+        "media_arrow_style": "gold_circle"
       }
     },
     "related-products": {

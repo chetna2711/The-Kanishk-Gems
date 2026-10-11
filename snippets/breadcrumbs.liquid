@@ -1,7 +1,7 @@
 {%- unless template == 'index' or template == 'cart' or template == '404' -%}
   {%- assign t = template | split: '.' | first -%}
 
-  <nav class="breadcrumbs page-width" role="navigation" aria-label="breadcrumbs" style="padding-top: 1.5rem; padding-bottom: 1.2rem; font-size: 1.3rem; letter-spacing: 0.04em;">
+  <nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs" style="padding-top: 1.5rem; padding-bottom: 1.2rem; font-size: 1.3rem; letter-spacing: 0.04em;">
     <ol class="breadcrumbs__list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; color: rgba(26, 26, 26, 0.65);" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a href="{{ routes.root_url }}" class="link link--text" itemprop="item" style="color: inherit; text-decoration: none;">

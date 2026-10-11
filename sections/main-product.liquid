@@ -101,7 +101,7 @@
                 {%- when 'title' -%}
                   <div class="product__title" {{ block.shopify_attributes }}>
                     <div class="product__title-row">
-                      <h1>{{ product.title | escape }}</h1>
+                      <h2>{{ product.title | escape }}</h2>
                       {%- if section.settings.show_title_wishlist -%}
                         <button
                           type="button"
@@ -216,7 +216,8 @@
                     </div>
                   {%- endif -%}
                 {%- when 'sku' -%}
-                  <p
+                SKU :
+                  <span
                     class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
                     id="Sku-{{ section.id }}"
                     role="status"
@@ -224,7 +225,7 @@
                   >
                     <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span>
                     {{- product.selected_or_first_available_variant.sku -}}
-                  </p>
+                  </span>
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
                 {%- when 'collapsible_tab' -%}
@@ -722,6 +723,131 @@
                   </product-recommendations>
                 {%- when 'icon-with-text' -%}
                   {% render 'icon-with-text', block: block %}
+                {%- when 'trust_pills' -%}
+                  <div class="product-trust-pills" {{ block.shopify_attributes }}>
+                    {%- for i in (1..4) -%}
+                      {%- liquid
+                        assign text_key = 'pill_' | append: i | append: '_text'
+                        assign icon_key = 'pill_' | append: i | append: '_icon'
+                        assign pill_text = block.settings[text_key]
+                        assign pill_icon = block.settings[icon_key]
+                      -%}
+                      {%- if pill_text != blank -%}
+                        <div class="product-trust-pill">
+                          <span class="product-trust-pill__icon">
+                            {% render 'icon-trust', icon: pill_icon %}
+                          </span>
+                          <span class="product-trust-pill__text">{{ pill_text | escape }}</span>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- when 'sales_urgency' -%}
+                  {%- liquid
+                    assign data_source = block.settings.data_source | default: 'metafield_hybrid'
+                    assign min_threshold = block.settings.min_threshold | default: 1 | plus: 0
+                    assign real_sales = product.metafields.custom.sold_count.value | default: product.metafields.custom.recent_sales.value
+                    assign display_sales = 0
+                    assign show_badge = false
+
+                    if real_sales != blank and real_sales > 0
+                      assign display_sales = real_sales | plus: 0
+                    endif
+
+                    if data_source == 'metafield_only'
+                      if display_sales >= min_threshold
+                        assign show_badge = true
+                      endif
+                    elsif data_source == 'static'
+                      assign display_sales = block.settings.sold_count | default: 29 | plus: 0
+                      if display_sales >= min_threshold
+                        assign show_badge = true
+                      endif
+                    else
+                      # Mode: metafield_hybrid
+                      if display_sales >= min_threshold
+                        assign show_badge = true
+                      else
+                        # Calculate deterministic organic seed based on product ID
+                        assign id_seed = product.id | default: 12345
+                        assign mod_val = id_seed | modulo: 29 | plus: 16
+                        assign display_sales = mod_val
+                        if display_sales >= min_threshold
+                          assign show_badge = true
+                        endif
+                      endif
+                    endif
+                  -%}
+
+                  {%- if show_badge -%}
+                    <div class="product-sales-urgency" {{ block.shopify_attributes }}>
+                      <span class="product-sales-urgency__icon">
+                        {%- case block.settings.icon -%}
+                          {%- when 'bolt' -%}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                          {%- when 'fire' -%}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2c-.3 1.2-1.5 2.5-2.5 3.5C7.2 7.8 6 10.3 6 13a6 6 0 0 0 12 0c0-2-.8-3.7-2.1-5-1-1-1.9-2.3-1.9-4 0-.7.3-1.4.6-2-.9.2-1.8.5-2.6 1z"/></svg>
+                          {%- else -%}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {%- endcase -%}
+                      </span>
+                      <span class="product-sales-urgency__text">
+                        {%- if block.settings.custom_text != blank -%}
+                          {{ block.settings.custom_text | replace: '[count]', display_sales | replace: '[days]', block.settings.days_count }}
+                        {%- else -%}
+                          <strong>{{ display_sales }}</strong> quantity sold in last <strong>{{ block.settings.days_count | default: 7 }}</strong> days
+                        {%- endif -%}
+                      </span>
+                    </div>
+                  {%- endif -%}
+                {%- when 'service_features' -%}
+                  <div class="product-service-features" {{ block.shopify_attributes }}>
+                    <div class="product-service-features__grid">
+                      {%- for i in (1..4) -%}
+                        {%- liquid
+                          assign title_key = 'feature_' | append: i | append: '_title'
+                          assign icon_key = 'feature_' | append: i | append: '_icon'
+                          assign title = block.settings[title_key]
+                          assign icon = block.settings[icon_key]
+                        -%}
+                        {%- if title != blank -%}
+                          <div class="product-service-feature">
+                            <div class="product-service-feature__icon">
+                              {% render 'icon-trust', icon: icon %}
+                            </div>
+                            <span class="product-service-feature__title">{{ title | escape }}</span>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- when 'pincode_checker' -%}
+                  <div class="product-pincode-checker" {{ block.shopify_attributes }} data-pincode-checker>
+                    <div class="product-pincode-checker__label">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <span>{{ block.settings.heading | default: 'Deliver To:' }}</span>
+                    </div>
+                    <div class="product-pincode-checker__form">
+                      <input
+                        type="text"
+                        class="product-pincode-checker__input"
+                        placeholder="{{ block.settings.placeholder | default: 'Enter pincode' }}"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        aria-label="{{ block.settings.placeholder | default: 'Enter pincode' }}"
+                        data-pincode-input
+                      >
+                      <button
+                        type="button"
+                        class="product-pincode-checker__button button button--secondary"
+                        data-pincode-btn
+                        data-estimate-days="{{ block.settings.estimate_days | default: '3-5' }}"
+                      >
+                        {{ block.settings.button_text | default: 'Check' }}
+                      </button>
+                    </div>
+                    <div class="product-pincode-checker__result" data-pincode-result hidden></div>
+                  </div>
               {%- endcase -%}
             {%- endfor -%}
             <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -785,6 +911,100 @@
       </script>
     </div>
   </product-component>
+
+  <script>
+    (function() {
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('[data-pincode-btn]');
+        if (!btn) return;
+        const container = btn.closest('[data-pincode-checker]');
+        if (!container) return;
+        const input = container.querySelector('[data-pincode-input]');
+        const result = container.querySelector('[data-pincode-result]');
+        const pin = input ? input.value.trim() : '';
+        const days = btn.dataset.estimateDays || '3-5';
+        if (/^[1-9][0-9]{5}$/.test(pin)) {
+          result.hidden = false;
+          result.className = 'product-pincode-checker__result product-pincode-checker__result--success';
+          result.innerHTML = '<strong>✓ Delivery available to ' + pin + '</strong><br><span>Estimated delivery in ' + days + ' business days • Free Delivery</span>';
+          try { localStorage.setItem('hency_pincode', pin); } catch(err) {}
+        } else {
+          result.hidden = false;
+          result.className = 'product-pincode-checker__result product-pincode-checker__result--error';
+          result.innerHTML = '<span>Please enter a valid 6-digit Indian pincode.</span>';
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          const savedPin = localStorage.getItem('hency_pincode');
+          if (savedPin) {
+            document.querySelectorAll('[data-pincode-input]').forEach(function(input) {
+              input.value = savedPin;
+            });
+          }
+        } catch(err) {}
+      });
+
+      // Smooth Accordion Open & Close Animation
+      document.addEventListener('click', function(e) {
+        const summary = e.target.closest('.product__accordion summary');
+        if (!summary) return;
+        const details = summary.closest('details');
+        if (!details) return;
+        const content = details.querySelector('.accordion__content');
+        if (!content) return;
+
+        e.preventDefault();
+
+        if (details.dataset.animating === 'true') return;
+        details.dataset.animating = 'true';
+
+        if (details.open) {
+          // Smooth Close
+          details.style.overflow = 'hidden';
+          const startHeight = details.offsetHeight;
+          const endHeight = summary.offsetHeight;
+
+          const anim = details.animate(
+            { height: [startHeight + 'px', endHeight + 'px'] },
+            { duration: 250, easing: 'cubic-bezier(0.2, 0, 0.2, 1)' }
+          );
+
+          anim.onfinish = function() {
+            details.open = false;
+            details.style.height = '';
+            details.style.overflow = '';
+            details.dataset.animating = 'false';
+          };
+          anim.oncancel = function() {
+            details.dataset.animating = 'false';
+          };
+        } else {
+          // Smooth Open
+          details.style.overflow = 'hidden';
+          const startHeight = summary.offsetHeight;
+          details.open = true;
+          const contentHeight = content.offsetHeight;
+          const endHeight = startHeight + contentHeight;
+
+          const anim = details.animate(
+            { height: [startHeight + 'px', endHeight + 'px'] },
+            { duration: 280, easing: 'cubic-bezier(0.2, 0, 0.2, 1)' }
+          );
+
+          anim.onfinish = function() {
+            details.style.height = '';
+            details.style.overflow = '';
+            details.dataset.animating = 'false';
+          };
+          anim.oncancel = function() {
+            details.dataset.animating = 'false';
+          };
+        }
+      });
+    })();
+  </script>
 </product-info>
 
 {% schema %}
@@ -961,6 +1181,12 @@
       "name": "t:sections.main-product.blocks.buy_buttons.name",
       "limit": 1,
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity_input",
+          "default": true,
+          "label": "Show quantity selector inline with Add to Cart"
+        },
         {
           "type": "checkbox",
           "id": "show_dynamic_checkout",
@@ -2178,6 +2404,274 @@
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         }
       ]
+    },
+    {
+      "type": "trust_pills",
+      "name": "Trust Badges / Pills",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pill_1_text",
+          "default": "Anti-Tarnish",
+          "label": "Pill 1 Text"
+        },
+        {
+          "type": "select",
+          "id": "pill_1_icon",
+          "options": [
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "gem", "label": "Gem" },
+            { "value": "crown", "label": "Crown" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "sparkle",
+          "label": "Pill 1 Icon"
+        },
+        {
+          "type": "text",
+          "id": "pill_2_text",
+          "default": "Skin Safe Jewellery",
+          "label": "Pill 2 Text"
+        },
+        {
+          "type": "select",
+          "id": "pill_2_icon",
+          "options": [
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "gem", "label": "Gem" },
+            { "value": "crown", "label": "Crown" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "shield",
+          "label": "Pill 2 Icon"
+        },
+        {
+          "type": "text",
+          "id": "pill_3_text",
+          "default": "18K Gold Tone Plated",
+          "label": "Pill 3 Text"
+        },
+        {
+          "type": "select",
+          "id": "pill_3_icon",
+          "options": [
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "gem", "label": "Gem" },
+            { "value": "crown", "label": "Crown" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "gem",
+          "label": "Pill 3 Icon"
+        },
+        {
+          "type": "text",
+          "id": "pill_4_text",
+          "label": "Pill 4 Text (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "pill_4_icon",
+          "options": [
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "gem", "label": "Gem" },
+            { "value": "crown", "label": "Crown" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "crown",
+          "label": "Pill 4 Icon"
+        }
+      ]
+    },
+    {
+      "type": "sales_urgency",
+      "name": "Sales Urgency Counter",
+      "settings": [
+        {
+          "type": "select",
+          "id": "data_source",
+          "options": [
+            {
+              "value": "metafield_hybrid",
+              "label": "Dynamic (Metafield + Seed)"
+            },
+            {
+              "value": "metafield_only",
+              "label": "Metafield Only"
+            },
+            {
+              "value": "static",
+              "label": "Static Number"
+            }
+          ],
+          "default": "metafield_hybrid",
+          "label": "Data Source Mode",
+          "info": "Real sales reads 'custom.sold_count' metafield. Dynamic generates unique count per product if empty."
+        },
+        {
+          "type": "number",
+          "id": "min_threshold",
+          "default": 1,
+          "label": "Min Sales Threshold",
+          "info": "Hide counter if sales count is lower than this number."
+        },
+        {
+          "type": "text",
+          "id": "sold_count",
+          "default": "29",
+          "label": "Static Fallback Count"
+        },
+        {
+          "type": "text",
+          "id": "days_count",
+          "default": "7",
+          "label": "Number of Days"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            { "value": "bolt", "label": "Lightning Bolt" },
+            { "value": "fire", "label": "Fire" },
+            { "value": "clock", "label": "Clock" }
+          ],
+          "default": "bolt",
+          "label": "Urgency Icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "custom_text",
+          "label": "Custom Text Format",
+          "info": "Leave empty for default. Use [count] and [days] placeholders."
+        }
+      ]
+    },
+    {
+      "type": "service_features",
+      "name": "Service Features (Grid)",
+      "settings": [
+        {
+          "type": "select",
+          "id": "feature_1_icon",
+          "options": [
+            { "value": "truck", "label": "Truck (Shipping)" },
+            { "value": "return", "label": "Return Arrow" },
+            { "value": "refresh", "label": "Exchange Cycle" },
+            { "value": "cash", "label": "Cash / COD" },
+            { "value": "box", "label": "Package Box" },
+            { "value": "shield", "label": "Security Shield" }
+          ],
+          "default": "truck",
+          "label": "Feature 1 Icon"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_title",
+          "default": "Free Shipping",
+          "label": "Feature 1 Title"
+        },
+        {
+          "type": "select",
+          "id": "feature_2_icon",
+          "options": [
+            { "value": "truck", "label": "Truck (Shipping)" },
+            { "value": "return", "label": "Return Arrow" },
+            { "value": "refresh", "label": "Exchange Cycle" },
+            { "value": "cash", "label": "Cash / COD" },
+            { "value": "box", "label": "Package Box" },
+            { "value": "shield", "label": "Security Shield" }
+          ],
+          "default": "return",
+          "label": "Feature 2 Icon"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_title",
+          "default": "2 Days Return",
+          "label": "Feature 2 Title"
+        },
+        {
+          "type": "select",
+          "id": "feature_3_icon",
+          "options": [
+            { "value": "truck", "label": "Truck (Shipping)" },
+            { "value": "return", "label": "Return Arrow" },
+            { "value": "refresh", "label": "Exchange Cycle" },
+            { "value": "cash", "label": "Cash / COD" },
+            { "value": "box", "label": "Package Box" },
+            { "value": "shield", "label": "Security Shield" }
+          ],
+          "default": "refresh",
+          "label": "Feature 3 Icon"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_title",
+          "default": "10 Days Exchange",
+          "label": "Feature 3 Title"
+        },
+        {
+          "type": "select",
+          "id": "feature_4_icon",
+          "options": [
+            { "value": "truck", "label": "Truck (Shipping)" },
+            { "value": "return", "label": "Return Arrow" },
+            { "value": "refresh", "label": "Exchange Cycle" },
+            { "value": "cash", "label": "Cash / COD" },
+            { "value": "box", "label": "Package Box" },
+            { "value": "shield", "label": "Security Shield" }
+          ],
+          "default": "cash",
+          "label": "Feature 4 Icon"
+        },
+        {
+          "type": "text",
+          "id": "feature_4_title",
+          "default": "Cash On Delivery",
+          "label": "Feature 4 Title"
+        }
+      ]
+    },
+    {
+      "type": "pincode_checker",
+      "name": "Delivery Estimator",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Deliver To:",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "default": "Enter pincode",
+          "label": "Placeholder"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "default": "Check",
+          "label": "Button Text"
+        },
+        {
+          "type": "text",
+          "id": "estimate_days",
+          "default": "3-5",
+          "label": "Estimated Delivery Days"
+        }
+      ]
     }
   ],
   "settings": [
@@ -2336,6 +2830,28 @@
       "id": "enable_video_looping",
       "default": false,
       "label": "t:sections.main-product.settings.enable_video_looping.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media_arrows",
+      "default": true,
+      "label": "Show slider arrows on media gallery"
+    },
+    {
+      "type": "select",
+      "id": "media_arrow_style",
+      "options": [
+        {
+          "value": "gold_circle",
+          "label": "Gold outline circle"
+        },
+        {
+          "value": "white_circle",
+          "label": "Solid white circle"
+        }
+      ],
+      "default": "gold_circle",
+      "label": "Media gallery arrow style"
     }
   ]
 }

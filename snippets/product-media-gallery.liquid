@@ -58,7 +58,7 @@
     </a>
     <ul
       id="Slider-Gallery-{{ section.id }}"
-      class="product__media-list contains-media grid grid--peek list-unstyled slider slider--mobile"
+      class="product__media-list contains-media grid list-unstyled slider slider--mobile"
       role="list"
     >
       {%- if product.selected_or_first_available_variant.featured_media != null -%}
@@ -103,7 +103,7 @@
             {%- liquid
               assign media_position = media_position | default: 0 | plus: 1
               assign lazy_load = false
-              if media_position > 1
+              if media_position > 3
                 assign lazy_load = true
               endif
             -%}
@@ -125,6 +125,26 @@
         {%- endunless -%}
       {%- endfor -%}
     </ul>
+    {%- if section.settings.show_media_arrows and media_count > 1 -%}
+      <div class="product__gallery-nav-arrows small-hide product__gallery-nav-arrows--{{ section.settings.media_arrow_style | default: 'gold_circle' }}">
+        <button
+          type="button"
+          class="product__gallery-nav-arrow product__gallery-nav-arrow--prev"
+          aria-label="{{ 'general.slider.previous_slide' | t }}"
+          data-gallery-arrow="prev"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button
+          type="button"
+          class="product__gallery-nav-arrow product__gallery-nav-arrow--next"
+          aria-label="{{ 'general.slider.next_slide' | t }}"
+          data-gallery-arrow="next"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    {%- endif -%}
     <div class="slider-buttons quick-add-hidden{% if hide_mobile_slider %} small-hide{% endif %}">
       <button
         type="button"
@@ -329,4 +349,118 @@
       </button>
     </slider-component>
   {%- endif -%}
+
+  <script>
+    if (!window.__galleryArrowsInitialized) {
+      window.__galleryArrowsInitialized = true;
+
+      document.addEventListener('click', (e) => {
+        const arrowBtn = e.target.closest('[data-gallery-arrow]');
+        if (!arrowBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        const gallery = arrowBtn.closest('media-gallery');
+        if (!gallery) return;
+
+        const sliderList = gallery.querySelector('.product__media-list');
+        if (!sliderList) return;
+
+        const slides = Array.from(sliderList.querySelectorAll(':scope > [data-media-id]'));
+        if (slides.length <= 1) return;
+
+        const slideWidth = slides[0].offsetWidth || sliderList.clientWidth;
+        let currentIndex = typeof gallery._currentSlideIndex === 'number'
+          ? gallery._currentSlideIndex
+          : Math.round(sliderList.scrollLeft / slideWidth);
+
+        if (isNaN(currentIndex) || currentIndex < 0 || currentIndex >= slides.length) {
+          currentIndex = slides.findIndex((slide) => slide.classList.contains('is-active'));
+          if (currentIndex === -1) currentIndex = 0;
+        }
+
+        const direction = arrowBtn.dataset.galleryArrow;
+        let targetIndex;
+        if (direction === 'prev') {
+          targetIndex = (currentIndex - 1 + slides.length) % slides.length;
+        } else {
+          targetIndex = (currentIndex + 1) % slides.length;
+        }
+
+        gallery._currentSlideIndex = targetIndex;
+        const targetMedia = slides[targetIndex];
+        if (!targetMedia) return;
+        const targetMediaId = targetMedia.dataset.mediaId;
+
+        // 1. Smooth horizontal scroll to target slide
+        sliderList.scrollTo({
+          left: targetMedia.offsetLeft,
+          behavior: 'smooth'
+        });
+
+        // 2. Synchronize active slide state
+        slides.forEach((s, idx) => {
+          s.classList.toggle('is-active', idx === targetIndex);
+        });
+
+        // 3. Synchronize thumbnails
+        if (gallery.elements && gallery.elements.thumbnails) {
+          const targetThumbnail = gallery.elements.thumbnails.querySelector(`[data-target="${targetMediaId}"]`);
+          if (targetThumbnail && typeof gallery.setActiveThumbnail === 'function') {
+            gallery.setActiveThumbnail(targetThumbnail);
+          }
+        }
+
+        // 4. Synchronize counter
+        const currentCounter = gallery.querySelector('.slider-counter--current');
+        if (currentCounter) {
+          currentCounter.textContent = targetIndex + 1;
+        }
+
+        // 5. Handle video media play/pause
+        if (typeof gallery.playActiveMedia === 'function') {
+          gallery.playActiveMedia(targetMedia);
+        }
+      });
+
+      // Synchronize thumbnail and active state when swiping or scrolling
+      const setupGallerySync = () => {
+        document.querySelectorAll('media-gallery').forEach((gallery) => {
+          const sliderList = gallery.querySelector('.product__media-list');
+          if (!sliderList || sliderList.__gallerySyncAttached) return;
+          sliderList.__gallerySyncAttached = true;
+
+          let scrollTimeout;
+          sliderList.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              const slides = Array.from(sliderList.querySelectorAll(':scope > [data-media-id]'));
+              if (slides.length <= 1) return;
+              const slideWidth = slides[0].offsetWidth || sliderList.clientWidth;
+              const activeIndex = Math.min(Math.max(0, Math.round(sliderList.scrollLeft / slideWidth)), slides.length - 1);
+              gallery._currentSlideIndex = activeIndex;
+
+              slides.forEach((s, i) => s.classList.toggle('is-active', i === activeIndex));
+
+              if (gallery.elements && gallery.elements.thumbnails) {
+                const targetThumb = gallery.elements.thumbnails.querySelector(`[data-target="${slides[activeIndex].dataset.mediaId}"]`);
+                if (targetThumb && typeof gallery.setActiveThumbnail === 'function') {
+                  gallery.setActiveThumbnail(targetThumb);
+                }
+              }
+
+              const currentCounter = gallery.querySelector('.slider-counter--current');
+              if (currentCounter) currentCounter.textContent = activeIndex + 1;
+            }, 60);
+          }, { passive: true });
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupGallerySync);
+      } else {
+        setupGallerySync();
+      }
+    }
+  </script>
 </media-gallery>

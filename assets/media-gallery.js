@@ -22,6 +22,17 @@ if (!customElements.get('media-gallery')) {
       }
 
       onSlideChanged(event) {
+        const currentMedia = event.detail.currentElement;
+        if (currentMedia) {
+          const slides = Array.from(this.elements.viewer.querySelectorAll('.product__media-list > [data-media-id]'));
+          this._currentSlideIndex = slides.indexOf(currentMedia);
+          slides.forEach((element) => {
+            element.classList.remove('is-active');
+          });
+          currentMedia.classList.add('is-active');
+        }
+
+        if (!this.elements.thumbnails) return;
         const thumbnail = this.elements.thumbnails.querySelector(
           `[data-target="${event.detail.currentElement.dataset.mediaId}"]`
         );
@@ -35,6 +46,9 @@ if (!customElements.get('media-gallery')) {
         if (!activeMedia) {
           return;
         }
+        const slides = Array.from(this.elements.viewer.querySelectorAll('.product__media-list > [data-media-id]'));
+        this._currentSlideIndex = slides.indexOf(activeMedia);
+
         this.elements.viewer.querySelectorAll('[data-media-id]').forEach((element) => {
           element.classList.remove('is-active');
         });
@@ -54,7 +68,7 @@ if (!customElements.get('media-gallery')) {
         this.preventStickyHeader();
         window.setTimeout(() => {
           if (!this.mql.matches || this.elements.thumbnails) {
-            activeMedia.parentElement.scrollTo({ left: activeMedia.offsetLeft });
+            activeMedia.parentElement.scrollTo({ left: activeMedia.offsetLeft, behavior: 'smooth' });
           }
           const activeMediaRect = activeMedia.getBoundingClientRect();
           // Don't scroll if the image is already in view
@@ -79,7 +93,7 @@ if (!customElements.get('media-gallery')) {
         thumbnail.querySelector('button').setAttribute('aria-current', true);
         if (this.elements.thumbnails.isSlideVisible(thumbnail, 10)) return;
 
-        this.elements.thumbnails.slider.scrollTo({ left: thumbnail.offsetLeft });
+        this.elements.thumbnails.slider.scrollTo({ left: thumbnail.offsetLeft, behavior: 'smooth' });
       }
 
       announceLiveRegion(activeItem, position) {
