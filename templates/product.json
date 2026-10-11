@@ -40,7 +40,9 @@
             "pill_2_text": "Skin Safe Jewellery",
             "pill_2_icon": "shield",
             "pill_3_text": "18K Gold Tone Plated",
-            "pill_3_icon": "gem"
+            "pill_3_icon": "gem",
+            "pill_4_text": "",
+            "pill_4_icon": "crown"
           }
         },
         "sales_urgency": {
@@ -48,9 +50,9 @@
           "settings": {
             "data_source": "metafield_hybrid",
             "min_threshold": 1,
-            "icon": "bolt",
             "sold_count": "29",
             "days_count": "7",
+            "icon": "bolt",
             "custom_text": ""
           }
         },
@@ -97,6 +99,7 @@
         },
         "pincode_checker": {
           "type": "pincode_checker",
+          "disabled": true,
           "settings": {
             "heading": "Deliver To:",
             "placeholder": "Enter pincode",
