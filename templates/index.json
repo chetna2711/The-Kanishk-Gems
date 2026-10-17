@@ -201,6 +201,15 @@
             "link": "shopify://collections/necklace-set"
           }
         },
+        "category_4Bdr7m": {
+          "type": "category",
+          "settings": {
+            "collection": "buy-1-get-1-free",
+            "use_collection_image": true,
+            "title": "",
+            "link": ""
+          }
+        },
         "cat_sets": {
           "type": "category",
           "disabled": true,
@@ -221,6 +230,7 @@
         "cat_rings",
         "cat_earrings",
         "category_iTVWcq",
+        "category_4Bdr7m",
         "cat_sets"
       ],
       "settings": {
