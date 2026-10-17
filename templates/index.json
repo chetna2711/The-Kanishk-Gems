@@ -140,6 +140,7 @@
         },
         "cat_bangles": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
@@ -150,6 +151,7 @@
         },
         "category_Aj4fBP": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/2c65ae8e-ee0c-4f8f-8bf9-cc50086bb225.jpg",
@@ -170,6 +172,7 @@
         },
         "cat_rings": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
@@ -200,6 +203,7 @@
         },
         "cat_sets": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/885318ad-df35-4667-a735-dbf67aa91343.png",
@@ -245,7 +249,7 @@
         "show_view_all": true,
         "view_all_style": "solid",
         "color_scheme": "",
-        "image_ratio": "adapt",
+        "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": false,
         "show_vendor": false,
@@ -578,12 +582,29 @@
         "benefit_rnxedz",
         "benefit_EbkLec"
       ],
+      "disabled": true,
       "name": "Why HencyJewels",
       "settings": {
         "eyebrow": "THE HENCYJEWELS PROMISE",
         "title": "Why HencyJewels",
         "description": "<p>Discover the hallmarks of trust, uncompromising artistry and mindful quality that set our jewellery apart.</p>",
         "columns_desktop": 4,
+        "color_scheme": ""
+      }
+    },
+    "custom_liquid_PWVkPt": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<style>\n/* HENCY JEWELS — Luxury Promise Section */\n.hj-promise {\n  --hj-bg: #FAF8F3;\n  --hj-ink: #29251F;\n  --hj-gold: #A58A59;\n  --hj-muted: #777168;\n  background: var(--hj-bg);\n  color: var(--hj-ink);\n  padding: 76px 24px 82px;\n  text-align: center;\n  font-family: inherit;\n}\n\n.hj-promise *,\n.hj-promise *::before,\n.hj-promise *::after {\n  box-sizing: border-box;\n}\n\n.hj-promise__inner {\n  max-width: 1240px;\n  margin: 0 auto;\n}\n\n.hj-promise__eyebrow {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 13px;\n  margin: 0 0 18px;\n  color: var(--hj-gold);\n  font-size: 10px;\n  font-weight: 600;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n}\n\n.hj-promise__eyebrow::before,\n.hj-promise__eyebrow::after {\n  content: \"\";\n  width: 30px;\n  height: 1px;\n  background: var(--hj-gold);\n  opacity: .7;\n}\n\n.hj-promise__title {\n  margin: 0;\n  font-family: \"Times New Roman\", Georgia, serif;\n  font-size: clamp(32px, 4vw, 48px);\n  line-height: 1.12;\n  font-weight: 400;\n  letter-spacing: -.8px;\n}\n\n.hj-promise__description {\n  max-width: 560px;\n  margin: 17px auto 0;\n  color: var(--hj-muted);\n  font-size: 13px;\n  line-height: 1.9;\n  letter-spacing: .2px;\n}\n\n.hj-promise__rule {\n  width: 52px;\n  height: 1px;\n  margin: 30px auto 40px;\n  background: var(--hj-gold);\n}\n\n.hj-promise__grid {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  border-top: 1px solid #DDD5C7;\n  border-bottom: 1px solid #DDD5C7;\n}\n\n.hj-promise__item {\n  position: relative;\n  padding: 34px 25px 36px;\n}\n\n.hj-promise__item + .hj-promise__item {\n  border-left: 1px solid #DDD5C7;\n}\n\n.hj-promise__icon {\n  width: 46px;\n  height: 46px;\n  margin: 0 auto 21px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: var(--hj-gold);\n}\n\n.hj-promise__icon svg {\n  width: 30px;\n  height: 30px;\n  fill: none;\n  stroke: currentColor;\n  stroke-width: 1.15;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n\n.hj-promise__item h3 {\n  margin: 0 0 12px;\n  font-family: \"Times New Roman\", Georgia, serif;\n  font-size: 19px;\n  font-weight: 400;\n  line-height: 1.35;\n  letter-spacing: .1px;\n}\n\n.hj-promise__item p {\n  max-width: 235px;\n  margin: 0 auto;\n  color: var(--hj-muted);\n  font-size: 12px;\n  line-height: 1.9;\n}\n\n.hj-promise__number {\n  display: block;\n  margin-bottom: 12px;\n  color: var(--hj-gold);\n  font-size: 9px;\n  letter-spacing: 2px;\n}\n\n/* Mobile layout */\n@media (max-width: 749px) {\n  .hj-promise {\n    padding: 49px 19px 52px;\n  }\n\n  .hj-promise__eyebrow {\n    font-size: 9px;\n    letter-spacing: 2px;\n    gap: 9px;\n  }\n\n  .hj-promise__eyebrow::before,\n  .hj-promise__eyebrow::after {\n    width: 17px;\n  }\n\n  .hj-promise__title {\n    font-size: 34px;\n  }\n\n  .hj-promise__description {\n    max-width: 330px;\n    font-size: 12px;\n    line-height: 1.8;\n  }\n\n  .hj-promise__rule {\n    margin: 25px auto 29px;\n  }\n\n  .hj-promise__grid {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n\n  .hj-promise__item {\n    padding: 27px 12px 29px;\n  }\n\n  .hj-promise__item + .hj-promise__item {\n    border-left: 0;\n  }\n\n  .hj-promise__item:nth-child(even) {\n    border-left: 1px solid #DDD5C7;\n  }\n\n  .hj-promise__item:nth-child(n+3) {\n    border-top: 1px solid #DDD5C7;\n  }\n\n  .hj-promise__icon {\n    width: 38px;\n    height: 38px;\n    margin-bottom: 15px;\n  }\n\n  .hj-promise__icon svg {\n    width: 27px;\n    height: 27px;\n  }\n\n  .hj-promise__item h3 {\n    font-size: 17px;\n    margin-bottom: 9px;\n  }\n\n  .hj-promise__item p {\n    font-size: 11px;\n    line-height: 1.8;\n  }\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .hj-promise__item {\n    transition: background-color .3s ease;\n  }\n\n  .hj-promise__item:hover {\n    background: rgba(165, 138, 89, .055);\n  }\n}\n</style>\n\n<section class=\"hj-promise\">\n  <div class=\"hj-promise__inner\">\n\n    <p class=\"hj-promise__eyebrow\">\n      The Hency Standard\n    </p>\n\n    <h2 class=\"hj-promise__title\">\n      More Than Just Jewellery\n    </h2>\n\n    <p class=\"hj-promise__description\">\n      Thoughtfully chosen details. Timeless elegance.\n      Every piece is selected to make your moments feel extraordinary.\n    </p>\n\n    <div class=\"hj-promise__rule\"></div>\n\n    <div class=\"hj-promise__grid\">\n\n      <!-- : Quality -->\n      <article class=\"hj-promise__item\">\n        <span class=\"hj-promise__number\"></span>\n        <div class=\"hj-promise__icon\">\n          <svg viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n            <path d=\"M5 12 11 5h10l6 7-11 15L5 12Z\"/>\n            <path d=\"M5 12h22M11 5l5 22M21 5l-5 22M11 5l-6 7M21 5l6 7\"/>\n          </svg>\n        </div>\n        <h3>Considered Quality</h3>\n        <p>\n          Beautifully considered details, chosen with care\n          and an eye for lasting style.\n        </p>\n      </article>\n\n      <!-- 02: Comfort -->\n      <article class=\"hj-promise__item\">\n        <span class=\"hj-promise__number\"></span>\n        <div class=\"hj-promise__icon\">\n          <svg viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n            <path d=\"M16 27S4 20 4 11a6 6 0 0 1 12-1 6 6 0 0 1 12 1c0 9-12 16-12 16Z\"/>\n            <path d=\"M10 16c2 2 4 3 6 3s4-1 6-3\"/>\n          </svg>\n        </div>\n        <h3>Made to Be Worn</h3>\n        <p>\n          Effortless designs made to complement your\n          everyday style and special occasions.\n        </p>\n      </article>\n\n      <!-- 03: Shipping -->\n      <article class=\"hj-promise__item\">\n        <span class=\"hj-promise__number\"></span>\n        <div class=\"hj-promise__icon\">\n          <svg viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n            <path d=\"M3 9h17v15H3z\"/>\n            <path d=\"M20 14h5l4 5v5h-9z\"/>\n            <circle cx=\"9\" cy=\"25\" r=\"3\"/>\n            <circle cx=\"24\" cy=\"25\" r=\"3\"/>\n            <path d=\"M7 13h9M7 17h6\"/>\n          </svg>\n        </div>\n        <h3>Careful Delivery</h3>\n        <p>\n          Thoughtfully packaged and carefully dispatched\n          from our door to yours.\n        </p>\n      </article>\n\n      <!-- 04: Service -->\n      <article class=\"hj-promise__item\">\n        <span class=\"hj-promise__number\"></span>\n        <div class=\"hj-promise__icon\">\n          <svg viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n            <path d=\"M26 12a11 11 0 0 0-19-5L4 10\"/>\n            <path d=\"M4 4v6h6\"/>\n            <path d=\"M6 20a11 11 0 0 0 19 5l3-3\"/>\n            <path d=\"M28 28v-6h-6\"/>\n            <path d=\"M11 16h10\"/>\n          </svg>\n        </div>\n        <h3>Here for You</h3>\n        <p>\n          A thoughtful customer experience, with support\n          whenever you need a hand.\n        </p>\n      </article>\n\n    </div>\n  </div>\n</section>",
+        "color_scheme": ""
+      }
+    },
+    "custom_liquid_qf7fKf": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "",
         "color_scheme": ""
       }
     },
@@ -778,6 +799,8 @@
     "hency_signature",
     "featured_collection_PA7C3W",
     "hency_why_us_FJRhHq",
+    "custom_liquid_PWVkPt",
+    "custom_liquid_qf7fKf",
     "hency_occasion_edit_VG7i8r",
     "media_showcase_slider_WxHkcT"
   ]
