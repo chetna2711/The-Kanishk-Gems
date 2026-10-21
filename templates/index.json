@@ -138,26 +138,23 @@
             "link": "shopify://collections/mangalsutra"
           }
         },
+        "category_iLrrdn": {
+          "type": "category",
+          "settings": {
+            "collection": "bracelets",
+            "use_collection_image": true,
+            "title": "",
+            "link": ""
+          }
+        },
         "cat_bangles": {
           "type": "category",
-          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
             "use_collection_image": true,
             "title": "Bangles",
             "link": "shopify://collections/bangles"
-          }
-        },
-        "category_Aj4fBP": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/2c65ae8e-ee0c-4f8f-8bf9-cc50086bb225.jpg",
-            "use_collection_image": true,
-            "title": "Mangalsutra Pendant Set",
-            "link": "shopify://collections/mangalsutra-pendant-set"
           }
         },
         "category_Vbkgjc": {
@@ -172,7 +169,6 @@
         },
         "cat_rings": {
           "type": "category",
-          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
@@ -201,17 +197,19 @@
             "link": "shopify://collections/necklace-set"
           }
         },
-        "category_iLrrdn": {
+        "category_Aj4fBP": {
           "type": "category",
           "settings": {
-            "collection": "bracelets",
+            "collection": "",
+            "image": "shopify://shop_images/2c65ae8e-ee0c-4f8f-8bf9-cc50086bb225.jpg",
             "use_collection_image": true,
-            "title": "",
-            "link": ""
+            "title": "Mangalsutra Pendant Set",
+            "link": "shopify://collections/mangalsutra-pendant-set"
           }
         },
         "category_4Bdr7m": {
           "type": "category",
+          "disabled": true,
           "settings": {
             "collection": "buy-1-get-1-free",
             "image": "shopify://shop_images/3-5.jpg",
@@ -234,13 +232,13 @@
       },
       "block_order": [
         "cat_mangalsutra",
+        "category_iLrrdn",
         "cat_bangles",
-        "category_Aj4fBP",
         "category_Vbkgjc",
         "cat_rings",
         "cat_earrings",
         "category_iTVWcq",
-        "category_iLrrdn",
+        "category_Aj4fBP",
         "category_4Bdr7m",
         "cat_sets"
       ],
