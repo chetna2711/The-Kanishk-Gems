@@ -40,7 +40,9 @@
             "pill_2_text": "Skin Safe Jewellery",
             "pill_2_icon": "shield",
             "pill_3_text": "18K Gold Tone Plated",
-            "pill_3_icon": "gem"
+            "pill_3_icon": "gem",
+            "pill_4_text": "",
+            "pill_4_icon": "crown"
           }
         },
         "sales_urgency": {
@@ -48,9 +50,9 @@
           "settings": {
             "data_source": "metafield_hybrid",
             "min_threshold": 1,
-            "icon": "bolt",
             "sold_count": "29",
             "days_count": "7",
+            "icon": "bolt",
             "custom_text": ""
           }
         },
@@ -97,6 +99,7 @@
         },
         "pincode_checker": {
           "type": "pincode_checker",
+          "disabled": true,
           "settings": {
             "heading": "Deliver To:",
             "placeholder": "Enter pincode",
@@ -118,7 +121,11 @@
           "settings": {
             "heading": "Specification",
             "icon": "check_mark",
+<<<<<<< HEAD
             "content": "",
+=======
+            "content": "<p><strong>MATERIAL:</strong></p><ul><li>Base Metal: As per supplier specifications</li><li>Finish: Gold-tone detailing</li></ul><p><strong>DESIGN DETAILS:</strong></p><ul><li>Bead Color: Black & Gold</li><li>Style: Beaded Bracelet</li></ul><p><strong>DETAILS & DIMENSIONS:</strong></p><ul><li>Bracelet Type: Beaded Chain Bracelet</li><li>Closure: To be confirmed</li><li>Length: To be confirmed</li><li>Net Quantity: 1 Piece</li></ul>",
+>>>>>>> a8bb0247853385917bbfa1309565776770313b83
             "page": ""
           }
         },
@@ -198,10 +205,85 @@
         "show_vendor": false,
         "show_rating": false
       }
+    },
+    "collection_tabs_6wige6": {
+      "type": "collection-tabs",
+      "blocks": {
+        "collection_tab_inRtkt": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "best-seller",
+            "title": "Buy 1 Get 1 Free",
+            "custom_view_all_label": "",
+            "custom_view_all_link": ""
+          }
+        },
+        "collection_tab_EKcCNA": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalsutra",
+            "title": "Buy 2 At Just 999",
+            "custom_view_all_label": "",
+            "custom_view_all_link": ""
+          }
+        },
+        "collection_tab_bWRY8q": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "best-seller",
+            "title": "Buy 3 At Just 1599",
+            "custom_view_all_label": "",
+            "custom_view_all_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_inRtkt",
+        "collection_tab_EKcCNA",
+        "collection_tab_bWRY8q"
+      ],
+      "name": "Collection Tabs",
+      "settings": {
+        "eyebrow": "",
+        "title": "",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "description": "",
+        "tab_style": "luxury_underline",
+        "tab_alignment": "left",
+        "show_product_count": false,
+        "enable_desktop_slider": true,
+        "enable_mobile_slider": true,
+        "show_slider_arrows": true,
+        "arrow_style": "gold_circle",
+        "arrow_position": "sides",
+        "autoplay": false,
+        "autoplay_seconds": 5,
+        "pause_on_hover": true,
+        "loop_slider": true,
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "full_width": false,
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "show_view_all": false,
+        "view_all_label": "View All Collection",
+        "view_all_style": "button--gold",
+        "color_scheme": "",
+        "custom_background": "#fafaf7",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "collection_tabs_6wige6"
   ]
 }
