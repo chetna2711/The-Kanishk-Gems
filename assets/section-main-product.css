@@ -277,10 +277,6 @@ a.product__text {
   margin-top: 0;
 }
 
-.product__accordion .accordion__content {
-  padding: 0 1rem;
-}
-
 .product .price .badge {
   margin-bottom: 0.5rem;
 }
@@ -2028,8 +2024,6 @@ media-gallery .product__media-list::-webkit-scrollbar {
 }
 
 .product__accordion .accordion__content {
-  padding-bottom: 1.6rem;
-  padding-top: 0.4rem;
   font-size: 1.35rem;
   color: #4a4a4a;
   line-height: 1.65;

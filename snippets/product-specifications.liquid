@@ -1,0 +1,166 @@
+{%- comment -%}
+  Product Specifications Accordion Content
+  Dynamically renders specification rows from product metafields.
+  - Automatically identifies populated metafields (custom and category taxonomy).
+  - Skips empty metafields completely (no blank rows, labels, or bullets).
+  - Formats labels cleanly (e.g., custom.base_metal -> Base Metal).
+  - Handles single values, booleans, and multi-value lists seamlessly.
+  - Category specific: only fields populated for the product's category will render.
+{%- endcomment -%}
+
+{%- liquid
+  assign spec_keys_string = 'custom.base_metal,shopify.jewelry-material,custom.jewelry_material,custom.material,custom.finish,custom.plating,shopify.color-pattern,custom.color,custom.bead_color,custom.stone_type,custom.gemstone,shopify.jewelry-type,custom.jewelry_type,shopify.bracelet-design,custom.bracelet_design,custom.bracelet_type,shopify.necklace-design,custom.necklace_design,custom.necklace_type,custom.chain_type,shopify.earring-design,custom.earring_design,custom.earring_type,shopify.ring-design,custom.ring_design,custom.ring_size,custom.style,custom.closure,custom.lock_type,custom.length,custom.dimensions,custom.weight,custom.net_quantity,custom.water_resistant,shopify.age-group,shopify.target-gender,custom.care_instructions'
+  assign spec_keys = spec_keys_string | split: ','
+
+  assign rendered_labels = ''
+  assign spec_count = 0
+-%}
+
+{%- capture specs_content -%}
+  <div class="product-specifications">
+    {%- for key_item in spec_keys -%}
+      {%- liquid
+        assign clean_key = key_item | strip
+        assign key_parts = clean_key | split: '.'
+        if key_parts.size > 1
+          assign ns = key_parts[0] | strip
+          assign f_key = key_parts[1] | strip
+        else
+          assign ns = 'custom'
+          assign f_key = clean_key
+        endif
+
+        assign f_key_dash = f_key | replace: '_', '-'
+        assign f_key_underscore = f_key | replace: '-', '_'
+
+        assign mf = blank
+        if ns == 'shopify'
+          assign mf = product.metafields.shopify[f_key]
+          if mf == blank
+            assign mf = product.metafields.shopify[f_key_dash]
+          endif
+          if mf == blank
+            assign mf = product.metafields.shopify[f_key_underscore]
+          endif
+          if mf == blank
+            assign mf = product.metafields.custom[f_key]
+          endif
+          if mf == blank
+            assign mf = product.metafields.custom[f_key_underscore]
+          endif
+        else
+          assign mf = product.metafields.custom[f_key]
+          if mf == blank
+            assign mf = product.metafields.custom[f_key_underscore]
+          endif
+          if mf == blank
+            assign mf = product.metafields.custom[f_key_dash]
+          endif
+          if mf == blank
+            assign mf = product.metafields.shopify[f_key]
+          endif
+          if mf == blank
+            assign mf = product.metafields.shopify[f_key_dash]
+          endif
+        endif
+
+        if mf == blank
+          assign mf = product.metafields[ns][f_key]
+        endif
+
+        assign clean_val = ''
+      -%}
+
+      {%- if mf != blank -%}
+        {%- assign raw_val = mf.value -%}
+        {%- capture val_output -%}
+          {%- if mf.type contains 'list.' or raw_val.first != blank -%}
+            {%- for item in raw_val -%}
+              {%- assign item_text = item.label | default: item.name | default: item.title | default: item.value | default: item -%}
+              {{ item_text | strip }}{%- unless forloop.last -%}, {%- endunless -%}
+            {%- endfor -%}
+          {%- elsif raw_val == true -%}
+            Yes
+          {%- elsif raw_val == false -%}
+            No
+          {%- elsif raw_val.label != blank -%}
+            {{ raw_val.label | strip }}
+          {%- elsif raw_val.name != blank -%}
+            {{ raw_val.name | strip }}
+          {%- elsif raw_val.title != blank -%}
+            {{ raw_val.title | strip }}
+          {%- elsif raw_val.value != blank -%}
+            {{ raw_val.value | strip_html | strip }}
+          {%- elsif raw_val != blank -%}
+            {{ raw_val | strip_html | strip }}
+          {%- else -%}
+            {{ mf | metafield_tag | strip_html | strip }}
+          {%- endif -%}
+        {%- endcapture -%}
+        {%- assign clean_val = val_output | strip -%}
+        {%- if clean_val == blank -%}
+          {%- assign tag_fallback = mf | metafield_tag | strip_html | strip -%}
+          {%- if tag_fallback != blank -%}
+            {%- assign clean_val = tag_fallback -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if clean_val != blank -%}
+        {%- liquid
+          assign label = ''
+          case clean_key
+            when 'shopify.color-pattern', 'custom.color'
+              assign label = 'Color'
+            when 'shopify.jewelry-material', 'custom.jewelry_material'
+              assign label = 'Jewelry Material'
+            when 'shopify.jewelry-type', 'custom.jewelry_type'
+              assign label = 'Jewelry Type'
+            when 'shopify.bracelet-design', 'custom.bracelet_design'
+              assign label = 'Bracelet Design'
+            when 'shopify.necklace-design', 'custom.necklace_design'
+              assign label = 'Necklace Design'
+            when 'shopify.earring-design', 'custom.earring_design'
+              assign label = 'Earring Design'
+            when 'shopify.ring-design', 'custom.ring_design'
+              assign label = 'Ring Design'
+            when 'shopify.age-group'
+              assign label = 'Age Group'
+            when 'shopify.target-gender'
+              assign label = 'Target Gender'
+            else
+              assign words = f_key | replace: '-', '_' | split: '_'
+              assign label = ''
+              for word in words
+                assign cap_word = word | capitalize
+                if label == ''
+                  assign label = cap_word
+                else
+                  assign label = label | append: ' ' | append: cap_word
+                endif
+              endfor
+          endcase
+
+          assign label_check = '|' | append: label | append: '|'
+        -%}
+
+        {%- unless rendered_labels contains label_check -%}
+          {%- liquid
+            assign rendered_labels = rendered_labels | append: label_check
+            assign spec_count = spec_count | plus: 1
+          -%}
+          <div class="product-spec-row">
+            <span class="product-spec-label">{{ label }}:</span>
+            <span class="product-spec-value">{{ clean_val }}</span>
+          </div>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endcapture -%}
+
+{%- if spec_count > 0 -%}
+  {{ specs_content }}
+{%- elsif fallback_content != blank -%}
+  {{ fallback_content }}
+{%- endif -%}
