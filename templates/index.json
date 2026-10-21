@@ -253,6 +253,64 @@
         "color_scheme": "scheme-1"
       }
     },
+    "hency_offers_discounts_eMKm9c": {
+      "type": "hency-offers-discounts",
+      "blocks": {
+        "offer_card_MCKA6R": {
+          "type": "offer_card",
+          "settings": {
+            "heading": "FLAT ₹999",
+            "heading_color": "#8b1d40",
+            "heading_align": "center",
+            "description": "",
+            "image_desktop": "shopify://shop_images/fec99e7c-3cf6-4b5c-b924-43c3fdb68a18.png",
+            "link": "",
+            "button_label": "Explore",
+            "button_link": "",
+            "button_align": "center",
+            "show_arrow": true,
+            "button_bg_color": "",
+            "button_text_color": ""
+          }
+        },
+        "offer_card_hAkXEE": {
+          "type": "offer_card",
+          "settings": {
+            "heading": "BUY 1 GET 1 FREE",
+            "heading_color": "#8b1d40",
+            "heading_align": "center",
+            "description": "",
+            "image_desktop": "shopify://shop_images/bd806078-8bda-44ae-a745-54cb8f78b060.png",
+            "link": "",
+            "button_label": "Explore",
+            "button_link": "",
+            "button_align": "center",
+            "show_arrow": true,
+            "button_bg_color": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "offer_card_MCKA6R",
+        "offer_card_hAkXEE"
+      ],
+      "name": "Offers And Discounts",
+      "settings": {
+        "heading": "Offers And Discounts",
+        "heading_size": "medium",
+        "heading_align": "center",
+        "description": "",
+        "columns_desktop": 2,
+        "card_aspect_ratio": "16_9",
+        "card_border_radius": 16,
+        "section_bg_color": "",
+        "padding_top_desktop": 48,
+        "padding_bottom_desktop": 48,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
     "featured_collection_k9VaHw": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -813,6 +871,7 @@
     "1790507880011a075b",
     "hency_hero",
     "shop_by_category",
+    "hency_offers_discounts_eMKm9c",
     "featured_collection_k9VaHw",
     "shop_by_mood",
     "1790506726715cb864",
