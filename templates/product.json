@@ -121,11 +121,7 @@
           "settings": {
             "heading": "Specification",
             "icon": "check_mark",
-<<<<<<< HEAD
-            "content": "",
-=======
             "content": "<p><strong>MATERIAL:</strong></p><ul><li>Base Metal: As per supplier specifications</li><li>Finish: Gold-tone detailing</li></ul><p><strong>DESIGN DETAILS:</strong></p><ul><li>Bead Color: Black & Gold</li><li>Style: Beaded Bracelet</li></ul><p><strong>DETAILS & DIMENSIONS:</strong></p><ul><li>Bracelet Type: Beaded Chain Bracelet</li><li>Closure: To be confirmed</li><li>Length: To be confirmed</li><li>Net Quantity: 1 Piece</li></ul>",
->>>>>>> a8bb0247853385917bbfa1309565776770313b83
             "page": ""
           }
         },
@@ -242,6 +238,7 @@
         "collection_tab_EKcCNA",
         "collection_tab_bWRY8q"
       ],
+      "disabled": true,
       "name": "Collection Tabs",
       "settings": {
         "eyebrow": "",
