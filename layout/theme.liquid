@@ -271,6 +271,7 @@
         box-sizing: border-box;
         font-size: calc(var(--font-body-scale) * 62.5%);
         height: 100%;
+        overflow-x: clip;
       }
 
       body {
@@ -284,11 +285,26 @@
         font-family: var(--font-body-family);
         font-style: var(--font-body-style);
         font-weight: var(--font-body-weight);
+        overflow-x: clip;
       }
 
       @media screen and (min-width: 750px) {
         body {
           font-size: 1.6rem;
+        }
+      }
+
+      .shopify-policy__container {
+        max-width: var(--page-width) !important;
+        margin: 0 auto !important;
+        padding: 3rem 1.5rem 6rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      @media screen and (min-width: 750px) {
+        .shopify-policy__container {
+          padding: 5rem 5rem 8rem !important;
         }
       }
     {% endstyle %}

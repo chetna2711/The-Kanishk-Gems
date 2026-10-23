@@ -258,7 +258,7 @@
           "type": "offer_card",
           "settings": {
             "heading": "FLAT ₹999",
-            "heading_color": "#8b1d40",
+            "heading_color": "#1a1a1a",
             "heading_align": "center",
             "description": "",
             "image_desktop": "shopify://shop_images/fec99e7c-3cf6-4b5c-b924-43c3fdb68a18.png",
@@ -275,7 +275,7 @@
           "type": "offer_card",
           "settings": {
             "heading": "BUY 1 GET 1 FREE",
-            "heading_color": "#8b1d40",
+            "heading_color": "#1a1a1a",
             "heading_align": "center",
             "description": "",
             "image_desktop": "shopify://shop_images/bd806078-8bda-44ae-a745-54cb8f78b060.png",
@@ -295,6 +295,7 @@
       ],
       "name": "Offers And Discounts",
       "settings": {
+        "eyebrow": "EXCLUSIVE OFFERS",
         "heading": "Offers And Discounts",
         "heading_size": "medium",
         "heading_align": "center",
@@ -347,7 +348,7 @@
             "description": "Minimal silhouettes crafted for effortless daily sparkle",
             "collection": "",
             "link": "",
-            "overlay_opacity": 50
+            "overlay_opacity": 65
           }
         },
         "mood_festive": {
@@ -358,7 +359,7 @@
             "description": "Radiant Kundan & Polki sets for celebratory evenings",
             "collection": "",
             "link": "",
-            "overlay_opacity": 50
+            "overlay_opacity": 65
           }
         },
         "mood_wedding": {
@@ -369,7 +370,7 @@
             "description": "Regal heirloom grandeur for the bride and cherished guests",
             "collection": "",
             "link": "",
-            "overlay_opacity": 50
+            "overlay_opacity": 65
           }
         },
         "mood_gifting": {
@@ -380,7 +381,7 @@
             "description": "Timeless treasures packaged with love to mark precious milestones",
             "collection": "",
             "link": "",
-            "overlay_opacity": 50
+            "overlay_opacity": 65
           }
         }
       },
@@ -527,7 +528,7 @@
         "show_desktop_arrows": true,
         "columns_desktop": "5",
         "columns_tablet": "3",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "enable_mobile_swipe": true,
         "video_border_radius": 8,
         "show_play_icon": false,
@@ -697,7 +698,7 @@
             "collection": "",
             "link": "",
             "text_position": "left",
-            "overlay_opacity": 55
+            "overlay_opacity": 65
           }
         },
         "occasion_6QK9By": {
@@ -709,7 +710,7 @@
             "collection": "",
             "link": "",
             "text_position": "left",
-            "overlay_opacity": 55
+            "overlay_opacity": 65
           }
         },
         "occasion_Ag8P3x": {
@@ -721,7 +722,7 @@
             "collection": "",
             "link": "",
             "text_position": "left",
-            "overlay_opacity": 55
+            "overlay_opacity": 65
           }
         },
         "occasion_VxNGj7": {
@@ -733,7 +734,7 @@
             "collection": "",
             "link": "",
             "text_position": "left",
-            "overlay_opacity": 55
+            "overlay_opacity": 65
           }
         }
       },

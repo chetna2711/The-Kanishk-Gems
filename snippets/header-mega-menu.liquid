@@ -12,7 +12,7 @@
         {%- assign browse_menu = linklists[section.settings.browse_categories_menu] | default: section.settings.browse_categories_menu -%}
         {%- if browse_menu != blank and browse_menu.links.size > 0 -%}
           <header-menu>
-            <details id="Details-HeaderMenu-BrowseCategories" class="mega-menu">
+            <details id="Details-HeaderMenu-BrowseCategories" class="mega-menu{% if section.settings.mega_menu_full_width %} mega-menu--full-width{% endif %}">
               <summary
                 id="HeaderMenu-BrowseCategories"
                 class="header__browse-categories-btn header__browse-categories-btn--{{ section.settings.browse_categories_style | default: 'theme_header' }}"
@@ -34,6 +34,7 @@
               <div
                 id="MegaMenu-Content-BrowseCategories"
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce"
+                style="--mega-menu-custom-width: {% if section.settings.mega_menu_full_width %}100vw{% else %}{{ section.settings.mega_menu_max_width | default: 1180 }}px{% endif %};"
                 tabindex="-1"
               >
                 {%- liquid
@@ -100,7 +101,7 @@
       <li>
         {%- if link.links != blank -%}
           <header-menu>
-            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu{% if section.settings.mega_menu_full_width %} mega-menu--full-width{% endif %}">
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
@@ -117,6 +118,7 @@
               <div
                 id="MegaMenu-Content-{{ forloop.index }}"
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce"
+                style="--mega-menu-custom-width: {% if section.settings.mega_menu_full_width %}100vw{% else %}{{ section.settings.mega_menu_max_width | default: 1180 }}px{% endif %};"
                 tabindex="-1"
               >
                 {%- liquid

@@ -15,8 +15,17 @@
   }
 
   .collection-hero__inner {
-    padding-top: 2rem;
-    padding-bottom: 3.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .collection-hero:not(.collection-hero--with-image) .collection-hero__inner {
+    justify-content: center;
+  }
+
+  .collection-hero__text-wrapper {
+    text-align: {{ section.settings.heading_alignment | default: 'center' }};
+    width: 100%;
   }
 
   .collection-hero__subtitle {
@@ -27,16 +36,25 @@
     font-weight: 600;
     margin-bottom: 0.8rem;
     display: block;
+    text-align: {{ section.settings.heading_alignment | default: 'center' }};
   }
 
   .collection-hero__title {
     font-family: var(--font-heading-family);
-    font-size: clamp(2.8rem, 4vw, 4.2rem);
-    font-weight: 500;
+    font-size: clamp(2.2rem, 2.5vw, {{ section.settings.desktop_heading_size | default: 32 }}px);
+    font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--hency-charcoal, #1a1a1a);
-    margin: 0 0 1.2rem;
+    margin: 0 0 1rem;
+    text-align: {{ section.settings.heading_alignment | default: 'center' }};
+    line-height: 1.25;
+  }
+
+  .collection-hero__description {
+    text-align: {{ section.settings.heading_alignment | default: 'center' }};
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .collection-hero__promo-pill {
@@ -52,7 +70,20 @@
     margin-top: 1.2rem;
   }
 
+  @media screen and (min-width: 750px) {
+    .collection-hero__title {
+      font-size: {{ section.settings.desktop_heading_size | default: 32 }}px;
+    }
+  }
+
   @media screen and (max-width: 749px) {
+    .collection-hero__inner {
+      padding-top: 1.8rem;
+      padding-bottom: 2.2rem;
+    }
+    .collection-hero__title {
+      font-size: clamp(2rem, 5.5vw, 2.5rem);
+    }
     .collection-hero--with-image .collection-hero__inner {
       padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
     }
@@ -123,6 +154,26 @@
   "name": "Collection Banner",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_heading_size",
+      "min": 22,
+      "max": 44,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop heading font size",
+      "default": 32
+    },
     {
       "type": "checkbox",
       "id": "show_collection_description",

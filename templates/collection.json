@@ -12,6 +12,8 @@
     "banner": {
       "type": "main-collection-banner",
       "settings": {
+        "heading_alignment": "center",
+        "desktop_heading_size": 32,
         "show_collection_description": true,
         "show_collection_image": true,
         "color_scheme": "scheme-1"

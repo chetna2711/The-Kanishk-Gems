@@ -95,7 +95,6 @@
       padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
-  }
 
   /* Header Styles */
   #ShoppableVideoGallery-{{ section_id }} .svg-header {
@@ -256,19 +255,20 @@
     #ShoppableVideoGallery-{{ section_id }} .svg-slider-arrow {
       display: none !important;
     }
-  }
 
-  @media screen and (max-width: 749px) {
     {%- if section.settings.enable_mobile_swipe -%}
       #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track {
         display: flex;
         gap: var(--svg-mobile-gap);
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        scroll-padding-left: 0;
+        scroll-padding-right: 0;
         -webkit-overflow-scrolling: touch;
-        padding: 0.5rem 1.5rem 1.5rem;
-        margin: 0 -1.5rem;
+        padding: 0.5rem 0 1.5rem;
+        margin: 0;
         scrollbar-width: none;
+        box-sizing: border-box;
       }
       #ShoppableVideoGallery-{{ section_id }} .svg-gallery__track::-webkit-scrollbar {
         display: none;
@@ -278,15 +278,18 @@
         aspect-ratio: 9 / 16;
         height: auto !important;
         {%- if cols_mobile == '1' -%}
-          flex: 0 0 calc(100% - 3.5rem) !important;
-          min-width: calc(100% - 3.5rem) !important;
-          max-width: calc(100% - 3.5rem) !important;
-          width: calc(100% - 3.5rem) !important;
+          flex: 0 0 100% !important;
+          min-width: 100% !important;
+          max-width: 100% !important;
+          width: 100% !important;
+          max-height: 480px;
         {%- else -%}
-          flex: 0 0 calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
-          min-width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
-          max-width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
-          width: calc((100% - var(--svg-mobile-gap) - 2rem) / 2) !important;
+          /* Symmetrical 2-card mobile layout: equal left and right spacing */
+          flex: 0 0 calc((100% - var(--svg-mobile-gap)) / 2) !important;
+          min-width: calc((100% - var(--svg-mobile-gap)) / 2) !important;
+          max-width: calc((100% - var(--svg-mobile-gap)) / 2) !important;
+          width: calc((100% - var(--svg-mobile-gap)) / 2) !important;
+          max-height: 330px;
         {%- endif -%}
       }
     {%- else -%}
@@ -295,7 +298,7 @@
         gap: var(--svg-mobile-gap);
         {%- if cols_mobile == '1' -%}
           grid-template-columns: 1fr;
-          max-width: 380px;
+          max-width: 280px;
           margin: 0 auto;
         {%- else -%}
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -308,6 +311,7 @@
         max-width: 100% !important;
         aspect-ratio: 9 / 16;
         height: auto !important;
+        max-height: 330px;
         margin: 0 auto;
       }
     {%- endif -%}

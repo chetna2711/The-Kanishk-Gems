@@ -286,6 +286,15 @@
       text-decoration: none;
     }
   }
+
+  :root,
+  .header-wrapper {
+    {%- if section.settings.mega_menu_full_width -%}
+      --mega-menu-max-width: 100vw;
+    {%- else -%}
+      --mega-menu-max-width: {{ section.settings.mega_menu_max_width | default: 1180 }}px;
+    {%- endif -%}
+  }
 {%- endstyle -%}
 
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
@@ -929,6 +938,28 @@
       ],
       "default": "dropdown",
       "label": "t:sections.header.settings.menu_type_desktop.label"
+    },
+    {
+      "type": "header",
+      "content": "Mega menu settings"
+    },
+    {
+      "type": "range",
+      "id": "mega_menu_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Mega menu container width",
+      "default": 1180,
+      "info": "Sets the maximum width for the centered mega menu dropdown box."
+    },
+    {
+      "type": "checkbox",
+      "id": "mega_menu_full_width",
+      "label": "Full width mega menu",
+      "default": false,
+      "info": "Enable if you want the mega menu to span 100% across the full screen width."
     },
     {
       "type": "select",

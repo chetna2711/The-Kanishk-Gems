@@ -175,6 +175,15 @@
     display: flex;
     justify-content: center;
     gap: 1.2rem;
+    margin-top: 1rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- unless section.settings.show_arrows_mobile -%}
+      #ShopByCategory-{{ section.id }} .shop-by-category__nav {
+        display: none !important;
+      }
+    {%- endunless -%}
   }
 
   #ShopByCategory-{{ section.id }} .shop-by-category__btn {
@@ -340,6 +349,13 @@
       "type": "url",
       "id": "button_link",
       "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows_mobile",
+      "label": "Show navigation arrows on mobile",
+      "default": false,
+      "info": "Disabled by default; mobile users can naturally swipe the circle items horizontally."
     },
     {
       "type": "color_scheme",

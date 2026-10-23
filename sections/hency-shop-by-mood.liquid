@@ -103,13 +103,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.65) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0.85) 100%);
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__card:hover .shop-by-mood__overlay {
-    opacity: 0.85;
+    opacity: 0.95;
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__content {
@@ -117,7 +117,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 2.4rem 1.8rem;
+    padding: 4.2rem 1.8rem 2.2rem;
     box-sizing: border-box;
     color: #ffffff;
     z-index: 2;
@@ -125,6 +125,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background: linear-gradient(to top, rgba(12, 8, 4, 0.95) 0%, rgba(12, 8, 4, 0.76) 50%, rgba(12, 8, 4, 0.3) 80%, rgba(12, 8, 4, 0) 100%);
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__card-title {
@@ -133,37 +134,41 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin: 0;
-    font-weight: 500;
+    font-weight: 600;
     color: #ffffff;
     line-height: 1.2;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__card-description {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     margin: 0.6rem 0 0;
-    opacity: 0.9;
-    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.96);
+    line-height: 1.45;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__card-link-text {
     margin-top: 1.2rem;
-    font-size: 1.2rem;
-    letter-spacing: 0.14em;
+    font-size: 1.25rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 600;
-    color: var(--hency-gold-light, #e0c890);
+    color: #f7dfa5;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    transition: gap 0.2s ease;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+    transition: gap 0.2s ease, color 0.2s ease;
   }
 
   #ShopByMood-{{ section.id }} .shop-by-mood__card:hover .shop-by-mood__card-link-text {
     gap: 0.8rem;
+    color: #ffffff;
   }
 {%- endstyle -%}
 

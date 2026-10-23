@@ -1,6 +1,8 @@
 product-component,
 collection-component {
   display: block;
+  min-width: 0;
+  max-width: 100%;
 }
 
 :root {
@@ -1101,6 +1103,8 @@ summary::-webkit-details-marker {
 
   .grid--2-col-tablet-down .grid__item {
     width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2);
+    max-width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2);
+    min-width: 0;
   }
 
   .slider--tablet.grid--peek.grid--2-col-tablet-down .grid__item,
@@ -1134,6 +1138,8 @@ summary::-webkit-details-marker {
 
   .grid--2-col-tablet-down .grid__item {
     width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+    max-width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+    min-width: 0;
   }
 
   .grid--1-col-tablet-down.grid--peek .grid__item {
@@ -3755,4 +3761,100 @@ details-disclosure>details {
 .card--hency-luxury:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+/* ==========================================================================
+   Shopify Policy Pages (.shopify-policy__container)
+   Matches homepage .page-width container exactly on desktop & mobile
+   ========================================================================== */
+.shopify-policy__container {
+  max-width: var(--page-width) !important;
+  margin: 0 auto !important;
+  padding: 3rem 1.5rem 6rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (min-width: 750px) {
+  .shopify-policy__container {
+    padding: 5rem 5rem 8rem !important;
+  }
+}
+
+.shopify-policy__title {
+  text-align: center !important;
+  margin-bottom: 3.5rem !important;
+  padding: 0 !important;
+}
+
+.shopify-policy__title h1 {
+  font-family: var(--font-heading-family) !important;
+  font-size: clamp(3rem, 4vw, 4.6rem) !important;
+  font-weight: 600 !important;
+  color: rgb(var(--color-foreground)) !important;
+  letter-spacing: 0.02em !important;
+  margin: 0 0 1rem !important;
+  line-height: 1.25 !important;
+}
+
+.shopify-policy__body {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.shopify-policy__body .rte {
+  font-family: var(--font-body-family);
+  font-size: 1.6rem;
+  line-height: 1.85;
+  color: rgba(var(--color-foreground), 0.88);
+}
+
+.shopify-policy__body .rte p {
+  margin-bottom: 2rem;
+  line-height: 1.85;
+}
+
+.shopify-policy__body .rte h2 {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.2rem, 2.4vw, 2.8rem);
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  margin-top: 4.5rem;
+  margin-bottom: 1.8rem;
+  line-height: 1.3;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--hency-border-subtle, rgba(197, 160, 89, 0.28));
+}
+
+.shopify-policy__body .rte h3 {
+  font-family: var(--font-heading-family);
+  font-size: clamp(1.8rem, 2vw, 2.2rem);
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  margin-top: 3.5rem;
+  margin-bottom: 1.4rem;
+  line-height: 1.35;
+}
+
+.shopify-policy__body .rte ul,
+.shopify-policy__body .rte ol {
+  margin-bottom: 2.2rem;
+  padding-left: 2.5rem;
+  line-height: 1.85;
+}
+
+.shopify-policy__body .rte li {
+  margin-bottom: 0.8rem;
+}
+
+.shopify-policy__body .rte a {
+  color: var(--hency-gold, #c5a059);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.shopify-policy__body .rte a:hover {
+  color: var(--hency-gold-dark, #9f7d37);
 }
