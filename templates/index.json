@@ -248,6 +248,7 @@
         "description": "<p>Explore thoughtfully designed categories hand-set with radiant stones and heritage gold polish.</p>",
         "button_text": "",
         "button_link": "",
+        "show_arrows_mobile": false,
         "color_scheme": "scheme-1"
       }
     },
@@ -314,7 +315,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "mangalsutra",
+        "collection": "new-arrival",
         "products_to_show": 4,
         "title": "New Arrival",
         "heading_size": "h1",
