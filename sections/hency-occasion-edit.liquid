@@ -111,16 +111,22 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 4.2rem 1.8rem 2.2rem;
+    padding: 3.2rem 1.4rem 1.6rem;
     box-sizing: border-box;
     color: #ffffff;
     z-index: 2;
     background: linear-gradient(to top, rgba(12, 8, 4, 0.95) 0%, rgba(12, 8, 4, 0.76) 50%, rgba(12, 8, 4, 0.3) 80%, rgba(12, 8, 4, 0) 100%);
   }
 
+  @media screen and (min-width: 750px) {
+    #OccasionEdit-{{ section.id }} .occasion-edit__content {
+      padding: 4.2rem 1.8rem 2.2rem;
+    }
+  }
+
   #OccasionEdit-{{ section.id }} .occasion-edit__card-title {
     font-family: var(--font-heading-family);
-    font-size: clamp(1.7rem, 2vw, 2.3rem);
+    font-size: clamp(1.6rem, 2vw, 2.3rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin: 0;
@@ -129,31 +135,40 @@
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
   }
 
-  #OccasionEdit-{{ section.id }} .occasion-edit__card-desc {
-    font-size: 1.35rem;
-    margin: 0.5rem 0 0;
-    color: rgba(255, 255, 255, 0.96);
-    line-height: 1.45;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
-  }
-
+  /* Mobile: Show only main heading */
+  #OccasionEdit-{{ section.id }} .occasion-edit__card-desc,
   #OccasionEdit-{{ section.id }} .occasion-edit__card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 1rem;
-    font-size: 1.25rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: #f7dfa5;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-    transition: gap 0.2s ease, color 0.2s ease;
+    display: none;
   }
 
-  #OccasionEdit-{{ section.id }} .occasion-edit__card:hover .occasion-edit__card-cta {
-    gap: 0.8rem;
-    color: #ffffff;
+  @media screen and (min-width: 750px) {
+    #OccasionEdit-{{ section.id }} .occasion-edit__card-desc {
+      display: block;
+      font-size: 1.35rem;
+      margin: 0.5rem 0 0;
+      color: rgba(255, 255, 255, 0.96);
+      line-height: 1.45;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+    }
+
+    #OccasionEdit-{{ section.id }} .occasion-edit__card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-size: 1.25rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #f7dfa5;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+      transition: gap 0.2s ease, color 0.2s ease;
+    }
+
+    #OccasionEdit-{{ section.id }} .occasion-edit__card:hover .occasion-edit__card-cta {
+      gap: 0.8rem;
+      color: #ffffff;
+    }
   }
 {%- endstyle -%}
 

@@ -302,7 +302,7 @@
         "heading_align": "center",
         "description": "",
         "columns_desktop": 2,
-        "card_aspect_ratio": "16_9",
+        "card_aspect_ratio": "adapt",
         "card_border_radius": 16,
         "section_bg_color": "",
         "padding_top_desktop": 0,
