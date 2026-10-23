@@ -265,7 +265,7 @@
             "image_desktop": "shopify://shop_images/fec99e7c-3cf6-4b5c-b924-43c3fdb68a18.png",
             "link": "",
             "button_label": "Explore",
-            "button_link": "",
+            "button_link": "shopify://collections/flat-799",
             "button_align": "center",
             "show_arrow": true,
             "button_bg_color": "",
