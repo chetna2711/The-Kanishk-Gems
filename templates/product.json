@@ -23,14 +23,15 @@
           "type": "title",
           "settings": {}
         },
-        "description": {
-          "type": "description",
-          "disabled": true,
-          "settings": {}
-        },
         "price": {
           "type": "price",
           "settings": {}
+        },
+        "sku_CX9kiJ": {
+          "type": "sku",
+          "settings": {
+            "text_style": "subtitle"
+          }
         },
         "trust_pills": {
           "type": "trust_pills",
@@ -153,8 +154,8 @@
       "block_order": [
         "vendor",
         "title",
-        "description",
         "price",
+        "sku_CX9kiJ",
         "trust_pills",
         "sales_urgency",
         "variant_picker",
