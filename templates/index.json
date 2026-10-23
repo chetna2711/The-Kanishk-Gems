@@ -282,7 +282,7 @@
             "image_desktop": "shopify://shop_images/bd806078-8bda-44ae-a745-54cb8f78b060.png",
             "link": "shopify://collections/buy-1-get-1-free",
             "button_label": "Explore",
-            "button_link": "shopify://collections/buy-1-get-1-free",
+            "button_link": "",
             "button_align": "center",
             "show_arrow": true,
             "button_bg_color": "",
