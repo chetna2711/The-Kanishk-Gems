@@ -1,0 +1,2283 @@
+{% comment %}
+  Kanishk Gems - Product Customer Reviews & Photo Gallery
+  App-Free, Metafield-Powered (custom.customer_reviews), SEO-Optimized
+  Zero external libraries - Pure Vanilla HTML5, CSS, and JS
+{% endcomment %}
+
+{%- liquid
+  assign section_id = section.id
+  assign reviews_raw = product.metafields.custom.customer_reviews.value | default: product.metafields.custom.customer_reviews
+  assign bg_color = section.settings.bg_color | default: '#fafaf7'
+  assign text_color = section.settings.text_color | default: '#1a1a1a'
+  assign gold_color = '#c5a059'
+  assign gold_dark = '#9f7d37'
+  assign gold_light = '#e0c890'
+-%}
+
+<div
+  id="CustomerReviews-{{ section_id }}"
+  class="customer-reviews-section"
+  data-product-id="{{ product.id }}"
+  data-product-title="{{ product.title | escape }}"
+  data-webhook-url="{{ section.settings.webhook_url | escape }}"
+  style="--cr-bg: {{ bg_color }}; --cr-text: {{ text_color }}; --cr-gold: {{ gold_color }}; --cr-gold-dark: {{ gold_dark }}; --cr-gold-light: {{ gold_light }};"
+>
+  <div class="page-width">
+    <!-- Header -->
+    <div class="cr-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="cr-header__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      <h2 class="cr-header__title">{{ section.settings.title | default: 'Customer Reviews & Photos' | escape }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="cr-header__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Rating Summary & Statistics Card -->
+    <div class="cr-summary-card" id="CrSummaryCard-{{ section_id }}">
+      <div class="cr-summary__left">
+        <div class="cr-summary__score-box">
+          <span class="cr-summary__score" data-cr-avg-score>5.0</span>
+          <div class="cr-summary__stars" data-cr-avg-stars>
+            <div class="cr-stars-outer">
+              <div class="cr-stars-inner" style="width: 100%;"></div>
+            </div>
+          </div>
+          <p class="cr-summary__count-label">
+            Based on <span data-cr-total-count>0</span> reviews
+          </p>
+          <span class="cr-summary__recommend-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"></path></svg>
+            98% would recommend
+          </span>
+        </div>
+      </div>
+
+      <div class="cr-summary__center">
+        <!-- Breakdown bars 5 to 1 -->
+        <div class="cr-breakdown-list" data-cr-breakdown>
+          {% for i in (1..5) reversed %}
+            {% assign star_num = i %}
+            <div class="cr-breakdown-row" data-star-row="{{ star_num }}">
+              <button type="button" class="cr-breakdown-star-btn" data-filter-star="{{ star_num }}">
+                <span>{{ star_num }}</span>
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </button>
+              <div class="cr-breakdown-bar">
+                <div class="cr-breakdown-fill" data-bar-fill="{{ star_num }}" style="width: 0%;"></div>
+              </div>
+              <span class="cr-breakdown-count" data-bar-count="{{ star_num }}">0</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="cr-summary__right">
+        <button type="button" class="cr-btn-primary" data-open-review-modal>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          Write a Review
+        </button>
+        <p class="cr-summary__hint">Share your thoughts & jewellery styling pictures</p>
+      </div>
+    </div>
+
+    <!-- Real Customer Photo Gallery Strip -->
+    <div class="cr-photo-strip" id="CrPhotoStrip-{{ section_id }}" style="display: none;">
+      <div class="cr-photo-strip__header">
+        <div class="cr-photo-strip__title-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <h3 class="cr-photo-strip__title">Customer Styling Photos</h3>
+          <span class="cr-photo-strip__badge" data-cr-photo-count>0</span>
+        </div>
+        <span class="cr-photo-strip__sub">Tap photo to enlarge & see styling review</span>
+      </div>
+      <div class="cr-photo-strip__track" data-cr-photo-track>
+        <!-- Populated via JS -->
+      </div>
+    </div>
+
+    <!-- Review Filter Controls -->
+    <div class="cr-controls">
+      <div class="cr-filters" data-cr-filters>
+        <button type="button" class="cr-filter-btn cr-filter-btn--active" data-filter="all">All Reviews (<span data-count-all>0</span>)</button>
+        <button type="button" class="cr-filter-btn" data-filter="photos">With Photos (<span data-count-photos>0</span>)</button>
+        <button type="button" class="cr-filter-btn" data-filter="5">5 Star (<span data-count-5>0</span>)</button>
+        <button type="button" class="cr-filter-btn" data-filter="4">4 Star (<span data-count-4>0</span>)</button>
+      </div>
+
+      <div class="cr-sort-wrap">
+        <label for="CrSortSelect-{{ section_id }}" class="visually-hidden">Sort reviews</label>
+        <select id="CrSortSelect-{{ section_id }}" class="cr-sort-select" data-cr-sort>
+          <option value="recent">Most Recent</option>
+          <option value="highest">Highest Rating</option>
+          <option value="lowest">Lowest Rating</option>
+          <option value="helpful">Most Helpful</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Reviews Grid List -->
+    <div class="cr-reviews-list" id="CrReviewsList-{{ section_id }}">
+      <!-- Rendered dynamically via JS or server fallback -->
+      <div class="cr-empty-state" data-cr-empty-state style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <h3>No Reviews Yet</h3>
+        <p>Be the first to review this handcrafted piece and share your look!</p>
+        <button type="button" class="cr-btn-primary" data-open-review-modal>Write the First Review</button>
+      </div>
+    </div>
+
+    <!-- Review Pagination / Load More (if > 6 reviews) -->
+    <div class="cr-pagination-wrap" id="CrPagination-{{ section_id }}" style="display: none;">
+      <button type="button" class="cr-btn-secondary" data-cr-load-more>Load More Reviews</button>
+    </div>
+  </div>
+
+  <!-- Raw Metafield Data Injection (Safe JSON payload) -->
+  <script type="application/json" id="CrMetafieldData-{{ section_id }}">
+    {%- if reviews_raw != blank -%}
+      {{ reviews_raw | json }}
+    {%- else -%}
+      []
+    {%- endif -%}
+  </script>
+
+  <!-- ================= WRITE A REVIEW MODAL ================= -->
+  <div id="CrReviewModal-{{ section_id }}" class="cr-modal" role="dialog" aria-modal="true" aria-labelledby="CrModalTitle-{{ section_id }}" tabindex="-1" style="display: none;">
+    <div class="cr-modal__backdrop" data-close-modal></div>
+    <div class="cr-modal__container">
+      <button type="button" class="cr-modal__close-btn" data-close-modal aria-label="Close modal">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div class="cr-modal__header">
+        <span class="cr-modal__eyebrow">Kanishk Gems Luxury</span>
+        <h3 id="CrModalTitle-{{ section_id }}" class="cr-modal__title">Write a Customer Review</h3>
+        <p class="cr-modal__product-title">{{ product.title | escape }}</p>
+      </div>
+
+      <form id="CrReviewForm-{{ section_id }}" class="cr-modal__form">
+        <!-- Interactive Star Selector -->
+        <div class="cr-form-group">
+          <label class="cr-form-label">Overall Rating <span class="cr-required">*</span></label>
+          <div class="cr-star-picker" data-star-picker>
+            {% for s in (1..5) %}
+              <button type="button" class="cr-star-pick-btn" data-star-value="{{ s }}" aria-label="{{ s }} stars">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </button>
+            {% endfor %}
+            <span class="cr-star-picker__label" data-star-label>Click to rate</span>
+          </div>
+          <input type="hidden" name="rating" id="CrRatingInput-{{ section_id }}" value="5" required>
+        </div>
+
+        <!-- Review Title -->
+        <div class="cr-form-group">
+          <label for="CrTitleInput-{{ section_id }}" class="cr-form-label">Review Headline / Title <span class="cr-required">*</span></label>
+          <input
+            type="text"
+            id="CrTitleInput-{{ section_id }}"
+            name="title"
+            class="cr-form-input"
+            placeholder="e.g. Stunning Polki necklace, exceeded expectations!"
+            required
+            maxlength="120"
+          >
+        </div>
+
+        <!-- Review Body -->
+        <div class="cr-form-group">
+          <label for="CrBodyInput-{{ section_id }}" class="cr-form-label">Review Details <span class="cr-required">*</span></label>
+          <textarea
+            id="CrBodyInput-{{ section_id }}"
+            name="content"
+            class="cr-form-textarea"
+            rows="4"
+            placeholder="Describe the craftsmanship, gold polish, stone brilliance, comfort, or packaging..."
+            required
+            maxlength="1500"
+          ></textarea>
+        </div>
+
+        <!-- Customer Name & Location/City -->
+        <div class="cr-form-row">
+          <div class="cr-form-group">
+            <label for="CrNameInput-{{ section_id }}" class="cr-form-label">Your Name <span class="cr-required">*</span></label>
+            <input
+              type="text"
+              id="CrNameInput-{{ section_id }}"
+              name="author"
+              class="cr-form-input"
+              placeholder="e.g. Priya Sharma"
+              required
+            >
+          </div>
+          <div class="cr-form-group">
+            <label for="CrLocationInput-{{ section_id }}" class="cr-form-label">City / State (Optional)</label>
+            <input
+              type="text"
+              id="CrLocationInput-{{ section_id }}"
+              name="location"
+              class="cr-form-input"
+              placeholder="e.g. Ahmedabad, GJ"
+            >
+          </div>
+        </div>
+
+        <!-- Customer Email -->
+        <div class="cr-form-group">
+          <label for="CrEmailInput-{{ section_id }}" class="cr-form-label">Email Address <span class="cr-required">*</span></label>
+          <input
+            type="email"
+            id="CrEmailInput-{{ section_id }}"
+            name="email"
+            class="cr-form-input"
+            placeholder="your.email@example.com"
+            required
+          >
+          <span class="cr-form-hint">Your email stays strictly private and won't be published.</span>
+        </div>
+
+        <!-- Photo Uploader -->
+        <div class="cr-form-group">
+          <label class="cr-form-label">Add Photos (Optional)</label>
+          <div class="cr-upload-zone" data-upload-zone>
+            <input
+              type="file"
+              id="CrPhotoInput-{{ section_id }}"
+              name="photos"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
+              multiple
+              class="cr-file-input"
+            >
+            <div class="cr-upload-content">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <p><strong>Click to browse</strong> or drag & drop customer photos</p>
+              <span>PNG, JPG, WEBP up to 5MB each (Max 3 photos)</span>
+            </div>
+          </div>
+          <!-- Thumbnail Previews -->
+          <div class="cr-upload-previews" data-upload-previews></div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="cr-modal__actions">
+          <button type="submit" class="cr-btn-primary cr-btn-submit" data-submit-btn>
+            <span class="cr-btn-text">Submit Review</span>
+            <span class="cr-btn-spinner" style="display: none;">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Success State Message -->
+      <div class="cr-modal__success" data-modal-success style="display: none;">
+        <div class="cr-success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h4 class="cr-success-title">Thank You for Your Review!</h4>
+        <p class="cr-success-desc">
+          Your feedback and photos have been received. They will be displayed publicly following brief verification by our team.
+        </p>
+        <button type="button" class="cr-btn-primary" data-close-modal>Back to Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PHOTO LIGHTBOX MODAL ================= -->
+  <div id="CrLightbox-{{ section_id }}" class="cr-lightbox" role="dialog" aria-modal="true" aria-label="Customer Photo Viewer" tabindex="-1" style="display: none;">
+    <div class="cr-lightbox__backdrop" data-close-lightbox></div>
+    <div class="cr-lightbox__wrapper">
+      <button type="button" class="cr-lightbox__close" data-close-lightbox aria-label="Close image">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <!-- Prev / Next arrows -->
+      <button type="button" class="cr-lightbox__arrow cr-lightbox__arrow--prev" data-lightbox-prev aria-label="Previous photo">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button type="button" class="cr-lightbox__arrow cr-lightbox__arrow--next" data-lightbox-next aria-label="Next photo">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <div class="cr-lightbox__content">
+        <div class="cr-lightbox__image-box">
+          <img class="cr-lightbox__img" data-lightbox-img src="" alt="Customer jewellery styling review">
+        </div>
+        <div class="cr-lightbox__details">
+          <div class="cr-lightbox__author-row">
+            <div class="cr-avatar cr-avatar--sm" data-lightbox-avatar>S</div>
+            <div>
+              <p class="cr-lightbox__author" data-lightbox-author></p>
+              <span class="cr-verified-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified Buyer</span>
+            </div>
+          </div>
+          <div class="cr-stars-outer cr-stars-outer--sm" style="margin-top: 0.8rem;">
+            <div class="cr-stars-inner" data-lightbox-stars style="width: 100%;"></div>
+          </div>
+          <h4 class="cr-lightbox__title" data-lightbox-title></h4>
+          <p class="cr-lightbox__text" data-lightbox-text></p>
+          <span class="cr-lightbox__date" data-lightbox-date></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+  #CustomerReviews-{{ section_id }} {
+    background-color: var(--cr-bg);
+    color: var(--cr-text);
+    padding: clamp(3.5rem, 5vw, 6.5rem) 0;
+    position: relative;
+    font-family: var(--font-body-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  }
+
+  /* Header */
+  #CustomerReviews-{{ section_id }} .cr-header {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto 3.5rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-header__eyebrow {
+    display: inline-block;
+    color: var(--cr-gold);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-header__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.4vw, 3.6rem);
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cr-text);
+    margin: 0 0 0.8rem;
+    line-height: 1.25;
+  }
+  #CustomerReviews-{{ section_id }} .cr-header__subtitle {
+    font-size: 1.45rem;
+    color: rgba(26, 26, 26, 0.65);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Summary Card */
+  #CustomerReviews-{{ section_id }} .cr-summary-card {
+    background: #ffffff;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 8px;
+    padding: clamp(2rem, 3vw, 3.2rem);
+    display: grid;
+    grid-template-columns: 240px 1fr 220px;
+    gap: 3rem;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    margin-bottom: 3.5rem;
+  }
+
+  @media screen and (max-width: 989px) {
+    #CustomerReviews-{{ section_id }} .cr-summary-card {
+      grid-template-columns: 1fr;
+      gap: 2.2rem;
+      text-align: center;
+    }
+  }
+
+  /* Left Score Box */
+  #CustomerReviews-{{ section_id }} .cr-summary__score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1.5rem;
+    border-right: 1px solid rgba(197, 160, 89, 0.2);
+  }
+  @media screen and (max-width: 989px) {
+    #CustomerReviews-{{ section_id }} .cr-summary__score-box {
+      border-right: none;
+      padding-right: 0;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+      padding-bottom: 1.8rem;
+    }
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__score {
+    font-size: 4.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--cr-text);
+    font-family: var(--font-heading-family);
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__stars {
+    margin: 0.8rem 0 0.4rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__count-label {
+    font-size: 1.3rem;
+    color: rgba(26, 26, 26, 0.65);
+    margin: 0.2rem 0 0.8rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__recommend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #27ae60;
+    background: rgba(39, 174, 96, 0.08);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__recommend-badge svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  /* Star Fill Representation */
+  .cr-stars-outer {
+    position: relative;
+    display: inline-block;
+    font-size: 2rem;
+    line-height: 1;
+    color: rgba(197, 160, 89, 0.28);
+    letter-spacing: 2px;
+  }
+  .cr-stars-outer::before {
+    content: "★★★★★";
+  }
+  .cr-stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--cr-gold);
+    line-height: 1;
+  }
+  .cr-stars-inner::before {
+    content: "★★★★★";
+  }
+  .cr-stars-outer--sm {
+    font-size: 1.5rem;
+  }
+
+  /* Center Breakdown Bars */
+  #CustomerReviews-{{ section_id }} .cr-breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-row {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr 3rem;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 1.25rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-star-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    color: var(--cr-text);
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-star-btn svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--cr-gold);
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-bar {
+    height: 7px;
+    background: rgba(26, 26, 26, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cr-gold) 0%, var(--cr-gold-light) 100%);
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #CustomerReviews-{{ section_id }} .cr-breakdown-count {
+    color: rgba(26, 26, 26, 0.55);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Right Action Box */
+  #CustomerReviews-{{ section_id }} .cr-summary__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-left: 1px solid rgba(197, 160, 89, 0.2);
+    padding-left: 1.5rem;
+  }
+  @media screen and (max-width: 989px) {
+    #CustomerReviews-{{ section_id }} .cr-summary__right {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid rgba(197, 160, 89, 0.15);
+      padding-top: 1.8rem;
+    }
+  }
+  #CustomerReviews-{{ section_id }} .cr-summary__hint {
+    font-size: 1.15rem;
+    color: rgba(26, 26, 26, 0.55);
+    margin: 0.8rem 0 0;
+    line-height: 1.4;
+  }
+
+  /* Luxury Buttons */
+  .cr-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    background: #1a1a1a;
+    color: var(--cr-gold-light);
+    border: 1.5px solid var(--cr-gold);
+    padding: 1.2rem 2.4rem;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+  .cr-btn-primary svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .cr-btn-primary:hover {
+    background: var(--cr-gold);
+    color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(197, 160, 89, 0.35);
+  }
+  .cr-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--cr-text);
+    border: 1.5px solid var(--cr-gold);
+    padding: 1rem 2.6rem;
+    border-radius: 4px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .cr-btn-secondary:hover {
+    background: var(--cr-gold);
+    color: #ffffff;
+  }
+
+  /* Customer Photo Strip */
+  #CustomerReviews-{{ section_id }} .cr-photo-strip {
+    background: #ffffff;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    border-radius: 8px;
+    padding: 2.2rem;
+    margin-bottom: 3.5rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.6rem;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__title-wrap svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--cr-gold);
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__badge {
+    background: var(--cr-gold);
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.1rem 0.7rem;
+    border-radius: 1rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__sub {
+    font-size: 1.25rem;
+    color: rgba(26, 26, 26, 0.55);
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-strip__track {
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: auto;
+    padding-bottom: 0.8rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-thumb {
+    flex: 0 0 11rem;
+    width: 11rem;
+    height: 11rem;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    border: 1.5px solid rgba(197, 160, 89, 0.25);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    scroll-snap-align: start;
+    background: #1a1a1a;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-thumb:hover {
+    transform: scale(1.05);
+    border-color: var(--cr-gold);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-thumb__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 0.6rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  #CustomerReviews-{{ section_id }} .cr-photo-thumb:hover .cr-photo-thumb__overlay {
+    opacity: 1;
+  }
+
+  /* Filter Controls */
+  #CustomerReviews-{{ section_id }} .cr-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    padding-bottom: 1.5rem;
+  }
+  #CustomerReviews-{{ section_id }} .cr-filters {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  #CustomerReviews-{{ section_id }} .cr-filter-btn {
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 26, 0.16);
+    border-radius: 2rem;
+    padding: 0.6rem 1.4rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--cr-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  #CustomerReviews-{{ section_id }} .cr-filter-btn:hover {
+    border-color: var(--cr-gold);
+  }
+  #CustomerReviews-{{ section_id }} .cr-filter-btn--active {
+    background: #1a1a1a !important;
+    color: var(--cr-gold-light) !important;
+    border-color: #1a1a1a !important;
+  }
+  #CustomerReviews-{{ section_id }} .cr-sort-select {
+    padding: 0.6rem 2.8rem 0.6rem 1.2rem;
+    border-radius: 4px;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    font-size: 1.25rem;
+    background: #ffffff;
+    color: var(--cr-text);
+    cursor: pointer;
+  }
+
+  /* Review Cards Grid */
+  #CustomerReviews-{{ section_id }} .cr-reviews-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  @media screen and (max-width: 899px) {
+    #CustomerReviews-{{ section_id }} .cr-reviews-list {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Single Review Card */
+  .cr-card {
+    background: #ffffff;
+    border: 1px solid rgba(197, 160, 89, 0.22);
+    border-radius: 8px;
+    padding: 1.8rem;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    box-sizing: border-box;
+  }
+  .cr-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.15);
+    border-color: var(--cr-gold);
+  }
+
+  /* Split layout when review has photo: Left photo, Right review details */
+  .cr-card--with-photo {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1.8rem;
+    align-items: stretch;
+  }
+  @media screen and (max-width: 640px) {
+    .cr-card--with-photo {
+      grid-template-columns: 110px 1fr;
+      gap: 1.2rem;
+      padding: 1.2rem;
+    }
+  }
+
+  .cr-card__photo-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .cr-card__main-img-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #111111;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+  }
+  .cr-card__main-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .cr-card__main-img-box:hover img {
+    transform: scale(1.05);
+  }
+  .cr-card__zoom-badge {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .cr-card__main-img-box:hover .cr-card__zoom-badge {
+    opacity: 1;
+    transform: scale(1.1);
+    background: var(--cr-gold);
+    color: #1a1a1a;
+  }
+  .cr-card__zoom-badge svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+  }
+  .cr-card__photo-count {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .cr-card__extra-photos {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .cr-card__mini-thumb {
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+  }
+  .cr-card__mini-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cr-card__content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  /* Reviewer Top Row */
+  .cr-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .cr-card__author-box {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+  }
+  .cr-avatar {
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: var(--cr-gold-light);
+    border: 1.5px solid var(--cr-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .cr-avatar--sm {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.3rem;
+  }
+  .cr-card__name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .cr-card__name {
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--cr-text);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .cr-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 1rem;
+    letter-spacing: 0.03em;
+  }
+  .cr-verified-badge svg {
+    width: 1rem;
+    height: 1rem;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+  }
+  .cr-card__meta-sub {
+    font-size: 1.1rem;
+    color: rgba(26, 26, 26, 0.5);
+    margin: 0.2rem 0 0;
+  }
+  .cr-card__date {
+    font-size: 1.1rem;
+    color: rgba(26, 26, 26, 0.45);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cr-card__rating-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .cr-card__variant-badge {
+    font-size: 1.15rem;
+    color: rgba(26, 26, 26, 0.55);
+  }
+  .cr-card__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cr-text);
+    margin: 0 0 0.4rem;
+    line-height: 1.3;
+  }
+  .cr-card__body {
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: rgba(26, 26, 26, 0.82);
+    margin: 0 0 1rem;
+    word-break: break-word;
+  }
+
+  /* Solid Gold Star SVGs */
+  .cr-stars-svg-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .cr-star-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+  .cr-star-icon--gold {
+    color: #c5a059;
+    fill: #c5a059;
+  }
+  .cr-star-icon--muted {
+    color: #e0c890;
+    fill: rgba(197, 160, 89, 0.22);
+  }
+
+  /* Card Bottom Helpful Action */
+  .cr-card__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(26, 26, 26, 0.08);
+    padding-top: 1.2rem;
+    font-size: 1.2rem;
+    color: rgba(26, 26, 26, 0.6);
+  }
+  .cr-helpful-btn {
+    background: none;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    color: rgba(26, 26, 26, 0.65);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .cr-helpful-btn svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    stroke: currentColor;
+    fill: none;
+  }
+  .cr-helpful-btn:hover, .cr-helpful-btn.cr-helpful-btn--clicked {
+    color: var(--cr-gold-dark);
+    background: rgba(197, 160, 89, 0.12);
+  }
+
+  /* Empty State */
+  .cr-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4.5rem 2rem;
+    background: #ffffff;
+    border: 1px dashed rgba(197, 160, 89, 0.4);
+    border-radius: 8px;
+  }
+  .cr-empty-state svg {
+    width: 4rem;
+    height: 4rem;
+    color: var(--cr-gold);
+    margin-bottom: 1.2rem;
+  }
+  .cr-empty-state h3 {
+    font-size: 2rem;
+    margin: 0 0 0.6rem;
+  }
+  .cr-empty-state p {
+    font-size: 1.4rem;
+    color: rgba(26, 26, 26, 0.6);
+    margin: 0 0 2rem;
+  }
+
+  /* Pagination wrap */
+  .cr-pagination-wrap {
+    text-align: center;
+    margin-top: 3.5rem;
+  }
+
+  /* ================= MODAL STYLES ================= */
+  .cr-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+  .cr-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 8, 6, 0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .cr-modal__container {
+    position: relative;
+    background: #ffffff;
+    border: 1.5px solid var(--cr-gold);
+    border-radius: 10px;
+    max-width: 60rem;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: clamp(2rem, 3.5vw, 3.8rem);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    animation: crModalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes crModalPop {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .cr-modal__close-btn {
+    position: absolute;
+    top: 1.8rem;
+    right: 1.8rem;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    border: 1px solid rgba(26, 26, 26, 0.15);
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--cr-text);
+    transition: all 0.2s ease;
+  }
+  .cr-modal__close-btn:hover {
+    background: var(--cr-gold);
+    color: #ffffff;
+    border-color: var(--cr-gold);
+  }
+  .cr-modal__close-btn svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+  }
+
+  .cr-modal__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-right: 2rem;
+  }
+  .cr-modal__eyebrow {
+    color: var(--cr-gold);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .cr-modal__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2rem, 2.5vw, 2.6rem);
+    font-weight: 500;
+    margin: 0.4rem 0 0.4rem;
+    text-transform: uppercase;
+  }
+  .cr-modal__product-title {
+    font-size: 1.3rem;
+    color: rgba(26, 26, 26, 0.6);
+    margin: 0;
+  }
+
+  /* Form Elements */
+  .cr-form-group {
+    margin-bottom: 1.8rem;
+  }
+  .cr-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media screen and (max-width: 600px) {
+    .cr-form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+  .cr-form-label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--cr-text);
+  }
+  .cr-required {
+    color: #c0392b;
+  }
+  .cr-form-input, .cr-form-textarea {
+    width: 100%;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    border-radius: 4px;
+    font-size: 1.35rem;
+    color: var(--cr-text);
+    background: #fafaf7;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  .cr-form-input:focus, .cr-form-textarea:focus {
+    outline: none;
+    border-color: var(--cr-gold);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.18);
+  }
+  .cr-form-hint {
+    display: block;
+    font-size: 1.1rem;
+    color: rgba(26, 26, 26, 0.5);
+    margin-top: 0.4rem;
+  }
+
+  /* Star Selector */
+  .cr-star-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cr-star-pick-btn {
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    color: rgba(197, 160, 89, 0.28);
+    cursor: pointer;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+  .cr-star-pick-btn svg {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+  .cr-star-pick-btn:hover {
+    transform: scale(1.15);
+  }
+  .cr-star-pick-btn.cr-star--active {
+    color: var(--cr-gold) !important;
+  }
+  .cr-star-picker__label {
+    margin-left: 0.8rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--cr-gold-dark);
+  }
+
+  /* Upload Zone */
+  .cr-upload-zone {
+    position: relative;
+    border: 2px dashed rgba(197, 160, 89, 0.45);
+    border-radius: 6px;
+    background: #fafaf7;
+    padding: 2.2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .cr-upload-zone:hover, .cr-upload-zone.cr-drag-over {
+    border-color: var(--cr-gold);
+    background: rgba(197, 160, 89, 0.06);
+  }
+  .cr-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  .cr-upload-content svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    color: var(--cr-gold);
+    margin-bottom: 0.6rem;
+  }
+  .cr-upload-content p {
+    font-size: 1.3rem;
+    margin: 0 0 0.3rem;
+  }
+  .cr-upload-content span {
+    font-size: 1.1rem;
+    color: rgba(26, 26, 26, 0.5);
+  }
+  .cr-upload-previews {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .cr-upload-preview-item {
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--cr-gold);
+  }
+  .cr-upload-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cr-preview-remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+  }
+
+  .cr-modal__actions {
+    margin-top: 2.2rem;
+    text-align: center;
+  }
+  .cr-btn-submit {
+    width: 100%;
+    padding: 1.4rem 2rem;
+  }
+  .cr-btn-spinner svg {
+    animation: crSpin 0.9s linear infinite;
+  }
+  @keyframes crSpin {
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Success State */
+  .cr-modal__success {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .cr-success-icon {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background: rgba(39, 174, 96, 0.12);
+    color: #27ae60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+  .cr-success-icon svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+  }
+  .cr-success-title {
+    font-family: var(--font-heading-family);
+    font-size: 2.4rem;
+    margin: 0 0 1rem;
+  }
+  .cr-success-desc {
+    font-size: 1.45rem;
+    color: rgba(26, 26, 26, 0.7);
+    max-width: 44rem;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* ================= LIGHTBOX STYLES ================= */
+  .cr-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+  .cr-lightbox__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 8, 6, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .cr-lightbox__wrapper {
+    position: relative;
+    max-width: 90rem;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+  .cr-lightbox__close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s ease;
+  }
+  .cr-lightbox__close:hover {
+    background: var(--cr-gold);
+    color: #1a1a1a;
+  }
+  .cr-lightbox__close svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+  }
+
+  .cr-lightbox__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid var(--cr-gold);
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+  }
+  .cr-lightbox__arrow:hover {
+    background: var(--cr-gold);
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.08);
+  }
+  .cr-lightbox__arrow svg {
+    width: 2rem;
+    height: 2rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+  }
+  .cr-lightbox__arrow--prev {
+    left: 1.5rem;
+  }
+  .cr-lightbox__arrow--next {
+    right: 1.5rem;
+  }
+
+  .cr-lightbox__content {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    max-height: 82vh;
+  }
+  @media screen and (max-width: 820px) {
+    .cr-lightbox__content {
+      grid-template-columns: 1fr;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+    .cr-lightbox__arrow {
+      top: 35%;
+    }
+  }
+  .cr-lightbox__image-box {
+    background: #0f0d0b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 420px;
+  }
+  .cr-lightbox__img {
+    max-width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    display: block;
+  }
+  .cr-lightbox__details {
+    padding: 3rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+  }
+  .cr-lightbox__author-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .cr-lightbox__author {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0 0 0.2rem;
+  }
+  .cr-lightbox__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.6rem;
+  }
+  .cr-lightbox__text {
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: rgba(26, 26, 26, 0.78);
+    margin: 0 0 1.5rem;
+  }
+  .cr-lightbox__date {
+    font-size: 1.15rem;
+    color: rgba(26, 26, 26, 0.45);
+  }
+{%- endstyle -%}
+
+<!-- JavaScript Controller -->
+<script>
+  (function () {
+    const sectionContainer = document.getElementById('CustomerReviews-{{ section_id }}');
+    if (!sectionContainer) return;
+
+    const productId = sectionContainer.dataset.productId;
+    const webhookUrl = sectionContainer.dataset.webhookUrl;
+
+    // Load data from Metafield + Theme Customizer Blocks
+    let metafieldReviews = [];
+    try {
+      const mfRaw = document.getElementById('CrMetafieldData-{{ section_id }}').textContent.trim();
+      if (mfRaw) {
+        metafieldReviews = JSON.parse(mfRaw);
+        if (typeof metafieldReviews === 'string') {
+          metafieldReviews = JSON.parse(metafieldReviews);
+        }
+      }
+    } catch (e) {
+      console.warn('[CustomerReviews] Metafield parse note:', e);
+    }
+
+    // Only use product-specific reviews
+    let allReviews = [...metafieldReviews].filter(r => {
+      if (r.status && r.status !== 'approved') return false;
+      return true;
+    });
+
+    // Check LocalStorage for pending reviews submitted by this browser
+    try {
+      const localKey = 'cr_pending_' + productId;
+      const stored = localStorage.getItem(localKey);
+      if (stored) {
+        const localList = JSON.parse(stored);
+        if (Array.isArray(localList)) {
+          allReviews = [...localList, ...allReviews];
+        }
+      }
+    } catch (e) {}
+
+    // Track active photo gallery items for Lightbox
+    let galleryPhotos = [];
+
+    // State
+    let currentFilter = 'all';
+    let currentSort = 'recent';
+    let currentLightboxIndex = 0;
+    let visibleCount = 6;
+
+    // Elements
+    const avgScoreEl = sectionContainer.querySelector('[data-cr-avg-score]');
+    const avgStarsEl = sectionContainer.querySelector('[data-cr-avg-stars] .cr-stars-inner');
+    const totalCountEl = sectionContainer.querySelector('[data-cr-total-count]');
+    const photoStrip = document.getElementById('CrPhotoStrip-{{ section_id }}');
+    const photoTrack = sectionContainer.querySelector('[data-cr-photo-track]');
+    const photoCountEl = sectionContainer.querySelector('[data-cr-photo-count]');
+    const reviewsListEl = document.getElementById('CrReviewsList-{{ section_id }}');
+    const emptyStateEl = sectionContainer.querySelector('[data-cr-empty-state]');
+    const paginationWrap = document.getElementById('CrPagination-{{ section_id }}');
+    const loadMoreBtn = sectionContainer.querySelector('[data-cr-load-more]');
+
+    // Modal elements
+    const reviewModal = document.getElementById('CrReviewModal-{{ section_id }}');
+    const reviewForm = document.getElementById('CrReviewForm-{{ section_id }}');
+    const starPicker = sectionContainer.querySelector('[data-star-picker]');
+    const ratingInput = document.getElementById('CrRatingInput-{{ section_id }}');
+    const starLabel = sectionContainer.querySelector('[data-star-label]');
+    const uploadInput = document.getElementById('CrPhotoInput-{{ section_id }}');
+    const uploadPreviews = sectionContainer.querySelector('[data-upload-previews]');
+    const modalSuccess = sectionContainer.querySelector('[data-modal-success]');
+
+    // Lightbox elements
+    const lightboxModal = document.getElementById('CrLightbox-{{ section_id }}');
+    const lightboxImg = sectionContainer.querySelector('[data-lightbox-img]');
+    const lightboxAvatar = sectionContainer.querySelector('[data-lightbox-avatar]');
+    const lightboxAuthor = sectionContainer.querySelector('[data-lightbox-author]');
+    const lightboxStars = sectionContainer.querySelector('[data-lightbox-stars]');
+    const lightboxTitle = sectionContainer.querySelector('[data-lightbox-title]');
+    const lightboxText = sectionContainer.querySelector('[data-lightbox-text]');
+    const lightboxDate = sectionContainer.querySelector('[data-lightbox-date]');
+    const lightboxPrev = sectionContainer.querySelector('[data-lightbox-prev]');
+    const lightboxNext = sectionContainer.querySelector('[data-lightbox-next]');
+
+    // Rating star descriptions
+    const starRatingTexts = {
+      1: '1 Star - Poor quality',
+      2: '2 Stars - Below expectations',
+      3: '3 Stars - Average',
+      4: '4 Stars - Very Good',
+      5: '5 Stars - Excellent / Regal!'
+    };
+
+    function formatImageUrl(url) {
+      if (!url || typeof url !== 'string') return '';
+      const match = url.match(/id=([a-zA-Z0-9_-]+)/) || url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && (url.includes('drive.google.com') || url.includes('googleusercontent.com'))) {
+        return 'https://lh3.googleusercontent.com/d/' + match[1] + '=w1000';
+      }
+      return url;
+    }
+
+    // Calculate Statistics
+    function updateStats() {
+      const total = allReviews.length;
+      if (totalCountEl) totalCountEl.textContent = total;
+
+      const countAllEl = sectionContainer.querySelector('[data-count-all]');
+      if (countAllEl) countAllEl.textContent = total;
+
+      let photoReviewsCount = 0;
+      let starCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+      let sumRating = 0;
+      galleryPhotos = [];
+
+      allReviews.forEach(r => {
+        const rating = Math.min(5, Math.max(1, parseInt(r.rating || 5, 10)));
+        sumRating += rating;
+        starCounts[rating] = (starCounts[rating] || 0) + 1;
+
+        if (r.photos && Array.isArray(r.photos) && r.photos.length > 0) {
+          photoReviewsCount++;
+          r.photos.forEach(photoUrl => {
+            galleryPhotos.push({
+              url: formatImageUrl(photoUrl),
+              review: r
+            });
+          });
+        }
+      });
+
+      const countPhotosEl = sectionContainer.querySelector('[data-count-photos]');
+      if (countPhotosEl) countPhotosEl.textContent = photoReviewsCount;
+
+      const count5El = sectionContainer.querySelector('[data-count-5]');
+      if (count5El) count5El.textContent = starCounts[5] || 0;
+      const count4El = sectionContainer.querySelector('[data-count-4]');
+      if (count4El) count4El.textContent = starCounts[4] || 0;
+
+      const avg = total > 0 ? (sumRating / total).toFixed(1) : '5.0';
+      if (avgScoreEl) avgScoreEl.textContent = avg;
+      if (avgStarsEl) avgStarsEl.style.width = ((parseFloat(avg) / 5) * 100) + '%';
+
+      // Update Breakdown Bars
+      for (let s = 1; s <= 5; s++) {
+        const c = starCounts[s] || 0;
+        const pct = total > 0 ? Math.round((c / total) * 100) : 0;
+        const fillEl = sectionContainer.querySelector(`[data-bar-fill="${s}"]`);
+        const countLabelEl = sectionContainer.querySelector(`[data-bar-count="${s}"]`);
+        if (fillEl) fillEl.style.width = pct + '%';
+        if (countLabelEl) countLabelEl.textContent = c;
+      }
+
+      // Update Photo Gallery Strip
+      if (galleryPhotos.length > 0 && photoStrip && photoTrack) {
+        photoStrip.style.display = 'block';
+        if (photoCountEl) photoCountEl.textContent = galleryPhotos.length;
+        photoTrack.innerHTML = '';
+        galleryPhotos.forEach((item, idx) => {
+          const thumb = document.createElement('div');
+          thumb.className = 'cr-photo-thumb';
+          thumb.innerHTML = `
+            <img src="${item.url}" alt="${item.review.author || 'Review'} jewellery styling photo" loading="lazy">
+            <div class="cr-photo-thumb__overlay">
+              <span>★ ${item.review.rating || 5}</span>
+            </div>
+          `;
+          thumb.addEventListener('click', () => openLightbox(idx));
+          photoTrack.appendChild(thumb);
+        });
+      } else if (photoStrip) {
+        photoStrip.style.display = 'none';
+      }
+
+      // Sync SEO Schema
+      injectSeoSchema(avg, total);
+    }
+
+    // Filter & Sort Logic
+    function getFilteredReviews() {
+      let list = [...allReviews];
+
+      if (currentFilter === 'photos') {
+        list = list.filter(r => r.photos && r.photos.length > 0);
+      } else if (currentFilter === '5') {
+        list = list.filter(r => parseInt(r.rating, 10) === 5);
+      } else if (currentFilter === '4') {
+        list = list.filter(r => parseInt(r.rating, 10) === 4);
+      }
+
+      if (currentSort === 'recent') {
+        // preserve order or sort by date if timestamp present
+      } else if (currentSort === 'highest') {
+        list.sort((a, b) => (b.rating || 5) - (a.rating || 5));
+      } else if (currentSort === 'lowest') {
+        list.sort((a, b) => (a.rating || 5) - (b.rating || 5));
+      } else if (currentSort === 'helpful') {
+        list.sort((a, b) => (b.helpful_count || 0) - (a.helpful_count || 0));
+      }
+
+      return list;
+    }
+
+    // Render Review Cards
+    function renderReviews() {
+      const filtered = getFilteredReviews();
+
+      // Clear existing cards (except empty state element)
+      const existingCards = reviewsListEl.querySelectorAll('.cr-card');
+      existingCards.forEach(c => c.remove());
+
+      if (filtered.length === 0) {
+        if (emptyStateEl) emptyStateEl.style.display = 'block';
+        if (paginationWrap) paginationWrap.style.display = 'none';
+        return;
+      }
+
+      if (emptyStateEl) emptyStateEl.style.display = 'none';
+
+      function renderGoldStars(rating) {
+        const r = Math.min(5, Math.max(1, parseInt(rating || 5, 10)));
+        let out = '<div class="cr-stars-svg-wrap" aria-label="' + r + ' out of 5 stars">';
+        for (let s = 1; s <= 5; s++) {
+          const isGold = s <= r;
+          out += '<svg class="cr-star-icon ' + (isGold ? 'cr-star-icon--gold' : 'cr-star-icon--muted') + '" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+        }
+        out += '</div>';
+        return out;
+      }
+
+      const toShow = filtered.slice(0, visibleCount);
+
+      toShow.forEach((rev, rIdx) => {
+        const rating = parseInt(rev.rating || 5, 10);
+        const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
+        const hasPhotos = rev.photos && Array.isArray(rev.photos) && rev.photos.length > 0;
+        const firstPhoto = hasPhotos ? formatImageUrl(rev.photos[0]) : '';
+
+        const card = document.createElement('div');
+        card.className = 'cr-card' + (hasPhotos ? ' cr-card--with-photo' : ' cr-card--text-only');
+
+        let photoColHtml = '';
+        if (hasPhotos) {
+          const extraPhotos = rev.photos.slice(1);
+          let extraThumbnailsHtml = '';
+          if (extraPhotos.length > 0) {
+            extraThumbnailsHtml = '<div class="cr-card__extra-photos">';
+            extraPhotos.forEach(pUrl => {
+              const formattedThumb = formatImageUrl(pUrl);
+              extraThumbnailsHtml += `
+                <div class="cr-card__mini-thumb" data-photo-url="${formattedThumb}">
+                  <img src="${formattedThumb}" alt="Customer photo" loading="lazy">
+                </div>
+              `;
+            });
+            extraThumbnailsHtml += '</div>';
+          }
+
+          photoColHtml = `
+            <div class="cr-card__photo-col">
+              <div class="cr-card__main-img-box" data-photo-url="${firstPhoto}">
+                <img src="${firstPhoto}" alt="${escapeHtml(rev.author || 'Reviewer')} jewellery photo" loading="lazy">
+                <div class="cr-card__zoom-badge" title="Click to enlarge">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                </div>
+                ${rev.photos.length > 1 ? `<span class="cr-card__photo-count">+${rev.photos.length - 1}</span>` : ''}
+              </div>
+              ${extraThumbnailsHtml}
+            </div>
+          `;
+        }
+
+        const contentColHtml = `
+          <div class="cr-card__content-col">
+            <div>
+              <div class="cr-card__top">
+                <div class="cr-card__author-box">
+                  <div class="cr-avatar">${initial}</div>
+                  <div>
+                    <div class="cr-card__name-row">
+                      <p class="cr-card__name">${escapeHtml(rev.author || 'Verified Buyer')}</p>
+                      ${rev.verified !== false ? `
+                        <span class="cr-verified-badge" title="Verified Customer">
+                          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          Verified Buyer
+                        </span>
+                      ` : ''}
+                    </div>
+                    ${rev.location ? `<p class="cr-card__meta-sub">${escapeHtml(rev.location)}</p>` : ''}
+                  </div>
+                </div>
+                <span class="cr-card__date">${escapeHtml(rev.date || 'Recent')}</span>
+              </div>
+
+              <div class="cr-card__rating-row">
+                ${renderGoldStars(rating)}
+                ${rev.variant ? `<span class="cr-card__variant-badge">• ${escapeHtml(rev.variant)}</span>` : ''}
+              </div>
+
+              ${rev.title ? `<h4 class="cr-card__title">${escapeHtml(rev.title)}</h4>` : ''}
+              <p class="cr-card__body">${escapeHtml(rev.content || '')}</p>
+            </div>
+
+            <div class="cr-card__bottom">
+              <span>Was this review helpful?</span>
+              <button type="button" class="cr-helpful-btn" data-helpful-btn>
+                <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                Helpful (<span data-helpful-num>${rev.helpful_count || 0}</span>)
+              </button>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = hasPhotos ? (photoColHtml + contentColHtml) : contentColHtml;
+
+        // Attach Lightbox triggers to card photos
+        card.querySelectorAll('[data-photo-url]').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            const clickedUrl = thumb.dataset.photoUrl;
+            const foundIdx = galleryPhotos.findIndex(item => item.url === clickedUrl);
+            if (foundIdx !== -1) {
+              openLightbox(foundIdx);
+            } else {
+              openLightboxDirect(clickedUrl, rev);
+            }
+          });
+        });
+
+        // Helpful button click
+        const helpfulBtn = card.querySelector('[data-helpful-btn]');
+        if (helpfulBtn) {
+          helpfulBtn.addEventListener('click', () => {
+            if (helpfulBtn.classList.contains('cr-helpful-btn--clicked')) return;
+            helpfulBtn.classList.add('cr-helpful-btn--clicked');
+            const numEl = helpfulBtn.querySelector('[data-helpful-num]');
+            if (numEl) {
+              numEl.textContent = parseInt(numEl.textContent || 0, 10) + 1;
+            }
+          });
+        }
+
+        reviewsListEl.appendChild(card);
+      });
+
+      // Show/Hide Pagination button
+      if (paginationWrap) {
+        if (filtered.length > visibleCount) {
+          paginationWrap.style.display = 'block';
+        } else {
+          paginationWrap.style.display = 'none';
+        }
+      }
+    }
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Filter Buttons
+    sectionContainer.querySelectorAll('[data-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sectionContainer.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('cr-filter-btn--active'));
+        btn.classList.add('cr-filter-btn--active');
+        currentFilter = btn.dataset.filter;
+        visibleCount = 6;
+        renderReviews();
+      });
+    });
+
+    // Breakdown row click filter
+    sectionContainer.querySelectorAll('[data-filter-star]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const star = btn.dataset.filterStar;
+        const targetFilterBtn = sectionContainer.querySelector(`[data-filter="${star}"]`);
+        if (targetFilterBtn) {
+          targetFilterBtn.click();
+        } else {
+          currentFilter = star;
+          visibleCount = 6;
+          renderReviews();
+        }
+      });
+    });
+
+    // Sort Dropdown
+    const sortSelect = sectionContainer.querySelector('[data-cr-sort]');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        renderReviews();
+      });
+    }
+
+    // Load More Button
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        visibleCount += 6;
+        renderReviews();
+      });
+    }
+
+    // ================= MODAL LOGIC =================
+    function openModal() {
+      if (!reviewModal) return;
+      reviewModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      if (reviewForm) reviewForm.style.display = 'block';
+      if (modalSuccess) modalSuccess.style.display = 'none';
+      setStarRating(5);
+    }
+
+    function closeModal() {
+      if (!reviewModal) return;
+      reviewModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    sectionContainer.querySelectorAll('[data-open-review-modal]').forEach(btn => {
+      btn.addEventListener('click', openModal);
+    });
+
+    if (reviewModal) {
+      reviewModal.querySelectorAll('[data-close-modal]').forEach(el => {
+        el.addEventListener('click', closeModal);
+      });
+    }
+
+    // Interactive Star Picker
+    function setStarRating(num) {
+      if (ratingInput) ratingInput.value = num;
+      if (starLabel) starLabel.textContent = starRatingTexts[num] || (num + ' Stars');
+      sectionContainer.querySelectorAll('[data-star-value]').forEach(btn => {
+        const val = parseInt(btn.dataset.starValue, 10);
+        if (val <= num) {
+          btn.classList.add('cr-star--active');
+        } else {
+          btn.classList.remove('cr-star--active');
+        }
+      });
+    }
+
+    if (starPicker) {
+      starPicker.querySelectorAll('[data-star-value]').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          const val = parseInt(btn.dataset.starValue, 10);
+          setStarRating(val);
+        });
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const val = parseInt(btn.dataset.starValue, 10);
+          setStarRating(val);
+        });
+      });
+    }
+
+    // Photo Upload Previews
+    let selectedFiles = [];
+    if (uploadInput && uploadPreviews) {
+      uploadInput.addEventListener('change', () => {
+        const files = Array.from(uploadInput.files);
+        selectedFiles = files.slice(0, 3);
+        renderUploadPreviews();
+      });
+    }
+
+    function renderUploadPreviews() {
+      if (!uploadPreviews) return;
+      uploadPreviews.innerHTML = '';
+      selectedFiles.forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const item = document.createElement('div');
+          item.className = 'cr-upload-preview-item';
+          item.innerHTML = `
+            <img src="${e.target.result}" alt="Preview">
+            <button type="button" class="cr-preview-remove-btn" data-remove-idx="${idx}">&times;</button>
+          `;
+          item.querySelector('[data-remove-idx]').addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            selectedFiles.splice(idx, 1);
+            renderUploadPreviews();
+          });
+          uploadPreviews.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Form Submission
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = reviewForm.querySelector('[data-submit-btn]');
+        const btnText = submitBtn.querySelector('.cr-btn-text');
+        const btnSpinner = submitBtn.querySelector('.cr-btn-spinner');
+
+        submitBtn.disabled = true;
+        if (btnText) btnText.style.display = 'none';
+        if (btnSpinner) btnSpinner.style.display = 'inline-block';
+
+        const formData = new FormData(reviewForm);
+        const rating = parseInt(formData.get('rating') || 5, 10);
+        const title = formData.get('title') || '';
+        const content = formData.get('content') || '';
+        const author = formData.get('author') || 'Customer';
+        const location = formData.get('location') || '';
+        const email = formData.get('email') || '';
+
+        // Convert uploaded images to local Data URLs for immediate display
+        const photoDataUrls = [];
+        for (const file of selectedFiles) {
+          try {
+            const dataUrl = await readFileAsDataUrl(file);
+            photoDataUrls.push(dataUrl);
+          } catch (err) {}
+        }
+
+        const newReview = {
+          id: 'user_rev_' + Date.now(),
+          author: author,
+          rating: rating,
+          date: 'Just now',
+          verified: true,
+          location: location,
+          title: title,
+          content: content,
+          photos: photoDataUrls,
+          helpful_count: 0,
+          status: 'approved' // Shown immediately to the author in this browser
+        };
+
+        // If Webhook URL is configured, send payload to Google Apps Script for Email Approval
+        if (webhookUrl && webhookUrl.startsWith('http')) {
+          try {
+            await fetch(webhookUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({
+                productId: productId,
+                productTitle: sectionContainer.dataset.productTitle || '',
+                author: author,
+                email: email,
+                rating: rating,
+                title: title,
+                content: content,
+                location: location,
+                photos: photoDataUrls,
+                submittedAt: new Date().toISOString()
+              })
+            });
+          } catch (netErr) {
+            console.warn('[CustomerReviews] Webhook notice:', netErr);
+          }
+        } else {
+          // If no webhook configured (demo mode), save locally
+          try {
+            const localKey = 'cr_pending_' + productId;
+            const stored = localStorage.getItem(localKey);
+            let localList = stored ? JSON.parse(stored) : [];
+            localList.unshift(newReview);
+            localStorage.setItem(localKey, JSON.stringify(localList));
+          } catch (err) {}
+
+          allReviews.unshift(newReview);
+          updateStats();
+          renderReviews();
+        }
+
+        // Reset Form & Show Success Screen
+        submitBtn.disabled = false;
+        if (btnText) btnText.style.display = 'inline-block';
+        if (btnSpinner) btnSpinner.style.display = 'none';
+
+        if (reviewForm) reviewForm.style.display = 'none';
+        if (modalSuccess) modalSuccess.style.display = 'block';
+        reviewForm.reset();
+        selectedFiles = [];
+        if (uploadPreviews) uploadPreviews.innerHTML = '';
+      });
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ================= LIGHTBOX LOGIC =================
+    function openLightbox(idx) {
+      if (!lightboxModal || galleryPhotos.length === 0) return;
+      currentLightboxIndex = (idx + galleryPhotos.length) % galleryPhotos.length;
+      const item = galleryPhotos[currentLightboxIndex];
+      populateLightbox(item.url, item.review);
+      lightboxModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openLightboxDirect(url, rev) {
+      if (!lightboxModal) return;
+      populateLightbox(url, rev);
+      lightboxModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      if (lightboxPrev) lightboxPrev.style.display = 'none';
+      if (lightboxNext) lightboxNext.style.display = 'none';
+    }
+
+    function populateLightbox(imgUrl, rev) {
+      if (lightboxImg) lightboxImg.src = formatImageUrl(imgUrl);
+      const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
+      if (lightboxAvatar) lightboxAvatar.textContent = initial;
+      if (lightboxAuthor) lightboxAuthor.textContent = rev.author || 'Verified Buyer';
+      const r = parseInt(rev.rating || 5, 10);
+      if (lightboxStars) lightboxStars.style.width = ((r / 5) * 100) + '%';
+      if (lightboxTitle) lightboxTitle.textContent = rev.title || '';
+      if (lightboxText) lightboxText.textContent = rev.content || '';
+      if (lightboxDate) lightboxDate.textContent = rev.date || '';
+
+      if (galleryPhotos.length > 1) {
+        if (lightboxPrev) lightboxPrev.style.display = 'flex';
+        if (lightboxNext) lightboxNext.style.display = 'flex';
+      }
+    }
+
+    function closeLightbox() {
+      if (!lightboxModal) return;
+      lightboxModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    if (lightboxModal) {
+      lightboxModal.querySelectorAll('[data-close-lightbox]').forEach(el => {
+        el.addEventListener('click', closeLightbox);
+      });
+    }
+
+    if (lightboxPrev) {
+      lightboxPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(currentLightboxIndex - 1);
+      });
+    }
+    if (lightboxNext) {
+      lightboxNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(currentLightboxIndex + 1);
+      });
+    }
+
+    // Keyboard navigation (Escape to close modals)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeLightbox();
+      } else if (lightboxModal && lightboxModal.style.display === 'flex') {
+        if (e.key === 'ArrowLeft') {
+          openLightbox(currentLightboxIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          openLightbox(currentLightboxIndex + 1);
+        }
+      }
+    });
+
+    // Google Schema.org Structured Data
+    function injectSeoSchema(avg, count) {
+      if (parseInt(count, 10) <= 0) return;
+      const scriptId = 'cr-seo-schema-' + productId;
+      let existing = document.getElementById(scriptId);
+      if (!existing) {
+        existing = document.createElement('script');
+        existing.id = scriptId;
+        existing.type = 'application/ld+json';
+        document.head.appendChild(existing);
+      }
+      const schemaData = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": sectionContainer.dataset.productTitle || "",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": avg,
+          "reviewCount": count,
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      };
+      existing.textContent = JSON.stringify(schemaData);
+    }
+
+    // Initial Execution
+    updateStats();
+    renderReviews();
+
+    // Fetch live approved reviews from Google Script Cloud
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      const cloudFetchUrl = webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=getReviews&productId=' + encodeURIComponent(productId);
+      fetch(cloudFetchUrl)
+        .then(res => res.json())
+        .then(cloudReviews => {
+          if (Array.isArray(cloudReviews) && cloudReviews.length > 0) {
+            let hasNew = false;
+            cloudReviews.forEach(cr => {
+              if (cr && cr.id && !allReviews.some(r => r.id === cr.id)) {
+                allReviews.unshift(cr);
+                hasNew = true;
+              }
+            });
+            if (hasNew) {
+              updateStats();
+              renderReviews();
+            }
+          }
+        })
+        .catch(err => {
+          console.warn('[CustomerReviews] Cloud fetch note:', err);
+        });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Customer Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "KANISHK GEMS LUXURY"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Customer Reviews & Styling"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Real moments and feedback from our treasured patrons across India"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fafaf7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "text",
+      "id": "webhook_url",
+      "label": "Review Submission Webhook URL (Optional)",
+      "info": "Paste a Google Apps Script Web App or Cloudflare Worker URL to automatically receive new review submissions in your Google Sheet / Email."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Customer Reviews"
+    }
+  ]
+}
+{% endschema %}

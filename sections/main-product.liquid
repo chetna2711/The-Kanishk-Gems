@@ -544,7 +544,26 @@
                     show_pickup_availability: true
                   -%}
                 {%- when 'rating' -%}
-                  {%- if product.metafields.reviews.rating.value != blank -%}
+                  {%- liquid
+                    assign custom_reviews = product.metafields.custom.customer_reviews.value | default: product.metafields.custom.customer_reviews
+                    assign has_custom_reviews = false
+                    if custom_reviews != blank and custom_reviews.size > 0
+                      assign has_custom_reviews = true
+                      assign custom_total_rating = 0
+                      for r in custom_reviews
+                        assign r_num = r.rating | default: 5 | plus: 0
+                        assign custom_total_rating = custom_total_rating | plus: r_num
+                      endfor
+                      assign custom_avg = custom_total_rating | times: 1.0 | divided_by: custom_reviews.size | round: 1
+                    endif
+                  -%}
+                  {%- if has_custom_reviews -%}
+                    <a href="#CustomerReviews-customer_reviews" class="rating-wrapper cr-rating-badge-link" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.6rem; margin: 0.4rem 0 1rem; cursor: pointer;">
+                      <span style="color: #c5a059; font-size: 1.6rem; letter-spacing: 1px; line-height: 1;">★★★★★</span>
+                      <span style="font-weight: 700; font-size: 1.4rem; color: #1a1a1a;">{{ custom_avg }}</span>
+                      <span style="font-size: 1.3rem; color: rgba(26,26,26,0.65); text-decoration: underline;">({{ custom_reviews.size }} Reviews)</span>
+                    </a>
+                  {%- elsif product.metafields.reviews.rating.value != blank -%}
                     <div class="rating-wrapper">
                       {% liquid
                         assign rating_decimal = 0

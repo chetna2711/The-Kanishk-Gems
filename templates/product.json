@@ -27,6 +27,10 @@
           "type": "price",
           "settings": {}
         },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
         "sku_CX9kiJ": {
           "type": "sku",
           "settings": {
@@ -155,6 +159,7 @@
         "vendor",
         "title",
         "price",
+        "rating",
         "sku_CX9kiJ",
         "trust_pills",
         "sales_urgency",
@@ -185,6 +190,17 @@
         "enable_video_looping": false,
         "show_media_arrows": true,
         "media_arrow_style": "gold_circle"
+      }
+    },
+    "customer_reviews": {
+      "type": "product-customer-reviews",
+      "settings": {
+        "eyebrow": "KANISHK GEMS LUXURY",
+        "title": "Customer Reviews & Styling",
+        "subtitle": "Real moments and feedback from our treasured patrons across India",
+        "bg_color": "#fafaf7",
+        "text_color": "#1a1a1a",
+        "webhook_url": "https://script.google.com/macros/s/AKfycbyIJfDJsjJFUG_7fHoOVInVJLMJhrM5DjhHS-bkroT-iTCCVoGDxQjsk8rW3UO-eV5sqw/exec"
       }
     },
     "related-products": {
@@ -281,6 +297,7 @@
   },
   "order": [
     "main",
+    "customer_reviews",
     "related-products",
     "collection_tabs_6wige6"
   ]
