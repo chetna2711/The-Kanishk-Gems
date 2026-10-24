@@ -18,7 +18,7 @@
           "type": "ai_gen_block_60269e7",
           "settings": {
             "enabled": true,
-            "message_1": "FESTIVE SEASON IS HERE — NEW COLLECTIONS ARE NOW LIVE",
+            "message_1": "FESTIVE SEASON IS HERE — NEW COLLECTIONS ARE LIVE NOW",
             "message_2": "LIMITED-TIME OFFER — BUY 1 GET 1 FREE ON SELECTED PIECES",
             "message_3": "COMPLIMENTARY SHIPPING — SHOP YOUR FAVOURITES TODAY",
             "message_4": "Crafted for moments that matter",
@@ -28,9 +28,9 @@
             "font_size": 12,
             "bar_height": 12,
             "text_font": "barlow_condensed_n4",
-            "background_color": "#F6F3ED",
-            "text_color": "#8A735C",
-            "separator_color": "#B99A68"
+            "background_color": "#f6f3ed",
+            "text_color": "#8a735c",
+            "separator_color": "#b99a68"
           },
           "blocks": {}
         }
@@ -165,7 +165,7 @@
         "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "mega",
-        "mega_menu_max_width": 1100,
+        "mega_menu_max_width": 1180,
         "mega_menu_full_width": false,
         "sticky_header_type": "reduce-logo-size",
         "show_line_separator": false,
