@@ -37,7 +37,7 @@
         "contact_details_hency": {
           "type": "contact_details",
           "settings": {
-            "heading": "Concierge & Support",
+            "heading": "Contact",
             "show_email": true,
             "show_phone": true,
             "show_whatsapp": true,
