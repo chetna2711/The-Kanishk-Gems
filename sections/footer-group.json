@@ -34,6 +34,13 @@
             "menu": "support"
           }
         },
+        "link_list_Bpmtrn": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Policies",
+            "menu": "footer"
+          }
+        },
         "contact_details_hency": {
           "type": "contact_details",
           "settings": {
@@ -49,6 +56,7 @@
         "brand_information_Nmfix9",
         "link_list_ggCTRL",
         "link_list_BKVac7",
+        "link_list_Bpmtrn",
         "contact_details_hency"
       ],
       "settings": {
