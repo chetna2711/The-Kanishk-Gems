@@ -88,6 +88,13 @@
             "question": "What materials are used in HencyJewels pieces?",
             "answer": "<p>You can pay using the payment methods available at checkout. Available options may vary depending on your location and the payment provider.</p>"
           }
+        },
+        "faq_item_pemeiy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I contact HENCY JEWELS?",
+            "answer": "<p>For any questions about products, orders, shipping, exchanges or general enquiries, you can contact us through <a href=\"mailto:connect@hencyjewels.com\"><strong>connect@hencyjewels.com</strong></a> or WhatsApp/Phone at <strong>+91 8062177914</strong>.</p>"
+          }
         }
       },
       "block_order": [
@@ -100,7 +107,8 @@
         "faq_item_VNiBmW",
         "faq_item_JbUkmU",
         "faq_item_XPEtQk",
-        "faq_item_3nYfgR"
+        "faq_item_3nYfgR",
+        "faq_item_pemeiy"
       ],
       "settings": {
         "eyebrow": "EVERYTHING YOU MAY WANT TO KNOW",
