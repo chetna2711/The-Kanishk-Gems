@@ -53,6 +53,41 @@
             "question": "How should I take care of my jewellery",
             "answer": "<p>Keep your jewellery away from water, perfume, lotions, sweat and chemicals. After use, gently wipe it with a soft dry cloth and store it separately in a dry, airtight pouch or box.</p>"
           }
+        },
+        "faq_item_4UF8fh": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer returns or exchanges?",
+            "answer": "<p>Eligible products can be exchanged according to our <strong>15-day exchange policy</strong>. Please check our Return & Refund Policy for eligibility, conditions and the complete process.</p>"
+          }
+        },
+        "faq_item_VNiBmW": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What should I do if I receive a damaged or incorrect product?",
+            "answer": "<p>Please contact us within <strong>48 hours of delivery</strong> with your order number and clear photos or a video showing the issue. Our team will review the request and guide you through the appropriate resolution.</p>"
+          }
+        },
+        "faq_item_JbUkmU": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>Orders are generally processed within <strong>1–2 business days</strong>, and delivery usually takes around <strong>2–5 business days after dispatch</strong> for most serviceable locations in India. Delivery times may vary depending on the location and courier.</p>"
+          }
+        },
+        "faq_item_XPEtQk": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I track my order?",
+            "answer": "<p>Once your order is dispatched, tracking details will be shared through the contact information provided at checkout, where tracking is supported by our courier partner.</p>"
+          }
+        },
+        "faq_item_3nYfgR": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What materials are used in HencyJewels pieces?",
+            "answer": "<p>You can pay using the payment methods available at checkout. Available options may vary depending on your location and the payment provider.</p>"
+          }
         }
       },
       "block_order": [
@@ -60,7 +95,12 @@
         "faq_item_8UcM7B",
         "faq_item_xmBX6n",
         "faq_item_jkBLRM",
-        "faq_item_xhj3kp"
+        "faq_item_xhj3kp",
+        "faq_item_4UF8fh",
+        "faq_item_VNiBmW",
+        "faq_item_JbUkmU",
+        "faq_item_XPEtQk",
+        "faq_item_3nYfgR"
       ],
       "settings": {
         "eyebrow": "EVERYTHING YOU MAY WANT TO KNOW",
