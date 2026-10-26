@@ -11,10 +11,69 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "settings": {}
+      "disabled": true,
+      "settings": {
+        "full_width_container": true
+      }
+    },
+    "hency_faq_gM4NU9": {
+      "type": "hency-faq",
+      "blocks": {
+        "faq_item_HTEGAX": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What material is used in HENCY JEWELS jewellery?",
+            "answer": "<p>Our jewellery is made using jewellery-grade base materials with finishes such as gold-tone plating, stones, beads, Kundan, CZ and other decorative elements, depending on the product.</p>"
+          }
+        },
+        "faq_item_8UcM7B": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will the jewellery lose its colour?",
+            "answer": "<p>The longevity of the finish depends on usage and care. Regular contact with water, perfume, sweat, cosmetics and chemicals can affect the plating over time. Following our jewellery care guidelines can help maintain its appearance.</p>"
+          }
+        },
+        "faq_item_xmBX6n": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is HENCY JEWELS jewellery suitable for daily wear?",
+            "answer": "<p>Many of our designs are lightweight and suitable for regular use. However, for better longevity, we recommend avoiding prolonged exposure to water, sweat, perfume and other chemicals.</p>"
+          }
+        },
+        "faq_item_jkBLRM": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is the jewellery skin-friendly?",
+            "answer": "<p>Our products are designed with comfort in mind. However, individual skin sensitivity can vary, so customers with sensitive skin should check the product details and avoid wearing jewellery if irritation occurs.</p>"
+          }
+        },
+        "faq_item_xhj3kp": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How should I take care of my jewellery",
+            "answer": "<p>Keep your jewellery away from water, perfume, lotions, sweat and chemicals. After use, gently wipe it with a soft dry cloth and store it separately in a dry, airtight pouch or box.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_HTEGAX",
+        "faq_item_8UcM7B",
+        "faq_item_xmBX6n",
+        "faq_item_jkBLRM",
+        "faq_item_xhj3kp"
+      ],
+      "settings": {
+        "eyebrow": "EVERYTHING YOU MAY WANT TO KNOW",
+        "title": "Frequently Asked Questions",
+        "description": "<p>Clear answers about our craftsmanship, materials, hallmarking, delivery and lifetime care.</p>",
+        "open_first_item": true,
+        "enable_faq_schema": true,
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "hency_faq_gM4NU9"
   ]
 }
