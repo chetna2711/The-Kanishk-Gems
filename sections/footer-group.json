@@ -20,18 +20,18 @@
             "show_social": true
           }
         },
-        "link_list_BKVac7": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Support",
-            "menu": "support"
-          }
-        },
         "link_list_ggCTRL": {
           "type": "link_list",
           "settings": {
             "heading": "SHOP",
             "menu": "shop"
+          }
+        },
+        "link_list_BKVac7": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Support",
+            "menu": "support"
           }
         },
         "contact_details_hency": {
@@ -56,7 +56,7 @@
         "newsletter_enable": false,
         "newsletter_heading": "Subscribe to our emails",
         "enable_follow_on_shop": true,
-        "show_social": true,
+        "show_social": false,
         "enable_country_selector": true,
         "enable_language_selector": true,
         "payment_enable": true,
