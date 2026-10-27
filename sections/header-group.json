@@ -164,7 +164,7 @@
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "drawer",
         "mega_menu_max_width": 1180,
         "mega_menu_full_width": false,
         "sticky_header_type": "reduce-logo-size",
