@@ -153,6 +153,32 @@
           "settings": {
             "share_label": "Share"
           }
+        },
+        "giftpro_gift_banner_9YkxEc": {
+          "type": "shopify://apps/giftpro/blocks/gift-banner/019b8d54-a04a-78c6-8027-423fe7e8a097",
+          "settings": {
+            "banner_background": "#fffef8",
+            "banner_border": "#20211c",
+            "border_width": 1,
+            "border_radius": 15,
+            "text_color": "#171814",
+            "body_color": "#62655e",
+            "eyebrow_color": "#b42318",
+            "price_color": "#111827",
+            "price_original_color": "#9ca3af",
+            "saving_color": "#067647",
+            "media_background": "#e4e4df",
+            "media_border": "#deded7",
+            "urgency_background": "#b42318",
+            "urgency_text": "#ffffff",
+            "urgency_accent": "#ffd84c",
+            "timer_background": "#7b1e17",
+            "timer_text": "#ffffff",
+            "free_badge_background": "#d9f99d",
+            "free_badge_text": "#0f251a",
+            "cta_background": "",
+            "cta_text": "#ffffff"
+          }
         }
       },
       "block_order": [
@@ -173,7 +199,8 @@
         "collapsible_tab_spec",
         "collapsible_tab_supplier",
         "collapsible_tab_h8dAd9",
-        "share"
+        "share",
+        "giftpro_gift_banner_9YkxEc"
       ],
       "settings": {
         "enable_sticky_info": true,
