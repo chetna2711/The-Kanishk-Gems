@@ -153,6 +153,19 @@
           "settings": {
             "share_label": "Share"
           }
+        },
+        "giftpro_promotion_card_L96qWx": {
+          "type": "shopify://apps/giftpro/blocks/promotion-card/019b8d54-a04a-78c6-8027-423fe7e8a097",
+          "settings": {
+            "accent_color": "#1f2937",
+            "button_text_color": "#ffffff",
+            "surface_color": "#ffffff",
+            "text_color": "#111827",
+            "border_color": "#dedede",
+            "border_width": 1,
+            "border_radius": 12,
+            "heading_size": 15
+          }
         }
       },
       "block_order": [
@@ -173,7 +186,8 @@
         "collapsible_tab_spec",
         "collapsible_tab_supplier",
         "collapsible_tab_h8dAd9",
-        "share"
+        "share",
+        "giftpro_promotion_card_L96qWx"
       ],
       "settings": {
         "enable_sticky_info": true,
