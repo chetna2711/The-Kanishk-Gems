@@ -150,6 +150,13 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "6079602236699480629": {
+        "type": "shopify://apps/giftpro/blocks/app-embed/019b8d54-a04a-78c6-8027-423fe7e8a097",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
