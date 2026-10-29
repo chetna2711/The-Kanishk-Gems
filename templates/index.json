@@ -695,11 +695,11 @@
           "settings": {
             "image": "shopify://shop_images/1fa3ab6e-59c2-4c99-bac4-cdbc835ca39c.jpg",
             "title": "Wedding Guest",
-            "description": "Opulent Kundan & statement jhumkis",
+            "description": "",
             "collection": "festive-wedding-days",
             "link": "",
             "text_position": "left",
-            "overlay_opacity": 65
+            "overlay_opacity": 20
           }
         },
         "occasion_6QK9By": {
