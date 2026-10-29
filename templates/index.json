@@ -347,7 +347,7 @@
             "image": "shopify://shop_images/71647a38-8cd6-423b-a94b-228c8106880c.jpg",
             "title": "EVERYDAY",
             "description": "Minimal silhouettes crafted for effortless daily sparkle",
-            "collection": "",
+            "collection": "everyday-chic",
             "link": "",
             "overlay_opacity": 65
           }
@@ -358,7 +358,7 @@
             "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da_e5b05dd1-97a9-40f9-aa4d-34d54e57d36d.png",
             "title": "FESTIVE",
             "description": "Radiant Kundan & Polki sets for celebratory evenings",
-            "collection": "",
+            "collection": "festive-days",
             "link": "",
             "overlay_opacity": 65
           }
@@ -369,7 +369,7 @@
             "image": "shopify://shop_images/06a4b22a-7dbd-49d2-88b1-938792a1ac08_f725314a-7a1b-426c-b95b-8ccace1b834e.png",
             "title": "WEDDING",
             "description": "Regal heirloom grandeur for the bride and cherished guests",
-            "collection": "",
+            "collection": "festive-wedding-days",
             "link": "",
             "overlay_opacity": 65
           }
@@ -693,7 +693,7 @@
         "occasion_iG9Ji4": {
           "type": "occasion",
           "settings": {
-            "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
+            "image": "shopify://shop_images/81a899c1-6400-4688-bcce-30d5aba15bad.jpg",
             "title": "Wedding Guest",
             "description": "Opulent Kundan & statement jhumkis",
             "collection": "festive-wedding-days",
