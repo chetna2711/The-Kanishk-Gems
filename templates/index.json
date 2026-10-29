@@ -380,7 +380,7 @@
             "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
             "title": "GIFTING",
             "description": "Timeless treasures packaged with love to mark precious milestones",
-            "collection": "",
+            "collection": "gifting",
             "link": "",
             "overlay_opacity": 65
           }
