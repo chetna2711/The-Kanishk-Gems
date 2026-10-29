@@ -696,7 +696,7 @@
             "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
             "title": "Wedding Guest",
             "description": "Opulent Kundan & statement jhumkis",
-            "collection": "",
+            "collection": "festive-wedding-days",
             "link": "",
             "text_position": "left",
             "overlay_opacity": 65
@@ -708,7 +708,7 @@
             "image": "shopify://shop_images/be62d95d-e5cf-494f-895f-276395f17da2.jpg",
             "title": "Everyday Chic",
             "description": "Subtle hoops, studs and minimal mangalsutras",
-            "collection": "",
+            "collection": "everyday-chic",
             "link": "",
             "text_position": "left",
             "overlay_opacity": 65
@@ -720,7 +720,7 @@
             "image": "shopify://shop_images/64e2ec2a-319b-40ba-8df7-6ba4142353af.jpg",
             "title": "Festive Days",
             "description": "Lustrous gold tones for festive gatherings",
-            "collection": "",
+            "collection": "festive-wedding-days",
             "link": "",
             "text_position": "left",
             "overlay_opacity": 65
@@ -732,7 +732,7 @@
             "image": "shopify://shop_images/021e1655-2bbb-4cad-83da-37daa9727525.jpg",
             "title": "Date Night",
             "description": "Delicate diamond sparkle and sleek chains",
-            "collection": "",
+            "collection": "date-night",
             "link": "",
             "text_position": "left",
             "overlay_opacity": 65
