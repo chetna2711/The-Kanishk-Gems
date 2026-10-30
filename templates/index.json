@@ -167,16 +167,6 @@
             "link": "shopify://collections/necklace"
           }
         },
-        "cat_rings": {
-          "type": "category",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
-            "use_collection_image": true,
-            "title": "Rings",
-            "link": "shopify://collections/rings"
-          }
-        },
         "cat_earrings": {
           "type": "category",
           "settings": {
@@ -184,7 +174,7 @@
             "image": "shopify://shop_images/9bfea576-fcd3-4c39-a491-85913bd4a7da.png",
             "use_collection_image": true,
             "title": "Earrings",
-            "link": "shopify://collections"
+            "link": "shopify://collections/earrings"
           }
         },
         "category_iTVWcq": {
@@ -197,36 +187,14 @@
             "link": "shopify://collections/necklace-set"
           }
         },
-        "category_Aj4fBP": {
+        "cat_rings": {
           "type": "category",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/2c65ae8e-ee0c-4f8f-8bf9-cc50086bb225.jpg",
+            "image": "shopify://shop_images/23a3c77c-fb9e-4583-8871-2f5cfe4d7138.png",
             "use_collection_image": true,
-            "title": "Mangalsutra Pendant Set",
-            "link": "shopify://collections/mangalsutra-pendant-set"
-          }
-        },
-        "category_4Bdr7m": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "collection": "buy-1-get-1-free",
-            "image": "shopify://shop_images/3-5.jpg",
-            "use_collection_image": true,
-            "title": "",
-            "link": ""
-          }
-        },
-        "cat_sets": {
-          "type": "category",
-          "disabled": true,
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/885318ad-df35-4667-a735-dbf67aa91343.png",
-            "use_collection_image": true,
-            "title": "Mangalsutra with Earrings",
-            "link": "shopify://collections/mangalsutra-with-earrings"
+            "title": "Rings",
+            "link": "shopify://collections/rings"
           }
         }
       },
@@ -235,12 +203,9 @@
         "category_iLrrdn",
         "cat_bangles",
         "category_Vbkgjc",
-        "cat_rings",
         "cat_earrings",
         "category_iTVWcq",
-        "category_Aj4fBP",
-        "category_4Bdr7m",
-        "cat_sets"
+        "cat_rings"
       ],
       "settings": {
         "eyebrow": "DISCOVER BY CATEGORY",
