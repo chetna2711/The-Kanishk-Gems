@@ -56,37 +56,47 @@
     const empty = document.querySelector('[data-wishlist-empty]');
     if (!items.length) {
       container.innerHTML = '';
-      empty.hidden = false;
+      if (empty) empty.hidden = false;
       return;
     }
-    empty.hidden = true;
+    if (empty) empty.hidden = true;
     container.setAttribute('aria-busy', 'true');
     const rootUrl = container.dataset.rootUrl || '/';
-    const products = await Promise.all(items.map(async (handle) => {
-      try {
-        const response = await fetch(`${rootUrl}products/${encodeURIComponent(handle)}.js`);
-        return response.ok ? await response.json() : null;
-      } catch (_) { return null; }
-    }));
-    const valid = products.filter(Boolean);
-    if (valid.length !== items.length) writeWishlist(valid.map((product) => product.handle));
-    if (!valid.length) {
+
+    const cardResults = await Promise.all(
+      items.map(async (handle) => {
+        try {
+          const response = await fetch(`${rootUrl}products/${encodeURIComponent(handle)}?section_id=wishlist-card`);
+          if (!response.ok) return null;
+          const html = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const cardWrapper = doc.querySelector('.card-wrapper');
+          if (!cardWrapper) return null;
+          return {
+            handle,
+            html: `<li class="grid__item" data-wishlist-item="${handle}">${cardWrapper.outerHTML}</li>`
+          };
+        } catch (_) {
+          return null;
+        }
+      })
+    );
+
+    const validResults = cardResults.filter(Boolean);
+    if (validResults.length !== items.length) {
+      writeWishlist(validResults.map((item) => item.handle));
+    }
+
+    if (!validResults.length) {
       container.innerHTML = '';
-      empty.hidden = false;
+      if (empty) empty.hidden = false;
       container.removeAttribute('aria-busy');
       updateControls();
       return;
     }
-    const heartIcon = '<svg class="icon-wishlist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg>';
-    container.innerHTML = valid.map((product) => {
-      const image = product.featured_image || product.images?.[0] || '';
-      const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
-      const title = escapeHtml(product.title);
-      const price = (product.price / 100).toLocaleString(undefined, { style: 'currency', currency: container.dataset.currency || 'INR' });
-      const variant = product.variants?.find((item) => item.available) || product.variants?.[0];
-      const quickAdd = variant?.available ? `<div class="quick-add no-js-hidden"><button type="button" class="quick-add__submit button button--full-width button--secondary" data-wishlist-add data-variant-id="${variant.id}"><span>Add to cart</span></button></div>` : '';
-      return `<article class="card-wrapper product-card-wrapper"><div class="card card--standard card--media"><div class="card__inner ratio" style="--ratio-percent: 100%;"><div class="card__media"><a href="${product.url}" class="media media--transparent">${image ? `<img src="${image}" alt="${title}" loading="lazy" width="600" height="600">` : ''}</a></div></div><button type="button" class="product-card-wishlist" data-wishlist-toggle data-product-handle="${product.handle}" data-product-url="${product.url}" data-wishlist-tooltip="Remove from wishlist" aria-label="Remove from wishlist" aria-pressed="true">${heartIcon}</button>${quickAdd}<div class="card__content"><div class="card__information"><h2 class="card__heading h5"><a href="${product.url}" class="full-unstyled-link">${title}</a></h2><div class="card-information"><div class="price"><span class="price-item price-item--regular">${price}</span></div></div></div></div></div></article>`;
-    }).join('');
+
+    container.innerHTML = validResults.map((item) => item.html).join('');
     container.removeAttribute('aria-busy');
     updateControls();
   };
@@ -120,10 +130,32 @@
     const handle = button.dataset.productHandle;
     if (!handle) return;
     const items = readWishlist();
-    const next = items.includes(handle) ? items.filter((item) => item !== handle) : [...items, handle];
+    const isRemoving = items.includes(handle);
+    const next = isRemoving ? items.filter((item) => item !== handle) : [...items, handle];
     writeWishlist(next);
     updateControls();
-    renderWishlist();
+
+    const wishlistGrid = document.querySelector('[data-wishlist-products]');
+    if (wishlistGrid && isRemoving) {
+      const itemEl = wishlistGrid.querySelector(`[data-wishlist-item="${handle}"]`);
+      if (itemEl) {
+        itemEl.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        itemEl.style.opacity = '0';
+        itemEl.style.transform = 'scale(0.92)';
+        setTimeout(() => {
+          itemEl.remove();
+          if (next.length === 0) {
+            const empty = document.querySelector('[data-wishlist-empty]');
+            if (empty) empty.hidden = false;
+          }
+        }, 250);
+        return;
+      }
+    }
+
+    if (wishlistGrid) {
+      renderWishlist();
+    }
   });
 
   document.addEventListener('DOMContentLoaded', () => { updateControls(); renderWishlist(); });

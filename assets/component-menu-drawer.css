@@ -2,42 +2,51 @@
   position: initial;
 }
 
-.js menu-drawer > details > summary::before,
-.js menu-drawer > details[open]:not(.menu-opening) > summary::before {
-  content: "";
-  position: absolute;
-  cursor: default;
-  width: 100%;
-  height: calc(100vh - 100%);
-  height: calc(
-    var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%))
-  );
-  top: 100%;
-  left: 0;
-  background: rgba(var(--color-foreground), 0.5);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 2;
-  transition:
-    opacity 0s,
-    visibility 0s;
+.header__icon--menu > span {
+  position: relative;
+  z-index: 1001;
 }
 
-menu-drawer > details[open] > summary::before {
-  visibility: visible;
-  opacity: 1;
+.js menu-drawer > details > summary::before,
+.js header-drawer > details > summary::before,
+.js menu-drawer > details[open]:not(.menu-opening) > summary::before,
+.js header-drawer > details[open]:not(.menu-opening) > summary::before {
+  content: "";
+  position: fixed;
+  cursor: pointer;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 998;
+  pointer-events: none;
   transition:
     opacity var(--duration-default) ease,
     visibility var(--duration-default) ease;
 }
 
+menu-drawer > details[open] > summary::before,
+header-drawer > details[open] > summary::before,
+.js header-drawer > details[open].menu-opening > summary::before,
+.js menu-drawer > details[open].menu-opening > summary::before {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .menu-drawer {
-  position: absolute;
+  position: fixed !important;
   transform: translateX(-100%);
   visibility: hidden;
-  z-index: 1000;
-  left: 0;
-  top: 100%;
+  z-index: 1000 !important;
+  left: 0 !important;
+  top: var(--header-bottom-position, 54px) !important;
   width: 100%;
   padding: 0;
   background-color: rgb(var(--color-background));
@@ -48,13 +57,14 @@ menu-drawer > details[open] > summary::before {
       rgba(var(--color-shadow), var(--drawer-shadow-opacity))
   );
   isolation: isolate;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .js .menu-drawer {
-  height: calc(100vh - 100%);
-  height: calc(
-    var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%))
-  );
+  height: calc(100vh - (var(--header-bottom-position, 54px))) !important;
+  height: calc(100dvh - (var(--header-bottom-position, 54px))) !important;
+  max-height: calc(100dvh - var(--header-bottom-position, 54px)) !important;
 }
 
 .js details[open] > .menu-drawer,
@@ -86,6 +96,7 @@ details[open].menu-opening > .menu-drawer__submenu {
 .menu-drawer__inner-container {
   position: relative;
   height: 100%;
+  overscroll-behavior: contain;
 }
 
 .menu-drawer__navigation-container {
@@ -94,6 +105,9 @@ details[open].menu-opening > .menu-drawer__submenu {
   align-content: space-between;
   overflow-y: auto;
   height: 100%;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .menu-drawer__navigation {
@@ -104,6 +118,9 @@ details[open].menu-opening > .menu-drawer__submenu {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .js .menu-drawer__menu li {
@@ -114,6 +131,8 @@ details[open].menu-opening > .menu-drawer__submenu {
   padding: 1.1rem 3rem;
   text-decoration: none;
   font-size: 1.8rem;
+  color: #111111 !important;
+  font-weight: 600;
 }
 
 .menu-drawer summary.menu-drawer__menu-item {

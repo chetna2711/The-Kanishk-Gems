@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * KANISHK GEMS / HENCY JEWELS - 100% FREE AUTOMATED REVIEW APPROVAL WORKFLOW
+ * Hency Jewels / HENCY JEWELS - 100% FREE AUTOMATED REVIEW APPROVAL WORKFLOW
  * ==============================================================================
  * 
  * HOW IT WORKS:
@@ -55,7 +55,7 @@ function doPost(e) {
     const publicPhotoUrls = [];
     if (Array.isArray(rawPhotos) && rawPhotos.length > 0) {
       let folder;
-      const folderName = 'Kanishk Gems Customer Reviews';
+      const folderName = 'Hency Jewels Customer Reviews';
       const existingFolders = DriveApp.getFoldersByName(folderName);
       if (existingFolders.hasNext()) {
         folder = existingFolders.next();
@@ -151,7 +151,7 @@ function doPost(e) {
 
     const emailHtml = '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #fafaf7; border: 1.5px solid #c5a059; border-radius: 10px; overflow: hidden;">'
       + '<div style="background: #1a1a1a; padding: 20px; text-align: center; color: #ffffff;">'
-      + '<h2 style="color: #c5a059; margin: 0; letter-spacing: 2px;">KANISHK GEMS</h2>'
+      + '<h2 style="color: #c5a059; margin: 0; letter-spacing: 2px;">Hency Jewels</h2>'
       + '<p style="margin: 5px 0 0; font-size: 13px; color: #e0c890;">New Customer Review Published & Live</p>'
       + '</div>'
       + '<div style="padding: 25px; background: #ffffff;">'

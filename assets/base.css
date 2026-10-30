@@ -2112,18 +2112,30 @@ input[type='checkbox'] {
 
 .cart-count-bubble {
   position: absolute;
-  background-color: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
-  height: 1.7rem;
-  width: 1.7rem;
-  border-radius: 100%;
+  background-color: var(--brand-primary, #bb7137);
+  color: #ffffff;
+  height: 1.8rem;
+  width: 1.8rem;
+  min-width: 1.8rem;
+  max-width: 1.8rem;
+  max-height: 1.8rem;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.9rem;
-  bottom: 0.8rem;
-  left: 2.2rem;
-  line-height: calc(1 + 0.1 / var(--font-body-scale));
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  bottom: auto;
+  left: auto;
+  right: 0.1rem;
+  top: 0.1rem;
+  line-height: 1;
+  z-index: 10;
+  pointer-events: none;
 }
 
 /* utility-bar */
@@ -2624,12 +2636,12 @@ input[type='checkbox'] {
   background: rgba(var(--color-foreground), 0.5);
 }
 
-details .header__icon-close {
-  display: none;
+details:not([open]) .header__icon-close {
+  display: none !important;
 }
 
 details[open] .header__icon-close {
-  display: inline-block;
+  display: flex !important;
 }
 
 /* Search */
@@ -2867,11 +2879,13 @@ details[open]>.header__submenu {
 .header__menu-item {
   padding: 1.2rem;
   text-decoration: none;
-  color: rgba(var(--color-foreground), 0.75);
+  color: #111111;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .header__menu-item:hover {
-  color: rgb(var(--color-foreground));
+  color: var(--brand-primary, #bb7137);
 }
 
 .header__menu-item span {
@@ -2978,21 +2992,34 @@ details-disclosure>details {
   }
 }
 
-.overflow-hidden-mobile,
-.overflow-hidden-tablet,
-.overflow-hidden-desktop {
-  overflow: hidden;
+html.overflow-hidden-mobile,
+body.overflow-hidden-mobile,
+html.overflow-hidden-tablet,
+body.overflow-hidden-tablet,
+html.overflow-hidden-desktop,
+body.overflow-hidden-desktop,
+html.menu-drawer-open,
+body.menu-drawer-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none;
 }
 
 @media screen and (min-width: 750px) {
-  .overflow-hidden-mobile {
-    overflow: auto;
+  html.overflow-hidden-mobile,
+  body.overflow-hidden-mobile {
+    overflow: auto !important;
+    overscroll-behavior: auto !important;
+    touch-action: auto;
   }
 }
 
 @media screen and (min-width: 990px) {
-  .overflow-hidden-tablet {
-    overflow: auto;
+  html.overflow-hidden-tablet:not(.menu-drawer-open),
+  body.overflow-hidden-tablet:not(.menu-drawer-open) {
+    overflow: auto !important;
+    overscroll-behavior: auto !important;
+    touch-action: auto;
   }
 }
 

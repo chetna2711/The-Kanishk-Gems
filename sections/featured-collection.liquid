@@ -30,19 +30,213 @@
     padding-bottom: calc(var(--spacing-sections-mobile, 0px));
   }
 
-  #collection-{{ section.id }} {
-    max-width: 100%;
-    overflow-x: clip;
-  }
-
-  #collection-{{ section.id }} .featured-collection__slider-component {
-    max-width: 100%;
-  }
-
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: calc(var(--spacing-sections-desktop, 0px));
       padding-bottom: calc(var(--spacing-sections-desktop, 0px));
+    }
+  }
+
+  #collection-{{ section.id }} {
+    position: relative;
+    max-width: 100%;
+  }
+
+  /* Centered Luxury Header matching Shop By Mood & Shop By Category */
+  #collection-{{ section.id }} .featured-collection__header {
+    text-align: center;
+    max-width: 72rem;
+    margin: 0 auto 3.5rem;
+  }
+
+  #collection-{{ section.id }} .featured-collection__eyebrow {
+    color: var(--hency-gold, #c5a059);
+    font-size: 1.2rem;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #collection-{{ section.id }} .featured-collection__title {
+    color: var(--hency-charcoal, #1a1a1a);
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3.5vw, 3.6rem);
+    font-weight: var(--font-heading-weight, 500);
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  #collection-{{ section.id }} .featured-collection__description {
+    color: rgba(26, 26, 26, 0.75);
+    margin: 1.2rem auto 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    max-width: 60rem;
+  }
+
+  #collection-{{ section.id }} .featured-collection__slider-component {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 990px) {
+    /* Keep desktop slider strictly inside page container */
+    #collection-{{ section.id }} .slider-component-desktop {
+      max-width: 100% !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop {
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 !important;
+      padding: 0 !important;
+      scroll-padding-left: 0 !important;
+      scroll-padding-right: 0 !important;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #collection-{{ section.id }} .slider--desktop::-webkit-scrollbar {
+      display: none;
+    }
+
+    #collection-{{ section.id }} .slider--desktop:after {
+      display: none !important;
+      content: none !important;
+      width: 0 !important;
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop .slider__slide:first-child {
+      margin-left: 0 !important;
+      scroll-margin-left: 0 !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop .slider__slide {
+      scroll-snap-align: start;
+    }
+
+    /* Precisely fit items into container width without right-side bleed */
+    #collection-{{ section.id }} .slider--desktop.grid--4-col-desktop .grid__item {
+      width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 3)) / 4) !important;
+      max-width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 3)) / 4) !important;
+      flex: 0 0 calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 3)) / 4) !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop.grid--3-col-desktop .grid__item {
+      width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 2)) / 3) !important;
+      max-width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 2)) / 3) !important;
+      flex: 0 0 calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 2)) / 3) !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop.grid--5-col-desktop .grid__item {
+      width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 4)) / 5) !important;
+      max-width: calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 4)) / 5) !important;
+      flex: 0 0 calc((100% - (var(--grid-desktop-horizontal-spacing, 8px) * 4)) / 5) !important;
+    }
+
+    #collection-{{ section.id }} .slider--desktop.grid--2-col-desktop .grid__item {
+      width: calc((100% - var(--grid-desktop-horizontal-spacing, 8px)) / 2) !important;
+      max-width: calc((100% - var(--grid-desktop-horizontal-spacing, 8px)) / 2) !important;
+      flex: 0 0 calc((100% - var(--grid-desktop-horizontal-spacing, 8px)) / 2) !important;
+    }
+
+    /* Slider Side Navigation Buttons */
+    #collection-{{ section.id }} .featured-collection__slider-buttons {
+      position: static;
+      margin: 0;
+      padding: 0;
+    }
+
+    #collection-{{ section.id }} .slider-counter {
+      display: none !important;
+    }
+
+    #collection-{{ section.id }} .slider-button {
+      position: absolute;
+      top: 38%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 4.4rem;
+      height: 4.4rem;
+      background: #ffffff;
+      color: #1a1a1a;
+      border: 1.5px solid rgba(197, 160, 89, 0.4);
+      border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #collection-{{ section.id }} .slider-button--prev {
+      left: -2.2rem;
+    }
+
+    #collection-{{ section.id }} .slider-button--next {
+      right: -2.2rem;
+    }
+
+    #collection-{{ section.id }} .slider-button:hover:not([disabled]) {
+      background: var(--brand-primary, #bb7137);
+      border-color: var(--brand-primary, #bb7137);
+      color: #ffffff;
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 18px rgba(187, 113, 55, 0.28);
+    }
+
+    #collection-{{ section.id }} .slider-button:hover:not([disabled]) .svg-wrapper svg,
+    #collection-{{ section.id }} .slider-button:hover:not([disabled]) .icon {
+      color: #ffffff;
+      fill: #ffffff;
+    }
+
+    #collection-{{ section.id }} .slider-button[disabled] {
+      opacity: 0.25;
+      cursor: not-allowed;
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    #collection-{{ section.id }} .featured-collection__slider-buttons {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #collection-{{ section.id }} .featured-collection__header {
+      margin-bottom: 2.5rem;
+      padding: 0 1rem;
+    }
+
+    #collection-{{ section.id }} .featured-collection__eyebrow {
+      font-size: 1.1rem;
+      letter-spacing: 0.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    #collection-{{ section.id }} .featured-collection__title {
+      font-size: 2.2rem;
+    }
+
+    #collection-{{ section.id }} .featured-collection__description {
+      font-size: 1.35rem;
+      margin-top: 0.8rem;
     }
   }
 {%- endstyle -%}
@@ -77,30 +271,34 @@
   class="color-{{ section.settings.color_scheme }} isolate gradient"
 >
   <div
-    class="collection{% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}"
+    class="collection{% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% else %} page-width{% endif %}"
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
-    <slider-component class="slider-mobile-gutter featured-collection__slider-component{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <div class="collection__title title-wrapper title-wrapper--no-top-margin{% if show_mobile_slider or section.settings.full_width %} page-width{% endif %}{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
-        {%- if section.settings.title != blank -%}
-          <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-            {{ section.settings.title }}
-          </h2>
-        {%- endif -%}
-        {%- if section.settings.description != blank
-          or section.settings.show_description
-          and section.settings.collection.description != empty
-        -%}
-          <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-            {%- if section.settings.show_description -%}
-              {{ section.settings.collection.description }}
-            {%- else -%}
-              {{ section.settings.description -}}
-            {%- endif %}
-          </div>
-        {%- endif -%}
-      </div>
+    <div class="featured-collection__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="featured-collection__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="featured-collection__title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank
+        or section.settings.show_description
+        and section.settings.collection.description != empty
+      -%}
+        <div class="featured-collection__description {{ section.settings.description_style }} rte">
+          {%- if section.settings.show_description -%}
+            {{ section.settings.collection.description }}
+          {%- else -%}
+            {{ section.settings.description -}}
+          {%- endif %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <slider-component class="slider-mobile-gutter featured-collection__slider-component{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
@@ -252,6 +450,12 @@
     {
       "type": "header",
       "content": "t:sections.featured-collection.settings.header_text.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Subheading / Eyebrow",
+      "default": "LATEST ARRIVALS"
     },
     {
       "type": "inline_richtext",

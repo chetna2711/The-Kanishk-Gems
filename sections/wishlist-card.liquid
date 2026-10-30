@@ -1,0 +1,17 @@
+{% render 'card-product',
+  card_product: product,
+  media_aspect_ratio: 'portrait',
+  show_secondary_image: true,
+  show_vendor: false,
+  show_rating: false,
+  section_id: 'wishlist',
+  product_view_context: 'collection'
+%}
+
+{% schema %}
+{
+  "name": "Wishlist Card",
+  "settings": []
+}
+{% endschema %}
+

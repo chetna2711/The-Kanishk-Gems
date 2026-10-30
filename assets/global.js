@@ -487,7 +487,9 @@ class MenuDrawer extends HTMLElement {
     });
     summaryElement.setAttribute('aria-expanded', true);
     trapFocus(this.mainDetailsToggle, summaryElement);
-    document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
+    const breakpointClass = `overflow-hidden-${this.dataset.breakpoint || 'tablet'}`;
+    document.body.classList.add(breakpointClass, 'menu-drawer-open');
+    document.documentElement.classList.add(breakpointClass, 'menu-drawer-open');
   }
 
   closeMenuDrawer(event, elementToFocus = false) {
@@ -501,7 +503,9 @@ class MenuDrawer extends HTMLElement {
     this.mainDetailsToggle.querySelectorAll('.submenu-open').forEach((submenu) => {
       submenu.classList.remove('submenu-open');
     });
-    document.body.classList.remove(`overflow-hidden-${this.dataset.breakpoint}`);
+    const breakpointClass = `overflow-hidden-${this.dataset.breakpoint || 'tablet'}`;
+    document.body.classList.remove(breakpointClass, 'menu-drawer-open');
+    document.documentElement.classList.remove(breakpointClass, 'menu-drawer-open');
     removeTrapFocus(elementToFocus);
     this.closeAnimation(this.mainDetailsToggle);
 
@@ -563,12 +567,29 @@ class HeaderDrawer extends MenuDrawer {
   openMenuDrawer(summaryElement) {
     this.header = this.header || document.querySelector('.section-header');
     this.borderOffset =
-      this.borderOffset || this.closest('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
-    document.documentElement.style.setProperty(
-      '--header-bottom-position',
-      `${parseInt(this.header.getBoundingClientRect().bottom - this.borderOffset)}px`
-    );
-    this.header.classList.add('menu-open');
+      this.borderOffset || (this.closest('.header-wrapper')?.classList.contains('header-wrapper--border-bottom') ? 1 : 0);
+
+    const headerWrapper = this.closest('.header-wrapper');
+    const headerHeight = Math.round(
+      (headerWrapper ? headerWrapper.offsetHeight : 0) ||
+      (this.header ? this.header.offsetHeight : 0) ||
+      54
+    ) - this.borderOffset;
+    const safeHeaderBottom = headerHeight > 20 ? headerHeight : 54;
+
+    document.documentElement.style.setProperty('--header-bottom-position', `${safeHeaderBottom}px`);
+    document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
+    this.header && this.header.classList.add('menu-open');
+    if (headerWrapper) headerWrapper.classList.add('menu-open');
+
+    // Reset drawer internal scroll so items always start from the top
+    const navContainer = this.querySelector('.menu-drawer__navigation-container');
+    if (navContainer) navContainer.scrollTop = 0;
+    const drawerEl = this.querySelector('.menu-drawer');
+    if (drawerEl) drawerEl.scrollTop = 0;
+    this.querySelectorAll('.menu-drawer__inner-submenu').forEach((sub) => {
+      sub.scrollTop = 0;
+    });
 
     setTimeout(() => {
       this.mainDetailsToggle.classList.add('menu-opening');
@@ -577,22 +598,47 @@ class HeaderDrawer extends MenuDrawer {
     summaryElement.setAttribute('aria-expanded', true);
     window.addEventListener('resize', this.onResize);
     trapFocus(this.mainDetailsToggle, summaryElement);
-    document.body.classList.add(`overflow-hidden-${this.dataset.breakpoint}`);
+
+    const breakpointClass = `overflow-hidden-${this.dataset.breakpoint || 'tablet'}`;
+    document.documentElement.classList.add('menu-drawer-open', breakpointClass);
+    document.body.classList.add('menu-drawer-open', breakpointClass);
+
+    // Prevent background touch scrolling while drawer is open
+    this.preventTouchMove = (e) => {
+      if (!e.target.closest('.menu-drawer__navigation-container, .menu-drawer__inner-submenu, .menu-drawer')) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('touchmove', this.preventTouchMove, { passive: false });
   }
 
   closeMenuDrawer(event, elementToFocus) {
-    if (!elementToFocus) return;
-    super.closeMenuDrawer(event, elementToFocus);
-    this.header.classList.remove('menu-open');
+    const focusTarget = elementToFocus || this.mainDetailsToggle?.querySelector('summary');
+    super.closeMenuDrawer(event, focusTarget);
+    this.header && this.header.classList.remove('menu-open');
+    const headerWrapper = this.closest('.header-wrapper');
+    if (headerWrapper) headerWrapper.classList.remove('menu-open');
     window.removeEventListener('resize', this.onResize);
+
+    const breakpointClass = `overflow-hidden-${this.dataset.breakpoint || 'tablet'}`;
+    document.documentElement.classList.remove('menu-drawer-open', breakpointClass);
+    document.body.classList.remove('menu-drawer-open', breakpointClass);
+
+    if (this.preventTouchMove) {
+      document.removeEventListener('touchmove', this.preventTouchMove, { passive: false });
+      this.preventTouchMove = null;
+    }
   }
 
   onResize = () => {
-    this.header &&
-      document.documentElement.style.setProperty(
-        '--header-bottom-position',
-        `${parseInt(this.header.getBoundingClientRect().bottom - this.borderOffset)}px`
-      );
+    const headerWrapper = this.closest('.header-wrapper');
+    const headerHeight = Math.round(
+      (headerWrapper ? headerWrapper.offsetHeight : 0) ||
+      (this.header ? this.header.offsetHeight : 0) ||
+      54
+    ) - this.borderOffset;
+    const safeHeaderBottom = headerHeight > 20 ? headerHeight : 54;
+    document.documentElement.style.setProperty('--header-bottom-position', `${safeHeaderBottom}px`);
     document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
   };
 }

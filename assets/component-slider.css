@@ -317,38 +317,66 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
-/* Featured Collection: place desktop carousel controls beside the heading. */
+/* Featured Collection: luxury side carousel controls */
 .featured-collection__slider-component {
   position: relative;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 990px) {
   .featured-collection__slider-component .featured-collection__slider-buttons {
-    gap: 1rem;
+    position: static;
     margin: 0;
-    position: absolute;
-    right: max(5rem, calc((100% - var(--page-width)) / 2 + 5rem));
-    top: 0;
+    padding: 0;
   }
 
   .featured-collection__slider-buttons .slider-counter {
     display: none;
   }
 
-.featured-collection__slider-buttons .slider-button {
-  border: 1px solid rgba(var(--color-foreground), 0.15);
-  border-radius: 50%;
-  color: rgba(var(--color-foreground), 0.55);
-  height: 4.2rem;
-  transition: background-color var(--duration-short) ease, border-color var(--duration-short) ease, color var(--duration-short) ease;
-  width: 4.2rem;
-}
+  .featured-collection__slider-component .slider-button {
+    position: absolute;
+    top: 38%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background: #ffffff;
+    border: 1.5px solid rgba(197, 160, 89, 0.4);
+    border-radius: 50%;
+    color: var(--hency-charcoal, #1a1a1a);
+    height: 4.4rem;
+    width: 4.4rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-.featured-collection__slider-buttons .slider-button:not([disabled]):hover {
-  background-color: var(--brand-primary, #bb7137);
-  border-color: var(--brand-primary, #bb7137);
-  color: #fff;
-}
+  .featured-collection__slider-component .slider-button--prev {
+    left: -2.2rem;
+  }
+
+  .featured-collection__slider-component .slider-button--next {
+    right: -2.2rem;
+  }
+
+  .featured-collection__slider-component .slider-button:not([disabled]):hover {
+    background-color: var(--brand-primary, #bb7137);
+    border-color: var(--brand-primary, #bb7137);
+    color: #fff;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 6px 18px rgba(187, 113, 55, 0.28);
+  }
+
+  .featured-collection__slider-component .slider-button:not([disabled]):hover .icon {
+    color: #fff;
+  }
+
+  .featured-collection__slider-component .slider-button[disabled] {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
 
 /* Keep product swiping available on phones without showing carousel controls. */
