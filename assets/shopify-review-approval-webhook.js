@@ -19,8 +19,8 @@
 const SHOPIFY_STORE_DOMAIN = '1ei9gp-rt.myshopify.com';
 
 // 🔑 AUTHENTICATION (Dev Dashboard: Client ID & Secret)
-const SHOPIFY_CLIENT_ID = 'bd17f32f87d2b291efdb919e10b048e6';
-const SHOPIFY_CLIENT_SECRET = 'YOUR_SHOPIFY_CLIENT_SECRET'; // Deployed in Google Apps Script
+const SHOPIFY_CLIENT_ID = '';
+const SHOPIFY_CLIENT_SECRET = ''; // Deployed in Google Apps Script
 
 // Optional: Static Admin Token if available
 const SHOPIFY_ADMIN_ACCESS_TOKEN = '';
@@ -64,7 +64,7 @@ function doPost(e) {
         folder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
       }
 
-      rawPhotos.forEach(function(dataUrl, idx) {
+      rawPhotos.forEach(function (dataUrl, idx) {
         try {
           if (dataUrl && dataUrl.indexOf('data:image') === 0) {
             const parts = dataUrl.split(',');
@@ -86,7 +86,7 @@ function doPost(e) {
     }
 
     // 2. Generate Unique Review Object & Save in Script Storage
-    const reviewId = 'rev_' + Utilities.getUuid().substring(0, 8);
+    const reviewId = postData.id ? String(postData.id) : ('rev_' + Utilities.getUuid().substring(0, 8));
     const reviewPayload = {
       id: reviewId,
       productId: productId,
@@ -103,19 +103,45 @@ function doPost(e) {
       helpful_count: 0
     };
 
-    // Store in Script Properties for 1-click Approval
-    PropertiesService.getScriptProperties().setProperty(reviewId, JSON.stringify(reviewPayload));
+    // 2. Save directly into Cloud Storage (Instant live for all guest users & visitors)
+    const prodKey = 'approved_reviews_' + productId;
+    let prodReviews = [];
+    try {
+      const existing = PropertiesService.getScriptProperties().getProperty(prodKey);
+      if (existing) prodReviews = JSON.parse(existing);
+    } catch (e) { prodReviews = []; }
 
-    // 3. Construct Approval Link (Triggers doGet)
+    // Deduplicate by ID and content signature
+    prodReviews = prodReviews.filter(function (r) {
+      if (r.id === reviewPayload.id) return false;
+      if (r.author === reviewPayload.author && (r.title || '') === (reviewPayload.title || '') && (r.content || '') === (reviewPayload.content || '')) return false;
+      return true;
+    });
+    prodReviews.unshift(reviewPayload);
+    PropertiesService.getScriptProperties().setProperty(prodKey, JSON.stringify(prodReviews));
+
+    // 3. Sync directly into Shopify Product Metafield (`custom.customer_reviews`)
+    let metafieldNotice = '';
+    try {
+      const metaRes = publishReviewToShopifyMetafield(reviewPayload);
+      if (metaRes && metaRes.success) {
+        metafieldNotice = '<br/><span style="color: #27ae60; font-weight: bold;">✅ Successfully synced to Shopify Product Metafield (custom.customer_reviews)!</span>';
+      } else if (metaRes && metaRes.error) {
+        metafieldNotice = '<br/><span style="color: #e67e22; font-size: 13px;">⚠️ Metafield notice: ' + metaRes.error + '</span>';
+      }
+    } catch (shopifyErr) {
+      metafieldNotice = '<br/><span style="color: #e74c3c; font-size: 13px;">⚠️ Metafield notice: ' + shopifyErr.toString() + '</span>';
+    }
+
+    // 4. Construct 1-Click Delete Link (in case store owner wants to remove spam)
     const scriptUrl = ScriptApp.getService().getUrl();
-    const approveUrl = scriptUrl + '?action=approve&id=' + reviewId;
-    const rejectUrl = scriptUrl + '?action=reject&id=' + reviewId;
+    const deleteUrl = scriptUrl + '?action=deleteReview&productId=' + encodeURIComponent(productId) + '&id=' + encodeURIComponent(reviewId);
 
-    // 4. Send Approval Email to Store Owner
+    // 5. Send Notification Email to Store Owner
     let photosHtml = '';
     if (publicPhotoUrls.length > 0) {
       photosHtml = '<div style="margin-top: 15px;"><strong>Customer Photos:</strong><br/>';
-      publicPhotoUrls.forEach(function(url) {
+      publicPhotoUrls.forEach(function (url) {
         photosHtml += '<a href="' + url + '" target="_blank"><img src="' + url + '" style="width: 130px; height: 130px; object-fit: cover; border-radius: 8px; margin: 8px 8px 0 0; border: 1.5px solid #c5a059;" /></a>';
       });
       photosHtml += '</div>';
@@ -126,7 +152,7 @@ function doPost(e) {
     const emailHtml = '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #fafaf7; border: 1.5px solid #c5a059; border-radius: 10px; overflow: hidden;">'
       + '<div style="background: #1a1a1a; padding: 20px; text-align: center; color: #ffffff;">'
       + '<h2 style="color: #c5a059; margin: 0; letter-spacing: 2px;">KANISHK GEMS</h2>'
-      + '<p style="margin: 5px 0 0; font-size: 13px; color: #e0c890;">New Customer Review Pending Approval</p>'
+      + '<p style="margin: 5px 0 0; font-size: 13px; color: #e0c890;">New Customer Review Published & Live</p>'
       + '</div>'
       + '<div style="padding: 25px; background: #ffffff;">'
       + '<p style="margin: 0 0 10px; font-size: 14px; color: #666;">Product:</p>'
@@ -134,7 +160,7 @@ function doPost(e) {
       + '<div style="background: #fafaf7; border-left: 4px solid #c5a059; padding: 15px; margin-bottom: 20px; border-radius: 4px;">'
       + '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">'
       + '<strong style="font-size: 16px; color: #1a1a1a;">' + author + '</strong>'
-      + '<span style="color: #27ae60; font-weight: bold; font-size: 12px;">✓ Verified Customer</span>'
+      + '<span style="color: #27ae60; font-weight: bold; font-size: 12px;">✓ Published Live</span>'
       + '</div>'
       + '<p style="margin: 0 0 8px; color: #777; font-size: 13px;">' + (location ? location + ' • ' : '') + 'Email: ' + email + '</p>'
       + '<div style="color: #c5a059; font-size: 18px; margin-bottom: 8px;">' + starString + ' (' + rating + '/5)</div>'
@@ -142,27 +168,28 @@ function doPost(e) {
       + '<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #333;">' + content + '</p>'
       + photosHtml
       + '</div>'
+      + metafieldNotice
       + '<div style="text-align: center; margin: 30px 0 10px;">'
-      + '<a href="' + approveUrl + '" style="background: #27ae60; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-size: 15px; font-weight: bold; display: inline-block; margin-right: 12px; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">'
-      + '✅ APPROVE & PUBLISH TO SHOPIFY'
+      + '<a href="https://' + SHOPIFY_STORE_DOMAIN + '/products/' + productId + '" target="_blank" style="background: #1a1a1a; color: #c5a059; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin-right: 12px;">'
+      + '👁️ View on Store'
       + '</a>'
-      + '<a href="' + rejectUrl + '" style="background: #e74c3c; color: #ffffff; padding: 14px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; display: inline-block;">'
-      + '❌ REJECT'
+      + '<a href="' + deleteUrl + '" style="background: #e74c3c; color: #ffffff; padding: 12px 20px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; display: inline-block;">'
+      + '🗑️ Delete Review'
       + '</a>'
       + '</div>'
       + '<p style="text-align: center; font-size: 12px; color: #888; margin-top: 15px;">'
-      + 'Clicking "Approve" will instantly publish this review and photo to your store\'s metafield.'
+      + 'This review is now live in Cloud & Shopify Metafields. Click "Delete Review" if this was spam.'
       + '</p>'
       + '</div>'
       + '</div>';
 
     MailApp.sendEmail({
       to: STORE_OWNER_EMAIL,
-      subject: '⭐ New Review Pending Approval for: ' + productTitle,
+      subject: '⭐ New Customer Review Published for: ' + productTitle,
       htmlBody: emailHtml
     });
 
-    return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Review received and sent for approval' }))
+    return ContentService.createTextOutput(JSON.stringify({ success: true, message: 'Review published to cloud and synced to Shopify' }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
@@ -179,6 +206,35 @@ function doPost(e) {
  */
 function doGet(e) {
   try {
+    // ==========================================
+    // 0. OAuth Callback: Auto-capture Token from Shopify
+    // ==========================================
+    if (e && e.parameter && e.parameter.code) {
+      const code = e.parameter.code;
+      const tokenUrl = 'https://' + SHOPIFY_STORE_DOMAIN + '/admin/oauth/access_token';
+      try {
+        const tokenResp = UrlFetchApp.fetch(tokenUrl, {
+          method: 'post',
+          contentType: 'application/json',
+          payload: JSON.stringify({
+            client_id: SHOPIFY_CLIENT_ID,
+            client_secret: SHOPIFY_CLIENT_SECRET,
+            code: code
+          }),
+          muteHttpExceptions: true
+        });
+        const tokenData = JSON.parse(tokenResp.getContentText());
+        if (tokenData && tokenData.access_token) {
+          PropertiesService.getScriptProperties().setProperty('SHOPIFY_PERMANENT_TOKEN', tokenData.access_token);
+          return HtmlService.createHtmlOutput('<div style="font-family: Arial, sans-serif; max-width: 550px; margin: 50px auto; text-align: center; padding: 40px; border: 2px solid #27ae60; border-radius: 12px; background: #fafaf7;"><div style="font-size: 55px; margin-bottom: 12px;">🎉</div><h2 style="color: #27ae60; margin: 0 0 10px;">Successfully Connected to Shopify!</h2><p style="color: #333; font-size: 16px;">Permanent Admin API token saved.</p><p style="color: #666; font-size: 14px;">Customer reviews will now automatically sync to your Product Metafields (custom.customer_reviews)!</p></div>');
+        } else {
+          return HtmlService.createHtmlOutput('<h3>Token error: ' + tokenResp.getContentText() + '</h3>');
+        }
+      } catch (tokenErr) {
+        return HtmlService.createHtmlOutput('<h3>Authorization error: ' + tokenErr.toString() + '</h3>');
+      }
+    }
+
     const action = e.parameter ? e.parameter.action : '';
     const reviewId = e.parameter ? e.parameter.id : '';
     const productId = e.parameter ? e.parameter.productId : '';
@@ -220,7 +276,7 @@ function doGet(e) {
         if (raw) list = JSON.parse(raw);
       } catch (e) { list = []; }
 
-      list = list.filter(function(r) { return r.id !== targetReviewId; });
+      list = list.filter(function (r) { return r.id !== targetReviewId; });
       PropertiesService.getScriptProperties().setProperty(key, JSON.stringify(list));
 
       return HtmlService.createHtmlOutput('<div style="font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; text-align: center; padding: 35px; border: 2px solid #e74c3c; border-radius: 12px; background: #fff;"><div style="font-size: 40px; margin-bottom: 10px;">🗑️</div><h2 style="color: #e74c3c; margin: 0 0 10px;">Review Deleted Successfully!</h2><p style="color: #555; font-size: 15px;">The review has been removed. It will no longer show on the product page.</p></div>');
@@ -299,10 +355,15 @@ function doGet(e) {
  * Works seamlessly with Dev Dashboard Client ID/Secret OR static token
  */
 function getShopifyAccessToken() {
+  const savedToken = PropertiesService.getScriptProperties().getProperty('SHOPIFY_PERMANENT_TOKEN');
+  if (savedToken && savedToken.length > 5) {
+    return savedToken;
+  }
+
   if (SHOPIFY_ADMIN_ACCESS_TOKEN && SHOPIFY_ADMIN_ACCESS_TOKEN.indexOf('PASTE_') !== 0 && SHOPIFY_ADMIN_ACCESS_TOKEN.length > 5) {
     return SHOPIFY_ADMIN_ACCESS_TOKEN;
   }
-  
+
   if (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET) {
     const tokenUrl = 'https://' + SHOPIFY_STORE_DOMAIN + '/admin/oauth/access_token';
     const payload = {
@@ -429,7 +490,7 @@ function publishReviewToShopifyMetafield(newReview) {
   if (updateJson.data && updateJson.data.metafieldsSet) {
     const errors = updateJson.data.metafieldsSet.userErrors;
     if (errors && errors.length > 0) {
-      return { success: false, error: errors.map(function(e) { return e.message; }).join(', ') };
+      return { success: false, error: errors.map(function (e) { return e.message; }).join(', ') };
     }
     return { success: true };
   } else {

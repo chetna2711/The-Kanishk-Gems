@@ -720,13 +720,56 @@
     border-color: #1a1a1a !important;
   }
   #CustomerReviews-{{ section_id }} .cr-sort-select {
-    padding: 0.6rem 2.8rem 0.6rem 1.2rem;
-    border-radius: 4px;
-    border: 1px solid rgba(26, 26, 26, 0.2);
+    padding: 0.7rem 3.4rem 0.7rem 1.4rem;
+    border-radius: 6px;
+    border: 1px solid rgba(197, 160, 89, 0.35);
     font-size: 1.25rem;
-    background: #ffffff;
+    font-weight: 500;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c5a059' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+    background-size: 1.2rem;
+    -webkit-appearance: none;
+    appearance: none;
     color: var(--cr-text);
     cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  #CustomerReviews-{{ section_id }} .cr-sort-select:hover,
+  #CustomerReviews-{{ section_id }} .cr-sort-select:focus {
+    border-color: var(--cr-gold);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.15);
+  }
+
+  @media screen and (max-width: 640px) {
+    #CustomerReviews-{{ section_id }} .cr-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.4rem;
+    }
+    #CustomerReviews-{{ section_id }} .cr-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    #CustomerReviews-{{ section_id }} .cr-filter-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      padding: 0.7rem 1.3rem;
+      font-size: 1.2rem;
+    }
+    #CustomerReviews-{{ section_id }} .cr-sort-wrap {
+      width: 100%;
+    }
+    #CustomerReviews-{{ section_id }} .cr-sort-select {
+      width: 100%;
+      padding: 0.85rem 3.4rem 0.85rem 1.4rem;
+      font-size: 1.25rem;
+    }
   }
 
   /* Review Cards Grid */
@@ -745,122 +788,101 @@
   /* Single Review Card */
   .cr-card {
     background: #ffffff;
-    border: 1px solid rgba(197, 160, 89, 0.22);
-    border-radius: 8px;
-    padding: 1.8rem;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.24);
+    border-radius: 12px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
   }
   .cr-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.15);
+    box-shadow: 0 10px 28px rgba(197, 160, 89, 0.16);
     border-color: var(--cr-gold);
   }
-
-  /* Split layout when review has photo: Left photo, Right review details */
-  .cr-card--with-photo {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 1.8rem;
-    align-items: stretch;
-  }
   @media screen and (max-width: 640px) {
-    .cr-card--with-photo {
-      grid-template-columns: 110px 1fr;
-      gap: 1.2rem;
-      padding: 1.2rem;
+    .cr-card {
+      padding: 1.6rem 1.5rem;
+      border-radius: 10px;
     }
   }
 
-  .cr-card__photo-col {
+  .cr-card__content-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
   }
-  .cr-card__main-img-box {
+
+  /* Customer Photos Gallery inside card body */
+  .cr-card__photos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin: 0.4rem 0 1.4rem;
+  }
+  .cr-card__photo-thumb {
     position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 140px;
-    border-radius: 6px;
+    width: 90px;
+    height: 90px;
+    min-width: 90px;
+    border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
-    background: #111111;
-    border: 1px solid rgba(197, 160, 89, 0.3);
+    border: 1.5px solid rgba(197, 160, 89, 0.35);
+    background: #f7f5f0;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
-  .cr-card__main-img-box img {
+  .cr-card__photo-thumb:hover {
+    transform: scale(1.03);
+    border-color: var(--cr-gold);
+    box-shadow: 0 4px 14px rgba(197, 160, 89, 0.25);
+  }
+  .cr-card__photo-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.3s ease;
   }
-  .cr-card__main-img-box:hover img {
-    transform: scale(1.05);
+  .cr-card__photo-thumb:hover img {
+    transform: scale(1.08);
   }
-  .cr-card__zoom-badge {
+  .cr-card__photo-zoom-icon {
     position: absolute;
-    bottom: 0.6rem;
-    right: 0.6rem;
-    width: 2.6rem;
-    height: 2.6rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 2.4rem;
+    height: 2.4rem;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.65);
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.85;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: all 0.2s ease;
   }
-  .cr-card__main-img-box:hover .cr-card__zoom-badge {
-    opacity: 1;
-    transform: scale(1.1);
+  .cr-card__photo-thumb:hover .cr-card__photo-zoom-icon {
     background: var(--cr-gold);
     color: #1a1a1a;
+    transform: scale(1.1);
   }
-  .cr-card__zoom-badge svg {
-    width: 1.3rem;
-    height: 1.3rem;
+  .cr-card__photo-zoom-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
     stroke: currentColor;
     stroke-width: 2.2;
     fill: none;
   }
-  .cr-card__photo-count {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
-  }
-  .cr-card__extra-photos {
-    display: flex;
-    gap: 0.5rem;
-  }
-  .cr-card__mini-thumb {
-    width: 3.4rem;
-    height: 3.4rem;
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 1px solid rgba(197, 160, 89, 0.3);
-  }
-  .cr-card__mini-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cr-card__content-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 0;
+  @media screen and (max-width: 640px) {
+    .cr-card__photo-thumb {
+      width: 82px;
+      height: 82px;
+      min-width: 82px;
+    }
   }
 
   /* Reviewer Top Row */
@@ -993,10 +1015,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(26, 26, 26, 0.08);
+    border-top: 1px solid rgba(197, 160, 89, 0.18);
     padding-top: 1.2rem;
+    margin-top: auto;
     font-size: 1.2rem;
     color: rgba(26, 26, 26, 0.6);
+    gap: 0.8rem;
+  }
+  .cr-card__bottom > span {
+    white-space: nowrap;
   }
   .cr-helpful-btn {
     background: none;
@@ -1010,12 +1037,15 @@
     gap: 0.4rem;
     border-radius: 4px;
     transition: all 0.2s ease;
+    white-space: nowrap !important;
+    flex-shrink: 0;
   }
   .cr-helpful-btn svg {
     width: 1.3rem;
     height: 1.3rem;
     stroke: currentColor;
     fill: none;
+    flex-shrink: 0;
   }
   .cr-helpful-btn:hover, .cr-helpful-btn.cr-helpful-btn--clicked {
     color: var(--cr-gold-dark);
@@ -1524,23 +1554,41 @@
       console.warn('[CustomerReviews] Metafield parse note:', e);
     }
 
-    // Only use product-specific reviews
+    // Load product-specific reviews from metafield
     let allReviews = [...metafieldReviews].filter(r => {
       if (r.status && r.status !== 'approved') return false;
       return true;
     });
 
-    // Check LocalStorage for pending reviews submitted by this browser
+    // Check LocalStorage for instant preview reviews submitted by this browser (temporary preview)
     try {
       const localKey = 'cr_pending_' + productId;
       const stored = localStorage.getItem(localKey);
       if (stored) {
         const localList = JSON.parse(stored);
         if (Array.isArray(localList)) {
-          allReviews = [...localList, ...allReviews];
+          const now = Date.now();
+          const freshList = localList.filter(item => {
+            const time = item.timestamp || (item.id && item.id.startsWith('user_rev_') ? parseInt(item.id.replace('user_rev_', ''), 10) : 0);
+            return time > 0 && (now - time) < (15 * 60 * 1000);
+          });
+          if (freshList.length !== localList.length) {
+            if (freshList.length === 0) localStorage.removeItem(localKey);
+            else localStorage.setItem(localKey, JSON.stringify(freshList));
+          }
+          allReviews = [...freshList, ...allReviews];
         }
       }
     } catch (e) {}
+
+    // Deduplicate reviews by unique ID or content signature
+    const seenReviewKeys = new Set();
+    allReviews = allReviews.filter(r => {
+      const key = r.id || (r.author + '_' + r.date + '_' + (r.content || ''));
+      if (seenReviewKeys.has(key)) return false;
+      seenReviewKeys.add(key);
+      return true;
+    });
 
     // Track active photo gallery items for Lightbox
     let galleryPhotos = [];
@@ -1737,84 +1785,69 @@
         const rating = parseInt(rev.rating || 5, 10);
         const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
         const hasPhotos = rev.photos && Array.isArray(rev.photos) && rev.photos.length > 0;
-        const firstPhoto = hasPhotos ? formatImageUrl(rev.photos[0]) : '';
 
         const card = document.createElement('div');
         card.className = 'cr-card' + (hasPhotos ? ' cr-card--with-photo' : ' cr-card--text-only');
 
-        let photoColHtml = '';
+        let photosHtml = '';
         if (hasPhotos) {
-          const extraPhotos = rev.photos.slice(1);
-          let extraThumbnailsHtml = '';
-          if (extraPhotos.length > 0) {
-            extraThumbnailsHtml = '<div class="cr-card__extra-photos">';
-            extraPhotos.forEach(pUrl => {
-              const formattedThumb = formatImageUrl(pUrl);
-              extraThumbnailsHtml += `
-                <div class="cr-card__mini-thumb" data-photo-url="${formattedThumb}">
-                  <img src="${formattedThumb}" alt="Customer photo" loading="lazy">
-                </div>
-              `;
-            });
-            extraThumbnailsHtml += '</div>';
-          }
-
-          photoColHtml = `
-            <div class="cr-card__photo-col">
-              <div class="cr-card__main-img-box" data-photo-url="${firstPhoto}">
-                <img src="${firstPhoto}" alt="${escapeHtml(rev.author || 'Reviewer')} jewellery photo" loading="lazy">
-                <div class="cr-card__zoom-badge" title="Click to enlarge">
-                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                </div>
-                ${rev.photos.length > 1 ? `<span class="cr-card__photo-count">+${rev.photos.length - 1}</span>` : ''}
-              </div>
-              ${extraThumbnailsHtml}
+          photosHtml = `
+            <div class="cr-card__photos">
+              ${rev.photos.map((pUrl, pIdx) => {
+                const formatted = formatImageUrl(pUrl);
+                return `
+                  <div class="cr-card__photo-thumb" data-photo-url="${formatted}" role="button" tabindex="0" title="Click to enlarge photo">
+                    <img src="${formatted}" alt="${escapeHtml(rev.author || 'Reviewer')} jewellery photo ${pIdx + 1}" loading="lazy">
+                    <div class="cr-card__photo-zoom-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
             </div>
           `;
         }
 
-        const contentColHtml = `
-          <div class="cr-card__content-col">
-            <div>
-              <div class="cr-card__top">
-                <div class="cr-card__author-box">
-                  <div class="cr-avatar">${initial}</div>
-                  <div>
-                    <div class="cr-card__name-row">
-                      <p class="cr-card__name">${escapeHtml(rev.author || 'Verified Buyer')}</p>
-                      ${rev.verified !== false ? `
-                        <span class="cr-verified-badge" title="Verified Customer">
-                          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          Verified Buyer
-                        </span>
-                      ` : ''}
-                    </div>
-                    ${rev.location ? `<p class="cr-card__meta-sub">${escapeHtml(rev.location)}</p>` : ''}
+        card.innerHTML = `
+          <div class="cr-card__content-main">
+            <div class="cr-card__top">
+              <div class="cr-card__author-box">
+                <div class="cr-avatar">${initial}</div>
+                <div>
+                  <div class="cr-card__name-row">
+                    <p class="cr-card__name">${escapeHtml(rev.author || 'Verified Buyer')}</p>
+                    ${rev.verified !== false ? `
+                      <span class="cr-verified-badge" title="Verified Customer">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Verified Buyer
+                      </span>
+                    ` : ''}
                   </div>
+                  ${rev.location ? `<p class="cr-card__meta-sub">${escapeHtml(rev.location)}</p>` : ''}
                 </div>
-                <span class="cr-card__date">${escapeHtml(rev.date || 'Recent')}</span>
               </div>
-
-              <div class="cr-card__rating-row">
-                ${renderGoldStars(rating)}
-                ${rev.variant ? `<span class="cr-card__variant-badge">• ${escapeHtml(rev.variant)}</span>` : ''}
-              </div>
-
-              ${rev.title ? `<h4 class="cr-card__title">${escapeHtml(rev.title)}</h4>` : ''}
-              <p class="cr-card__body">${escapeHtml(rev.content || '')}</p>
+              <span class="cr-card__date">${escapeHtml(rev.date || 'Recent')}</span>
             </div>
 
-            <div class="cr-card__bottom">
-              <span>Was this review helpful?</span>
-              <button type="button" class="cr-helpful-btn" data-helpful-btn>
-                <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                Helpful (<span data-helpful-num>${rev.helpful_count || 0}</span>)
-              </button>
+            <div class="cr-card__rating-row">
+              ${renderGoldStars(rating)}
+              ${rev.variant ? `<span class="cr-card__variant-badge">• ${escapeHtml(rev.variant)}</span>` : ''}
             </div>
+
+            ${rev.title ? `<h4 class="cr-card__title">${escapeHtml(rev.title)}</h4>` : ''}
+            <p class="cr-card__body">${escapeHtml(rev.content || '')}</p>
+
+            ${photosHtml}
+          </div>
+
+          <div class="cr-card__bottom">
+            <span>Was this review helpful?</span>
+            <button type="button" class="cr-helpful-btn" data-helpful-btn>
+              <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+              Helpful (<span data-helpful-num>${rev.helpful_count || 0}</span>)
+            </button>
           </div>
         `;
-
-        card.innerHTML = hasPhotos ? (photoColHtml + contentColHtml) : contentColHtml;
 
         // Attach Lightbox triggers to card photos
         card.querySelectorAll('[data-photo-url]').forEach(thumb => {
@@ -2027,6 +2060,7 @@
 
         const newReview = {
           id: 'user_rev_' + Date.now(),
+          timestamp: Date.now(),
           author: author,
           rating: rating,
           date: 'Just now',
@@ -2039,16 +2073,34 @@
           status: 'approved' // Shown immediately to the author in this browser
         };
 
-        // If Webhook URL is configured, send payload to Google Apps Script for Email Approval
+        // 1. Instant Preview: Save locally & immediately show review to the author
+        try {
+          const localKey = 'cr_pending_' + productId;
+          const stored = localStorage.getItem(localKey);
+          let localList = stored ? JSON.parse(stored) : [];
+          localList = localList.filter(item => item.id !== newReview.id);
+          localList.unshift(newReview);
+          localStorage.setItem(localKey, JSON.stringify(localList));
+        } catch (err) {}
+
+        if (!allReviews.some(r => r.id === newReview.id)) {
+          allReviews.unshift(newReview);
+        }
+        updateStats();
+        renderReviews();
+
+        // 2. Dispatch payload to Backend / Cloud Webhook for permanent Metafield storage
         if (webhookUrl && webhookUrl.startsWith('http')) {
           try {
-            await fetch(webhookUrl, {
+            fetch(webhookUrl, {
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' },
               body: JSON.stringify({
+                action: 'submitReview',
                 productId: productId,
                 productTitle: sectionContainer.dataset.productTitle || '',
+                id: newReview.id,
                 author: author,
                 email: email,
                 rating: rating,
@@ -2058,23 +2110,12 @@
                 photos: photoDataUrls,
                 submittedAt: new Date().toISOString()
               })
+            }).catch(netErr => {
+              console.warn('[CustomerReviews] Webhook notice:', netErr);
             });
           } catch (netErr) {
             console.warn('[CustomerReviews] Webhook notice:', netErr);
           }
-        } else {
-          // If no webhook configured (demo mode), save locally
-          try {
-            const localKey = 'cr_pending_' + productId;
-            const stored = localStorage.getItem(localKey);
-            let localList = stored ? JSON.parse(stored) : [];
-            localList.unshift(newReview);
-            localStorage.setItem(localKey, JSON.stringify(localList));
-          } catch (err) {}
-
-          allReviews.unshift(newReview);
-          updateStats();
-          renderReviews();
         }
 
         // Reset Form & Show Success Screen
@@ -2210,18 +2251,27 @@
       fetch(cloudFetchUrl)
         .then(res => res.json())
         .then(cloudReviews => {
-          if (Array.isArray(cloudReviews) && cloudReviews.length > 0) {
-            let hasNew = false;
-            cloudReviews.forEach(cr => {
-              if (cr && cr.id && !allReviews.some(r => r.id === cr.id)) {
-                allReviews.unshift(cr);
-                hasNew = true;
-              }
+          if (Array.isArray(cloudReviews)) {
+            // Clean up localStorage for this product once cloud responds
+            try {
+              const localKey = 'cr_pending_' + productId;
+              localStorage.removeItem(localKey);
+            } catch (cleanErr) {}
+
+            // The cloud + metafield reviews are the authoritative source
+            const combined = [...cloudReviews, ...metafieldReviews];
+            const seen = new Set();
+            allReviews = combined.filter(r => {
+              if (!r) return false;
+              if (r.status && r.status !== 'approved') return false;
+              const k = r.id || (r.author + '_' + (r.title || '') + '_' + (r.content || ''));
+              if (seen.has(k)) return false;
+              seen.add(k);
+              return true;
             });
-            if (hasNew) {
-              updateStats();
-              renderReviews();
-            }
+
+            updateStats();
+            renderReviews();
           }
         })
         .catch(err => {
