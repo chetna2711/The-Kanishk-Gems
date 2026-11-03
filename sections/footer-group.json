@@ -41,7 +41,8 @@
             "show_email": true,
             "show_phone": true,
             "show_whatsapp": true,
-            "show_hours": true
+            "show_hours": true,
+            "show_address": true
           }
         }
       },

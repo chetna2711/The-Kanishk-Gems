@@ -238,6 +238,124 @@
       font-size: 1.35rem;
       margin-top: 0.8rem;
     }
+
+    /* Mobile: exactly 2 cards per view (or 1), properly fitted without 2.2 peek */
+    #collection-{{ section.id }} .slider--tablet.grid--2-col-tablet-down .grid__item {
+      width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2) !important;
+      max-width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2) !important;
+      min-width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2) !important;
+      flex-shrink: 0 !important;
+    }
+
+    #collection-{{ section.id }} .slider--tablet.grid--1-col-tablet-down .grid__item {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      flex-shrink: 0 !important;
+    }
+
+    #collection-{{ section.id }} .slider--tablet .grid__item:first-of-type {
+      margin-left: 0 !important;
+    }
+
+    #collection-{{ section.id }} .slider--tablet:after,
+    #collection-{{ section.id }} .slider.grid--peek:after {
+      display: none !important;
+      content: none !important;
+    }
+
+    /* Mobile full-width Add to cart button: exact 100% card width, 0 margin, 0 padding, no gaps */
+    #collection-{{ section.id }} .card .card__content,
+    #collection-{{ section.id }} .card-wrapper .card__content,
+    #collection-{{ section.id }} .product-card-wrapper .card__content,
+    #collection-{{ section.id }} .product-card-wrapper .card--standard>.card__content {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-bottom: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      height: 100% !important;
+      min-height: auto !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    #collection-{{ section.id }} .card .card__content .card__information,
+    #collection-{{ section.id }} .card-wrapper .card__content .card__information,
+    #collection-{{ section.id }} .product-card-wrapper .card__content .card__information,
+    #collection-{{ section.id }} .product-card-wrapper .card--standard>.card__content .card__information {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+      padding-bottom: 0.6rem !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+    }
+
+    #collection-{{ section.id }} .card .quick-add,
+    #collection-{{ section.id }} .card-wrapper .quick-add,
+    #collection-{{ section.id }} .product-card-wrapper .quick-add,
+    #collection-{{ section.id }} .card--standard .quick-add,
+    #collection-{{ section.id }} .card--card .quick-add,
+    #collection-{{ section.id }} .quick-add {
+      position: static !important;
+      bottom: auto !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: auto !important;
+      transform: none !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      margin-top: auto !important;
+      box-sizing: border-box !important;
+      z-index: 2 !important;
+      display: block !important;
+    }
+
+    #collection-{{ section.id }} .card .quick-add modal-opener,
+    #collection-{{ section.id }} .card .quick-add product-form,
+    #collection-{{ section.id }} .card .quick-add form,
+    #collection-{{ section.id }} .quick-add modal-opener,
+    #collection-{{ section.id }} .quick-add product-form,
+    #collection-{{ section.id }} .quick-add form {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    #collection-{{ section.id }} .card .quick-add__submit,
+    #collection-{{ section.id }} .card-wrapper .quick-add__submit,
+    #collection-{{ section.id }} .product-card-wrapper .quick-add__submit,
+    #collection-{{ section.id }} .quick-add .quick-add__submit,
+    #collection-{{ section.id }} .quick-add__submit {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      height: 3.8rem !important;
+      min-height: 3.8rem !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 0.5rem !important;
+      border: none !important;
+      box-sizing: border-box !important;
+      font-size: 1.25rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.03em !important;
+    }
+
+    #collection-{{ section.id }} .quick-add__submit:before,
+    #collection-{{ section.id }} .quick-add__submit:after {
+      display: none !important;
+    }
   }
 {%- endstyle -%}
 
@@ -302,7 +420,7 @@
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
-        class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}"
+        class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet{% endif %}{% endif %}"
         role="list"
         aria-label="{{ 'general.slider.name' | t }}"
       >
@@ -689,20 +807,13 @@
       "content": "t:sections.featured-collection.settings.header_mobile.content"
     },
     {
-      "type": "select",
+      "type": "range",
       "id": "columns_mobile",
-      "default": "2",
-      "label": "t:sections.featured-collection.settings.columns_mobile.label",
-      "options": [
-        {
-          "value": "1",
-          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
-        }
-      ]
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 2,
+      "label": "t:sections.featured-collection.settings.columns_mobile.label"
     },
     {
       "type": "checkbox",

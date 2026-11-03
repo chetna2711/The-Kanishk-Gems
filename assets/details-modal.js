@@ -30,6 +30,11 @@ class DetailsModal extends HTMLElement {
     document.body.addEventListener('click', this.onBodyClickEvent);
     document.body.classList.add('overflow-hidden');
 
+    const header = this.closest('.header') || document.querySelector('.header');
+    if (header) header.classList.add('search-open');
+    const headerWrapper = this.closest('.header-wrapper') || document.querySelector('.header-wrapper');
+    if (headerWrapper) headerWrapper.classList.add('search-open');
+
     trapFocus(
       this.detailsContainer.querySelector('[tabindex="-1"]'),
       this.detailsContainer.querySelector('input:not([type="hidden"])')
@@ -41,6 +46,11 @@ class DetailsModal extends HTMLElement {
     this.detailsContainer.removeAttribute('open');
     document.body.removeEventListener('click', this.onBodyClickEvent);
     document.body.classList.remove('overflow-hidden');
+
+    const header = this.closest('.header') || document.querySelector('.header');
+    if (header) header.classList.remove('search-open');
+    const headerWrapper = this.closest('.header-wrapper') || document.querySelector('.header-wrapper');
+    if (headerWrapper) headerWrapper.classList.remove('search-open');
   }
 }
 

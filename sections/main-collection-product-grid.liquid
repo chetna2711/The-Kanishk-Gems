@@ -34,6 +34,106 @@
       padding-bottom: calc(var(--spacing-sections-desktop, 0px));
     }
   }
+
+  @media screen and (max-width: 749px) {
+    /* Mobile full-width Add to cart button: exact 100% card width, 0 margin, 0 padding, no gaps */
+    .card .card__content,
+    .card-wrapper .card__content,
+    .product-card-wrapper .card__content,
+    .product-card-wrapper .card--standard>.card__content {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-bottom: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      height: 100% !important;
+      min-height: auto !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    .card .card__content .card__information,
+    .card-wrapper .card__content .card__information,
+    .product-card-wrapper .card__content .card__information,
+    .product-card-wrapper .card--standard>.card__content .card__information {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+      padding-bottom: 0.6rem !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+    }
+
+    .card .quick-add,
+    .card-wrapper .quick-add,
+    .product-card-wrapper .quick-add,
+    .card--standard .quick-add,
+    .card--card .quick-add,
+    .quick-add {
+      position: static !important;
+      bottom: auto !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: auto !important;
+      transform: none !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      margin-top: auto !important;
+      box-sizing: border-box !important;
+      z-index: 2 !important;
+      display: block !important;
+    }
+
+    .card .quick-add modal-opener,
+    .card .quick-add product-form,
+    .card .quick-add form,
+    .card-wrapper .quick-add modal-opener,
+    .card-wrapper .quick-add product-form,
+    .card-wrapper .quick-add form,
+    .quick-add modal-opener,
+    .quick-add product-form,
+    .quick-add form {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .card .quick-add__submit,
+    .card-wrapper .quick-add__submit,
+    .product-card-wrapper .quick-add__submit,
+    .quick-add .quick-add__submit,
+    .quick-add__submit {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      height: 3.8rem !important;
+      min-height: 3.8rem !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 0.5rem !important;
+      border: none !important;
+      box-sizing: border-box !important;
+      font-size: 1.25rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.03em !important;
+    }
+
+    .card .quick-add__submit:before,
+    .card .quick-add__submit:after,
+    .quick-add__submit:before,
+    .quick-add__submit:after {
+      display: none !important;
+    }
+  }
 {%- endstyle -%}
 
 <collection-component

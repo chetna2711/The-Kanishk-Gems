@@ -1505,10 +1505,29 @@
         "default": "+91 98765 43210"
       },
       {
+        "type": "textarea",
+        "id": "contact_whatsapp_message",
+        "label": "WhatsApp default message",
+        "default": "Hello Hency Jewels! I am interested in your jewellery collection and would like to know more details.",
+        "info": "Pre-filled message when a customer clicks the WhatsApp button."
+      },
+      {
         "type": "text",
         "id": "contact_hours",
         "label": "Support hours",
         "default": "Mon - Sat: 10:00 AM - 7:00 PM IST"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_address",
+        "label": "Support address",
+        "default": "68, Ambika Nagar Society, Mahadev Chowk, Mota Varachha, Surat, Gujarat - 394101, India"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_whatsapp",
+        "label": "Enable sticky WhatsApp button",
+        "default": true
       }
     ]
   }

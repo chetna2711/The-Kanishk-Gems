@@ -682,17 +682,33 @@
 @media screen and (max-width: 749px) {
   .product-card-wrapper .card--standard {
     --product-card-action-size: 3.6rem;
-    --product-card-content-height: 11.8rem;
+    --product-card-content-height: auto;
   }
 
-  .product-card-wrapper .card--standard>.card__content {
-    min-height: var(--product-card-content-height);
-    height: auto;
-    padding: 1.2rem 1rem;
+  .product-card-wrapper .card--standard>.card__content,
+  .card-wrapper .card>.card__content,
+  .card>.card__content {
+    min-height: auto;
+    height: 100%;
+    padding: 1.2rem 0 0 0 !important;
     max-width: 100%;
     min-width: 0;
     width: 100%;
-    overflow: visible;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .product-card-wrapper .card--standard>.card__content .card__information,
+  .card-wrapper .card>.card__content .card__information,
+  .card>.card__content .card__information {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-bottom: 0.6rem !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
 
   .product-card-wrapper .card--standard .card__heading {
@@ -704,6 +720,7 @@
   .product-card-wrapper .card--standard .card-information>.price {
     font-size: 1.4rem;
     margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
   }
 
   .product-card-wrapper .card--standard .price--on-sale .price-item--regular {
@@ -719,15 +736,75 @@
     top: 0.8rem;
   }
 
-  .product-card-wrapper .card--standard .quick-add {
-    bottom: calc(var(--product-card-content-height) + 0.8rem);
-    left: 0.8rem;
-    right: 0.8rem;
-    top: auto;
+  /* Mobile only: Add to cart button placed below price and full width of card */
+  .card .quick-add,
+  .card-wrapper .quick-add,
+  .product-card-wrapper .quick-add,
+  .card--standard .quick-add,
+  .card--card .quick-add,
+  .quick-add {
+    position: static !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-top: auto !important;
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+    display: block !important;
   }
 
-  .product-card-wrapper .card--standard .quick-add__submit {
-    height: 3.6rem;
+  .card .quick-add modal-opener,
+  .card .quick-add product-form,
+  .card .quick-add form,
+  .card-wrapper .quick-add modal-opener,
+  .card-wrapper .quick-add product-form,
+  .card-wrapper .quick-add form,
+  .quick-add modal-opener,
+  .quick-add product-form,
+  .quick-add form {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .card .quick-add__submit,
+  .card-wrapper .quick-add__submit,
+  .product-card-wrapper .quick-add__submit,
+  .quick-add .quick-add__submit,
+  .quick-add__submit {
+    height: 3.8rem !important;
+    min-height: 3.8rem !important;
+    border-radius: 0 !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.03em !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 0.5rem !important;
+    border: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .card .quick-add__submit:before,
+  .card .quick-add__submit:after,
+  .quick-add__submit:before,
+  .quick-add__submit:after {
+    display: none !important;
   }
 }
 

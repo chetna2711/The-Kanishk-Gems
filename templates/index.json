@@ -300,7 +300,7 @@
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
-        "columns_mobile": "2",
+        "columns_mobile": 2,
         "swipe_on_mobile": true
       }
     },
@@ -581,7 +581,7 @@
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "standard",
-        "columns_mobile": "2",
+        "columns_mobile": 2,
         "swipe_on_mobile": false
       }
     },

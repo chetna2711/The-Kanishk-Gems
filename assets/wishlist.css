@@ -2,8 +2,8 @@
   position: relative;
 }
 .header__icon--wishlist .icon-wishlist {
-  height: 2.2rem;
-  width: 2.2rem;
+  height: 2rem;
+  width: 2rem;
 }
 .header__icon .wishlist-count-bubble {
   align-items: center;
