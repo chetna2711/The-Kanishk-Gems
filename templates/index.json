@@ -147,14 +147,14 @@
             "link": ""
           }
         },
-        "cat_bangles": {
+        "category_iTVWcq": {
           "type": "category",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
+            "image": "shopify://shop_images/GoldenOvalGemstoneJewellerySet.png",
             "use_collection_image": true,
-            "title": "Bangles",
-            "link": "shopify://collections/bangles"
+            "title": "Necklace Set",
+            "link": "shopify://collections/necklace-set"
           }
         },
         "category_Vbkgjc": {
@@ -177,14 +177,14 @@
             "link": "shopify://collections/earrings"
           }
         },
-        "category_iTVWcq": {
+        "cat_bangles": {
           "type": "category",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/GoldenOvalGemstoneJewellerySet.png",
+            "image": "shopify://shop_images/e5605eac-3986-4079-9c44-be2de9c76bf8.png",
             "use_collection_image": true,
-            "title": "Necklace Set",
-            "link": "shopify://collections/necklace-set"
+            "title": "Bangles",
+            "link": "shopify://collections/bangles"
           }
         },
         "cat_rings": {
@@ -201,10 +201,10 @@
       "block_order": [
         "cat_mangalsutra",
         "category_iLrrdn",
-        "cat_bangles",
+        "category_iTVWcq",
         "category_Vbkgjc",
         "cat_earrings",
-        "category_iTVWcq",
+        "cat_bangles",
         "cat_rings"
       ],
       "settings": {
