@@ -727,7 +727,7 @@
         "media_mWxjHh": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/021e1655-2bbb-4cad-83da-37daa9727525.jpg",
+            "image": "shopify://shop_images/85281fba-9a32-443b-a7be-22759208f0ac.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -736,7 +736,7 @@
         "media_qbLXjR": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/fbebdffb-0167-49cd-8267-74030a9084c1.jpg",
+            "image": "shopify://shop_images/5-3-ezremove.png",
             "video_url": "",
             "title": "",
             "link": ""
@@ -745,7 +745,7 @@
         "media_n9W7cJ": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/e91169dd-a7fb-4b1a-ac13-f852950a1063.jpg",
+            "image": "shopify://shop_images/1fa3ab6e-59c2-4c99-bac4-cdbc835ca39c.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -754,7 +754,7 @@
         "media_Q8yqpz": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/2a61f368-4645-45e2-87b3-bffd376a85ce.jpg",
+            "image": "shopify://shop_images/1-4_35085a78-37cd-422e-832c-8f875b4a692a.png",
             "video_url": "",
             "title": "",
             "link": ""
@@ -763,7 +763,7 @@
         "media_zVdfMc": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/e702d289-8104-4278-9dd0-54a528f739e6.jpg",
+            "image": "shopify://shop_images/7-3_1b5a0eb0-d0d3-4553-ba63-73c6bd5fae1b.png",
             "video_url": "",
             "title": "",
             "link": ""
@@ -772,7 +772,7 @@
         "media_HYVY9G": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/782f2235-7104-4ce2-8b1c-1d029642985f.jpg",
+            "image": "shopify://shop_images/1-2_2a250c22-8eb8-42a8-aedf-2b42106620fd.png",
             "video_url": "",
             "title": "",
             "link": ""
@@ -781,7 +781,7 @@
         "media_FcbVRm": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/be62d95d-e5cf-494f-895f-276395f17da2.jpg",
+            "image": "shopify://shop_images/15-4.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -790,7 +790,7 @@
         "media_g9zbz9": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/f499e924-22a8-43c8-b4a3-ebc94ac4ee43.jpg",
+            "image": "shopify://shop_images/15-3_002c12d4-f0ce-4bb9-9f2f-79462e0777a9.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -799,7 +799,34 @@
         "media_JYAAjx": {
           "type": "media",
           "settings": {
-            "image": "shopify://shop_images/508b6471-6ae3-40ce-8b88-a1c60258c14d.jpg",
+            "image": "shopify://shop_images/5-4.png",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_c8KEGd": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/23-4.jpg",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_LXW9xE": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/20-2.png",
+            "video_url": "",
+            "title": "",
+            "link": ""
+          }
+        },
+        "media_AEGX47": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/Woman_wearing_luxury_jewelry_20261011171310.jpg",
             "video_url": "",
             "title": "",
             "link": ""
@@ -815,7 +842,10 @@
         "media_HYVY9G",
         "media_FcbVRm",
         "media_g9zbz9",
-        "media_JYAAjx"
+        "media_JYAAjx",
+        "media_c8KEGd",
+        "media_LXW9xE",
+        "media_AEGX47"
       ],
       "name": "Media showcase slider",
       "settings": {
