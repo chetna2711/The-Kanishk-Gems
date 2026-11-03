@@ -135,6 +135,7 @@
     "contact_email": "connect@hencyjewels.com",
     "contact_phone": "",
     "contact_whatsapp": "+91 8062177914",
+    "contact_whatsapp_message": "Hello Hency Jewels! I am interested in your jewellery collection and would like to know more details.",
     "contact_hours": "Mon - Sat: 10:00 AM - 7:00 PM IST",
     "contact_address": "68, Ambika Nagar Society, Mahadev Chowk, Mota Varachha, Surat, Gujarat - 394101, India",
     "enable_sticky_whatsapp": true,
@@ -153,13 +154,6 @@
       }
     },
     "content_for_index": [],
-    "blocks": {
-      "6079602236699480629": {
-        "type": "shopify://apps/giftpro/blocks/app-embed/019b8d54-a04a-78c6-8027-423fe7e8a097",
-        "disabled": false,
-        "settings": {}
-      }
-    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -216,8 +210,7 @@
           "shadow": "#1a1a1a"
         }
       }
-    },
-    "contact_whatsapp_message": "Hello Hency Jewels! I am interested in your jewellery collection and would like to know more details."
+    }
   },
   "presets": {
     "Dawn": {
