@@ -154,6 +154,13 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "2954076272237492340": {
+        "type": "shopify://apps/botcart-auto-add-to-cart/blocks/gift-offer/900ab645-be37-4635-9d9e-3d47b43b7711",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
