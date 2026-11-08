@@ -54,6 +54,17 @@
                             {{ link.title | escape }}
                           </button>
                           <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                             {% comment %} {%- if link.url != blank and link.url != '#' -%}
+                              <li>
+                                <a
+                                  href="{{ link.url }}"
+                                  class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                  style="font-weight: 600; color: var(--brand-primary, #bb7137);"
+                                >
+                                  {{ 'View All ' | append: link.title | escape }}
+                                </a>
+                              </li>
+                            {%- endif -%}{% endcomment %}
                             {%- for childlink in link.links -%}
                               <li>
                                 {%- if childlink.links == blank -%}

@@ -80,14 +80,26 @@
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
+                {% if link.url != blank and link.url != '#' %}
+                  data-url="{{ link.url }}"
+                {% endif %}
               >
-                <span
-                  {%- if link.child_active %}
-                    class="header__active-menu-item"
-                  {% endif %}
-                >
-                  {{- link.title | escape -}}
-                </span>
+                {%- if link.url != blank and link.url != '#' -%}
+                  <a
+                    href="{{ link.url }}"
+                    class="header__menu-item-link{% if link.child_active %} header__active-menu-item{% endif %}"
+                  >
+                    <span>{{- link.title | escape -}}</span>
+                  </a>
+                {%- else -%}
+                  <span
+                    {%- if link.child_active %}
+                      class="header__active-menu-item"
+                    {% endif %}
+                  >
+                    {{- link.title | escape -}}
+                  </span>
+                {%- endif -%}
                 {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
               <ul
@@ -114,8 +126,17 @@
                         <summary
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                           class="header__menu-item link link--text list-menu__item focus-inset caption-large"
+                          {% if childlink.url != blank and childlink.url != '#' %}
+                            data-url="{{ childlink.url }}"
+                          {% endif %}
                         >
-                          <span>{{ childlink.title | escape }}</span>
+                          {%- if childlink.url != blank and childlink.url != '#' -%}
+                            <a href="{{ childlink.url }}" class="header__menu-item-link">
+                              <span>{{ childlink.title | escape }}</span>
+                            </a>
+                          {%- else -%}
+                            <span>{{ childlink.title | escape }}</span>
+                          {%- endif -%}
                           {{- 'icon-caret.svg' | inline_asset_content -}}
                         </summary>
                         <ul

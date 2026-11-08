@@ -727,8 +727,7 @@
     /* Header links use colour only; the header separator is configured off. */
     .header__inline-menu .header__menu-item,
     .header__inline-menu .header__menu-item span,
-    .header__inline-menu .header__active-menu-item,
-    .header__inline-menu details[open] > .header__menu-item {
+    .header__inline-menu .header__active-menu-item {
       text-decoration: none;
       color: #111111 !important;
       font-weight: 600 !important;
@@ -736,7 +735,12 @@
       opacity: 1 !important;
     }
     .header__inline-menu .header__menu-item:hover,
-    .header__inline-menu .header__menu-item:hover span {
+    .header__inline-menu .header__menu-item:hover span,
+    .header__inline-menu .header__menu-item:hover a,
+    .header__inline-menu details[open] > .header__menu-item,
+    .header__inline-menu details[open] > .header__menu-item span,
+    .header__inline-menu details[open] > .header__menu-item a,
+    .header__inline-menu details[open] > .header__menu-item .icon-caret {
       color: var(--brand-primary, #bb7137) !important;
     }
   }
@@ -1166,6 +1170,42 @@
       const summary = details?.querySelector(':scope > summary');
       const content = details?.querySelector('.mega-menu__content, .header__submenu');
       if (!details || !summary) return;
+
+      // Handle parent menu item click: redirect to configured URL if present
+      const parentLink = summary.querySelector('.header__menu-item-link');
+      if (parentLink) {
+        parentLink.addEventListener('click', (event) => {
+          const href = parentLink.getAttribute('href');
+          if (href && href !== '#' && href.trim() !== '') {
+            event.stopPropagation();
+            window.location.href = href;
+          }
+        });
+      }
+
+      summary.addEventListener('click', (event) => {
+        const isCaret = event.target.closest('.icon-caret, .svg-wrapper');
+        const link = summary.querySelector('.header__menu-item-link');
+        const url = summary.dataset.url || link?.getAttribute('href');
+        if (!isCaret && url && url !== '#' && url.trim() !== '') {
+          event.preventDefault();
+          event.stopPropagation();
+          window.location.href = url;
+        }
+      });
+
+      // Handle nested sub-summaries with data-url
+      details.querySelectorAll('summary[data-url]').forEach((subSummary) => {
+        subSummary.addEventListener('click', (event) => {
+          const isCaret = event.target.closest('.icon-caret, .svg-wrapper');
+          const url = subSummary.dataset.url;
+          if (!isCaret && url && url !== '#' && url.trim() !== '') {
+            event.preventDefault();
+            event.stopPropagation();
+            window.location.href = url;
+          }
+        });
+      });
 
       item.addEventListener('mouseenter', () => openMenu(item));
       item.addEventListener('mouseleave', (event) => {

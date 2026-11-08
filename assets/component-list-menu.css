@@ -19,3 +19,169 @@
   width: 10rem;
   padding: 0.5rem;
 }
+
+/* ========================================================
+   HENCY JEWELS - CLEAN LUXURY DROPDOWN SUBMENU
+   ======================================================== */
+
+/* Parent Menu Item - Link wrapper & Caret alignment */
+.header__inline-menu .header__menu-item {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.header__inline-menu .header__menu-item-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: color 0.2s ease !important;
+}
+
+.header__inline-menu .header__menu-item-link:hover,
+.header__inline-menu .header__menu-item:hover .header__menu-item-link,
+.header__inline-menu .header__menu-item:hover span {
+  color: var(--brand-primary, #bb7137) !important;
+}
+
+.header__inline-menu .header__menu-item .icon-caret {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease !important;
+}
+
+/* Active & Open Parent Menu State */
+.header__inline-menu details[open] > .header__menu-item,
+.header__inline-menu details[open] > .header__menu-item .header__menu-item-link,
+.header__inline-menu details[open] > .header__menu-item span,
+.header__inline-menu details[open] > .header__menu-item .icon-caret {
+  color: var(--brand-primary, #bb7137) !important;
+}
+
+.header__inline-menu details[open] > .header__menu-item .icon-caret {
+  transform: rotate(180deg) !important;
+}
+
+/* Dropdown Submenu Container - Simple, Clean, Luxury */
+.header__inline-menu .header__submenu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  min-width: 200px !important;
+  width: max-content !important;
+  max-width: 300px !important;
+  padding: 6px 0 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid rgba(197, 160, 89, 0.32) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px -4px rgba(26, 15, 10, 0.12), 0 3px 8px rgba(0, 0, 0, 0.04) !important;
+  z-index: 1000 !important;
+  list-style: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+}
+
+/* Visual Upward Pointer / Arrow connecting Submenu to Parent Menu Item */
+.header__inline-menu .header__submenu::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -6px !important;
+  left: 24px !important;
+  width: 10px !important;
+  height: 10px !important;
+  background: #ffffff !important;
+  border-left: 1px solid rgba(197, 160, 89, 0.32) !important;
+  border-top: 1px solid rgba(197, 160, 89, 0.32) !important;
+  transform: rotate(45deg) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+/* Invisible Hover Bridge - Eliminates gap flickering between nav and dropdown */
+.header__inline-menu .header__submenu::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 14px !important;
+  background: transparent !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+}
+
+/* Submenu List Items */
+.header__inline-menu .header__submenu li {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+/* Submenu Links - Clean, Elegant Typography */
+.header__inline-menu .header__submenu .header__menu-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 9px 18px !important;
+  font-size: 1.35rem !important;
+  font-weight: 500 !important;
+  color: #2c2825 !important;
+  letter-spacing: 0.02em !important;
+  text-decoration: none !important;
+  line-height: 1.35 !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* Submenu Item Hover & Active States */
+.header__inline-menu .header__submenu .header__menu-item:hover,
+.header__inline-menu .header__submenu .header__menu-item:focus {
+  background-color: #FAF8F5 !important;
+  color: var(--brand-primary, #bb7137) !important;
+  border-left-color: var(--brand-primary, #bb7137) !important;
+  padding-left: 22px !important;
+  text-decoration: none !important;
+}
+
+.header__inline-menu .header__submenu .header__menu-item.list-menu__item--active {
+  background-color: #FAF8F5 !important;
+  color: var(--brand-primary, #bb7137) !important;
+  border-left-color: var(--brand-primary, #bb7137) !important;
+  font-weight: 600 !important;
+}
+
+/* Align Right for Items Near Right Edge */
+.header__inline-menu .header__submenu.list-menu--right,
+.header__inline-menu li:last-child .header__submenu,
+.header__inline-menu li:nth-last-child(2) .header__submenu {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.header__inline-menu .header__submenu.list-menu--right::before,
+.header__inline-menu li:last-child .header__submenu::before,
+.header__inline-menu li:nth-last-child(2) .header__submenu::before {
+  left: auto !important;
+  right: 24px !important;
+}
+
+/* 2nd-Level Flyout Submenu */
+.header__inline-menu .header__submenu .header__submenu {
+  top: -7px !important;
+  left: calc(100% + 4px) !important;
+  margin: 0 !important;
+}
+
+.header__inline-menu .header__submenu .header__submenu::before {
+  top: 14px !important;
+  left: -6px !important;
+  border-left: 1px solid rgba(197, 160, 89, 0.32) !important;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.32) !important;
+  border-top: none !important;
+}
