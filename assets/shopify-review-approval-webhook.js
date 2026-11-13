@@ -120,6 +120,20 @@ function doPost(e) {
     prodReviews.unshift(reviewPayload);
     PropertiesService.getScriptProperties().setProperty(prodKey, JSON.stringify(prodReviews));
 
+    // 2b. Also save into approved_reviews_all for cross-product sliders and aggregators
+    try {
+      let allReviews = [];
+      const rawAll = PropertiesService.getScriptProperties().getProperty('approved_reviews_all');
+      if (rawAll) allReviews = JSON.parse(rawAll);
+      allReviews = allReviews.filter(function (r) {
+        if (r.id === reviewPayload.id) return false;
+        if (r.author === reviewPayload.author && (r.title || '') === (reviewPayload.title || '') && (r.content || '') === (reviewPayload.content || '')) return false;
+        return true;
+      });
+      allReviews.unshift(reviewPayload);
+      PropertiesService.getScriptProperties().setProperty('approved_reviews_all', JSON.stringify(allReviews));
+    } catch (allErr) {}
+
     // 3. Sync directly into Shopify Product Metafield (`custom.customer_reviews`)
     let metafieldNotice = '';
     try {
@@ -247,9 +261,47 @@ function doGet(e) {
       let approvedList = [];
 
       try {
-        const key = targetProdId ? ('approved_reviews_' + targetProdId) : 'approved_reviews_all';
-        const raw = PropertiesService.getScriptProperties().getProperty(key);
-        if (raw) approvedList = JSON.parse(raw);
+        if (!targetProdId || targetProdId === 'all') {
+          // Scan all script properties starting with approved_reviews_
+          const allProps = PropertiesService.getScriptProperties().getProperties();
+          const seen = {};
+          Object.keys(allProps).forEach(function (k) {
+            if (k.indexOf('approved_reviews_') === 0 && k !== 'approved_reviews_all') {
+              try {
+                const items = JSON.parse(allProps[k]);
+                if (Array.isArray(items)) {
+                  items.forEach(function (it) {
+                    if (it && it.id && !seen[it.id]) {
+                      seen[it.id] = true;
+                      approvedList.push(it);
+                    }
+                  });
+                }
+              } catch (e) {}
+            }
+          });
+          // Also check approved_reviews_all if any
+          const rawAll = allProps['approved_reviews_all'];
+          if (rawAll) {
+            try {
+              const itemsAll = JSON.parse(rawAll);
+              if (Array.isArray(itemsAll)) {
+                itemsAll.forEach(function (it) {
+                  if (it && it.id && !seen[it.id]) {
+                    seen[it.id] = true;
+                    approvedList.push(it);
+                  }
+                });
+              }
+            } catch (e) {}
+          }
+          // Cache the aggregated list
+          PropertiesService.getScriptProperties().setProperty('approved_reviews_all', JSON.stringify(approvedList));
+        } else {
+          const key = 'approved_reviews_' + targetProdId;
+          const raw = PropertiesService.getScriptProperties().getProperty(key);
+          if (raw) approvedList = JSON.parse(raw);
+        }
       } catch (err) {
         approvedList = [];
       }

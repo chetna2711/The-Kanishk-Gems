@@ -1,0 +1,1571 @@
+{% comment %}
+  Hency Jewels - All Products Reviews Slider
+  Aggregates customer reviews across all store products (or a selected collection)
+  Displays in a luxury, responsive, touch-friendly carousel/slider.
+  Zero dates displayed, SEO & mobile optimized, vanilla HTML/CSS/JS.
+{% endcomment %}
+
+{%- liquid
+  assign section_id = section.id
+  assign target_collection = section.settings.source_collection | default: collections.all
+  assign max_reviews = section.settings.max_reviews | default: 12
+  assign columns_desktop = section.settings.columns_desktop | default: 3
+  assign columns_mobile_raw = section.settings.columns_mobile | default: '1'
+  assign columns_mobile = columns_mobile_raw | plus: 0
+  if columns_mobile == 0
+    assign columns_mobile = 1
+  endif
+  assign bg_color = section.settings.bg_color | default: '#fafaf7'
+  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign text_color = section.settings.text_color | default: '#1a1a1a'
+  assign gold_color = section.settings.gold_accent | default: '#c5a059'
+  assign gold_light = '#e0c890'
+  assign gap = section.settings.slide_gap | default: 20
+-%}
+
+{%- comment -%} Scan products in the collection to extract reviews from custom.customer_reviews metafield {%- endcomment -%}
+{%- assign collected_reviews_count = 0 -%}
+{%- capture product_reviews_json -%}
+[
+  {%- assign has_item = false -%}
+  {%- if target_collection and target_collection.products.size > 0 -%}
+    {%- for prod in target_collection.products limit: 50 -%}
+      {%- assign p_reviews = prod.metafields.custom.customer_reviews.value | default: prod.metafields.custom.customer_reviews -%}
+      {%- if p_reviews != blank -%}
+        {%- for rev in p_reviews -%}
+          {%- if rev.status == blank or rev.status == 'approved' -%}
+            {%- if collected_reviews_count < max_reviews -%}
+              {%- if has_item -%},{%- endif -%}
+              {
+                "id": {{ rev.id | default: forloop.index | json }},
+                "author": {{ rev.author | default: 'Customer' | json }},
+                "rating": {{ rev.rating | default: 5 | json }},
+                "verified": false,
+                "location": {{ rev.location | default: '' | json }},
+                "title": {{ rev.title | default: '' | json }},
+                "content": {{ rev.content | default: '' | json }},
+                "photos": {{ rev.photos | default: '[]' | json }},
+                "productTitle": {{ prod.title | json }},
+                "productUrl": {{ prod.url | json }},
+                "productImage": {{ prod.featured_image | image_url: width: 200 | json }}
+              }
+              {%- assign has_item = true -%}
+              {%- assign collected_reviews_count = collected_reviews_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+]
+{%- endcapture -%}
+
+{%- comment -%} Capture customizer blocks if configured {%- endcomment -%}
+{%- capture blocks_reviews_json -%}
+[
+  {%- for block in section.blocks -%}
+    {%- assign b_prod = block.settings.product -%}
+    {%- assign b_img = block.settings.customer_image | image_url: width: 200 | default: '' -%}
+    {%- if forloop.index > 1 -%},{%- endif -%}
+    {
+      "id": "block_{{ block.id }}",
+      "author": {{ block.settings.author | default: 'Customer' | json }},
+      "rating": {{ block.settings.rating | default: 5 | json }},
+      "verified": false,
+      "location": {{ block.settings.location | default: '' | json }},
+      "title": {{ block.settings.title | default: '' | json }},
+      "content": {{ block.settings.content | default: '' | json }},
+      "photos": [{% if b_img != '' %}{{ b_img | json }}{% endif %}],
+      "productTitle": {{ b_prod.title | default: block.settings.custom_product_title | json }},
+      "productUrl": {{ b_prod.url | default: '' | json }},
+      "productImage": {{ b_prod.featured_image | image_url: width: 200 | json }}
+    }
+  {%- endfor -%}
+]
+{%- endcapture -%}
+
+<div
+  id="AllReviewsSlider-{{ section_id }}"
+  class="all-reviews-slider-section"
+  data-section-id="{{ section_id }}"
+  data-columns-desktop="{{ columns_desktop }}"
+  data-columns-mobile="{{ columns_mobile }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-autoplay-speed="{{ section.settings.autoplay_speed | default: 5 }}"
+  data-pause-on-hover="{{ section.settings.pause_on_hover }}"
+  data-webhook-url="{{ section.settings.webhook_url | default: 'https://script.google.com/macros/s/AKfycbyIJfDJsjJFUG_7fHoOVInVJLMJhrM5DjhHS-bkroT-iTCCVoGDxQjsk8rW3UO-eV5sqw/exec' | escape }}"
+  data-show-product-badge="{{ section.settings.show_product_badge }}"
+  data-show-photos="{{ section.settings.show_photos }}"
+  data-show-verified="{{ section.settings.show_verified }}"
+  style="
+    --ars-bg: {{ bg_color }};
+    --ars-card-bg: {{ card_bg }};
+    --ars-text: {{ text_color }};
+    --ars-gold: {{ gold_color }};
+    --ars-gold-light: {{ gold_light }};
+    --ars-gap: {{ gap }}px;
+    --ars-col-desktop: {{ columns_desktop }};
+    --ars-col-mobile: {{ columns_mobile }};
+    --ars-pt: {{ section.settings.padding_top | default: 50 }}px;
+    --ars-pb: {{ section.settings.padding_bottom | default: 50 }}px;
+  "
+>
+  <div class="page-width">
+    <!-- Section Header -->
+    <div class="ars-header ars-header--{{ section.settings.heading_alignment | default: 'center' }}">
+      <div class="ars-header__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="ars-header__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.title != blank -%}
+          <h2 class="ars-header__title ars-header__title--{{ section.settings.heading_size | default: 'medium' }}">
+            {{ section.settings.title | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="ars-header__desc rte">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_arrows and section.settings.arrow_position == 'header' -%}
+        <div class="ars-arrows ars-arrows--header">
+          <button type="button" class="ars-arrow ars-arrow--prev" data-ars-prev aria-label="Previous review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="ars-arrow ars-arrow--next" data-ars-next aria-label="Next review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Slider Viewport & Track -->
+    <div class="ars-slider-wrap {% if section.settings.show_arrows and section.settings.arrow_position == 'sides' %}ars-slider-wrap--sides{% endif %}">
+      {%- if section.settings.show_arrows and section.settings.arrow_position == 'sides' -%}
+        <button type="button" class="ars-arrow ars-arrow--side ars-arrow--prev" data-ars-prev aria-label="Previous review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      {%- endif -%}
+
+      <div class="ars-viewport" data-ars-viewport tabindex="0" role="region" aria-label="Customer Reviews Carousel">
+        <div class="ars-track" data-ars-track>
+          <!-- Injected via JavaScript from Metafields + Webhook + Blocks, with fallback -->
+          <div class="ars-loading-placeholder" style="text-align: center; padding: 4rem 1rem; width: 100%; color: rgba(26,26,26,0.6);">
+            <div class="ars-spinner"></div>
+            <p style="margin-top: 1rem; font-size: 1.3rem;">Loading customer reviews...</p>
+          </div>
+        </div>
+      </div>
+
+      {%- if section.settings.show_arrows and section.settings.arrow_position == 'sides' -%}
+        <button type="button" class="ars-arrow ars-arrow--side ars-arrow--next" data-ars-next aria-label="Next review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      {%- endif -%}
+    </div>
+
+    <!-- Bottom Controls (Dots & Bottom Arrows) -->
+    <div class="ars-bottom-controls">
+      {%- if section.settings.show_dots -%}
+        <div class="ars-dots" data-ars-dots role="tablist" aria-label="Review pagination"></div>
+      {%- endif -%}
+
+      {%- if section.settings.show_arrows and section.settings.arrow_position == 'bottom' -%}
+        <div class="ars-arrows ars-arrows--bottom">
+          <button type="button" class="ars-arrow ars-arrow--prev" data-ars-prev aria-label="Previous review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="ars-arrow ars-arrow--next" data-ars-next aria-label="Next review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Raw Injected Reviews from Products Metafields and Customizer Blocks -->
+  <script type="application/json" id="ArsProductReviews-{{ section_id }}">
+    {{ product_reviews_json }}
+  </script>
+  <script type="application/json" id="ArsBlockReviews-{{ section_id }}">
+    {{ blocks_reviews_json }}
+  </script>
+</div>
+
+{%- style -%}
+  #AllReviewsSlider-{{ section_id }} {
+    background-color: var(--ars-bg);
+    color: var(--ars-text);
+    padding-top: var(--ars-pt);
+    padding-bottom: var(--ars-pb);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-body-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  }
+
+  /* Header */
+  #AllReviewsSlider-{{ section_id }} .ars-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header--center {
+    justify-content: center;
+    text-align: center;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header--center .ars-header__content {
+    max-width: 68rem;
+    margin: 0 auto;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header--left {
+    text-align: left;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header--right {
+    text-align: right;
+  }
+
+  #AllReviewsSlider-{{ section_id }} .ars-header__eyebrow {
+    color: var(--ars-gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.24rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  #AllReviewsSlider-{{ section_id }} .ars-header__title {
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight, 500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ars-text);
+    margin: 0;
+    line-height: 1.2;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header__title--small {
+    font-size: clamp(2rem, 2.5vw, 2.6rem);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header__title--medium {
+    font-size: clamp(2.4rem, 3.4vw, 3.8rem);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-header__title--large {
+    font-size: clamp(2.8rem, 4vw, 4.4rem);
+  }
+
+  #AllReviewsSlider-{{ section_id }} .ars-header__desc {
+    color: rgba(26, 26, 26, 0.75);
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.55;
+  }
+
+  /* Slider Wrap */
+  #AllReviewsSlider-{{ section_id }} .ars-slider-wrap {
+    position: relative;
+    width: 100%;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-slider-wrap--sides {
+    padding: 0 1rem;
+  }
+
+  /* Viewport and Track */
+  #AllReviewsSlider-{{ section_id }} .ars-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    scroll-snap-type: x mandatory;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-viewport::-webkit-scrollbar {
+    display: none;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-viewport.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+
+  #AllReviewsSlider-{{ section_id }} .ars-track {
+    display: flex;
+    gap: var(--ars-gap);
+    transition: transform 0.3s ease;
+    padding: 0.5rem 0.2rem 1.5rem;
+  }
+
+  /* Review Slide Card */
+  #AllReviewsSlider-{{ section_id }} .ars-slide {
+    flex: 0 0 calc((100% - ((var(--ars-col-desktop) - 1) * var(--ars-gap))) / var(--ars-col-desktop));
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    #AllReviewsSlider-{{ section_id }} .ars-slide {
+      flex: 0 0 calc((100% - var(--ars-gap)) / 2);
+      max-width: calc((100% - var(--ars-gap)) / 2);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #AllReviewsSlider-{{ section_id }} .ars-slide {
+      {% if columns_mobile == 2 or columns_mobile_raw == '2' %}
+        flex: 0 0 calc((100% - var(--ars-gap)) / 2);
+        max-width: calc((100% - var(--ars-gap)) / 2);
+      {% else %}
+        flex: 0 0 100%;
+        max-width: 100%;
+      {% endif %}
+    }
+  }
+
+  #AllReviewsSlider-{{ section_id }} .ars-card {
+    background: var(--ars-card-bg, #ffffff);
+    border: 1.5px solid rgba(197, 160, 89, 0.42);
+    border-radius: 24px;
+    padding: 1.8rem 1.8rem;
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.1), 0 3px 10px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.6rem;
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(197, 160, 89, 0.2);
+    border-color: var(--ars-gold);
+  }
+  @media screen and (max-width: 749px) {
+    #AllReviewsSlider-{{ section_id }} .ars-card {
+      padding: 1.4rem 1.4rem;
+      border-radius: 18px;
+      gap: 1.2rem;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    #AllReviewsSlider-{{ section_id }} .ars-card {
+      padding: 1.2rem 1.1rem;
+      gap: 1rem;
+    }
+  }
+
+  /* Left Photo Frame */
+  #AllReviewsSlider-{{ section_id }} .ars-card__photo-col {
+    flex: 0 0 135px;
+    width: 135px;
+    display: flex;
+    flex-direction: column;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__photo-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1.5px solid rgba(197, 160, 89, 0.42);
+    background: #f7f5f0;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__photo-frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(197, 160, 89, 0.22);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media screen and (max-width: 749px) {
+    #AllReviewsSlider-{{ section_id }} .ars-card__photo-col {
+      flex: 0 0 110px;
+      width: 110px;
+    }
+    #AllReviewsSlider-{{ section_id }} .ars-card__photo-frame {
+      min-height: 125px;
+      border-radius: 14px;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    #AllReviewsSlider-{{ section_id }} .ars-card__photo-col {
+      flex: 0 0 95px;
+      width: 95px;
+    }
+    #AllReviewsSlider-{{ section_id }} .ars-card__photo-frame {
+      min-height: 115px;
+      border-radius: 12px;
+    }
+  }
+
+  /* Right Content Column */
+  #AllReviewsSlider-{{ section_id }} .ars-card__content-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__author-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-avatar {
+    width: 3.6rem;
+    height: 3.6rem;
+    min-width: 3.6rem;
+    border-radius: 50%;
+    background: #141414;
+    color: #f6eedb;
+    border: 1.5px solid var(--ars-gold, #c5a059);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading-family);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__author-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__name {
+    font-family: var(--font-heading-family);
+    font-weight: 700;
+    font-size: 1.45rem;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__location {
+    font-size: 1.15rem;
+    color: #666666;
+    margin: 0.15rem 0 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #ebf7ee;
+    color: #219653;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.2rem 0.7rem;
+    border-radius: 2rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-verified-badge svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__quote-mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: #e5cd9e;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__quote-mark svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    fill: currentColor;
+  }
+
+  /* Stars */
+  #AllReviewsSlider-{{ section_id }} .ars-stars-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0.4rem 0 0.6rem;
+    color: #df9f35;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-star-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-star-svg--empty {
+    fill: rgba(197, 160, 89, 0.22);
+    color: #e0c890;
+  }
+
+  /* Headline & Text */
+  #AllReviewsSlider-{{ section_id }} .ars-card__headline {
+    font-family: var(--font-heading-family), "Playfair Display", Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.35rem;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-card__text {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #2e2e2e;
+    margin: 0 0 1rem;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Product Link Row at Card Bottom */
+  #AllReviewsSlider-{{ section_id }} .ars-product-row {
+    margin-top: auto;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-img {
+    width: 4.8rem;
+    height: 4.8rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    background: #ffffff;
+    flex-shrink: 0;
+    display: block;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-row:hover .ars-product-img {
+    transform: scale(1.05);
+    border-color: var(--ars-gold);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ars-text, #1a1a1a);
+    margin: 0;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-row:hover .ars-product-title {
+    color: var(--ars-gold, #c5a059);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ars-gold, #c5a059);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    border: none;
+    padding: 0;
+    transition: color 0.2s ease;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-row:hover .ars-product-btn-text {
+    color: #141414;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-btn-arrow {
+    width: 1.3rem;
+    height: 1.3rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    transition: transform 0.25s ease;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-product-row:hover .ars-product-btn-arrow {
+    transform: translateX(4px);
+  }
+  @media screen and (max-width: 480px) {
+    #AllReviewsSlider-{{ section_id }} .ars-product-img {
+      width: 4.2rem;
+      height: 4.2rem;
+    }
+  }
+
+  /* Luxury Navigation Arrows */
+  #AllReviewsSlider-{{ section_id }} .ars-arrows {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow {
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid var(--ars-gold);
+    color: #1a1a1a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    stroke: currentColor;
+    fill: none;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow:hover:not(:disabled) {
+    background: var(--ars-gold);
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(197, 160, 89, 0.35);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: rgba(26, 26, 26, 0.15);
+  }
+
+  /* Side Arrow Position */
+  #AllReviewsSlider-{{ section_id }} .ars-arrow--side {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow--side.ars-arrow--prev {
+    left: -1.8rem;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-arrow--side.ars-arrow--next {
+    right: -1.8rem;
+  }
+  @media screen and (max-width: 749px) {
+    #AllReviewsSlider-{{ section_id }} .ars-slider-wrap--sides {
+      padding: 0;
+    }
+    #AllReviewsSlider-{{ section_id }} .ars-arrow {
+      display: none !important;
+    }
+  }
+
+  /* Bottom Controls: Dots & Arrows */
+  #AllReviewsSlider-{{ section_id }} .ars-bottom-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-dots {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgba(197, 160, 89, 0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #AllReviewsSlider-{{ section_id }} .ars-dot.is-active {
+    width: 2.8rem;
+    border-radius: 1rem;
+    background: var(--ars-gold);
+  }
+
+  /* Loading Spinner */
+  .ars-spinner {
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 3px solid rgba(197, 160, 89, 0.25);
+    border-top-color: var(--ars-gold);
+    border-radius: 50%;
+    animation: arsSpin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+  @keyframes arsSpin {
+    100% { transform: rotate(360deg); }
+  }
+{%- endstyle -%}
+
+<!-- JavaScript Carousel Controller -->
+<script>
+  (function () {
+    const root = document.getElementById('AllReviewsSlider-{{ section_id }}');
+    if (!root) return;
+
+    const viewport = root.querySelector('[data-ars-viewport]');
+    const track = root.querySelector('[data-ars-track]');
+    const prevBtns = root.querySelectorAll('[data-ars-prev]');
+    const nextBtns = root.querySelectorAll('[data-ars-next]');
+    const dotsContainer = root.querySelector('[data-ars-dots]');
+
+    const webhookUrl = root.dataset.webhookUrl;
+    const isAutoplay = root.dataset.autoplay === 'true';
+    const autoplaySpeed = parseInt(root.dataset.autoplaySpeed || 5, 10) * 1000;
+    const pauseOnHover = root.dataset.pauseOnHover === 'true';
+    const showProductBadge = root.dataset.showProductBadge === 'true';
+    const showPhotos = root.dataset.showPhotos === 'true';
+    const showVerified = root.dataset.showVerified === 'true';
+
+    // 1. Gather reviews from Product Metafields and Blocks
+    let reviewsList = [];
+
+    try {
+      const prodMfRaw = document.getElementById('ArsProductReviews-{{ section_id }}').textContent.trim();
+      if (prodMfRaw) {
+        const parsed = JSON.parse(prodMfRaw);
+        if (Array.isArray(parsed)) reviewsList = reviewsList.concat(parsed);
+      }
+    } catch (e) {}
+
+    try {
+      const blockRaw = document.getElementById('ArsBlockReviews-{{ section_id }}').textContent.trim();
+      if (blockRaw) {
+        const parsedB = JSON.parse(blockRaw);
+        if (Array.isArray(parsedB)) reviewsList = reviewsList.concat(parsedB);
+      }
+    } catch (e) {}
+
+    // Fallback luxury reviews if none found yet
+    const fallbackReviews = [
+      {
+        id: 'fb_1',
+        author: 'Minu',
+        location: 'Baroda',
+        rating: 5,
+        title: 'Good Product',
+        content: 'The Bracelet is so pretty.Good quality finish and the packaging made it feel like a fine luxury gift.',
+        photos: ['https://lh3.googleusercontent.com/d/1raw10a4pFhsiSafzESxSe_2aaxfNtgtZ=w1000'],
+        productTitle: 'Noir Beaded Bracelet',
+        productUrl: '/products/bracelet-6',
+        productImage: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/7-1_105eb7a1-ebe8-4ce3-9561-8a158918436d.jpg?v=1792045075'
+      },
+      {
+        id: 'fb_2',
+        author: 'Krishna kanika',
+        location: 'Pune',
+        rating: 5,
+        title: 'Lovely nackless set very good quality',
+        content: 'Product quality badhiya hai must set hai',
+        photos: ['https://lh3.googleusercontent.com/d/1FhkHaJ41jKIWxodeX9NLvcV8wlyLj0By=w1000'],
+        productTitle: 'Royal Blue Emerald-Cut Crystal Necklace and Earring Set',
+        productUrl: '/products/necklace-set-6',
+        productImage: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/8-1_5817fe09-b015-409d-ac18-ce09b16fabee.jpg?v=1793166060'
+      },
+      {
+        id: 'fb_3',
+        author: 'Nirali Gohil',
+        location: 'Ahemdabad',
+        rating: 5,
+        title: 'Really Good Necklace',
+        content: 'The Necklace is really beautiful.',
+        photos: ['https://lh3.googleusercontent.com/d/19qtzTRbLpCJ_A8UB5Qdvkb_P2mEBrIrJ=w1000'],
+        productTitle: 'Gold Square Red Gemstone Necklace',
+        productUrl: '/products/necklace-6',
+        productImage: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/7-4_f10a9c14-d8b7-4290-8763-be08133dc805.jpg?v=1791877453'
+      },
+      {
+        id: 'fb_4',
+        author: 'Asmita',
+        location: 'Mumbai',
+        rating: 5,
+        title: 'Very good product',
+        content: 'Awesome product with elegant gold filigree finish.',
+        photos: ['https://lh3.googleusercontent.com/d/1JHdYpeI4UnVqPDIGUfdH0MeHqbOPn2hE=w1000'],
+        productTitle: 'Gold Filigree Mangalsutra with Black Beads',
+        productUrl: '/products/mangalsutra-25',
+        productImage: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/23-1.jpg?v=1791799643'
+      },
+      {
+        id: 'fb_5',
+        author: 'Chetna Kanak',
+        location: 'Surat',
+        rating: 5,
+        title: 'Statement Necklace Sets',
+        content: 'Elegant necklace sets designed to add the perfect finishing touch to every occasion.',
+        photos: ['https://lh3.googleusercontent.com/d/1UXyjt_6B-7-U2KXEfrAbPvVSVTQrkSBV=w1000'],
+        productTitle: 'Oval Halo Gemstone Necklace & Earrings Set',
+        productUrl: '/products/jewellery-set-8',
+        productImage: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/GoldenOvalGemstoneJewellerySet.png?v=1791698290'
+      }
+    ];
+
+    if (reviewsList.length === 0) {
+      reviewsList = fallbackReviews;
+    }
+
+    // Deduplicate reviews
+    const seen = new Set();
+    reviewsList = reviewsList.filter(r => {
+      const k = r.id || (r.author + '_' + (r.title || '') + '_' + (r.content || ''));
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderStars(rating) {
+      const r = Math.min(5, Math.max(1, parseInt(rating || 5, 10)));
+      let out = '<div class="ars-stars-wrap" aria-label="' + r + ' out of 5 stars">';
+      for (let i = 1; i <= 5; i++) {
+        const isFilled = i <= r;
+        out += `<svg class="ars-star-svg ${isFilled ? '' : 'ars-star-svg--empty'}" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+      }
+      out += '</div>';
+      return out;
+    }
+
+    function renderSlide(rev) {
+      const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
+      const firstPhoto = (showPhotos && rev.photos && Array.isArray(rev.photos) && rev.photos.length > 0)
+        ? rev.photos[0]
+        : (rev.productImage || '');
+
+      let photoColHtml = '';
+      if (firstPhoto) {
+        photoColHtml = `
+          <div class="ars-card__photo-col">
+            <div class="ars-card__photo-frame" title="${escapeHtml(rev.author || 'Reviewer')} styling photo">
+              <img src="${escapeHtml(firstPhoto)}" alt="${escapeHtml(rev.author || 'Reviewer')} styling photo" loading="lazy">
+            </div>
+          </div>
+        `;
+      }
+
+      let productBadgeHtml = '';
+      if (showProductBadge && rev.productTitle) {
+        const pImg = rev.productImage || '';
+        productBadgeHtml = `
+          <a href="${escapeHtml(rev.productUrl || '#')}" class="ars-product-row" title="View ${escapeHtml(rev.productTitle)}">
+            ${pImg ? `<img src="${escapeHtml(pImg)}" class="ars-product-img" alt="${escapeHtml(rev.productTitle)}" loading="lazy">` : ''}
+            <div class="ars-product-info">
+              <p class="ars-product-title">${escapeHtml(rev.productTitle)}</p>
+              <div class="ars-product-btn-text">
+                <span>View Product</span>
+                <svg class="ars-product-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+
+      return `
+        <div class="ars-slide" role="group" aria-roledescription="slide">
+          <div class="ars-card">
+            ${photoColHtml}
+            <div class="ars-card__content-col">
+              <div>
+                <div class="ars-card__header-row">
+                  <div class="ars-card__author-group">
+                    <div class="ars-avatar">
+                      ${rev.avatar ? `<img src="${escapeHtml(rev.avatar)}" alt="${escapeHtml(rev.author)}">` : initial}
+                    </div>
+                    <div class="ars-card__author-text">
+                      <p class="ars-card__name">${escapeHtml(rev.author || 'Customer')}</p>
+                      ${rev.location ? `<p class="ars-card__location">${escapeHtml(rev.location)}</p>` : ''}
+                    </div>
+                  </div>
+
+                  <div class="ars-card__quote-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                    </svg>
+                  </div>
+                </div>
+
+                ${renderStars(rev.rating)}
+
+                ${rev.title ? `<h3 class="ars-card__headline">${escapeHtml(rev.title)}</h3>` : ''}
+                <p class="ars-card__text">${escapeHtml(rev.content || '')}</p>
+              </div>
+
+              ${productBadgeHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function initSlider() {
+      track.innerHTML = reviewsList.map(renderSlide).join('');
+      buildDots();
+      updateNavigation();
+    }
+
+    // Dots & Pagination Calculation
+    function getSlidesVisible() {
+      if (window.innerWidth <= 749) {
+        return parseInt(root.dataset.columnsMobile || 1, 10);
+      } else if (window.innerWidth <= 989) {
+        return 2;
+      }
+      return parseInt(root.dataset.columnsDesktop || 3, 10);
+    }
+
+    function buildDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const slides = track.querySelectorAll('.ars-slide');
+      const totalSlides = slides.length;
+      const visible = getSlidesVisible();
+      const dotCount = Math.max(1, totalSlides - visible + 1);
+
+      if (dotCount <= 1) {
+        dotsContainer.style.display = 'none';
+        return;
+      }
+      dotsContainer.style.display = 'flex';
+
+      for (let i = 0; i < dotCount; i++) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'ars-dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => scrollToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateActiveDot(index) {
+      if (!dotsContainer) return;
+      const dots = dotsContainer.querySelectorAll('.ars-dot');
+      dots.forEach((d, idx) => {
+        if (idx === index) d.classList.add('is-active');
+        else d.classList.remove('is-active');
+      });
+    }
+
+    function scrollToSlide(index) {
+      const slides = track.querySelectorAll('.ars-slide');
+      if (!slides[index]) return;
+      const targetLeft = slides[index].offsetLeft;
+      viewport.scrollTo({
+        left: targetLeft,
+        behavior: 'smooth'
+      });
+      updateActiveDot(index);
+    }
+
+    function updateNavigation() {
+      const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+      const currentScroll = viewport.scrollLeft;
+
+      prevBtns.forEach(btn => {
+        btn.disabled = currentScroll <= 4;
+      });
+      nextBtns.forEach(btn => {
+        btn.disabled = currentScroll >= maxScrollLeft - 4;
+      });
+
+      // Update dot based on scroll position
+      const slides = track.querySelectorAll('.ars-slide');
+      if (slides.length > 0) {
+        let closestIdx = 0;
+        let minDiff = Infinity;
+        slides.forEach((s, idx) => {
+          const diff = Math.abs(s.offsetLeft - currentScroll);
+          if (diff < minDiff) {
+            minDiff = diff;
+            closestIdx = idx;
+          }
+        });
+        updateActiveDot(closestIdx);
+      }
+    }
+
+    // Button event listeners
+    prevBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slides = track.querySelectorAll('.ars-slide');
+        if (slides.length === 0) return;
+        const slideWidth = slides[0].offsetWidth + parseInt(root.style.getPropertyValue('--ars-gap') || 20, 10);
+        viewport.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+      });
+    });
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slides = track.querySelectorAll('.ars-slide');
+        if (slides.length === 0) return;
+        const slideWidth = slides[0].offsetWidth + parseInt(root.style.getPropertyValue('--ars-gap') || 20, 10);
+        const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+        if (viewport.scrollLeft >= maxScrollLeft - 10) {
+          viewport.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          viewport.scrollBy({ left: slideWidth, behavior: 'smooth' });
+        }
+      });
+    });
+
+    viewport.addEventListener('scroll', () => {
+      requestAnimationFrame(updateNavigation);
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      buildDots();
+      updateNavigation();
+    });
+
+    // Touch & Mouse Drag to scroll
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    viewport.addEventListener('mousedown', (e) => {
+      isDown = true;
+      viewport.classList.add('is-dragging');
+      startX = e.pageX - viewport.offsetLeft;
+      scrollLeft = viewport.scrollLeft;
+    });
+
+    viewport.addEventListener('mouseleave', () => {
+      isDown = false;
+      viewport.classList.remove('is-dragging');
+    });
+
+    viewport.addEventListener('mouseup', () => {
+      isDown = false;
+      viewport.classList.remove('is-dragging');
+    });
+
+    viewport.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - viewport.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      viewport.scrollLeft = scrollLeft - walk;
+    });
+
+    // Autoplay Timer
+    let autoplayTimer = null;
+    function startAutoplay() {
+      if (!isAutoplay || autoplayTimer) return;
+      autoplayTimer = setInterval(() => {
+        const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+        const slides = track.querySelectorAll('.ars-slide');
+        if (slides.length === 0) return;
+        const slideWidth = slides[0].offsetWidth + parseInt(root.style.getPropertyValue('--ars-gap') || 20, 10);
+
+        if (viewport.scrollLeft >= maxScrollLeft - 10) {
+          viewport.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          viewport.scrollBy({ left: slideWidth, behavior: 'smooth' });
+        }
+      }, autoplaySpeed);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    if (isAutoplay) {
+      startAutoplay();
+      if (pauseOnHover) {
+        root.addEventListener('mouseenter', stopAutoplay);
+        root.addEventListener('mouseleave', startAutoplay);
+        root.addEventListener('touchstart', stopAutoplay, { passive: true });
+        root.addEventListener('touchend', startAutoplay, { passive: true });
+      }
+    }
+
+    // Initial render
+    initSlider();
+
+    // 2. Fetch live reviews from Cloud Webhook (if URL configured)
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      const knownReviewedProductIds = [
+        '15453389095160',
+        '15417808912632',
+        '15411589742840',
+        '15408898343160',
+        '15405932675320'
+      ];
+
+      async function fetchAllSliderReviews() {
+        try {
+          let cloudReviews = [];
+          // 1. Try global getReviews
+          const fetchUrl = webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=getReviews&all=1';
+          try {
+            const res = await fetch(fetchUrl);
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              cloudReviews = data;
+            }
+          } catch (e) {}
+
+          // 2. If empty, parallel fetch all known products with reviews
+          if (cloudReviews.length === 0) {
+            const responses = await Promise.all(
+              knownReviewedProductIds.map(pid =>
+                fetch(webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=getReviews&productId=' + encodeURIComponent(pid))
+                  .then(r => r.json())
+                  .catch(() => [])
+              )
+            );
+            responses.forEach(arr => {
+              if (Array.isArray(arr)) cloudReviews = cloudReviews.concat(arr);
+            });
+          }
+
+          const productMetaMap = {
+            '15453389095160': {
+              title: 'Royal Blue Emerald-Cut Crystal Necklace and Earring Set',
+              handle: 'necklace-set-6',
+              image: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/8-1_5817fe09-b015-409d-ac18-ce09b16fabee.jpg?v=1793166060'
+            },
+            '15417808912632': {
+              title: 'Noir Beaded Bracelet',
+              handle: 'bracelet-6',
+              image: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/7-1_105eb7a1-ebe8-4ce3-9561-8a158918436d.jpg?v=1792045075'
+            },
+            '15411589742840': {
+              title: 'Gold Square Red Gemstone Necklace',
+              handle: 'necklace-6',
+              image: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/7-4_f10a9c14-d8b7-4290-8763-be08133dc805.jpg?v=1791877453'
+            },
+            '15408898343160': {
+              title: 'Gold Filigree Mangalsutra with Black Beads',
+              handle: 'mangalsutra-25',
+              image: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/23-1.jpg?v=1791799643'
+            },
+            '15405932675320': {
+              title: 'Oval Halo Gemstone Necklace & Earrings Set',
+              handle: 'jewellery-set-8',
+              image: 'https://cdn.shopify.com/s/files/1/0850/0376/3960/files/GoldenOvalGemstoneJewellerySet.png?v=1791698290'
+            }
+          };
+
+          if (Array.isArray(cloudReviews) && cloudReviews.length > 0) {
+            // Attach product info to each review
+            cloudReviews.forEach(r => {
+              if (r.productId && productMetaMap[r.productId]) {
+                const meta = productMetaMap[r.productId];
+                r.productTitle = r.productTitle || meta.title;
+                r.productUrl = r.productUrl || ('/products/' + meta.handle);
+                r.productImage = r.productImage || meta.image;
+              }
+            });
+
+            // Real reviews exist: remove dummy fallback reviews starting with fb_
+            const metaAndBlocks = reviewsList.filter(r => !String(r.id || '').startsWith('fb_'));
+            const combined = [...cloudReviews, ...metaAndBlocks];
+            const dedupedSeen = new Set();
+            reviewsList = combined.filter(r => {
+              if (!r) return false;
+              if (r.status && r.status !== 'approved') return false;
+              const k = r.id || (r.author + '_' + (r.title || '') + '_' + (r.content || ''));
+              if (dedupedSeen.has(k)) return false;
+              dedupedSeen.add(k);
+              return true;
+            });
+            initSlider();
+          }
+        } catch (err) {
+          console.warn('[AllReviewsSlider] Cloud fetch notice:', err);
+        }
+      }
+
+      fetchAllSliderReviews();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "All Reviews Slider",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "VOICES OF ADORATION"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Loved Across All Pieces"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover heartfelt words and real styling moments shared by our treasured patrons across India.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Slider & Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Slides visible on Desktop",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Slides visible on Mobile",
+      "options": [
+        { "value": "1", "label": "1 Slide (Full width peek)" },
+        { "value": "2", "label": "2 Slides" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between slides",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Arrow & Navigation Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Navigation Arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "arrow_position",
+      "label": "Arrows Position",
+      "options": [
+        { "value": "sides", "label": "Sides (On slider edges)" },
+        { "value": "header", "label": "Header (Top right)" },
+        { "value": "bottom", "label": "Bottom (Next to dots)" }
+      ],
+      "default": "sides"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Pagination Dots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Autoplay Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay Speed (seconds)",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause Autoplay on Hover/Touch",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Review Card Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_badge",
+      "label": "Show Product Badge & Link at Bottom",
+      "info": "Displays the product thumbnail, title, and direct link so customers can buy the piece directly.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_photos",
+      "label": "Show Customer Photos",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified",
+      "label": "Show Verified Badge",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Review Source & Limits"
+    },
+    {
+      "type": "collection",
+      "id": "source_collection",
+      "label": "Product Collection to scan for reviews",
+      "info": "Leave empty to automatically scan all products in the store."
+    },
+    {
+      "type": "range",
+      "id": "max_reviews",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "label": "Maximum Reviews to Display",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "webhook_url",
+      "label": "Google Apps Script Webhook URL (Optional)",
+      "default": "https://script.google.com/macros/s/AKfycbyIJfDJsjJFUG_7fHoOVInVJLMJhrM5DjhHS-bkroT-iTCCVoGDxQjsk8rW3UO-eV5sqw/exec",
+      "info": "Optional: URL to also fetch newly approved live reviews directly from Google Cloud."
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#fafaf7"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Review Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "gold_accent",
+      "label": "Gold Accent Color",
+      "default": "#c5a059"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Featured Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer Name",
+          "default": "Aditi Sharma"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Show Verified Badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "City / Location",
+          "default": "Mumbai"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review Headline",
+          "default": "Stunning Craftsmanship!"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Review Text",
+          "default": "The delicate craft and brilliance of this piece surpassed every expectation. It felt like wearing a true heirloom on my special day."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Reviewed Product (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "custom_product_title",
+          "label": "Or Custom Product Title",
+          "default": "Heritage Kundan Necklace"
+        },
+        {
+          "type": "image_picker",
+          "id": "customer_image",
+          "label": "Customer / Styling Photo (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "All Reviews Slider",
+      "settings": {
+        "title": "Loved Across All Pieces",
+        "eyebrow": "VOICES OF ADORATION",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "show_arrows": true,
+        "arrow_position": "sides",
+        "show_dots": true,
+        "autoplay": true,
+        "show_product_badge": true
+      }
+    }
+  ]
+}
+{% endschema %}

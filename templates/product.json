@@ -200,7 +200,9 @@
         "subtitle": "Real moments and feedback from our treasured patrons across India",
         "bg_color": "#fafaf7",
         "text_color": "#1a1a1a",
-        "webhook_url": "https://script.google.com/macros/s/AKfycbyIJfDJsjJFUG_7fHoOVInVJLMJhrM5DjhHS-bkroT-iTCCVoGDxQjsk8rW3UO-eV5sqw/exec"
+        "webhook_url": "https://script.google.com/macros/s/AKfycbyIJfDJsjJFUG_7fHoOVInVJLMJhrM5DjhHS-bkroT-iTCCVoGDxQjsk8rW3UO-eV5sqw/exec",
+        "columns_desktop": 3,
+        "columns_mobile": "1"
       }
     },
     "related-products": {

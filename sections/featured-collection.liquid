@@ -807,13 +807,20 @@
       "content": "t:sections.featured-collection.settings.header_mobile.content"
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "columns_mobile",
-      "min": 1,
-      "max": 2,
-      "step": 1,
-      "default": 2,
-      "label": "t:sections.featured-collection.settings.columns_mobile.label"
+      "default": "2",
+      "label": "t:sections.featured-collection.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
+        }
+      ]
     },
     {
       "type": "checkbox",
@@ -829,3 +836,4 @@
   ]
 }
 {% endschema %}
+ 

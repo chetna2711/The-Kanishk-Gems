@@ -20,7 +20,7 @@
   data-product-id="{{ product.id }}"
   data-product-title="{{ product.title | escape }}"
   data-webhook-url="{{ section.settings.webhook_url | escape }}"
-  style="--cr-bg: {{ bg_color }}; --cr-text: {{ text_color }}; --cr-gold: {{ gold_color }}; --cr-gold-dark: {{ gold_dark }}; --cr-gold-light: {{ gold_light }};"
+  style="--cr-bg: {{ bg_color }}; --cr-text: {{ text_color }}; --cr-gold: {{ gold_color }}; --cr-gold-dark: {{ gold_dark }}; --cr-gold-light: {{ gold_light }}; --cr-card-width: {{ section.settings.card_max_width | default: 340 }}px;"
 >
   <div class="page-width">
     <!-- Header -->
@@ -112,7 +112,6 @@
           <option value="recent">Most Recent</option>
           <option value="highest">Highest Rating</option>
           <option value="lowest">Lowest Rating</option>
-          <option value="helpful">Most Helpful</option>
         </select>
       </div>
     </div>
@@ -311,7 +310,6 @@
             <div class="cr-avatar cr-avatar--sm" data-lightbox-avatar>S</div>
             <div>
               <p class="cr-lightbox__author" data-lightbox-author></p>
-              <span class="cr-verified-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified Buyer</span>
             </div>
           </div>
           <div class="cr-stars-outer cr-stars-outer--sm" style="margin-top: 0.8rem;">
@@ -319,7 +317,6 @@
           </div>
           <h4 class="cr-lightbox__title" data-lightbox-title></h4>
           <p class="cr-lightbox__text" data-lightbox-text></p>
-          <span class="cr-lightbox__date" data-lightbox-date></span>
         </div>
       </div>
     </div>
@@ -772,229 +769,207 @@
     }
   }
 
-  /* Review Cards Grid */
+  /* Review Cards Grid - 3 cards desktop, 2 cards tablet, 1 card mobile */
   #CustomerReviews-{{ section_id }} .cr-reviews-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 3 }}, minmax(0, 1fr));
     gap: 2rem;
+    align-items: stretch;
   }
-  @media screen and (max-width: 899px) {
+  @media screen and (max-width: 1024px) {
     #CustomerReviews-{{ section_id }} .cr-reviews-list {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.8rem;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    #CustomerReviews-{{ section_id }} .cr-reviews-list {
+      grid-template-columns: repeat({{ section.settings.columns_mobile | default: '1' }}, minmax(0, 1fr));
       gap: 1.5rem;
     }
   }
 
-  /* Single Review Card */
+  /* Luxury Horizontal Review Card */
   .cr-card {
     background: #ffffff;
-    border: 1px solid rgba(197, 160, 89, 0.24);
-    border-radius: 12px;
-    padding: 2rem 2.2rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    border: 1.5px solid rgba(197, 160, 89, 0.42);
+    border-radius: 24px;
+    padding: 1.8rem 1.8rem;
+    box-shadow: 0 8px 24px rgba(197, 160, 89, 0.1), 0 3px 10px rgba(0, 0, 0, 0.03);
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.6rem;
     position: relative;
+    width: 100%;
+    max-width: 100%;
   }
   .cr-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(197, 160, 89, 0.16);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(197, 160, 89, 0.2);
     border-color: var(--cr-gold);
   }
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 480px) {
     .cr-card {
-      padding: 1.6rem 1.5rem;
-      border-radius: 10px;
+      padding: 1.4rem 1.4rem;
+      border-radius: 20px;
+      gap: 1.2rem;
     }
   }
 
-  .cr-card__content-main {
-    flex: 1;
+  /* Left Photo Frame */
+  .cr-card__photo-col {
+    flex: 0 0 135px;
+    width: 135px;
     display: flex;
     flex-direction: column;
   }
-
-  /* Customer Photos Gallery inside card body */
-  .cr-card__photos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-    margin: 0.4rem 0 1.4rem;
-  }
-  .cr-card__photo-thumb {
+  .cr-card__photo-frame {
     position: relative;
-    width: 90px;
-    height: 90px;
-    min-width: 90px;
-    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    border-radius: 18px;
     overflow: hidden;
-    cursor: pointer;
-    border: 1.5px solid rgba(197, 160, 89, 0.35);
+    border: 1.5px solid rgba(197, 160, 89, 0.42);
     background: #f7f5f0;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .cr-card__photo-thumb:hover {
-    transform: scale(1.03);
-    border-color: var(--cr-gold);
-    box-shadow: 0 4px 14px rgba(197, 160, 89, 0.25);
+  .cr-card__photo-frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(197, 160, 89, 0.22);
   }
-  .cr-card__photo-thumb img {
+  .cr-card__photo-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
   }
-  .cr-card__photo-thumb:hover img {
-    transform: scale(1.08);
-  }
-  .cr-card__photo-zoom-icon {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.65);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-  }
-  .cr-card__photo-thumb:hover .cr-card__photo-zoom-icon {
-    background: var(--cr-gold);
-    color: #1a1a1a;
-    transform: scale(1.1);
-  }
-  .cr-card__photo-zoom-icon svg {
-    width: 1.2rem;
-    height: 1.2rem;
-    stroke: currentColor;
-    stroke-width: 2.2;
-    fill: none;
-  }
-  @media screen and (max-width: 640px) {
-    .cr-card__photo-thumb {
-      width: 82px;
-      height: 82px;
-      min-width: 82px;
+  @media screen and (max-width: 480px) {
+    .cr-card__photo-col {
+      flex: 0 0 110px;
+      width: 110px;
+    }
+    .cr-card__photo-frame {
+      min-height: 120px;
     }
   }
 
-  /* Reviewer Top Row */
-  .cr-card__top {
+  /* Right Content Column */
+  .cr-card__content-col {
+    flex: 1;
+    min-width: 0;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.8rem;
-    margin-bottom: 0.8rem;
   }
-  .cr-card__author-box {
+  .cr-card__header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  .cr-card__author-group {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    flex-wrap: wrap;
     min-width: 0;
   }
   .cr-avatar {
-    width: 3.4rem;
-    height: 3.4rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    min-width: 3.6rem;
     border-radius: 50%;
-    background: #1a1a1a;
-    color: var(--cr-gold-light);
-    border: 1.5px solid var(--cr-gold);
+    background: #141414;
+    color: #f6eedb;
+    border: 1.5px solid var(--cr-gold, #c5a059);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: var(--font-heading-family);
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     text-transform: uppercase;
     flex-shrink: 0;
   }
   .cr-avatar--sm {
-    width: 3.2rem;
-    height: 3.2rem;
-    font-size: 1.3rem;
+    width: 3rem;
+    height: 3rem;
+    min-width: 3rem;
+    font-size: 1.2rem;
   }
-  .cr-card__name-row {
+  .cr-card__author-text {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    min-width: 0;
   }
   .cr-card__name {
-    font-weight: 600;
-    font-size: 1.35rem;
-    color: var(--cr-text);
+    font-family: var(--font-heading-family);
+    font-weight: 700;
+    font-size: 1.45rem;
+    color: #1a1a1a;
     margin: 0;
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cr-card__location {
+    font-size: 1.15rem;
+    color: #666666;
+    margin: 0.15rem 0 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .cr-verified-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    background: rgba(39, 174, 96, 0.1);
-    color: #27ae60;
-    font-size: 1rem;
+    gap: 0.35rem;
+    background: #ebf7ee;
+    color: #219653;
+    font-size: 1.05rem;
     font-weight: 600;
-    padding: 0.1rem 0.5rem;
-    border-radius: 1rem;
-    letter-spacing: 0.03em;
-  }
-  .cr-verified-badge svg {
-    width: 1rem;
-    height: 1rem;
-    stroke: currentColor;
-    stroke-width: 2.5;
-    fill: none;
-  }
-  .cr-card__meta-sub {
-    font-size: 1.1rem;
-    color: rgba(26, 26, 26, 0.5);
-    margin: 0.2rem 0 0;
-  }
-  .cr-card__date {
-    font-size: 1.1rem;
-    color: rgba(26, 26, 26, 0.45);
+    padding: 0.2rem 0.7rem;
+    border-radius: 2rem;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     flex-shrink: 0;
   }
-
-  .cr-card__rating-row {
+  .cr-verified-badge svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  .cr-card__quote-mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: #e5cd9e;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 0.6rem;
-    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    opacity: 0.85;
   }
-  .cr-card__variant-badge {
-    font-size: 1.15rem;
-    color: rgba(26, 26, 26, 0.55);
+  .cr-card__quote-mark svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    fill: currentColor;
   }
-  .cr-card__title {
-    font-family: var(--font-heading-family);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--cr-text);
-    margin: 0 0 0.4rem;
-    line-height: 1.3;
-  }
-  .cr-card__body {
-    font-size: 1.3rem;
-    line-height: 1.55;
-    color: rgba(26, 26, 26, 0.82);
-    margin: 0 0 1rem;
-    word-break: break-word;
-  }
-
-  /* Solid Gold Star SVGs */
-  .cr-stars-svg-wrap {
-    display: inline-flex;
+  .cr-card__stars-row {
+    display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 0.25rem;
+    margin: 0.4rem 0 0.6rem;
+    color: #df9f35;
+    flex-wrap: wrap;
   }
   .cr-star-icon {
     width: 1.5rem;
@@ -1002,54 +977,54 @@
     flex-shrink: 0;
   }
   .cr-star-icon--gold {
-    color: #c5a059;
-    fill: #c5a059;
+    color: #df9f35;
+    fill: #df9f35;
   }
   .cr-star-icon--muted {
     color: #e0c890;
     fill: rgba(197, 160, 89, 0.22);
   }
-
-  /* Card Bottom Helpful Action */
-  .cr-card__bottom {
+  .cr-card__headline {
+    font-family: var(--font-heading-family), "Playfair Display", Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.35rem;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+  .cr-card__text {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #2e2e2e;
+    margin: 0 0 1rem;
+    word-break: break-word;
+  }
+  .cr-card__heart-divider {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(197, 160, 89, 0.18);
-    padding-top: 1.2rem;
-    margin-top: auto;
-    font-size: 1.2rem;
-    color: rgba(26, 26, 26, 0.6);
     gap: 0.8rem;
+    margin-top: auto;
+    padding-top: 0.4rem;
+    width: 100%;
   }
-  .cr-card__bottom > span {
-    white-space: nowrap;
+  .cr-card__divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(197, 160, 89, 0.15), rgba(197, 160, 89, 0.45), rgba(197, 160, 89, 0.15));
+    border-radius: 1px;
   }
-  .cr-helpful-btn {
-    background: none;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    color: rgba(26, 26, 26, 0.65);
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: inline-flex;
+  .cr-card__divider-heart {
+    color: var(--cr-gold, #c5a059);
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    white-space: nowrap !important;
+    justify-content: center;
     flex-shrink: 0;
   }
-  .cr-helpful-btn svg {
-    width: 1.3rem;
-    height: 1.3rem;
-    stroke: currentColor;
-    fill: none;
-    flex-shrink: 0;
-  }
-  .cr-helpful-btn:hover, .cr-helpful-btn.cr-helpful-btn--clicked {
-    color: var(--cr-gold-dark);
-    background: rgba(197, 160, 89, 0.12);
+  .cr-card__divider-heart svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: currentColor;
   }
 
   /* Empty State */
@@ -1526,8 +1501,7 @@
     margin: 0 0 1.5rem;
   }
   .cr-lightbox__date {
-    font-size: 1.15rem;
-    color: rgba(26, 26, 26, 0.45);
+    display: none !important;
   }
 {%- endstyle -%}
 
@@ -1745,8 +1719,6 @@
         list.sort((a, b) => (b.rating || 5) - (a.rating || 5));
       } else if (currentSort === 'lowest') {
         list.sort((a, b) => (a.rating || 5) - (b.rating || 5));
-      } else if (currentSort === 'helpful') {
-        list.sort((a, b) => (b.helpful_count || 0) - (a.helpful_count || 0));
       }
 
       return list;
@@ -1785,67 +1757,58 @@
         const rating = parseInt(rev.rating || 5, 10);
         const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
         const hasPhotos = rev.photos && Array.isArray(rev.photos) && rev.photos.length > 0;
+        const firstPhoto = hasPhotos ? formatImageUrl(rev.photos[0]) : '';
 
         const card = document.createElement('div');
         card.className = 'cr-card' + (hasPhotos ? ' cr-card--with-photo' : ' cr-card--text-only');
 
-        let photosHtml = '';
+        let photoColHtml = '';
         if (hasPhotos) {
-          photosHtml = `
-            <div class="cr-card__photos">
-              ${rev.photos.map((pUrl, pIdx) => {
-                const formatted = formatImageUrl(pUrl);
-                return `
-                  <div class="cr-card__photo-thumb" data-photo-url="${formatted}" role="button" tabindex="0" title="Click to enlarge photo">
-                    <img src="${formatted}" alt="${escapeHtml(rev.author || 'Reviewer')} jewellery photo ${pIdx + 1}" loading="lazy">
-                    <div class="cr-card__photo-zoom-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    </div>
-                  </div>
-                `;
-              }).join('')}
+          photoColHtml = `
+            <div class="cr-card__photo-col">
+              <div class="cr-card__photo-frame" data-photo-url="${firstPhoto}" role="button" tabindex="0" title="Click to enlarge photo">
+                <img src="${firstPhoto}" alt="${escapeHtml(rev.author || 'Reviewer')} jewellery photo" loading="lazy">
+              </div>
             </div>
           `;
         }
 
         card.innerHTML = `
-          <div class="cr-card__content-main">
-            <div class="cr-card__top">
-              <div class="cr-card__author-box">
+          ${photoColHtml}
+          <div class="cr-card__content-col">
+            <div class="cr-card__header-row">
+              <div class="cr-card__author-group">
                 <div class="cr-avatar">${initial}</div>
-                <div>
-                  <div class="cr-card__name-row">
-                    <p class="cr-card__name">${escapeHtml(rev.author || 'Verified Buyer')}</p>
-                    ${rev.verified !== false ? `
-                      <span class="cr-verified-badge" title="Verified Customer">
-                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Verified Buyer
-                      </span>
-                    ` : ''}
-                  </div>
-                  ${rev.location ? `<p class="cr-card__meta-sub">${escapeHtml(rev.location)}</p>` : ''}
+                <div class="cr-card__author-text">
+                  <p class="cr-card__name">${escapeHtml(rev.author || 'Customer')}</p>
+                  ${rev.location ? `<p class="cr-card__location">${escapeHtml(rev.location)}</p>` : ''}
                 </div>
               </div>
-              <span class="cr-card__date">${escapeHtml(rev.date || 'Recent')}</span>
+
+              <div class="cr-card__quote-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                </svg>
+              </div>
             </div>
 
-            <div class="cr-card__rating-row">
+            <div class="cr-card__stars-row">
               ${renderGoldStars(rating)}
               ${rev.variant ? `<span class="cr-card__variant-badge">• ${escapeHtml(rev.variant)}</span>` : ''}
             </div>
 
-            ${rev.title ? `<h4 class="cr-card__title">${escapeHtml(rev.title)}</h4>` : ''}
-            <p class="cr-card__body">${escapeHtml(rev.content || '')}</p>
+            ${rev.title ? `<h3 class="cr-card__headline">${escapeHtml(rev.title)}</h3>` : ''}
+            <p class="cr-card__text">${escapeHtml(rev.content || '')}</p>
 
-            ${photosHtml}
-          </div>
-
-          <div class="cr-card__bottom">
-            <span>Was this review helpful?</span>
-            <button type="button" class="cr-helpful-btn" data-helpful-btn>
-              <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-              Helpful (<span data-helpful-num>${rev.helpful_count || 0}</span>)
-            </button>
+            <div class="cr-card__heart-divider" aria-hidden="true">
+              <span class="cr-card__divider-line"></span>
+              <span class="cr-card__divider-heart">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </span>
+              <span class="cr-card__divider-line"></span>
+            </div>
           </div>
         `;
 
@@ -1861,19 +1824,6 @@
             }
           });
         });
-
-        // Helpful button click
-        const helpfulBtn = card.querySelector('[data-helpful-btn]');
-        if (helpfulBtn) {
-          helpfulBtn.addEventListener('click', () => {
-            if (helpfulBtn.classList.contains('cr-helpful-btn--clicked')) return;
-            helpfulBtn.classList.add('cr-helpful-btn--clicked');
-            const numEl = helpfulBtn.querySelector('[data-helpful-num]');
-            if (numEl) {
-              numEl.textContent = parseInt(numEl.textContent || 0, 10) + 1;
-            }
-          });
-        }
 
         reviewsListEl.appendChild(card);
       });
@@ -2163,13 +2113,11 @@
       if (lightboxImg) lightboxImg.src = formatImageUrl(imgUrl);
       const initial = (rev.author || 'V').trim().charAt(0).toUpperCase();
       if (lightboxAvatar) lightboxAvatar.textContent = initial;
-      if (lightboxAuthor) lightboxAuthor.textContent = rev.author || 'Verified Buyer';
+      if (lightboxAuthor) lightboxAuthor.textContent = rev.author || 'Customer';
       const r = parseInt(rev.rating || 5, 10);
       if (lightboxStars) lightboxStars.style.width = ((r / 5) * 100) + '%';
       if (lightboxTitle) lightboxTitle.textContent = rev.title || '';
       if (lightboxText) lightboxText.textContent = rev.content || '';
-      if (lightboxDate) lightboxDate.textContent = rev.date || '';
-
       if (galleryPhotos.length > 1) {
         if (lightboxPrev) lightboxPrev.style.display = 'flex';
         if (lightboxNext) lightboxNext.style.display = 'flex';
@@ -2245,20 +2193,18 @@
     updateStats();
     renderReviews();
 
-    // Fetch live approved reviews from Google Script Cloud
+    // Fetch live approved reviews from Google Script Cloud strictly for THIS product
     if (webhookUrl && webhookUrl.startsWith('http')) {
-      const cloudFetchUrl = webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=getReviews&productId=' + encodeURIComponent(productId);
-      fetch(cloudFetchUrl)
+      const singleUrl = webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=getReviews&productId=' + encodeURIComponent(productId);
+      fetch(singleUrl)
         .then(res => res.json())
         .then(cloudReviews => {
           if (Array.isArray(cloudReviews)) {
-            // Clean up localStorage for this product once cloud responds
             try {
               const localKey = 'cr_pending_' + productId;
               localStorage.removeItem(localKey);
             } catch (cleanErr) {}
 
-            // The cloud + metafield reviews are the authoritative source
             const combined = [...cloudReviews, ...metafieldReviews];
             const seen = new Set();
             allReviews = combined.filter(r => {
@@ -2316,6 +2262,41 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Number of columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Number of columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_max_width",
+      "min": 280,
+      "max": 550,
+      "step": 10,
+      "unit": "px",
+      "label": "Review Card Width",
+      "default": 340
     },
     {
       "type": "text",
